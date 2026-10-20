@@ -1,0 +1,52 @@
+# ClaimCheck - rencana build (21-25 Okt 2026)
+
+Deadline Devpost: 25 Okt 2026 07:00 PDT = 21:00 WIB. Target submit: 25 Okt 12:00 WIB.
+Track: 1 - Carbon Markets & Emissions Transparency.
+
+## Satu kalimat
+Masukkan klaim iklim sebuah perusahaan atau produk; ClaimCheck menelusuri kredit yang di-retire, menilai kemungkinan dampaknya berdasarkan riset, membandingkannya dengan emisi yang dilacak independen, dan mencatat hasilnya on-chain agar siapa pun bisa memeriksa.
+
+## Alur pengguna (satu alur demo)
+1. Pengguna awam mengetik nama perusahaan atau memilih klaim contoh ("Delta Air Lines", "Shell", produk berlabel carbon neutral).
+2. ClaimCheck menampilkan: kredit yang di-retire atas nama itu (VROD), jenis proyek, ton nominal vs ton efektif (OAR Probst), status ICVCM, umur vintage.
+3. Emisi independen (Climate TRACE, cache) bila ada; bila tidak, emisi yang dilaporkan sendiri dengan label; bila tidak ada, "tidak bisa dihitung".
+4. Hasil: label A-E + satu kalimat + rentang; untuk klaim produk di UE, tanda risiko Directive 2024/825.
+5. Tombol "Catat pemeriksaan": hash laporan + nullifier per klaim ke `ClaimRegistry` di Polygon Amoy; halaman verifikasi publik.
+6. Mode ilmuwan: metode, DOI tiap faktor, unduh dataset olahan, notebook.
+
+## Pemetaan Track 1
+- Verification: skor berbasis riset + atestasi on-chain.
+- Double counting: nullifier per (registry, rentang serial) yang mencegah rentang yang sama dipakai dua klaim.
+- Emissions tracking: emisi independen Climate TRACE dibandingkan dengan klaim.
+- Transparent platform: semua pemeriksaan dan metode publik.
+
+## Arsitektur (paling sederhana yang bekerja)
+- `data/` Python (pandas): VROD -> `retirements_by_beneficiary.json`, `projects.json`, `factors.json` (OAR, ICVCM, vintage), cache Climate TRACE untuk 5-10 perusahaan demo.
+- `contracts/` Hardhat: `ClaimRegistry.sol` (record attestation hash + nullifier per serial range, role ATTESTER) + tes. Reuse pola NullifierRegistry dari starter kit.
+- `web/` static (HTML + JS, ethers.js dari CDN): pencarian, kartu hasil, halaman verifikasi, mode ilmuwan. Tanpa backend; JSON statis dihosting bersama.
+- Deploy: GitHub Pages atau Vercel; kontrak di Amoy.
+
+## Jadwal
+| Hari | Pekerjaan | Hasil yang bisa dicek |
+|---|---|---|
+| Sel 21 | Pipeline data VROD (Verra + Gold), tabel faktor dari paper, uji nama perusahaan demo | JSON + notebook; 5 perusahaan demo terpilih |
+| Rab 22 | `ClaimRegistry.sol` + tes; deploy Amoy; cache Climate TRACE | tes lulus, alamat kontrak |
+| Kam 23 | Frontend: pencarian, kartu A-E, verifikasi, mode ilmuwan | demo lokal penuh |
+| Jum 24 | Integrasi ethers, user testing 3-5 orang awam, dokumen (model card, security, impact) | catatan user test |
+| Sab 25 pagi | Video 3 menit, repo publik, isi Devpost, submit | konfirmasi submit |
+
+## Di luar scope (sengaja)
+Marketplace, token kredit, bridge, NLP iklan, skor per proyek individual, scope 3 independen, data bulanan.
+
+## Risiko utama dan cadangan
+- Climate TRACE API beta mati: pakai cache.
+- Amoy/faucet bermasalah: jalankan di Hardhat lokal + rekam video; tampilkan tes.
+- Nama perusahaan tidak cocok: pilih perusahaan demo yang sudah diverifikasi manual.
+- Skor dipersoalkan: tampilkan rentang, DOI, dan disclaimer wajib.
+
+## Keputusan yang dibutuhkan dari tim
+1. Anggota tim dan pembagian peran (data, kontrak, frontend, video/pitch).
+2. Wallet EVM testnet + MATIC Amoy dari faucet.
+3. Konfirmasi eligibility ke panitia (overview "students only" vs rules).
+4. Nama final (ClaimCheck / Proofset) dan cek domain.
+5. Perusahaan demo yang aman secara reputasi (pakai data registry apa adanya, tanpa label menuduh).
