@@ -2,7 +2,7 @@ require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") });
 
 const privateKey = process.env.PRIVATE_KEY;
-const amoyRpc = process.env.POLYGON_AMOY_RPC_URL || "https://rpc-amoy.polygon.technology/";
+const amoyRpc = process.env.POLYGON_AMOY_RPC_URL || "https://polygon-amoy-bor-rpc.publicnode.com";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
