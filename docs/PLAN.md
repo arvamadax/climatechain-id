@@ -50,3 +50,22 @@ Marketplace, token kredit, bridge, NLP iklan, skor per proyek individual, scope 
 3. Konfirmasi eligibility ke panitia (overview "students only" vs rules).
 4. Nama final (ClaimCheck / Proofset) dan cek domain.
 5. Perusahaan demo yang aman secara reputasi (pakai data registry apa adanya, tanpa label menuduh).
+
+## Keputusan (20 Okt 2026)
+1. Tim: solo (Rofi). Semua peran dipegang satu orang; scope dijaga ketat.
+2. Wallet testnet dibuat: `0x7d981e2E4D46c4bF302476893A7Ef41f120CD6e5`, kunci di `.env` (gitignored, testnet saja). Perlu MATIC Amoy dari faucet.
+3. Eligibility: peserta mahasiswa, aman.
+4. Nama: kandidat baru (cek DNS kasar, bukan bukti domain tersedia): **NetGrade** (netgrade.io, getnetgrade.com tidak resolve; netgrade.com sudah dipakai), **RealTon** (realton.io tidak resolve), TrueTon (trueton.io tidak resolve). ClaimLens tersingkir (domain .com dan .io aktif).
+5. Perusahaan demo (ada di VROD sebagai beneficiary dan di Climate TRACE sebagai pemilik; ton = total retirement Verra yang namanya cocok substring, perlu pembersihan nama):
+
+| Perusahaan | Ton di-retire (Verra, kasar) | Climate TRACE owner |
+|---|---|---|
+| Shell | 40,1 juta | Shell PLC |
+| Eni | 30,3 juta | Eni SpA |
+| Delta Air Lines | 12,7 juta | Delta Air Lines Inc |
+| Volkswagen | 10,4 juta | Volkswagen AG |
+| PetroChina | 5,8 juta | PetroChina Co Ltd |
+| Chevron | 5,5 juta | Chevron Corp |
+| Engie | 2,2 juta | ENGIE SA |
+| CPC Taiwan | 2,2 juta | CPC Corporation Taiwan |
+| TotalEnergies | 1,4 juta | TotalEnergies SE |
