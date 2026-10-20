@@ -69,3 +69,29 @@ Marketplace, token kredit, bridge, NLP iklan, skor per proyek individual, scope 
 | Engie | 2,2 juta | ENGIE SA |
 | CPC Taiwan | 2,2 juta | CPC Corporation Taiwan |
 | TotalEnergies | 1,4 juta | TotalEnergies SE |
+
+## Kandidat nama lengkap (cek DNS kasar 20 Okt 2026; "bebas?" = tidak resolve, bukan bukti tersedia)
+
+| Nama | Konsep | .com | .io |
+|---|---|---|---|
+| RealTonne | ton nyata vs ton nominal (inti riset) | bebas? | bebas? |
+| TonProof | bukti per ton | bebas? | bebas? |
+| TonneTrue | ton yang benar | bebas? | bebas? |
+| GroundTon | ground truth per ton | bebas? | bebas? |
+| TonWise | bijak memilih ton | bebas? | bebas? |
+| FactCarbon | cek fakta karbon | bebas? | bebas? |
+| GradeCO2 | nilai A-E untuk klaim | bebas? | bebas? |
+| CekKlaim / KlaimCek | lokal Indonesia, sangat jelas | bebas? | bebas? |
+| NetGrade | nilai klaim net-zero | dipakai | bebas? |
+| RealTon | ton nyata | dipakai | bebas? |
+| TrueTon | ton benar | dipakai | bebas? |
+| TallyTon | hitungan ton | dipakai | bebas? |
+| ClaimTrue | klaim benar | dipakai | bebas? |
+| OffsetIQ | kecerdasan offset | dipakai | bebas? |
+| CreditLens | lensa kredit | dipakai | bebas? |
+| ClearTon | ton yang jelas | dipakai | bebas? |
+| CarbonReceipt | struk untuk klaim karbon | dipakai | bebas? |
+| CarbonGrade | nilai karbon | dipakai | bebas? |
+| NetFact | fakta net-zero | dipakai | bebas? |
+| Tonsure | (arti Inggris: cukur rambut biarawan; hindari) | dipakai | bebas? |
+| TrueTally, Receipted, Verdikt, Sahih, Provably, NetProof | - | dipakai | dipakai |
