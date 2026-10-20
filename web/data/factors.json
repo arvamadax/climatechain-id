@@ -1,0 +1,49 @@
+{
+ "factors": {
+  "redd": {
+   "label": "Avoided deforestation (REDD+)",
+   "oar": 0.247,
+   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z"
+  },
+  "cookstove": {
+   "label": "Cookstoves",
+   "oar": 0.108,
+   "source": "Probst et al. 2024 (10.8%); Gill-Wiehl et al. 2024, Nature Sustainability, doi:10.1038/s41893-023-01259-6 (9.2x over-crediting)"
+  },
+  "wind_china": {
+   "label": "Wind power in China",
+   "oar": 0.0,
+   "source": "Probst et al. 2024: no statistically significant reductions; OAR set to 0%"
+  },
+  "ifm_us": {
+   "label": "Improved forest management (US)",
+   "oar": 0.0,
+   "source": "Probst et al. 2024: no statistically significant reductions; OAR set to 0%"
+  },
+  "hfc23": {
+   "label": "HFC-23 destruction",
+   "oar": 0.683,
+   "source": "Probst et al. 2024"
+  },
+  "sf6": {
+   "label": "SF6 destruction",
+   "oar": 0.164,
+   "source": "Probst et al. 2024"
+  },
+  "grid_re": {
+   "label": "Grid-connected renewables (outside China wind)",
+   "oar": null,
+   "source": "No OAR estimate. ICVCM ruled eight renewable energy methodologies ineligible for the CCP label (2024)."
+  },
+  "other": {
+   "label": "Other project types",
+   "oar": null,
+   "source": "No OAR estimate in the reviewed literature."
+  }
+ },
+ "icvcm_rejected": {
+  "redd": false,
+  "cookstove": true,
+  "grid_re": true
+ }
+}
