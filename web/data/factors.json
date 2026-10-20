@@ -3,47 +3,56 @@
   "redd": {
    "label": "Avoided deforestation (REDD+)",
    "oar": 0.247,
-   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z"
+   "lo": 0.0,
+   "hi": 0.967,
+   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z; West et al. 2023, Science, doi:10.1126/science.ade3535"
   },
   "cookstove": {
    "label": "Cookstoves",
    "oar": 0.108,
-   "source": "Probst et al. 2024 (10.8%); Gill-Wiehl et al. 2024, Nature Sustainability, doi:10.1038/s41893-023-01259-6 (9.2x over-crediting)"
+   "lo": 0.105,
+   "hi": 0.111,
+   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z; Gill-Wiehl et al. 2024, Nature Sustainability, doi:10.1038/s41893-023-01259-6"
   },
   "wind_china": {
    "label": "Wind power in China",
    "oar": 0.0,
-   "source": "Probst et al. 2024: no statistically significant reductions; OAR set to 0%"
+   "lo": 0.0,
+   "hi": 0.0,
+   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z (no statistically significant reductions; set to 0%)"
   },
   "ifm_us": {
    "label": "Improved forest management (US)",
    "oar": 0.0,
-   "source": "Probst et al. 2024: no statistically significant reductions; OAR set to 0%"
+   "lo": 0.0,
+   "hi": 0.0,
+   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z (no statistically significant reductions; set to 0%)"
   },
   "hfc23": {
    "label": "HFC-23 destruction",
    "oar": 0.683,
-   "source": "Probst et al. 2024"
+   "lo": 0.656,
+   "hi": 0.709,
+   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z"
   },
   "sf6": {
    "label": "SF6 destruction",
    "oar": 0.164,
-   "source": "Probst et al. 2024"
+   "lo": 0.146,
+   "hi": 0.181,
+   "source": "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z"
   },
   "grid_re": {
    "label": "Grid-connected renewables (outside China wind)",
    "oar": null,
-   "source": "No OAR estimate. ICVCM ruled eight renewable energy methodologies ineligible for the CCP label (2024)."
+   "source": "No published OAR estimate."
   },
   "other": {
    "label": "Other project types",
    "oar": null,
-   "source": "No OAR estimate in the reviewed literature."
+   "source": "No published OAR estimate."
   }
  },
- "icvcm_rejected": {
-  "redd": false,
-  "cookstove": true,
-  "grid_re": true
- }
+ "icvcm_source": "https://icvcm.org/assessment-status/",
+ "icvcm_page_modified": "2026-08-18"
 }

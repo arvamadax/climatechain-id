@@ -1,0 +1,1051 @@
+{
+ "source": "https://icvcm.org/assessment-status/",
+ "page_modified": "2026-08-18",
+ "retrieved": "2026-10-20",
+ "rows": [
+  {
+   "program": "ACR",
+   "method": "Afforestation and Reforestation of Degraded Lands",
+   "versions": "1.0-1.2",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Mexico Forest Protocol - ARR - 2.0",
+   "versions": "3.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Afforestation/Reforestation (A/R) GHG Emissions Reduction & Sequestration Methodology",
+   "versions": "2.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Sustainable Management of Mangroves",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "ISM Agroforestry",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "ISM Mangrove Restoration",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "ISM Reforestation",
+   "versions": "1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0033 Methodology for Tidal Wetland and Seagrass Restoration",
+   "versions": "2.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "\"VM0047 Afforestation, Reforestation, and Revegetation\"",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "\"VM0047 Afforestation, Reforestation, and Revegetation\"",
+   "versions": "1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Equitable Earth",
+   "method": "M001 - Quantification Methodology for Terrestrial Forest Restoration",
+   "versions": "1.2-1.3",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Cercarbono",
+   "method": "\"CM-LU-002 – Integrated Methodology for Reforestation, Forest Restoration, Revegetation and Establishment of Woody Agricultural Crops\"",
+   "versions": "3.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Cercarbono",
+   "method": "CM-LU-CW-001 – Blue Carbon Methodology for Mitigation of Climate Change in Coastal Wetlands",
+   "versions": "1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "BioCarbon",
+   "method": "\"BCR0001 Afforestation, Reforestation and Revegetation (ARR) \"",
+   "versions": "5.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "BioCarbon",
+   "method": "BCR0012 – Blue Carbon",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Canada Grassland",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Grassland Protocol",
+   "versions": "2.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. and Canada Biochar",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "Biochar Production and Storage",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "Biochar Production and Storage",
+   "versions": "1.1-1.2",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0044 Methodology for Biochar Utilization in Soil and Non-Soil Applications",
+   "versions": "1.0-1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0044 Methodology for Biochar Utilization in Soil and Non-Soil Applications",
+   "versions": "1.2",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Distributed closed-kiln biochar",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Distributed open-kiln biochar",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "BioCarbon",
+   "method": "\"BCR0011 - Sustainable Biochar Production, Carbon Removal and Long-Term Storage\"",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-I.E. - Switch from non-renewable biomass for thermal applications by the user",
+   "versions": "1.0-13.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-I.I. - Biogas/biomass thermal applications for households/small users",
+   "versions": "1.0-6.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Animal Manure Management and Biogas Use for Thermal Energy Generation",
+   "versions": "1.0-1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Animal Manure Management and Biogas Use for Thermal Energy Generation",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AMS-I.E. - Switch from non-renewable biomass for thermal applications by the user",
+   "versions": "1.0-13.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Carbon mineralisation using reactive mineral waste",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Carbon Sequestration Through Accelerated Carbonation Of Concrete Aggregate",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Biomass Fermentation with Carbon Capture and Geologic Storage",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Biomass Fermentation with Carbon Capture and Geologic Storage",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Microbial Carbon di-oxide Mineralisation",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Bio-oil Geological Storage",
+   "versions": "1.0-1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "Biogenic Carbon Capture and Storage",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Biogenic Carbon Capture and Storage",
+   "versions": "1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "Biogenic Carbon Capture and Storage",
+   "versions": "1.2-1.4",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Biomass Geological Storage",
+   "versions": "1.0-1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "Direct Air Capture",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Direct Air Capture",
+   "versions": "1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "Direct Air Capture",
+   "versions": "1.2-1.3",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Subsurface Biomass Carbon Removal and Storage",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0049 Carbon Capture and Storage",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Biomass carbon removal and storage",
+   "versions": "1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Mineralization of Alkaline Materials (Ex Situ)",
+   "versions": "1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0039 Methodology for Use of Foam Stabilized Base and Emulsion Asphalt Mixtures in Pavement Application",
+   "versions": "1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Biobased construction materials",
+   "versions": "2.4",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-II.G. - Energy efficiency measures in thermal applications of non-renewable biomass",
+   "versions": "1-13.1",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Emission Reductions from Safe Drinking Water Supply",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Emission Reductions from Safe Drinking Water Supply",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Metered & Measured Energy Cooking Devices",
+   "versions": "1.0-1.2",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Metered & Measured Energy Cooking Devices",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Simplified Methodology For Clean And Efficient Cookstoves",
+   "versions": "1.0-3.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Simplified Methodology For Clean And Efficient Cookstoves",
+   "versions": "4.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS TPDDTEC – Technologies and Practices to Displace Decentralized Thermal Energy Consumption",
+   "versions": "2.0-3.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Reduced Emissions from Cooking and Heating (RECH) formerly TPDDTEC",
+   "versions": "4.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Reduced Emissions from Cooking and Heating (RECH) formerly TPDDTEC",
+   "versions": "5.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0050 Energy Efficiency and Fuel-Switch Measures in Cookstoves",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VMR0006 Energy Efficiency and Fuel Switch Measures in Thermal Applications",
+   "versions": "1.2",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Enhanced Weathering in Agriculture",
+   "versions": "1.0-1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Enhanced Weathering in Agriculture",
+   "versions": "1.2",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Enhanced Rock Weathering",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methane Emissions Reduction from Enteric Fermentation in Beef Cattle Through Application of Feed Supplements",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "In-situ Capture and Conversion of Cattle Enteric Methane",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0041 Methodology for the Reduction of Enteric Methane Emissions from Ruminants through the Use of Feed Ingredients",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Green Ammonia Production",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Green Hydrogen Production",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "HFC and ODS Recovery and Destruction",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Certified Reclaimed HFC Refrigerants Propellants and Fire Suppressants",
+   "versions": "1.0-2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Advanced Refrigeration Systems",
+   "versions": "1.0-3.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Transition to Advanced Formulation Blowing Agents in Foam Manufacturing and Use",
+   "versions": "1.0-3.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Improved Forest Management (IFM) on Canadian Forestlands",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Improved Forest Management (IFM) on Non-Federal U.S. Forestlands",
+   "versions": "1.3",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "ACR",
+   "method": "Improved Forest Management (IFM) on Non-Federal U.S. Forestlands",
+   "versions": "2.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "ACR",
+   "method": "Improved Forest Management (IFM) on Non-Federal U.S. Forestlands",
+   "versions": "2.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "ACR",
+   "method": "Improved Forest Management (IFM) on Small Non-Industrial Private Forestlands",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Mexico Forest Protocol",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Mexico Forest Protocol",
+   "versions": "3.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Forest Protocol",
+   "versions": "5.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "ISM Improved Forest Management",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0003 Methodology for Improved Forest Management through Extension of Rotation Age",
+   "versions": "1.3",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0005 Methodology for Conversion of Low-Productive Forest to High-Productive Forest",
+   "versions": "1.2",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0010 Methodology for Improved Forest Management: Conversion from Logged to Protected Forest",
+   "versions": "1.4",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0012 Improved Forest Management in Temperate and Boreal Forests (LtPF)",
+   "versions": "1.2",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0035 Methodology for Improved Forest Management through Reduced Impact Logging",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0045 Improved Forest Management Methodology Using Dynamic Matched Baselines from National Forest Inventories",
+   "versions": "1.2",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "BioCarbon",
+   "method": "BCR0010 – Improved Forest Management and Avoided Planned Forest Conversion (IFM & APFC)",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Argentina Livestock",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Dominican Republic Livestock",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Mexico Livestock Protocol",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Livestock Protocol",
+   "versions": "1.0-4.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "ACM0010 - GHG emission reductions from manure management systems",
+   "versions": "9.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Biogas from anaerobic digestion",
+   "versions": "3.2",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Joined-up Sustainable Transition (JUST) – Coal Decommissioning",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "Joined-Up Sustainable Transition (JUST) – Fossil Fuel Generators",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0052 - Accelerated Retirement of Coal-Fired Power Plants Using a Just Transition",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Organic Waste Composting Protocol",
+   "versions": "1.0-1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Collection of Macroalgae to Avoid Emissions from Decomposition",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "ACM0022 - Alternative waste treatment processes",
+   "versions": "3.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Landfill Gas Destruction and Beneficial Use Projects",
+   "versions": "1.0-2.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Mexico Landfill Protocol",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Landfill Protocol",
+   "versions": "4.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Landfill Protocol",
+   "versions": "5.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Landfill Protocol",
+   "versions": "6.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "ACM0001 - Flaring or use of landfill gas",
+   "versions": "15.0-19.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-III.G. - Landfill methane recovery",
+   "versions": "9.0-10.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "ACM0001 - Flaring or use of landfill gas",
+   "versions": "15.0-19.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AMS-III.G. - Landfill methane recovery",
+   "versions": "9.0-10.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "U.S. Landfill Protocol",
+   "versions": "6.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VMR0016 Flaring or Use of Landfill Gas (ACM0001 Revision)",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Global Carbon Council",
+   "method": "ACM0001 - Flaring or use of landfill gas",
+   "versions": "19.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Global Carbon Council",
+   "method": "AMS-III.G. - Landfill methane recovery",
+   "versions": "10.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AM0023 - Leak detection and repair in gas production processing transmission storage and distribution systems and in refinery facilities",
+   "versions": "4.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Global Carbon Council",
+   "method": "AM0023 - Leak detection and repair in gas production processing transmission storage and distribution systems and in refinery facilities",
+   "versions": "4.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "Ocean Alkalinity Enhancement from Coastal Outfalls",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Capturing and Destroying Methane from Coal and Trona Mines in North America",
+   "versions": "1.0-1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "ACM0008 - Abatement of methane from coal mines",
+   "versions": "6.0-8.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Global Carbon Council",
+   "method": "ACM0008 - Abatement of methane from coal mines",
+   "versions": "8.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "China Adipic Acid Production Protocol",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Adipic Acid Production Protocol",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Nitric Acid Production Protocol",
+   "versions": "2.2",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Nitric Acid Production Protocol",
+   "versions": "3.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Destruction of Ozone Depleting Substances (ODS) and High-Global Warming Potential (GWP) Foam",
+   "versions": "1.0-2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "ACR",
+   "method": "Destruction of Ozone Depleting Substances (ODS) from International Sources",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "Article 5 Ozone Depleting Substances Protocol",
+   "versions": "1.0-2.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Ozone Depleting Substances Protocol",
+   "versions": "1.0-2.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0016 Recovery and Destruction of Ozone-Depleting Substances (ODS) from Products",
+   "versions": "2.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Global Carbon Council",
+   "method": "GCCMA003 NBS Methodology for Rewetting Drained Peatlands",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Architecture for REDD+ Transaction TREES (ART)",
+   "method": "ART The REDD+ Environmental Excellence Standard (TREES) - HFLD",
+   "versions": "2.0",
+   "status": "Remedial Action"
+  },
+  {
+   "program": "Architecture for REDD+ Transaction TREES (ART)",
+   "method": "ART The REDD+ Environmental Excellence Standard (TREES) - non HFLD",
+   "versions": "2.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Architecture for REDD+ Transaction TREES (ART)",
+   "method": "ART The REDD+ Environmental Excellence Standard (TREES) - Removals",
+   "versions": "2.0",
+   "status": "Remedial Action"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VCS Jurisdictional and Nested REDD+ (JNR) Framework",
+   "versions": "4.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "ACR",
+   "method": "Active Conservation and Sustainable Management on U.S. Forestlands",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0048 Reducing Emissions from Deforestation and Forest Degradation",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Equitable Earth",
+   "method": "M002 - Terrestrial Forest Conservation",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Cercarbono",
+   "method": "M/LU-REDD+ – Methodology Consistent with International Agreements under the UNFCCC",
+   "versions": "3.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Battery Second Life",
+   "versions": "1.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Rainbow",
+   "method": "Refurbishing of electronic devices",
+   "versions": "2.6",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "ACM0002 - Grid-connected electricity generation from renewable sources",
+   "versions": "1.0-21.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "ACM0006 - Electricity and heat generation from biomass",
+   "versions": "1.0-16.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "ACM0018 - Electricity generation from biomass in power-only plants",
+   "versions": "1.0-6.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AM0123 - Renewable energy generation for captive use",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-I.D. - Grid connected renewable electricity generation",
+   "versions": "1.0-18.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "ACM0002 - Grid-connected electricity generation from renewable sources",
+   "versions": "1.0-21.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "ACM0006 - Electricity and heat generation from biomass",
+   "versions": "1.0-16.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "ACM0018 - Electricity generation from biomass in power-only plants",
+   "versions": "1.0-6.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AM0123 - Renewable energy generation for captive use",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AMS-I.D. - Grid connected renewable electricity generation",
+   "versions": "1.0-18.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VMR0017 - Grid-connected electricity generation from renewable sources (ACM0002 revision)",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-I.C. - Thermal energy production with or without electricity",
+   "versions": "1.0-22.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AMS-I.C. - Thermal energy production with or without electricity",
+   "versions": "1.0-22.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "\"Powering Universal Lighting via Solar Energy (PULSE)\"",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-I.L. - Electrification of rural communities using renewable energy",
+   "versions": "1.0-4.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AMS-I.L. - Electrification of rural communities using renewable energy",
+   "versions": "1.0-4.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AMS-I.A. - Electricity generation by the user",
+   "versions": "1.0-19.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AMS-I.A. - Electricity generation by the user",
+   "versions": "1.0-19.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AM0036 - Use of biomass in heat generation equipment",
+   "versions": "1.0-7.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "AM0072 - Fossil Fuel Displacement by Geothermal Resources for Space Heating",
+   "versions": "1.0-3.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AM0036 - Use of biomass in heat generation equipment",
+   "versions": "1.0-7.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AM0072 - Fossil Fuel Displacement by Geothermal Resources for Space Heating",
+   "versions": "1.0-3.0",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Methodology for Methane Emission Reduction by Adjusted Water Management Practice in Rice Cultivation",
+   "versions": "1.0",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Isometric",
+   "method": "Rice Methane Reduction",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0051 Improved Management in Rice Production Systems",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0051 Improved Management in Rice Production Systems",
+   "versions": "1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Global Carbon Council",
+   "method": "Methodology for Reduction of Methane Emission through Adjusted Water Management Practice in Rice Cultivation",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "AM0065 - Replacement of SF6 with alternate cover gas in the magnesium industry",
+   "versions": "2.1",
+   "status": "Does not meet"
+  },
+  {
+   "program": "Climate Action Reserve (CAR)",
+   "method": "U.S. Soil Enrichment Protocol",
+   "versions": "1.1",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "Gold Standard",
+   "method": "GS Soil Organic Carbon Framework Methodology",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Isometric",
+   "method": "ISM Improved Soil Management",
+   "versions": "1.0",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0042 Methodology for Improved Agricultural Land Management",
+   "versions": "2.0-2.1",
+   "status": "Under assessment"
+  },
+  {
+   "program": "Verified Carbon Standard",
+   "method": "VM0042 Methodology for Improved Agricultural Land Management",
+   "versions": "2.2",
+   "status": "CCP-Approved"
+  },
+  {
+   "program": "BioCarbon",
+   "method": "BCR0016 – Regenerative Agricultural Land Management (ALM)",
+   "versions": "1.0",
+   "status": "Under assessment"
+  }
+ ]
+}
