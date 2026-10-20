@@ -150,3 +150,40 @@ Tiga lapis pengguna, satu data:
 1. **Siapa saja (termasuk anak/orang awam):** satu kotak pencarian atau scan QR klaim "carbon neutral". Jawaban: label huruf A-E bergaya label gizi + satu kalimat bahasa sehari-hari ("Dari 100 ton yang diklaim, kira-kira 40 ton yang benar-benar berdampak") + ikon. Tanpa wallet, tanpa istilah teknis. Bahasa Indonesia dan Inggris.
 2. **Pembeli/auditor:** rincian faktor skor, risk-adjusted tonnes, wizard retire, laporan.
 3. **Ilmuwan:** dataset terbuka hasil olahan VROD, metode dan DOI per faktor, notebook yang bisa diulang, API. Bisa dikutip.
+
+## 10. Angka dari full text (dibaca 20 Okt 2026, via Europe PMC)
+
+**Probst et al. 2024, Nature Communications, 10.1038/s41467-024-53645-z** (Probst, Toetzke, Kontoleon, Diaz Anadon, Minx, Haya, Schneider, Trotter, West, Gill-Wiehl, Hoffmann)
+- Meta-analisis 2.346 proyek, sekitar 1 miliar t CO2e, kira-kira seperlima dari total volume kredit yang pernah diterbitkan.
+- Kurang dari 16% kredit merupakan pengurangan emisi nyata.
+- Outcome Achievement Ratio (OAR) per jenis: cookstove 10,8%; penghancuran SF6 16,4%; avoided deforestation (REDD+) 24,7%; penghancuran HFC-23 68,3%; wind power (China) dan improved forest management (AS) tidak ada pengurangan yang signifikan secara statistik, sehingga penulis memakai OAR 0%.
+
+**Trencher et al. 2024, Nature Communications, 10.1038/s41467-024-51151-w**
+- 20 perusahaan dengan retirement terbanyak 2020-2023; kategori proyek mengikuti Berkeley VROD.
+- 87% offset yang mereka retire berisiko tinggi tidak nyata dan tidak additional; offset risiko rendah hanya 6,0% dari semua retirement.
+- Empat dimensi kualitas: (1) risiko jenis proyek, (2) umur proyek dan vintage (aturan CORSIA: vintage dan tahun mulai proyek tidak lebih awal dari 2016), (3) harga, (4) negara.
+- Risiko tinggi terutama dari REDD+ dan energi terbarukan skala besar (> 15 MWe).
+
+Belum terbaca full text: Gill-Wiehl et al. 2024 (cookstove, Nature Sustainability) dan West et al. 2023 (REDD+, Science); keduanya tidak open access di Europe PMC. Angka cookstove sudah tercakup oleh Probst et al.
+
+## 11. Build ke-4: real-time emissions tracking, menyatu dengan klaim
+
+Klaim "carbon neutral" sebenarnya persamaan: emisi dikurangi offset efektif = 0. ClaimCheck sebelumnya hanya memeriksa sisi offset. Untuk memeriksa klaimnya, sisi emisi juga harus dilacak secara independen.
+
+- Sumber emisi: Climate TRACE API v7 (gratis, emisi per aset dari satelit + AI). Diuji: `GET /v7/owners?name=Holcim` mengembalikan ID pemilik, dan `GET /v7/sources?ownerIds=<id>&year=2025` mengembalikan aset milik perusahaan itu beserta emisinya (contoh: Alpena Cement Plant, 210.540 t CO2e).
+- Rumus inti: **cakupan klaim = risk-adjusted tonnes yang di-retire / emisi terlacak independen.**
+- Kalimat untuk orang awam: "Perusahaan X mengklaim netral karbon. Satelit memperkirakan emisinya sekitar Y ton. Kredit yang kemungkinan benar-benar berdampak hanya menutup Z%."
+- Pemantauan berkelanjutan: setiap retirement baru (event on-chain) dan setiap pembaruan data Climate TRACE memperbarui angka cakupan.
+
+Batasan yang wajib ditulis di halaman:
+- Climate TRACE kuat untuk aset besar (pembangkit, semen, baja, migas); tidak mencakup scope 3 dan banyak perusahaan jasa.
+- Granularitas yang terverifikasi di uji ini adalah tahunan; bulanan belum dicek.
+- Nama beneficiary VROD dan nama pemilik Climate TRACE tidak selalu sama; untuk demo pemetaan dilakukan manual dan diberi tanda tingkat keyakinan.
+
+## 12. Metode skor (draf yang bisa dipertanggungjawabkan)
+
+- Ton efektif per retirement = ton x OAR jenis proyek (Probst et al. 2024). Jenis tanpa bukti OAR ditandai "tidak ada bukti" dengan rentang lebar, bukan diberi angka karangan.
+- Penanda tambahan (Trencher et al. 2024): vintage atau tahun mulai sebelum 2016, energi terbarukan > 15 MWe, REDD+.
+- Label A-E dari OAR harapan: A >= 60%, B 40-60%, C 20-40%, D 10-20%, E < 10%. Ambang ini pilihan desain kami dan ditulis terbuka.
+- Contoh nyata menggantikan contoh karangan sebelumnya: 100 t REDD+ ~ 25 t efektif; 100 t cookstove ~ 11 t; 100 t HFC-23 ~ 68 t; 100 t wind China ~ 0 t (tidak signifikan).
+- Teks wajib di halaman: "Label ini adalah perkiraan risiko berbasis riset rata-rata per jenis proyek, bukan penilaian atas proyek atau perusahaan tertentu."
