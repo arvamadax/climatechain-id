@@ -107,3 +107,30 @@ Track 1, langsung ke kalimat track: "lack of transparency, double counting, comp
 | Data + kontrak sudah ada, hemat waktu | Kerja data VROD besar (file 16 MB + 64 MB) |
 | Demo kuat: kredit jelek ditolak/diberi peringatan, double retire ditolak | Perlu framing hukum hati-hati soal nama perusahaan |
 | Selaras persis Track 1 | Kompetitor rating komersial |
+
+## 6. Temuan data nyata (Berkeley VROD v2026-08, Verra VCS Retirements, dijalankan 20 Okt 2026)
+
+- 307.416 baris retirement, total 924.946.116 t.
+- 168.663 serial berformat standar dapat diparse; **0 rentang serial tumpang tindih**, dan semua jumlah serial cocok dengan kuantitas. Double counting di dalam satu registry tidak terlihat. Risiko nyata ada di lintas registry, tokenisasi/bridge, dan Article 6.
+- **44,7% baris retirement tidak mencantumkan Beneficial Owner.** Hampir separuh retirement tidak bisa dikaitkan ke siapa yang mengklaim. Inilah celah klaim yang dijawab ClaimCheck.
+
+## 7. ClaimCheck v2: setiap kelemahan dan ancaman ditanggulangi
+
+| Masalah | Penanggulangan di produk |
+|---|---|
+| Skor tanpa ground truth | Skor berbasis bukti: tiap faktor (metodologi, jenis proyek, vintage, status proyek) memakai rasio over-crediting yang dipublikasikan dan mencantumkan DOI. Rule-based dan terbuka, ada rentang ketidakpastian. Status registry (cancellation, "Late to Verify") dipakai sebagai label lemah untuk validasi. |
+| Klaim "dampak" berlebihan | Tampilkan **risk-adjusted tonnes** = ton x faktor integritas, mengikuti argumen "embracing imperfection" (PNAS Nexus 2025). Klaim dampak jujur, bukan ton nominal. |
+| Frontend on-chain belum ada | Dibangun: wizard retire (ethers.js) + halaman verify publik. |
+| Data besar | Pra-proses sekali ke JSON ringkas per proyek; app hanya membaca hasilnya. |
+| Rating komersial | Posisi: infrastruktur klaim terbuka dan gratis untuk publik, bukan rating berbayar. Rating pihak ketiga bisa ditampilkan sebagai field opsional. |
+| Risiko reputasi | Hanya tampilkan fakta registry + metode; tanpa label menuduh; tombol hak jawab. |
+| Track 1 ramai | Pembeda: temuan data nyata (0 overlap, 44,7% tanpa beneficiary), quality gate, dan klaim per retirement yang dapat diverifikasi. |
+| Double counting lintas registry/Art. 6 | Nullifier lintas registry (hash registry+serial) + field corresponding adjustment dan skema selaras CAD Trust di sertifikat. |
+| Opportunity Indonesia/ASEAN | Field SRN-PPI dan host-country authorization di metadata; demo memakai proyek Indonesia nyata di VROD (contoh: Katingan Peatland Restoration). |
+
+## 8. Produk dan brand
+
+- Pengguna berbayar: perusahaan pembeli kredit (due diligence sebelum beli/retire), auditor ESG, platform marketplace (API skor).
+- Gratis: halaman lookup klaim publik untuk jurnalis, NGO, konsumen.
+- Pendapatan: API per kueri, laporan due diligence, white-label verify page.
+- Nama: ClaimCheck (kerja). Alternatif: Proofset, Retired Right. Tagline: "Every claim, checkable."
