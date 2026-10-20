@@ -95,3 +95,18 @@ Marketplace, token kredit, bridge, NLP iklan, skor per proyek individual, scope 
 | NetFact | fakta net-zero | dipakai | bebas? |
 | Tonsure | (arti Inggris: cukur rambut biarawan; hindari) | dipakai | bebas? |
 | TrueTally, Receipted, Verdikt, Sahih, Provably, NetProof | - | dipakai | dipakai |
+
+## Cakupan perusahaan: semua perusahaan asli, bukan daftar pilihan (20 Okt 2026)
+
+Keputusan: pencarian mencakup **semua** nama pemilik retirement di VROD (Verra "Beneficial Owner" + Gold Standard "Using Entity"), nama asli apa adanya. Daftar 9 perusahaan sebelumnya hanya "contoh unggulan" di halaman depan.
+
+Hasil pengolahan (Verra + Gold, retirement sejak 2020-01-01, VROD v2026-08):
+- 342.012 baris, 876 juta t.
+- Hanya **59,6% ton** (62,9% baris) yang menyebut pemilik. Sisanya tanpa pemilik.
+- Setelah normalisasi nama sederhana: **44.577** pemilik berbeda. Top 10 = 39,7% ton bernama; top 100 = 65,5%; top 500 = 84,8%; top 1.000 = 91,0%.
+- Entri terbesar adalah **"Not Disclosed": 89,4 juta t**, lebih besar dari Shell (42,3 juta t). Ini temuan utama untuk transparansi.
+- Gold Standard punya kolom `Article Six Authorization` dan `Aeroplane Operator Name`; berguna untuk penanda Article 6 dan klaim penerbangan.
+
+Sisi emisi (Climate TRACE): pencocokan otomatis nama ke 300 pemilik teratas hanya 29 cocok (17,8% ton dari 300 itu): Shell, Delta, CPC Taiwan, Apple, dll. Gagal untuk nama dengan sufiks/varian (Eni Upstream, Chevron Petroleum Company, "VW PKW"), brand/jasa (Netflix, Gucci, Takeda, Boeing), alamat wallet (0xAf52..., 0xF367...), dan perantara (4AIR, Ecologi). Rencana: tabel alias manual untuk ±100 pemilik teratas (Eni = Eni SpA, Chevron Petroleum Company = Chevron Corp, VW/Audi = Volkswagen AG, dll.); sisanya hanya sisi retirement dengan teks "emisi independen tidak tersedia".
+
+Catatan hukum/reputasi: data pemilik adalah data publik registry yang dicatat sebagai pihak yang di-retire atas namanya; halaman hanya menampilkan fakta + metode, tanpa label yang menuduh, dengan tombol hak jawab.
