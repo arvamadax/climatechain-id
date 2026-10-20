@@ -308,7 +308,7 @@ async function verifyPanel() {
     return;
   }
   $("#contractLink").href = contractUrl();
-  $("#contractLink").textContent = `${CHAIN.address} (${CHAIN.network})`;
+  $("#contractLink").textContent = `${CHAIN.address} (${CHAIN.label || CHAIN.network})`;
   try {
     const list = await onchain;
     $("#checkCount").textContent = list.length;
@@ -329,7 +329,7 @@ async function verifyPanel() {
     $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Report</th><th>Serial ranges</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
   } catch {
     $("#checkCount").textContent = "unavailable";
-    $("#checks").innerHTML = `<p class="bad">Could not reach the Polygon Amoy network. ${CHAIN.explorer ? `Records are still public on <a href="${contractUrl()}" target="_blank" rel="noopener">the block explorer</a>.` : "Start the local chain to see records."}</p>`;
+    $("#checks").innerHTML = `<p class="bad">Could not reach the ${esc(CHAIN.label || CHAIN.network)}.${CHAIN.explorer ? `Records are still public on <a href="${contractUrl()}" target="_blank" rel="noopener">the block explorer</a>.` : "Start the local chain to see records."}</p>`;
   }
 }
 

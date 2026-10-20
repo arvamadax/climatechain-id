@@ -18,7 +18,7 @@ async function main() {
   fs.mkdirSync(path.join(__dirname, "..", "deployments"), { recursive: true });
   fs.writeFileSync(path.join(__dirname, "..", "deployments", `${hre.network.name}.json`), JSON.stringify(out, null, 2));
   // the web app reads its chain settings from web/data/deployment.json
-  const web = { local: { rpc: "http://127.0.0.1:8545", explorer: "" }, amoy: { rpc: "https://polygon-amoy-bor-rpc.publicnode.com", explorer: "https://amoy.polygonscan.com" } }[hre.network.name];
+  const web = require("./chains")[hre.network.name];
   if (web) fs.writeFileSync(path.join(__dirname, "..", "..", "web", "data", "deployment.json"),
     JSON.stringify({ network: hre.network.name, chainId: out.chainId, address, ...web }, null, 2));
   console.log(out);

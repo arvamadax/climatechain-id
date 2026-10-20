@@ -1,6 +1,6 @@
-// Local end-to-end demo: fresh ClaimRegistry, one published check per buyer in data/serials/,
+// End-to-end publish: fresh ClaimRegistry, one published check per buyer in data/serials/,
 // one simulated duplicate claim, and the watcher flagging it on-chain.
-// Usage: npx hardhat node   (in another terminal)  then  npm run demo:local
+// Usage: npx hardhat node (other terminal) then npm run demo:local; or npm run demo:sepolia (needs PRIVATE_KEY + test ETH)
 const fs = require("fs");
 const path = require("path");
 const hre = require("hardhat");
@@ -17,8 +17,10 @@ async function main() {
   await reg.waitForDeployment();
   const address = await reg.getAddress();
   const chainId = Number((await ethers.provider.getNetwork()).chainId);
+  const net = require("./chains")[hre.network.name];
+  if (!net) throw new Error(`add ${hre.network.name} to scripts/chains.js`);
   fs.writeFileSync(path.join(DATA, "deployment.json"),
-    JSON.stringify({ network: "local", chainId, address, rpc: "http://127.0.0.1:8545", explorer: "" }, null, 2));
+    JSON.stringify({ network: hre.network.name, chainId, address, ...net }, null, 2));
 
   const checksDir = path.join(DATA, "checks");
   fs.rmSync(checksDir, { recursive: true, force: true });
