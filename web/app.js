@@ -138,6 +138,21 @@ function sparkline(ys) {
     <text x="${pad}" y="${H - 2}">${x0}</text><text x="${W - pad}" y="${H - 2}" text-anchor="end">${x1}</text></svg>`;
 }
 
+function emissionsBox(o) {
+  if (!o.ct) {
+    return `<div class="box"><h3>Independent emissions</h3><p class="muted small">This buyer is not matched to a parent company in Climate TRACE's ownership data, so Netra shows no emissions figure for it.</p></div>`;
+  }
+  const c = o.ct;
+  const range = c.low === c.high ? mt(c.low) : `${mt(c.low)} – ${mt(c.high)}`;
+  const note = c.coverage === "partial"
+    ? `<div class="flag">⚠ Climate TRACE's ownership data covers oil and gas, coal, power, cement, steel, aluminium, chemicals, pulp and paper, and mining. ${esc(c.parent)}'s main emissions (for example vehicle production or flights) are outside that coverage, so this figure is far below its real footprint.</div>`
+    : "";
+  return `<div class="box"><h3>Independent emissions</h3>
+    <p><b class="num">${range}</b> CO₂e in ${c.year}</p>
+    <p class="muted small">Ownership-weighted emissions of ${fmt(c.assets)} assets linked to <b>${esc(c.parent)}</b> (${esc(c.match)}) in Climate TRACE v5.7.0. The range is wide where ownership shares are unknown. This is an equity-share estimate from satellite and model data, not the company's own reported scope 1, so the two can differ by a factor of two or more.</p>
+    ${note}</div>`;
+}
+
 async function render(i) {
   const box = $("#result");
   box.hidden = false;
@@ -176,6 +191,7 @@ async function render(i) {
       <div class="box"><h3>ICVCM integrity label</h3>
         ${bar(ccp.map(([s, t]) => [t / o.t, css(CCP[s][1]), CCP[s][0]]))}
         <div class="legend">${ccp.map(([s, t]) => `<div><span><i style="background:var(${CCP[s][1]})"></i>${CCP[s][0]}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>
+      ${emissionsBox(o)}
       <div class="box"><h3>Past to present</h3>${sparkline(o.ys)}
         <p class="muted small">Grey bars: tonnes retired per year. Line: likely-real share of research-covered tonnes.</p></div>
     </div>

@@ -99,6 +99,22 @@ def category(btype, country, meth="", name=""):
     return "other"
 
 
+MOJIBAKE = re.compile("[√‚Äì¬Ã]")
+ON_BEHALF = re.compile(r"^\s*(?:retired\s+)?on\s+behalf\s+of\s+(.+?)(?:\s+for\s+|\s*\(|,|;|$)", re.I)
+
+
+def clean_owner(s):
+    """Repair Mac Roman mojibake from the registry export and reduce 'Retired on behalf of X for ...' to X."""
+    s = str(s)
+    if MOJIBAKE.search(s):
+        try:
+            s = s.encode("mac_roman").decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            pass
+    m = ON_BEHALF.match(s)
+    return m.group(1).strip() if m else s.strip()
+
+
 def norm(s):
     s = re.sub(r"[^a-z0-9 &]", " ", str(s).lower())
     s = re.sub(r"\b(inc|ltd|limited|llc|plc|corp|corporation|co|company|sa|ag|se|spa|gmbh|nv|bv|pty|pte|"
@@ -172,6 +188,7 @@ def main(xlsx, db, odb):
         Path(__file__).resolve().parent / "classification_review.csv", index=False)
     a["cat"] = a["pid"].map(dict(zip(proj["pid"], proj["cat"])))
     blank = a["owner"].isna() | a["owner"].astype(str).str.strip().str.lower().isin(["", "not applicable", "nan"])
+    a.loc[~blank, "owner"] = a.loc[~blank, "owner"].map(clean_owner)
     a["key"] = a["owner"].map(norm)
     a.loc[blank, "key"] = "(no owner listed)"
     a.loc[blank, "owner"] = "(no owner listed)"
@@ -201,6 +218,21 @@ def main(xlsx, db, odb):
                    for yr, x in d.groupby(d["date"].dt.year)},
         })
     owners.sort(key=lambda o: -o["t"])
+    # Independent emissions: Climate TRACE ownership-weighted parent emissions, via a reviewed alias table.
+    ct_path = OUT / "ct_owners.json"
+    if ct_path.exists():
+        ct = json.loads(ct_path.read_text(encoding="utf-8"))
+        aliases = pd.read_csv(Path(__file__).resolve().parent / "aliases.csv")
+        alias = {r.buyer_name: r for r in aliases.itertuples()}
+        for o in owners:
+            r = alias.get(o["n"])
+            if r is not None and r.ct_parent_id in ct["owners"]:
+                name, low, high, assets, sub = ct["owners"][r.ct_parent_id]
+                o["ct"] = {"low": low, "high": high, "assets": assets, "parent": name.strip(), "match": r.match_note,
+                           "year": ct["year"], "controlled_by_other": bool(sub),
+                           # core: the group's main emitting activities are in Climate TRACE's ownership sectors
+                           # partial: main emissions (e.g. vehicle manufacturing, flights) are outside that coverage
+                           "coverage": r.coverage}
     OUT.mkdir(parents=True, exist_ok=True)
     meta = {"source": "Berkeley Voluntary Registry Offsets Database v2026-08 (CC BY 4.0), Verra + Gold Standard retirements",
             "since": SINCE, "rows": int(len(a)), "tonnes": int(a["qty"].sum()),
@@ -228,6 +260,10 @@ def main(xlsx, db, odb):
 
 
 if __name__ == "__main__":
+    assert clean_owner("Eni Plenitude spa Societ√† Benefit") == "Eni Plenitude spa Società Benefit"
+    assert clean_owner("Retired on behalf of easyJet for aviation emissions period 01 January ‚Äì 31 March 2022") == "easyJet"
+    assert clean_owner("On behalf of South Pole Holding Ltd") == "South Pole Holding Ltd"
+    assert clean_owner("Shell") == "Shell"
     assert category("REDD+", "Peru") == "redd"
     assert category("Wind", "China") == "wind_china"
     assert category("Wind", "India") == "grid_re"
