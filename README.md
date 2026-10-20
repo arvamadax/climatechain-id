@@ -23,10 +23,13 @@ IEEE ClimateChain Global Hackathon 2026 · Track 1: Carbon Markets & Emissions T
 cd web && python -m http.server 8000
 # contracts
 cd contracts && npm install && npx hardhat test
+# full on-chain demo on a local chain (no testnet tokens needed)
+npm run node            # terminal 1
+npm run demo:local      # terminal 2: deploys, publishes 6 real buyer checks, flags a simulated double claim
 ```
 
 ## Deployment
-`ClaimRegistry` on Polygon Amoy: [0x052d89245Bf1EB867CE371817eDf74FBBc4f0be0](https://amoy.polygonscan.com/address/0x052d89245Bf1EB867CE371817eDf74FBBc4f0be0)
+Current contract (v2, Merkle-root claims + on-chain double-claim challenges) runs on a local Hardhat chain via `npm run demo:local`; Polygon Amoy deployment follows with `npm run deploy:amoy`. An earlier v1 is on Amoy at [0x052d89245Bf1EB867CE371817eDf74FBBc4f0be0](https://amoy.polygonscan.com/address/0x052d89245Bf1EB867CE371817eDf74FBBc4f0be0).
 
 ## Data and license notes
 Berkeley Carbon Trading Project, Voluntary Registry Offsets Database v2026-08 (CC BY 4.0); CarbonPlan OffsetsDB; ICVCM assessment status (snapshot 18 Aug 2026); Probst et al. 2024, *Nature Communications*, doi:10.1038/s41467-024-53645-z. Netra shows risk estimates based on average research findings per project type, not verdicts on individual projects or companies.

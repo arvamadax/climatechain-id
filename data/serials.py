@@ -8,7 +8,7 @@ import sys
 
 import pandas as pd
 
-from build import SINCE, norm
+from build import SINCE, clean_owner, norm
 
 
 def main(xlsx, name, out):
@@ -18,7 +18,7 @@ def main(xlsx, name, out):
     rows = []
     for reg, d, col in (("VCS", v, "Beneficial Owner"), ("GS", g, "Using Entity")):
         d = d[pd.to_datetime(d["Retirement Date"], errors="coerce") >= SINCE]
-        d = d[d[col].map(norm) == key]
+        d = d[d[col].map(lambda s: norm(clean_owner(s))) == key]
         rows += [f"{reg}:{s}" for s in d["Serial Number"].dropna().astype(str)]
     rows = sorted(set(rows))
     json.dump(rows, open(out, "w", encoding="utf-8"))
