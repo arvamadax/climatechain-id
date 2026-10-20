@@ -4,3 +4,4 @@ graphify-out/
 .env
 node_modules/
 __pycache__/
+_t7/
