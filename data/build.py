@@ -11,6 +11,7 @@ from pathlib import Path
 import pandas as pd
 
 SINCE = "2020-01-01"
+SHARD = 500
 OUT = Path(__file__).resolve().parent.parent / "web" / "data"
 
 # Outcome Achievement Ratio (share of issued credits that are real reductions), Probst et al. 2024,
@@ -203,8 +204,20 @@ def main(xlsx, db, odb):
     OUT.mkdir(parents=True, exist_ok=True)
     meta = {"source": "Berkeley Voluntary Registry Offsets Database v2026-08 (CC BY 4.0), Verra + Gold Standard retirements",
             "since": SINCE, "rows": int(len(a)), "tonnes": int(a["qty"].sum()),
-            "named_share": round(float(a.loc[~blank, "qty"].sum() / a["qty"].sum()), 4)}
+            "named_share": round(float(a.loc[~blank, "qty"].sum() / a["qty"].sum()), 4),
+            "ys": {int(yr): [int(x["qty"].sum()), int(x["eff"].sum()), int(x.loc[x["known"], "qty"].sum())]
+                   for yr, x in a.groupby(a["date"].dt.year)},
+            "cats": {c: int(x) for c, x in a.groupby("cat")["qty"].sum().items()},
+            "ccp": {s: int(x) for s, x in a.groupby("ccp")["qty"].sum().items()},
+            "known": int(a.loc[a["known"], "qty"].sum()), "eff": int(a["eff"].sum()),
+            "eff_lo": int(a["lo"].sum()), "eff_hi": int(a["hi"].sum())}
+    # Full dataset (for download) + a light search index and 500-owner shards (for the web app).
     (OUT / "owners.json").write_text(json.dumps({"meta": meta, "owners": owners}, separators=(",", ":")), encoding="utf-8")
+    (OUT / "index.json").write_text(json.dumps({"meta": meta, "shard": SHARD, "rows": [
+        [o["n"], o["t"], o["k"], o["e"]] for o in owners]}, separators=(",", ":")), encoding="utf-8")
+    (OUT / "o").mkdir(exist_ok=True)
+    for i in range(0, len(owners), SHARD):
+        (OUT / "o" / f"{i // SHARD}.json").write_text(json.dumps(owners[i:i + SHARD], separators=(",", ":")), encoding="utf-8")
     (OUT / "factors.json").write_text(json.dumps({"factors": FACTORS, "icvcm_source": ICVCM["source"],
                                                   "icvcm_page_modified": ICVCM["page_modified"]}, indent=1), encoding="utf-8")
     agree = proj["cat_o"].notna()
