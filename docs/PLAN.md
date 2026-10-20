@@ -125,3 +125,18 @@ Pola nama pemain iklim/karbon yang sudah jadi brand: Sylvera, Pachama, Watershed
 | **Tera** | Bahasa Indonesia "tera ulang": kalibrasi resmi timbangan oleh negara. | tera.eco | Mirip "Terra" (kripto yang runtuh 2022); hindari di proyek blockchain |
 
 Rekomendasi: **Tare** (global, metafora paling pas dengan "net zero") atau **Takar** (cerita asal Indonesia). Belum ada cek merek dagang; wajib dicek (PDKI/WIPO) sebelum dipakai di luar hackathon.
+
+## Language and name update (20 Oct 2026)
+
+- **Everything shipped is English only** (international hackathon): UI, README, docs, video, Devpost text, code comments. Existing Indonesian research notes in `docs/` will be rewritten in English before the repo goes public.
+- **Puro cannot be used**: Puro.earth is an existing carbon-removal standard and registry (high confusion and trademark risk in the exact same market). Verra is excluded for the same reason.
+- Puro-style candidates (short, evocative; rough DNS check, not proof of availability):
+
+| Name | Story | Possibly free |
+|---|---|---|
+| **Netra** | Sanskrit for "eye" (also used in Indonesian); contains "net". "The eye on net-zero claims." | netra.com, netra.io, netra.earth |
+| **Nett** | British spelling of net weight after the tare is removed. | nett.io, nett.earth |
+| **Tare** | The weight you subtract to find the true net. | tare.eco, usetare.io |
+| Aequo | Latin "fair, level" (as in ex aequo). | aequo.io, aequo.earth |
+| Certa | Latin/Italian "certain". | certa.io |
+| Purum | Latin "pure"; too close to Puro, avoid. | purum.com |
