@@ -138,13 +138,30 @@ function sparkline(ys) {
     <text x="${pad}" y="${H - 2}">${x0}</text><text x="${W - pad}" y="${H - 2}" text-anchor="end">${x1}</text></svg>`;
 }
 
+const TYPE_NOTE = {
+  intermediary: "An offset provider or account that retires credits on behalf of its clients. The end claimants are not named here.",
+  wallet: "A crypto wallet address. These credits were retired to back tokens on a blockchain; who holds the climate claim is not visible in the registry.",
+  anonymous: "No identifiable beneficiary. Nobody can be held to claims based on these credits.",
+  unidentified: "A code that could not be matched to any organisation from the registry details. Netra does not guess who it is.",
+  tokenization: "Credits retired to create crypto tokens. Verra stopped allowing retired credits to be tokenized in 2022.",
+  public_body: "A public authority.",
+};
+
+function buyerLine(o) {
+  if (!o.g) return "";
+  const note = TYPE_NOTE[o.g.type];
+  const group = o.g.group && o.g.group !== o.n ? `Part of <b>${esc(o.g.group)}</b>` : "";
+  const extra = o.g.note ? ` (${esc(o.g.note)})` : "";
+  return `<p class="muted small">${group}${group && extra ? extra : ""}${note ? `${group ? " · " : ""}${note}` : ""}</p>`;
+}
+
 function reportedBox(o) {
   const r = o.rep;
   if (!r) return "";
   const comp = o.ct && o.ct.coverage === "core"
     ? `<p class="muted small">Climate TRACE's ownership-weighted estimate for the same group: ${o.ct.low === o.ct.high ? mt(o.ct.low) : `${mt(o.ct.low)} – ${mt(o.ct.high)}`}. The two use different boundaries, so neither replaces the other.</p>` : "";
   return `<div class="box"><h3>Company-reported emissions</h3>
-    <p><b class="num">${mt(r.scope1)}</b> Scope 1 in ${r.year}${r.total ? ` · <b class="num">${mt(r.total)}</b> all scopes` : ""}</p>
+    <p>${r.scope1 != null ? `<b class="num">${mt(r.scope1)}</b> Scope 1` : ""}${r.scope1 != null && r.total ? " · " : ""}${r.total ? `<b class="num">${mt(r.total)}</b> reported total` : ""} in ${r.year}</p>
     <p class="muted small">${esc(r.group)}, ${esc(r.boundary)}. Source: <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.source)}</a>, ${esc(r.section)}.</p>
     <p class="muted small">Credits retired since ${o.y[0]}: ${mt(o.t)}; of those, research suggests about ${mt(o.e)} were real reductions.</p>
     ${comp}</div>`;
@@ -187,7 +204,7 @@ async function render(i) {
   box.innerHTML = `
     <div class="res-head">
       <div class="grade ${g ? "" : "na"}" style="${g ? `background:var(${g[2]})` : ""}" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
-      <div><p class="eyebrow">Retired ${o.y[0]}–${o.y[1]} · ${fmt(o.r)} retirements</p><h2>${esc(o.n)}</h2>
+      <div><p class="eyebrow">Retired ${o.y[0]}–${o.y[1]} · ${fmt(o.r)} retirements</p><h2>${esc(o.n)}</h2>${buyerLine(o)}
         <p class="muted small">${mt(o.t)} retired${g ? ` · grade on the ${pct(cover)} covered by research` : " · not enough research coverage for a grade"}</p></div>
     </div>
     <p class="plain">${sentence}</p>
