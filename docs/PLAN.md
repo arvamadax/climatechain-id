@@ -110,3 +110,18 @@ Hasil pengolahan (Verra + Gold, retirement sejak 2020-01-01, VROD v2026-08):
 Sisi emisi (Climate TRACE): pencocokan otomatis nama ke 300 pemilik teratas hanya 29 cocok (17,8% ton dari 300 itu): Shell, Delta, CPC Taiwan, Apple, dll. Gagal untuk nama dengan sufiks/varian (Eni Upstream, Chevron Petroleum Company, "VW PKW"), brand/jasa (Netflix, Gucci, Takeda, Boeing), alamat wallet (0xAf52..., 0xF367...), dan perantara (4AIR, Ecologi). Rencana: tabel alias manual untuk ±100 pemilik teratas (Eni = Eni SpA, Chevron Petroleum Company = Chevron Corp, VW/Audi = Volkswagen AG, dll.); sisanya hanya sisi retirement dengan teks "emisi independen tidak tersedia".
 
 Catatan hukum/reputasi: data pemilik adalah data publik registry yang dicatat sebagai pihak yang di-retire atas namanya; halaman hanya menampilkan fakta + metode, tanpa label yang menuduh, dengan tombol hak jawab.
+
+## Riset branding (20 Okt 2026)
+
+Pola nama pemain iklim/karbon yang sudah jadi brand: Sylvera, Pachama, Watershed, Isometric, Puro, Calyx, BeZero, Persefoni. Semuanya kata nyata yang dipinjam atau kata ciptaan yang evokatif, 2-3 suku kata, tidak deskriptif (bukan "CarbonChecker"). Nama deskriptif + "Ton/Grade/Proof" terdengar seperti fitur, bukan produk. Arah baru: metafora dari dunia **menimbang dan menguji kemurnian** (metrologi dan uji logam mulia), karena produknya menimbang klaim dan menguji kemurnian kredit.
+
+| Nama | Arti dan cerita | Domain bebas? (DNS kasar) | Risiko |
+|---|---|---|---|
+| **Tare** | Istilah timbangan: berat wadah yang dikurangi agar tersisa berat bersih (net). "Kami mengurangi ton yang tidak nyata dari klaim; yang tersisa adalah net yang sebenarnya." Menyambung langsung ke "net zero". | tare.eco, usetare.io, tareco2.com, tarecarbon.com | Kata umum; tare.com/.io dipakai |
+| **Assay** | Uji kemurnian logam mulia. "Assay your climate claim." | assay.eco, assaycarbon.com | assay.com/.io/.app dipakai; istilah lab umum |
+| **Takar** | Bahasa Indonesia: menakar/mengukur. Asal tim Indonesia; mudah diucapkan global. | takar.io, takar.app, takar.earth | Makna tidak terbaca bagi juri internasional tanpa cerita |
+| **Touchstone** | Batu uji emas; arti kiasan "standar acuan". | touchstone.earth, touchstone.app | Panjang; banyak merek lain |
+| **Karat** | Ukuran kemurnian emas; cocok dengan label A-E. | karat.earth | Merek fintech "Karat" sudah ada (risiko merek) |
+| **Tera** | Bahasa Indonesia "tera ulang": kalibrasi resmi timbangan oleh negara. | tera.eco | Mirip "Terra" (kripto yang runtuh 2022); hindari di proyek blockchain |
+
+Rekomendasi: **Tare** (global, metafora paling pas dengan "net zero") atau **Takar** (cerita asal Indonesia). Belum ada cek merek dagang; wajib dicek (PDKI/WIPO) sebelum dipakai di luar hackathon.
