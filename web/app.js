@@ -5,7 +5,7 @@ const REGISTRY = "0x052d89245Bf1EB867CE371817eDf74FBBc4f0be0";
 const EXPLORER = "https://amoy.polygonscan.com";
 const ABI = [
   "function count() view returns (uint256)",
-  "function checks(uint256) view returns (bytes32 subject, bytes32 reportHash, string uri, uint64 timestamp, address attester)",
+  "function checks(uint256) view returns (bytes32 subject, bytes32 reportHash, bytes32 serialRoot, uint32 serialCount, uint64 timestamp, address attester, bool doubleClaim, string uri)",
 ];
 const EXAMPLES = ["Shell", "Delta Air Lines", "Netflix, Inc.", "Volkswagen Marke Pkw", "Eni Upstream", "Apple Inc.", "Not Disclosed"];
 const GRADES = [[0.6, "A", "--a"], [0.4, "B", "--b"], [0.2, "C", "--c"], [0.1, "D", "--d"], [0, "E", "--e"]];
@@ -46,6 +46,31 @@ async function owner(i) {
 // Canonical report = the owner record exactly as published; the same rule is used by contracts/scripts/record.js.
 const reportHash = (o) => ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(o)));
 const subjectHash = (name) => ethers.id(name);
+
+// Sorted-pair Merkle root of serial-range nullifiers, identical to contracts/scripts/merkle.js.
+const nullifier = (s) => { const [r, ...x] = s.split(":"); return ethers.solidityPackedKeccak256(["string", "string"], [r, x.join(":")]); };
+function serialRoot(serials) {
+  let level = [...new Set(serials.map((s) => ethers.keccak256(nullifier(s))))].sort();
+  while (level.length > 1) {
+    const next = [];
+    for (let i = 0; i < level.length; i += 2) {
+      if (i + 1 === level.length) { next.push(level[i]); continue; }
+      const [a, b] = level[i].toLowerCase() < level[i + 1].toLowerCase() ? [level[i], level[i + 1]] : [level[i + 1], level[i]];
+      next.push(ethers.keccak256(ethers.concat([a, b])));
+    }
+    level = next;
+  }
+  return level[0];
+}
+async function serialStatus(c) {
+  if (c.serialRoot === ethers.ZeroHash) return `${c.serialCount} ranges (strict)`;
+  try {
+    const f = await getJSON(c.uri);
+    return serialRoot(f.serials) === c.serialRoot
+      ? `<span class="ok">✓ ${fmt(c.serialCount)} serial ranges match</span>`
+      : `<span class="bad">serial list does not match root</span>`;
+  } catch { return `<span class="muted">${fmt(c.serialCount)} ranges (list unavailable)</span>`; }
+}
 
 /* ---------- search ---------- */
 function search(q) {
@@ -176,9 +201,9 @@ async function chainStatus(o) {
     const mine = list.filter((c) => c.subject === subjectHash(o.n));
     if (!mine.length) { el.className = "flag"; el.textContent = "No check for this buyer has been published on-chain yet."; return; }
     const last = mine[mine.length - 1], match = last.reportHash === reportHash(o);
-    el.className = match ? "flag ok" : "flag";
+    el.className = match && !last.doubleClaim ? "flag ok" : "flag";
     el.innerHTML = match
-      ? `✓ Published on-chain ${new Date(last.timestamp * 1000).toISOString().slice(0, 10)} and matches the open data. <a href="#verify">See record #${last.id}</a>`
+      ? `${last.doubleClaim ? "⚠ Flagged on-chain as a double claim: at least one serial range also backs an earlier claim." : "✓ Published on-chain " + new Date(last.timestamp * 1000).toISOString().slice(0, 10) + " and matches the open data."} <a href="#verify">See record #${last.id}</a>`
       : `On-chain record #${last.id} exists but does not match the current data (the dataset was updated after it was published).`;
   } catch {
     el.className = "flag"; el.textContent = "Could not reach the Polygon Amoy network to check on-chain records.";
@@ -224,7 +249,8 @@ async function loadChecks() {
   const ids = [...Array(n).keys()];
   return Promise.all(ids.map(async (id) => {
     const c = await reg.checks(id);
-    return { id, subject: c.subject, reportHash: c.reportHash, uri: c.uri, timestamp: Number(c.timestamp), attester: c.attester };
+    return { id, subject: c.subject, reportHash: c.reportHash, serialRoot: c.serialRoot, serialCount: Number(c.serialCount),
+      timestamp: Number(c.timestamp), attester: c.attester, doubleClaim: c.doubleClaim, uri: c.uri };
   }));
 }
 
@@ -243,10 +269,12 @@ async function verifyPanel() {
         const match = reportHash(await owner(i)) === c.reportHash;
         status = match ? `<span class="ok">✓ matches data</span>` : `<span class="bad">differs from current data</span>`;
       }
+      const serial = await serialStatus(c);
+      if (c.doubleClaim) status += ` <span class="bad">· flagged double claim</span>`;
       return `<tr><td class="num">#${c.id}</td><td>${i !== undefined ? `<a href="#buyer-${i}">${esc(rows[i][0])}</a>` : `<span class="mono">${c.subject.slice(0, 12)}…</span>`}</td>
-        <td class="mono">${c.reportHash.slice(0, 14)}…</td><td class="num">${new Date(c.timestamp * 1000).toISOString().slice(0, 10)}</td><td>${status}</td></tr>`;
+        <td class="mono">${c.reportHash.slice(0, 14)}…</td><td class="num">${new Date(c.timestamp * 1000).toISOString().slice(0, 10)}</td><td>${status}</td><td>${serial}</td></tr>`;
     }));
-    $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Recomputed</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
+    $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Report</th><th>Serial ranges</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
   } catch {
     $("#checkCount").textContent = "unavailable";
     $("#checks").innerHTML = `<p class="bad">Could not reach the Polygon Amoy network. Records are still public on <a href="${EXPLORER}/address/${REGISTRY}" target="_blank" rel="noopener">Polygonscan</a>.</p>`;
