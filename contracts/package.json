@@ -1,0 +1,19 @@
+{
+  "name": "netra-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Netra ClaimRegistry - testnet only",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:amoy": "hardhat run scripts/deploy.js --network amoy"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.0.2"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.15"
+  }
+}
