@@ -1,6 +1,6 @@
 """Build Netra's static dataset from the Berkeley Voluntary Registry Offsets Database (VROD).
 
-Usage: python data/build.py <Berkeley_VROD_registry_files_*.xlsx> <Berkeley_Voluntary_Registry_Offsets_Database_*.xlsx>
+Usage: python data/build.py <Berkeley_VROD_registry_files_*.xlsx> <Berkeley_Voluntary_Registry_Offsets_Database_*.xlsx> <offsets-db projects.parquet>
 Writes web/data/owners.json and web/data/factors.json.
 """
 import json
@@ -70,15 +70,22 @@ def icvcm(meth):
     return "not_assessed"
 
 RENEWABLE = {"Wind", "Hydropower", "Solar - Centralized", "Solar - Distributed", "Geothermal", "RE Bundled", "Biomass"}
+# CarbonPlan OffsetsDB project_type -> Berkeley Type vocabulary, for the independent cross-check
+ODB_TO_BERKELEY = {"REDD+": "REDD+", "Cookstove": "Cookstoves", "Wind": "Wind", "Hydropower": "Hydropower",
+                   "Centralized Solar": "Solar - Centralized", "Distributed Solar": "Solar - Distributed",
+                   "Geothermal": "Geothermal", "Renewable Energy": "RE Bundled", "Biomass": "Biomass",
+                   "Improved Forest Management": "Improved Forest Management", "HFC Destruction": "HFC23 Destruction"}
+# Probst's cookstove studies cover biomass cookstoves; other household-energy technologies get no OAR.
+NOT_BIOMASS_STOVE = re.compile(r"AMS-I\.C|AMS-II\.C|AMS-III\.BG|ALTERNATIVE IGNITION|SOLAR COOKER|LPG|WATER")
 
 
-def category(btype, country):
+def category(btype, country, meth="", name=""):
     """Map Berkeley VROD's curated project Type to a Probst OAR category."""
     us = str(country).strip().upper() in ("UNITED STATES", "USA", "US", "UNITED STATES OF AMERICA")
     if btype == "REDD+":
         return "redd"
     if btype == "Cookstoves":
-        return "cookstove"
+        return "other" if NOT_BIOMASS_STOVE.search(f"{meth} {name}".upper()) else "cookstove"
     if btype == "HFC23 Destruction":
         return "hfc23"
     if btype == "Improved Forest Management":
@@ -98,6 +105,32 @@ def norm(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
+REDD_M = re.compile(r"VM0004|VM0006|VM0007|VM0009|VM0015|VM0037|VM0048")
+STOVE_M = re.compile(r"VMR0006|AMS-II\.G|VM0050|TPDDTEC|IMPROVED COOK|METERED")
+RE_M = re.compile(r"ACM0002|AMS-I\.D|AMS-I\.F|VMR0017")
+
+
+def method_hint(meth):
+    """Third, independent signal from the registry methodology code: a category, or None if not decisive."""
+    m = str(meth).upper()
+    if REDD_M.search(m):
+        return "redd"
+    if STOVE_M.search(m):
+        return "cookstove"
+    if RE_M.search(m):
+        return "grid_re"
+    return None
+
+
+def resolve(cat_b, cat_o, hint=None):
+    """Final category from independent classifications. Any disagreement gets no OAR (never inflate)."""
+    signals = [c for c in (cat_o, hint) if isinstance(c, str)]
+    # wind_china is grid renewables at the methodology level
+    if all(s == cat_b or (s == "grid_re" and cat_b == "wind_china") for s in signals):
+        return cat_b, False
+    return "other", True
+
+
 def load(xlsx, db):
     v = pd.read_excel(xlsx, sheet_name="Verra VCS Retirements")
     g = pd.read_excel(xlsx, sheet_name="Gold Retirements")
@@ -106,10 +139,10 @@ def load(xlsx, db):
     pid = lambda prefix, s: prefix + s.astype(str).str.replace(r"\.0$", "", regex=True)
     vv = pd.DataFrame({"reg": "Verra", "date": v["Retirement Date"], "qty": v["Retirement QTY"],
                        "owner": v["Beneficial Owner"], "meth": v["Methodology"], "pid": pid("VCS", v["Project ID"]),
-                       "country": v["Country"], "vintage": v["Vintage"]})
+                       "country": v["Country"], "vintage": v["Vintage"], "pname": v["Project Name"]})
     gg = pd.DataFrame({"reg": "Gold", "date": g["Retirement Date"], "qty": g["Quantity"],
                        "owner": g["Using Entity"], "meth": g["Methodology"], "pid": pid("GS", g["GSID"]),
-                       "country": g["Country"], "vintage": g["Vintage"]})
+                       "country": g["Country"], "vintage": g["Vintage"], "pname": g["Project Name"]})
     a = pd.concat([vv, gg], ignore_index=True)
     a["btype"] = a["pid"].map(btype).fillna("Unknown")
     a["date"] = pd.to_datetime(a["date"], errors="coerce")
@@ -118,9 +151,25 @@ def load(xlsx, db):
     return a[a["date"] >= SINCE]
 
 
-def main(xlsx, db):
+def main(xlsx, db, odb):
     a = load(xlsx, db)
-    a["cat"] = [category(*r) for r in zip(a["btype"], a["country"])]
+    o = pd.read_parquet(odb, columns=["project_id", "project_type"])
+    o = o[o["project_type"].notna() & (o["project_type"] != "Unknown")]
+    otype = dict(zip(o["project_id"], o["project_type"].map(lambda x: ODB_TO_BERKELEY.get(x, x))))
+    proj = a.groupby("pid").agg(btype=("btype", "first"), country=("country", "first"), meth=("meth", "first"),
+                                pname=("pname", "first"), qty=("qty", "sum")).reset_index()
+    proj["cat_b"] = [category(*r) for r in zip(proj["btype"], proj["country"], proj["meth"], proj["pname"])]
+    proj["otype"] = proj["pid"].map(otype)
+    proj["cat_o"] = [None if pd.isna(t) else category(t, c, m, n)
+                     for t, c, m, n in zip(proj["otype"], proj["country"], proj["meth"], proj["pname"])]
+    proj["hint"] = proj["meth"].map(method_hint)
+    # the method code only checks projects it can speak to: a decisive hint that conflicts with the type
+    proj[["cat", "disputed"]] = [resolve(b, x, h if b in ("redd", "cookstove", "grid_re", "wind_china") or h else None)
+                                 for b, x, h in zip(proj["cat_b"], proj["cat_o"], proj["hint"])]
+    review = proj[proj["disputed"]].sort_values("qty", ascending=False)
+    review[["pid", "pname", "btype", "otype", "meth", "cat_b", "cat_o", "hint", "cat", "qty"]].to_csv(
+        Path(__file__).resolve().parent / "classification_review.csv", index=False)
+    a["cat"] = a["pid"].map(dict(zip(proj["pid"], proj["cat"])))
     blank = a["owner"].isna() | a["owner"].astype(str).str.strip().str.lower().isin(["", "not applicable", "nan"])
     a["key"] = a["owner"].map(norm)
     a.loc[blank, "key"] = "(no owner listed)"
@@ -158,7 +207,11 @@ def main(xlsx, db):
     (OUT / "owners.json").write_text(json.dumps({"meta": meta, "owners": owners}, separators=(",", ":")), encoding="utf-8")
     (OUT / "factors.json").write_text(json.dumps({"factors": FACTORS, "icvcm_source": ICVCM["source"],
                                                   "icvcm_page_modified": ICVCM["page_modified"]}, indent=1), encoding="utf-8")
+    agree = proj["cat_o"].notna()
     print(meta, "owners:", len(owners), "unknown type rows:", int((a["btype"] == "Unknown").sum()))
+    print("cross-checked tonnes: %.1f%%, disputed projects: %d (%.2f%% of tonnes)" % (
+        100 * proj.loc[agree, "qty"].sum() / proj["qty"].sum(), len(review),
+        100 * review["qty"].sum() / proj["qty"].sum()))
 
 
 if __name__ == "__main__":
@@ -171,9 +224,17 @@ if __name__ == "__main__":
     assert category("Improved Forest Management", "United States") == "ifm_us"
     assert category("Improved Forest Management", "Malaysia") == "other"
     assert category("SF6 Replacement", "Israel") == "other"
+    assert category("Cookstoves", "China", "AMS-I.C. Thermal energy production", "Houji Solar Cooker Project") == "other"
+    assert category("Cookstoves", "South Africa", "GS Alternative Ignition Coal Fires v1.", "Highveld") == "other"
+    assert resolve("redd", "redd") == ("redd", False)
+    assert resolve("other", "redd") == ("other", True)
+    assert resolve("cookstove", None) == ("cookstove", False)
+    assert resolve("wind_china", "wind_china", "grid_re") == ("wind_china", False)
+    assert resolve("cookstove", None, "grid_re") == ("other", True)
+    assert method_hint("VM0007 (Version 1.5)") == "redd" and method_hint("ACM0001") is None
     assert icvcm("ACM0002 (Version 19)") == "not_approved"
     assert icvcm("GS TPDDTEC v3.1") == "approved"
     assert icvcm("GS TPDDTEC v 1.") == "not_assessed"
     assert icvcm("VM0007 (Version 1.6)") == "not_assessed"
     assert icvcm("VM0048 (Version 1.0)") == "approved"
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])

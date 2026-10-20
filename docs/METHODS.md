@@ -22,20 +22,17 @@ OAR = share of issued credits that research estimates to be real reductions. Sou
 | Improved forest management, US | 0% | 0% | No statistically significant reductions; paper sets 0% |
 | Other grid renewables, all other types | none | none | No published estimate; shown as "limited evidence" and never scored better than D |
 
-## Classification rules
+## Classification rules (three independent signals)
 
-Each retirement row is joined by project ID (Verra `VCS<id>`, Gold Standard `GS<GSID>`) to the **curated project Type in Berkeley VROD's PROJECTS sheet** (11,856 projects). Join rate: 100% of rows and tonnes. Type is mapped to an OAR category (`data/build.py`, function `category`):
-- `REDD+` -> REDD+. `Cookstoves` -> cookstoves. `HFC23 Destruction` -> HFC-23.
-- `Improved Forest Management` -> IFM (US) only for US projects; elsewhere no OAR.
-- `Wind` in China -> China wind (0%).
-- `Wind` elsewhere, `Hydropower`, `Solar - Centralized`, `Solar - Distributed`, `Geothermal`, `RE Bundled`, `Biomass` -> renewables (no OAR).
-- Everything else (e.g. Clean Water, Biodigesters, Afforestation/Reforestation, Wetland Restoration, Landfill Methane, SF6 Replacement) -> no OAR.
+Every project gets a category only when independent sources agree. Any disagreement gets **no OAR**, so a dispute can only lower a company's estimated real tonnes, never raise it.
 
-Why not keyword rules: an earlier keyword version misfiled biogas and water-filter projects as cookstoves. Berkeley's Type is maintained by the VROD team and is the classification used by Trencher et al. 2024 (*Nature Communications*, doi:10.1038/s41467-024-51151-w).
+1. **Berkeley VROD curated project Type** (PROJECTS sheet, 11,856 projects), joined by project ID (Verra `VCS<id>`, Gold Standard `GS<GSID>`). Join rate: 100% of rows and tonnes.
+2. **CarbonPlan OffsetsDB project_type** (independent classification, parquet release; covers 78.2% of retired tonnes with a known type).
+3. **Registry methodology code** (REDD+: VM0004/6/7/9/15/37/48; biomass cookstoves: VMR0006, AMS-II.G, VM0050, TPDDTEC, improved-cookstove and metered GS methodologies; grid renewables: ACM0002, AMS-I.D, AMS-I.F, VMR0017).
 
-Notes:
-- Probst's SF6 figure covers SF6 waste-gas destruction (JI, Russia). VROD's `SF6 Replacement` (e.g. magnesium cover gas) is a different activity and gets no OAR.
-- Some peatland projects registered under REDD+ methodologies (e.g. Katingan, VM0007) are typed by Berkeley as `Wetland Restoration` and therefore get no OAR. This is conservative.
+Type to OAR category: `REDD+` -> REDD+; `Cookstoves` -> cookstoves, except solar cookers, coal-ignition, LPG and stove-plus-water projects (Probst's cookstove studies cover biomass cookstoves only); `HFC23 Destruction` -> HFC-23; `Improved Forest Management` -> US IFM only in the US; `Wind` in China -> China wind; other wind, hydro, solar, geothermal, RE bundled, biomass -> renewables (no OAR); everything else -> no OAR. VROD's `SF6 Replacement` is not SF6 destruction and gets no OAR.
+
+Result on VROD v2026-08 (since 2020): 234 projects (6.15% of tonnes) have at least one disagreeing signal; all are set to no OAR and listed in `data/classification_review.csv`. Only 2 of them were demoted from an OAR category: Katingan (VCS1477) and Sumatra Merang (VCS1899), typed REDD+ by OffsetsDB and the VM0007 code but Wetland Restoration by Berkeley; neither is in Probst's REDD+ sample (Latin America, Africa, Cambodia), so no OAR is applied. Automated checks live in the `__main__` block of `data/build.py`.
 
 ## ICVCM status
 
@@ -45,8 +42,8 @@ Share of retired tonnes since 2020: approved 4.5%, not approved 35.9%, not asses
 
 ## Headline numbers (VROD v2026-08, Verra + Gold, since 2020)
 
-- Tonnes with a published OAR: 38.4%.
-- Of those, likely real: 19.3% central (range 2.5-68.0%, driven mainly by REDD+ uncertainty).
+- Tonnes with a published OAR: 37.8%.
+- Of those, likely real: 19.4% central (range 2.4-68.8%, driven mainly by REDD+ uncertainty).
 - Largest single owner entry: "Not Disclosed", 89.4 million t.
 
 ## Known limits
@@ -59,4 +56,4 @@ Share of retired tonnes since 2020: approved 4.5%, not approved 35.9%, not asses
 
 - **Past to present:** per-owner and market-wide yearly series (2020-2026). Market-wide, the likely-real share of OAR-covered tonnes stayed flat at 18-22% every year (2020: 18.7%, 2021: 22.4%, 2022: 18.0%, 2023: 20.2%, 2024: 18.0%, 2025: 17.9%, 2026 to Aug: 18.0%). Quality of what is retired has not improved.
 - **Present:** each owner's current mix, grade, ICVCM status share, and owner disclosure.
-- **Future:** forward-looking flags already in the data: share of tonnes from methodologies ICVCM says do not meet the CCPs; ACM0002 and AMS-I.D will be inactivated as standalone VCS methodologies on 1 January 2027 (Verra; replaced by CCP-approved VMR0017); EU Directive 2024/825 bans offset-based product neutrality claims from 27 September 2026.
+- **Future:** forward-looking flags already in the data: share of tonnes from methodologies ICVCM says do not meet the CCPs; ACM0002 and AMS-I.D will be inactivated as standalone methodologies in the VCS Program on 1 January 2027, and new registrations must apply VMR0017 (verified on Verra's VMR0017 page; VMR0017 active since 23 April 2026, CCP-approved); EU Directive 2024/825 bans offset-based product neutrality claims from 27 September 2026.

@@ -1,0 +1,235 @@
+pid,pname,btype,otype,meth,cat_b,cat_o,hint,cat,qty
+VCS1477,Katingan Peatland Restoration and Conservation Project,Wetland Restoration,REDD+,VM0007 (Version 1.5),other,redd,redd,other,36644702
+VCS1899,Sumatra Merang Peatland Project (SMPP),Wetland Restoration,REDD+,VM0007 (Version NA),other,redd,redd,other,1615966
+GS1083,Biogas Program for the Animal Husbandry Sector of Vietnam,Biodigesters,,GS TPDDTEC v 1.,other,,cookstove,other,1456436
+GS1321,Ecofiltro Guatemala Improved Stoves and Water Purification Project,Bundled Energy Efficiency,,GS TPDDTEC v3.1,other,,cookstove,other,875620
+VCS788,China Guangdong Shenzhen Qianwan LNG generation project,Natural Gas Electricity Generation,Natural Gas,"ACM0002 (Version NA), AM0029 (Version NA)",other,other,grid_re,other,815255
+VCS1902,Salvador da Bahia Landfill Gas Management Project - CER Conversion,Landfill Methane,Landfill,ACM0002 (Version NA),other,other,grid_re,other,788014
+VCS12,Chuanwei Group 24 MW Waste Gas based Captive Power Plant,Waste Gas Recovery,Waste Gas Recovery,ACM0002 (Version NA),other,other,grid_re,other,747181
+VCS432,"Xiaoshan Power Plant‚Äôs NG Power Generation Project of Zhejiang Southeast Electric Power Co., Ltd.",Natural Gas Electricity Generation,Natural Gas,ACM0002 (Version NA),other,other,grid_re,other,694911
+GS504,*WWF Nepal Gold Standard Biogas Voluntary Emission Reduction (VER) Project,Biodigesters,,GS TPDDTEC v 2.,other,,cookstove,other,645223
+VCS2384,Recipe for Change Grouped Project,Cookstoves,Cookstoves,"AMS-II.C. (Version NA), AMS-II.G. (Version NA)",other,other,cookstove,other,629250
+VCS2749,DelAgua Clean Cooking Grouped Project,Bundled Energy Efficiency,Energy Efficiency,VMR0006 (Version 1.1),other,other,cookstove,other,499633
+VCS2400,DelAgua Public Health Program in Eastern Africa - CER Conversion,Bundled Energy Efficiency,Energy Efficiency,AMS-II.G. (Version NA),other,other,cookstove,other,496006
+GS966,Paradigm Healthy Cookstove and Water Treatment Project,Bundled Energy Efficiency,,GS Methodology for Improved Cook stoves and Kitchen Regimes v2.,other,,cookstove,other,289564
+VCS427,Chol Charoen Group Wastewater Treatment with Biogas System I (Khonkaen),Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.C. (Version NA), AMS-I.D. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,286128
+GS4265,WWF Biogas Nepal II,Biodigesters,,GS TPDDTEC v 1.,other,,cookstove,other,232786
+VCS417,P.S.C Starch Wastewater Treatment and Biogas Utilization Project,Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.D. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,221783
+VCS2465,Avoided Conversion Cerrado,Avoided Grassland Conversion,Avoided Grassland Conversion,VM0009 (Version NA),other,other,redd,other,214635
+VCS2260,Shandong Laiwu Landfill Gas Recovery and Power Generation Project,Landfill Methane,Landfill,"AMS-I.D. (Version NA), AMS-III.G. (Version NA)",other,other,grid_re,other,206659
+VCS428,Chol Charoen Group Wastewater Treatment with Biogas System I (Chacherngsao),Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.C. (Version NA), AMS-I.D. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,203695
+VCS2259,Royal Dairy Solid Separation Enhanced by Vermicomposting,Solid Waste Separation,Solid Waste Separation,"AMS-I.D. (Version NA), AMS-III.Y. (Version NA)",other,other,grid_re,other,201886
+VCS1759,Methane Recovery and Power Generation Project at ESIPL,Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.F. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,154622
+GS1078,Aqua Clara Water Filtration Program in Kenya,Clean Water,,GS TPDDTEC v 1.,other,,cookstove,other,146519
+GS10821,GS10818 - Dissemination of Improved Cookstoves in India by Greenway - Dissemination of Improved Cookstoves in Karnataka by Greenway - VPA001,Bundled Energy Efficiency,,AMS-II.G. Energy Efficiency Measures in Thermal Applications of Non-Renewable Biomass,other,,cookstove,other,138243
+VCS253,Fuzhou Hongmiaoling Landfill  Gas to Electricity Project,Landfill Methane,Landfill,"ACM0001 (Version NA), AMS-I.D. (Version NA)",other,other,grid_re,other,134734
+VCS430,Chol Charoen Group Wastewater Treatment with Biogas System I (Cholburi),Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.C. (Version NA), AMS-I.D. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,132255
+GS11722,Promotion of clean cooking solutions in rural India by Infosys ‚Äì VPA 2,Biodigesters,,GS TPDDTEC v3.1,other,,cookstove,other,123145
+VCS1510,Ciudad Juarez Landfill Gas to Energy Project. - CER Conversion,Landfill Methane,Landfill,"ACM0001 (Version NA), ACM0002 (Version NA)",other,other,grid_re,other,112187
+GS11394,India Dairy Biogas Program,Biodigesters,,GS TPDDTEC v 3.,other,,cookstove,other,98556
+VCS1883,Pichacay Landfill Gas Renewable Energy Project,Landfill Methane,Landfill,"AMS-I.D. (Version NA), AMS-III.G. (Version NA)",other,other,grid_re,other,89676
+GS2564,Expanding access to LPG in Haiti through microfinance services,Cookstoves,,GS TPDDTEC v 1.,other,,cookstove,other,88386
+GS2684,MicroEnergy Credits - Mongolia - Microfinance for Clean Energy Product Lines VER Project - VPA No. 002: XacBank LLC,Bundled Energy Efficiency,,GS TPDDTEC V4.0: REDUCED EMISSIONS FROM COOKING AND HEATING ‚Äì TECHNOLOGIES AND PRACTICES TO DISPLACE DECENTRALIZED THERMAL ENERGY CONSUMPTION,other,,cookstove,other,87349
+GS11568,Biodigesters program for a low-carbon livestock sector in Vietnam (BioLive),Biodigesters,,GS TPDDTEC v3.1,other,,cookstove,other,83333
+GS613,Integrated Biomass Energy Conservation Project - Malawi,Bundled Energy Efficiency,,GS TPDDTEC v 1.,other,,cookstove,other,82988
+GS10738,WADI - Innovation for Safe Water and Climate in Uganda,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,65684
+GS5344,GS1247 VPA 104 Improved Kitchen Regimes Multi-Country PoA - Kasungu Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,62278
+GS2751,African Biogas Carbon Programme (ABC) - Tanzania - CAMARTEC - VPA002,Biodigesters,,GS TPDDTEC v 2.,other,,cookstove,other,60709
+GS5343,GS1247 VPA 103 Improved Kitchen Regimes Multi-Country PoA - Kasungu Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,60006
+GS5439,GS1247 VPA 114 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,59459
+GS5341,GS1247 VPA 101 Improved Kitchen Regimes Multi-Country PoA - Kasungu Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,56786
+GS565,Bangna Starch Wastewater Treatment and Biogas Utilization Project (300084),Methane Recovery in Wastewater,,AMS-I.D. Grid connected renewable electricity generation,other,,grid_re,other,55741
+GS5440,GS1247 VPA 115 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,55690
+GS5340,GS1247 VPA 100 Improved Kitchen Regimes Multi-Country PoA - Kasungu Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,54967
+GS5438,GS1247 VPA 113 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,54595
+GS5342,GS1247 VPA 102 Improved Kitchen Regimes Multi-Country PoA - Kasungu Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,53877
+GS850,Dissemination of fuel efficient biomass stoves and water purification systems in Tanzania,Bundled Energy Efficiency,,GS TPDDTEC v 1.,other,,cookstove,other,52768
+VCS1941,Sustainable City Projects at India‚Äôs Cleanest City- Indore,Composting,Compost,"ACM0002 (Version NA), ACM0022 (Version NA)",other,other,grid_re,other,52595
+GS5437,GS1247 VPA 112 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,48391
+VCS2535,Skyridge Farms Advanced Solid Separation Project,Solid Waste Separation,Solid Waste Separation,"AMS-I.D. (Version NA), AMS-III.Y. (Version NA), VMR0003 (Version NA)",other,other,grid_re,other,45867
+GS7128,VPA 6 Kilifi Borehole Rehabilitation Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,43847
+GS4797,GS1247 VPA 54 Eritrean District Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,42924
+GS5339,GS1247 VPA 99 Improved Kitchen Regimes Multi-Country PoA - Kasungu Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,42907
+GS6598,Water for Climate Rwanda Project,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,42325
+GS5441,GS1247 VPA 116 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,41354
+GS7090,GS5658 VPA 8: The Community Safe Water (Madagascar),Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,40034
+GS5245,GS1247 VPA 85 Zoba Maekel Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,39506
+GS5230,GS5658 VPA 1: Borehole project ‚ÄúEase Water Madagascar‚Äù,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,38383
+GS5338,GS1247 VPA 98 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,37515
+GS5038,GS1247 VPA 65 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,37484
+GS5039,GS1247 VPA 66 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,36186
+GS5783,GS5047 VPA4 African Improved Cookstoves and Clean Water Programme: Virunga Mountain Gorilla Cookstove Project Musanze I,Cookstoves,,GS TPDDTEC v 3.,other,,cookstove,other,36171
+GS6235,GS1247 VPA 134 Zoba Maekel Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,36141
+GS2488,Yixin Gonghe 10MWp Solar PV Project,Solar - centralized,,AMS-I.D. Grid connected renewable electricity generation,other,,grid_re,other,35906
+GS5036,GS1247 VPA 64 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,35351
+GS10657,GS5658 VPA 16: Water is Life Madagascar  ,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,35223
+GS5042,GS1247 VPA 69 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,34387
+GS5040,GS1247 VPA 67 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,33800
+GS4553,GS1247 VPA 49 Improved Kitchen Regimes:Kaliro Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,33251
+GS4423,GS1247 VPA 46 Eritrean District Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,33092
+GS7401,GS5047 VPA32 African Improved Cookstoves and Clean Water Programme: Nyagatare Safe Water Project XII,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,32937
+GS10659,GS5658 VPA 18: Water is Life Madagascar  ,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,32905
+GS5825,GS1247 VPA 119 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,32746
+GS5041,GS1247 VPA 68 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,31937
+GS7332,GS1247 VPA 178 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,31645
+GS7400,GS5047 VPA31 African Improved Cookstoves and Clean Water Programme: Nyagatare Safe Water Project XI,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,31333
+GS4900,GS1247 VPA 59 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,31005
+GS7333,GS1247 VPA 179 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30854
+GS4899,GS1247 VPA 58 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30559
+GS5034,GS1247 VPA 62 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30489
+GS4897,GS1247 VPA 56 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30395
+GS4202,GS1247 VPA 41 Gatsibo District Boreholes (GS4202),Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30389
+GS4906,GS4424 VPA1 African Cookstoves and Water Programme,Cookstoves,,GS TPDDTEC v 1.,other,,cookstove,other,30379
+GS4203,GS1247 VPA 42  Gatsibo District Boreholes  (GS4203),Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30378
+GS5186,GS1247 VPA 72 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30336
+GS5826,GS1247 VPA 120 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30288
+GS5035,GS1247 VPA 63 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30272
+GS3433,GS1247 VPA 22 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30233
+GS5395,GS1247 VPA 109 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,30071
+VCS11,"Waste heat power generation project at Hunan Anshi Xingyuan Power Generation Co., Ltd.",Waste Heat Recovery,Waste Heat Recovery,"ACM0002 (Version NA), ACM0012 (Version NA)",other,other,grid_re,other,30000
+GS3306,GS1247 VPA 11 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,29929
+GS5043,GS1247 VPA 70 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,29828
+GS6786,GS1247 VPA 151 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,29812
+GS4898,GS1247 VPA 57 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,29643
+GS3431,GS1247 VPA 20 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,29505
+GS3430,GS1247 VPA 19 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,29472
+GS5187,GS1247 VPA 73 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,29269
+GS7398,GS5047 VPA29 African Improved Cookstoves and Clean Water Programme: Nyagatare Safe Water Project IX,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,29148
+GS6790,GS1247 VPA 155 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 2.,other,,cookstove,other,28894
+GS4519,GS1247 VPA 48 Eritrean District Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,28736
+GS6789,GS1247 VPA 154 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 2.,other,,cookstove,other,28396
+GS3432,GS1247 VPA 21 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,28119
+GS3564,GS1247 VPA 35 Improved Kitchen Regimes: Kaliro Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,27700
+GS10987,GivePower Kenya Solar Water Farms,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,27596
+GS7399,GS5047 VPA30 African Improved Cookstoves and Clean Water Programme: Nyagatare Safe Water Project X,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,27595
+GS5033,GS1247 VPA 61 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,27558
+GS7396,GS5047 VPA27 African Improved Cookstoves and Clean Water Programme: Nyagatare Safe Water Project VII,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,27427
+GS4518,GS1247 VPA 47 Eritrean District Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,27378
+GS4422,GS1247 VPA 45 Eritrean District Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,27352
+GS5827,GS1247 VPA 121 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,26872
+GS1146,Expanding access to LPG in Burkina Faso through microfranchised distribution,Cookstoves,,GS TPDDTEC v 2.,other,,cookstove,other,26869
+GS10658,GS5658 VPA 17: Water is Life Madagascar  ,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,26818
+GS4901,GS1247 VPA 60 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,26800
+GS7330,GS1247 VPA 176 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,26372
+GS6787,GS1247 VPA 152 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,26319
+GS7395,GS5047 VPA26 African Improved Cookstoves and Clean Water Programme: Nyagatare Safe Water Project VI,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,26151
+GS7335,GS1247 VPA 181 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,26066
+GS7336,GS1247 VPA 182 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,26046
+GS7134,GS1247 VPA 161 Improved Kitchen Regimes Manica Province Safe Water (Mozambique) ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,25894
+GS10784,GS5658 VPA 24: Water is Life Madagascar,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,25719
+GS5193,GS1247 VPA 79 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,25567
+GS7397,GS5047 VPA28 African Improved Cookstoves and Clean Water Programme: Nyagatare Safe Water Project VIII,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,25501
+GS11075,Solar water filtration units for rural areas in coastal Bangladesh,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,25460
+GS5192,GS1247 VPA 78 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,25091
+GS7331,GS1247 VPA 177 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,24721
+GS5392,GS1247 VPA 106 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,24630
+GS7133,GS1247 VPA 160 Improved Kitchen Regimes Manica Province Safe Water (Mozambique) ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,24540
+GS5396,GS1247 VPA 110 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,24537
+GS7334,GS1247 VPA 180 Zoba Debub Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,24503
+GS5393,GS1247 VPA 107 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,24479
+GS6749,GS5658 VPA 4: Resilience with Safe Drinking Water in Drought Prone Areas of Bale Zone in Oromia (Ethiopia),Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,23977
+GS6236,GS1247 VPA 135 Zoba Maekel Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,23614
+GS5394,GS1247 VPA 108 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,23583
+GS7436,GS5658 VPA 10: Resilience with Safe drinking water in Drought Prone Areas of Bale Zone in Oromia (Ethiopia) phase II,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,23429
+GS6788,GS1247 VPA 153 Improved Kitchen Regimes: Gatsibo District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,23307
+GS6838,GS1247 VPA 158 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 2.,other,,cookstove,other,22965
+GS5197,GS1247 VPA 83 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,22528
+GS4798,GS1247 VPA 55 Eritrean District Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,22492
+VCS2837,MicroEnergy Credits ‚Äì Microfinance for Clean Energy Product Lines ‚Äì Africa ‚Äì Solar Lamps & Efficient cook stoves ‚Äì 10341 ‚ÄìCPA - 0003,Bundled Energy Efficiency,Energy Efficiency,"AMS-II.G. (Version NA), AMS-III.AR. (Version NA)",other,other,cookstove,other,22390
+VCS426,"Wastewater Treatment with Biogas System in Palm Oil Mill at Sawi, Chumporn,Thailand",Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.D. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,22285
+GS5191,GS1247 VPA 77 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,21960
+GS6837,GS1247 VPA 157 Improved Kitchen Regimes: Kayonza District Borehole Project Rwanda,Community Boreholes,,GS TPDDTEC v 2.,other,,cookstove,other,21947
+GS5194,GS1247 VPA 80 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,21311
+GS5106,GS1247 VPA 71 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,21070
+GS4205,Believe Green Spring Health Tankol Safe Drinking Water,Clean Water,,GS TPDDTEC v 2.,other,,cookstove,other,21021
+GS6237,GS1247 VPA 136 Zoba Maekel Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,20657
+GS11481,GS11450 - MicroEnergy Credits ‚Äì Microfinance for Clean Energy Product Lines ‚Äì India - CPA 11 - GS11481,Bundled Energy Efficiency,,GS TPDDTEC v3.1,other,,cookstove,other,20633
+GS6349,GS1247 VPA 139 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,20487
+GS3563,GS1247 VPA 34 Improved Kitchen Regimes: Kaliro Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,20425
+VCS3046,BATMAN LANDFILL GAS (LFG) CAPTURE AND UTILIZATION PROJECT,Landfill Methane,Landfill,"AMS-I.D. (Version NA), AMS-III.G. (Version NA)",other,other,grid_re,other,20000
+GS5244,GS1247 VPA 84 Zoba Maekel Community Boreholes,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,19782
+GS7570,Spouts-4 by Believegreen LLC,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,19515
+GS7571,VPA - Spouts-5 by Believe Green LLC,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,19411
+GS10826,GS5047 VPA50 African Improved Cookstoves and Clean Water Programme: Ibanda ‚Äì Makera Forest Cook Stove Project I,Cookstoves,,GS TPDDTEC v3.1,other,,cookstove,other,19088
+GS6520,GS1247 VPA 144 Manicaland Safe Water,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,18984
+GS7496,Believe Green Safe Drinking Water ‚Äì Spring Health-2,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,18828
+GS10799,GS1247 VPA 259 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,18650
+GS7513,VPA 16 Kilifi Borehole Rehabilitation Project ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,18544
+GS6521,GS1247 VPA 145 Manicaland Safe Water,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,18435
+GS6518,GS1247 VPA 142 Manicaland Safe Water,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,18348
+GS10803,GS1247 VPA 263 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,18183
+GS5188,GS1247 VPA 74 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,17888
+GS7471,GS1247 VPA 199 Improved Kitchen Regimes Manica Province Safe Water (Mozambique),Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,17868
+GS10802,GS1247 VPA 262 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,17611
+GS10804,GS1247 VPA 264 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,17570
+GS6519,GS1247 VPA 143 Manicaland Safe Water,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,17443
+GS10801,GS1247 VPA 261 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,17301
+GS6522,GS1247 VPA 146 Manicaland Safe Water,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,17240
+GS6752,GS5658 VPA 7: Water is Life Madagascar,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,16978
+GS6350,GS1247 VPA 140 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,16868
+GS7132,GS1247 VPA 159 Improved Kitchen Regimes Manica Province Safe Water (Mozambique) ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,16857
+GS7311,GS5658 VPA 9: Water is Life - Phase II Madagascar,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,16843
+GS10827,GS5047 VPA51 African Improved Cookstoves and Clean Water Programme: Ibanda ‚Äì Makera Forest Cook Stove Project II,Cookstoves,,GS TPDDTEC v3.1,other,,cookstove,other,16300
+VCS2516,Lianyuan LFG Power Generation Project,Landfill Methane,Landfill,"AMS-I.D. (Version NA), AMS-III.G. (Version NA)",other,other,grid_re,other,16168
+GS7363,GS1247 VPA 184 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,15750
+GS10800,GS1247 VPA 260 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,15456
+GS5196,GS1247 VPA 82 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,15143
+GS10805,GS1247 VPA 265 Improved Kitchen Regimes Multi-Country PoA - Dowa Boreholes Malawi,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,15112
+GS6750,GS5658 VPA 5: Resilience with Safe drinking water in Somali Regional State (Ethiopia),Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,15099
+GS5189,GS1247 VPA 75 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,14866
+GS5796,GS 5796 Native Energy Clean Water Programme Central America: VPA (03) Haiti,Clean Water,,GS TPDDTEC v 1.,other,,cookstove,other,14483
+GS10828,GS5047 VPA52 African Improved Cookstoves and Clean Water Programme: Ibanda ‚Äì Makera Forest Cook Stove Project III,Cookstoves,,GS TPDDTEC v3.1,other,,cookstove,other,13960
+GS7364,GS1247 VPA 185 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,13845
+GS6523,GS1247 VPA 147 Manicaland Safe Water,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,13768
+GS7473,GS1247 VPA 201 Improved Kitchen Regimes Manica Province Safe Water (Mozambique),Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,13613
+GS6351,GS1247 VPA 141 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,13248
+GS7366,GS1247 VPA 187 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,13085
+VCS523,WHR CDM CPP,Waste Heat Recovery,Waste Heat Recovery,ACM0002 (Version NA),other,other,grid_re,other,12625
+GS2535,Tailai Tangchi Solar PV Power Generation Project,Solar - centralized,,AMS-I.D. Grid connected renewable electricity generation,other,,grid_re,other,12143
+GS7365,GS1247 VPA 186 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,12055
+GS6443,"GS5658 VPA 3: Borehole project ""Antonio Giaffreda"" Senegal",Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,11963
+GS7362,GS1247 VPA 183 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,11859
+GS1161,The first phase of Anhua Rural household Biodigester Project,Biodigesters,,GS TPDDTEC v 1.,other,,cookstove,other,11438
+GS10990,GS5047 VPA59 African Improved Cookstoves and Clean Water Programme: Ibanda ‚Äì Makera Forest Cook Stove Project IV,Bundled Energy Efficiency,,GS TPDDTEC v3.1,other,,cookstove,other,11101
+GS7129,GS1366 VPA 7 Kilifi Borehole Rehabilitation Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,11055
+GS5190,GS1247 VPA 76 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,11054
+GS7130,GS1366 VPA 8 Kilifi Borehole Rehabilitation Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,10623
+VCS425,Sahamitr Tapioca Chonburi Wastewater Treatment and Biogas Utilization Project,Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.C. (Version NA), AMS-I.D. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,10525
+VCS4014,Sinop Landfill Gas to Electricity Project,Landfill Methane,Landfill,"AMS-I.D. (Version NA), AMS-III.G. (Version NA)",other,other,grid_re,other,10406
+GS7131,GS1366 VPA 9 Kilifi Borehole Rehabilitation Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,10395
+GS3267,GS4503 - Sustainable Safe Water Program-Tulip Filters in Tanzania VPA 1,Clean Water,,GS TPDDTEC v 2.,other,,cookstove,other,10353
+VCS689,"Reforestation of degraded land in Chhattisgarh, India",Afforestation/Reforestation,Afforestation + Reforestation,AR-ACM0002 (Version NA),other,other,grid_re,other,10075
+GS7368,GS1366 VPA 11 Kilifi Borehole Rehabilitation Project ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,9616
+GS7367,GS1366 VPA 10 Kilifi Borehole Rehabilitation Project ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,9534
+VCS2836,MicroEnergy Credits ‚Äì Microfinance for Clean Energy Product Lines ‚Äì Africa ‚Äì Solar Lamps & Efficient cook stoves ‚Äì 10341 ‚ÄìCPA - 0002,Bundled Energy Efficiency,Energy Efficiency,"AMS-II.G. (Version NA), AMS-III.AR. (Version NA)",other,other,cookstove,other,9058
+GS1124,Native Hydraid Water Filtration in Kenya,Clean Water,,GS TPDDTEC v 1.,other,,cookstove,other,8838
+GS7540,GS5047 VPA44 African Improved Cookstoves and Clean Water Programme: Albertine Rift Wildlife Corridor Cook Stove Project I,Cookstoves,,GS TPDDTEC v3.1,other,,cookstove,other,8702
+GS7303,Bangna Starch Wastewater Treatment and Biogas Utilization Project (300084) (GS565 CER to VER conversion),Methane Recovery in Wastewater,,AMS-I.D. Grid connected renewable electricity generation,other,,grid_re,other,8000
+GS5195,GS1247 VPA 81 Lango Safe Water Project,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,7984
+GS7369,GS1366 VPA 12 Kilifi Borehole Rehabilitation Project ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,7699
+GS7370,GS1366 VPA 13 Kilifi Borehole Rehabilitation Project ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,7671
+GS7372,GS1366 VPA 15 Kilifi Borehole Rehabilitation Project ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,7616
+GS7371,GS1366 VPA 14 Kilifi Borehole Rehabilitation Project ,Community Boreholes,,GS TPDDTEC v 1.,other,,cookstove,other,7589
+GS1011,YGF Mangshi Household Biogas Tank Project,Biodigesters,,GS TPDDTEC v 1.,other,,cookstove,other,7510
+GS7541,GS5047 VPA45 African Improved Cookstoves and Clean Water Programme: Albertine Rift Wildlife Corridor Cook Stove Project II,Cookstoves,,GS TPDDTEC v3.1,other,,cookstove,other,7439
+VCS368,Sulige Natural Gas based Power Generation Project,Natural Gas Electricity Generation,Natural Gas,"ACM0002 (Version NA), AM0029 (Version NA)",other,other,grid_re,other,6050
+VCS2381,Durango ‚Äì EcoMethane Landfill Gas to Energy Project - CER Conversion,Natural Gas Electricity Generation,Natural Gas,AMS-I.D. (Version NA),other,other,grid_re,other,5684
+GS784,Guangzhou Zhujiang Beer Methane Recovery Project (300068)_pre-CDM VER,Methane Recovery in Wastewater,,AMS-I.D. Grid connected renewable electricity generation,other,,grid_re,other,3942
+VCS2708,BluSmart EV Project in India,Electric Vehicles & Charging,Electric Vehicle,"AMS-I.F. (Version NA), AMS-III.C. (Version NA)",other,other,grid_re,other,3070
+VCS2839,MicroEnergy Credits ‚Äì Microfinance for Clean Energy Product Lines ‚Äì Africa ‚Äì Solar Lamps & Efficient cook stoves ‚Äì 10341 ‚ÄìCPA - 0005,Bundled Energy Efficiency,Energy Efficiency,"AMS-II.G. (Version NA), AMS-III.AR. (Version NA)",other,other,cookstove,other,3000
+GS10718,Zaidi Bomba Maji Arusha,Clean Water,,GS TPDDTEC v3.1,other,,cookstove,other,2959
+GS3326,Native Hydraid BioSand Water Filter Program Central America: NE ‚Äì VPA ‚Äì 02 ‚Äì HON,Clean Water,,GS TPDDTEC v 1.,other,,cookstove,other,1887
+GS11047,GS1247 VPA 267 - Burkina Faso Safe Water,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,1702
+VCS4519,TABREED DISTRICT COOLING GROUP PROJECT,Energy Efficiency,Energy Efficiency,ACM0002 (Version NA),other,other,grid_re,other,1666
+VCS446,The SPM Group Biogas Project,Manure Methane Digester,Manure Biodigester,"AMS-I.D. (Version NA), AMS-III.D. (Version NA)",other,other,grid_re,other,1598
+VCS2582,Zhijiang Shibaoshan LFG Power Generation Project,Landfill Methane,Landfill,"AMS-I.D. (Version NA), AMS-III.G. (Version NA)",other,other,grid_re,other,846
+GS1332,GS1290: Native Clean Water Programme Central America: VPA (01) Honduras,Clean Water,,GS TPDDTEC v 1.,other,,cookstove,other,796
+VCS2593,Botou Hengjie MSW landfill site LFG comprehensive utilization project,Landfill Methane,Landfill,"AMS-I.D. (Version NA), AMS-III.G. (Version NA)",other,other,grid_re,other,784
+GS11048,GS1247 VPA 268 - Burkina Faso Safe Water,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,566
+GS2534,Shuangliao Solar PV Power Generation Project,Solar - centralized,,AMS-I.D. Grid connected renewable electricity generation,other,,grid_re,other,352
+GS11046,GS1247 VPA 266 - Burkina Faso Safe Water,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,200
+VCS407,Chakangrao Starch wastewater treatment and biogas utilization project,Methane Recovery in Wastewater,Wastewater Methane,"AMS-I.D. (Version NA), AMS-III.H. (Version NA)",other,other,grid_re,other,115
+VCS2838,MicroEnergy Credits ‚Äì Microfinance for Clean Energy Product Lines ‚Äì Africa ‚Äì Solar Lamps & Efficient cook stoves ‚Äì 10341 ‚ÄìCPA - 0004,Bundled Energy Efficiency,Energy Efficiency,"AMS-II.G. (Version NA), AMS-III.AR. (Version NA)",other,other,cookstove,other,43
+VCS38,Energy Efficiency Project in the Ramla Cement Plant in Israel,Energy Efficiency,Energy Efficiency,"ACM0002 (Version NA), AMS-I.D. (Version NA), AMS-II.D. (Version NA)",other,other,grid_re,other,39
+GS11049,GS1247 VPA 269 - Burkina Faso Safe Water,Community Boreholes,,GS TPDDTEC v3.1,other,,cookstove,other,26
+GS777,Bangna Starch Wastewater Treatment and Biogas Utilization Project (300084)_pre-CDM VER,Methane Recovery in Wastewater,,AMS-I.D. Grid connected renewable electricity generation,other,,grid_re,other,21
