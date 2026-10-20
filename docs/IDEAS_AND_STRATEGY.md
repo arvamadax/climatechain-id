@@ -46,7 +46,7 @@ Alasan A teratas: menempel pada masalah yang diakui di jurnal level tinggi (buff
 **Strengths**
 - Masalah terbukti dan bernilai uang: buffer pool undercapitalized (Nature 2026; Front. For. Glob. Change 2022).
 - Forecast tidak harus sempurna: yang dijual adalah cara mengubah risiko menjadi aturan buffer yang transparan.
-- Starter kit sudah punya kontrak CarbonCreditToken, RetirementVault, NullifierRegistry, MRVOracle, RetirementCertificate, dan ForecastRegistry (tes di dalam paket dilaporkan lulus; sedang diverifikasi).
+- Starter kit sudah punya kontrak CarbonCreditToken, RetirementVault, NullifierRegistry, MRVOracle, RetirementCertificate, dan ForecastRegistry (12 tes Hardhat saya jalankan sendiri: 12 passing).
 - Cerita demo kuat dan lokal.
 
 **Weaknesses**
@@ -98,4 +98,4 @@ Tagline pitch: "Karhutla bukan hanya asap. Bagi pembeli kredit karbon, itu risik
 - Tidak ada klaim spesifik tentang registry karbon Indonesia karena belum diperiksa.
 - Galeri proyek Devpost tidak bisa diakses (Cloudflare), jadi pesaing tidak terlihat.
 - NASA FIRMS membutuhkan MAP_KEY gratis (belum ada).
-- Tes kontrak starter kit sedang dijalankan; hasil dilaporkan terpisah.
+- Tes kontrak starter kit: 12 passing (dijalankan lokal 20 Okt); belum diaudit.
