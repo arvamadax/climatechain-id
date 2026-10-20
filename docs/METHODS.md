@@ -69,3 +69,19 @@ Registry beneficiary names are shown as published, with two repairs (`clean_owne
 - **Attribution (`data/ownership.py`):** parent emissions = sum of asset emissions x known share. A parent holding one asset through several paths has its shares summed (capped at 100%). Where a share is unknown, the low value excludes the asset and the high value includes all of it: a range, never a guess. 12,120 parents; 10,371 are not controlled (>50%) by another real entity (pseudo-holders such as "small shareholder(s)" are ignored).
 - **Matching buyers to parents:** only through the reviewed table `data/aliases.csv` (12 buyer names to 8 parents so far). Each row states how the buyer relates to the parent and whether Climate TRACE's ownership sectors cover the group's main emissions (`core`) or not (`partial`, e.g. Volkswagen vehicle production, Delta flights). Partial matches carry a visible warning.
 - **Not comparable to self-reported scope 1.** Climate TRACE equity-share estimates differ from company reports by a factor of two or more in both directions. Spot checks (company figures from secondary sources, still to be confirmed against primary reports): Shell 123-151 Mt (CT 2025) vs about 50 Mt reported scope 1 (2024, Reuters); Holcim 35-45 Mt vs about 71 Mt (2024, Tracenable/DitchCarbon); ENGIE 32-39 Mt vs about 22 Mt (2024, Tracenable, ENGIE SASB disclosure). Netra therefore shows the independent figure with its basis and never computes a single "coverage" ratio from it.
+
+## Company-reported emissions
+
+`data/reported_emissions.csv` holds figures read by hand from each company's own primary document (annual report, sustainability statement, assurance statement or ESG data page), with the boundary, URL, section and date checked. Rows are shown next to, never merged with, the Climate TRACE estimate.
+
+| Group | Year | Scope 1 | Boundary | Source |
+|---|---|---|---|---|
+| Shell plc | 2025 | 46 Mt | gross, operational control | Shell Annual Report 2025 |
+| Eni SpA | 2025 | 28.4 Mt | ESRS consolidated (18.6 Mt 100% operated) | Eni Sustainability Statement 2025 |
+| Chevron Corp | 2025 | 52 Mt | equity share (55 Mt operational control) | DNV assurance statement DNV-2026-ASR-863200-1 |
+| Volkswagen AG | 2025 | 2.7 Mt | group + operational control | VW Group Annual Report 2025 |
+| Delta Air Lines | 2025 | 39.30 Mt | total Scope 1 | 2025 Delta Difference Report |
+| easyJet plc | FY2025 | 8.70 Mt | Scope 1 | easyJet Environmental Disclosures factsheet FY2025 |
+| Netflix, Inc. | 2025 | 38,379 t (all scopes 1.09 Mt) | target-based | Netflix ESG Report 2025 |
+
+Also confirmed but not yet linked to a buyer name: Holcim 2025 Scope 1 52.5 Mt (sum of calcination 32.6, fuel 15.7, other operations 4.2; Holcim Sustainability Statement 2025), ENGIE 2024 Scope 1 21,947,533 t (ENGIE SASB disclosure). Not yet found in a primary source: PetroChina, CPC Corporation Taiwan.

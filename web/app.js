@@ -138,10 +138,23 @@ function sparkline(ys) {
     <text x="${pad}" y="${H - 2}">${x0}</text><text x="${W - pad}" y="${H - 2}" text-anchor="end">${x1}</text></svg>`;
 }
 
+function reportedBox(o) {
+  const r = o.rep;
+  if (!r) return "";
+  const comp = o.ct && o.ct.coverage === "core"
+    ? `<p class="muted small">Climate TRACE's ownership-weighted estimate for the same group: ${o.ct.low === o.ct.high ? mt(o.ct.low) : `${mt(o.ct.low)} – ${mt(o.ct.high)}`}. The two use different boundaries, so neither replaces the other.</p>` : "";
+  return `<div class="box"><h3>Company-reported emissions</h3>
+    <p><b class="num">${mt(r.scope1)}</b> Scope 1 in ${r.year}${r.total ? ` · <b class="num">${mt(r.total)}</b> all scopes` : ""}</p>
+    <p class="muted small">${esc(r.group)}, ${esc(r.boundary)}. Source: <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.source)}</a>, ${esc(r.section)}.</p>
+    <p class="muted small">Credits retired since ${o.y[0]}: ${mt(o.t)}; of those, research suggests about ${mt(o.e)} were real reductions.</p>
+    ${comp}</div>`;
+}
+
 function emissionsBox(o) {
   if (!o.ct) {
-    return `<div class="box"><h3>Independent emissions</h3><p class="muted small">This buyer is not matched to a parent company in Climate TRACE's ownership data, so Netra shows no emissions figure for it.</p></div>`;
+    return reportedBox(o) || `<div class="box"><h3>Emissions</h3><p class="muted small">No independent (Climate TRACE) match and no company-reported figure is linked to this buyer yet.</p></div>`;
   }
+  if (o.rep && o.ct.coverage === "partial") return reportedBox(o);
   const c = o.ct;
   const range = c.low === c.high ? mt(c.low) : `${mt(c.low)} – ${mt(c.high)}`;
   const note = c.coverage === "partial"
@@ -150,7 +163,7 @@ function emissionsBox(o) {
   return `<div class="box"><h3>Independent emissions</h3>
     <p><b class="num">${range}</b> CO₂e in ${c.year}</p>
     <p class="muted small">Ownership-weighted emissions of ${fmt(c.assets)} assets linked to <b>${esc(c.parent)}</b> (${esc(c.match)}) in Climate TRACE v5.7.0. The range is wide where ownership shares are unknown. This is an equity-share estimate from satellite and model data, not the company's own reported scope 1, so the two can differ by a factor of two or more.</p>
-    ${note}</div>`;
+    ${note}</div>${reportedBox(o)}`;
 }
 
 async function render(i) {

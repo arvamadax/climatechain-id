@@ -233,6 +233,15 @@ def main(xlsx, db, odb):
                            # core: the group's main emitting activities are in Climate TRACE's ownership sectors
                            # partial: main emissions (e.g. vehicle manufacturing, flights) are outside that coverage
                            "coverage": r.coverage}
+    # Self-reported emissions from primary company documents (data/reported_emissions.csv, one row per buyer name).
+    rep = pd.read_csv(Path(__file__).resolve().parent / "reported_emissions.csv")
+    rep_by = {r.buyer_name: r for r in rep.itertuples()}
+    for o in owners:
+        r = rep_by.get(o["n"])
+        if r is not None:
+            o["rep"] = {"group": r.group, "year": int(r.year), "scope1": int(r.scope1_t),
+                        "total": None if pd.isna(r.total_t) else int(r.total_t), "boundary": r.boundary,
+                        "source": r.source_title, "url": r.source_url, "section": r.section, "checked": r.checked}
     OUT.mkdir(parents=True, exist_ok=True)
     meta = {"source": "Berkeley Voluntary Registry Offsets Database v2026-08 (CC BY 4.0), Verra + Gold Standard retirements",
             "since": SINCE, "rows": int(len(a)), "tonnes": int(a["qty"].sum()),
