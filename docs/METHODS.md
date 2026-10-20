@@ -24,14 +24,18 @@ OAR = share of issued credits that research estimates to be real reductions. Sou
 
 ## Classification rules
 
-Each retirement row is assigned a category from its methodology code, project type, project name and country (`data/build.py`, function `category`):
-- REDD+: VM0004, VM0006, VM0007, VM0009, VM0015, VM0037, VM0048.
-- Cookstoves: cookstove methodologies (VMR0006, AMS-II.G, AMS-I.E, VM0050, GS TPDDTEC, GS improved cookstoves, GS metered) or Gold Standard "Energy Efficiency - Domestic", **and** the project name mentions cooking or stoves, **and** it does not mention biogas, biodigesters, water, filters, purification or lighting.
-- HFC-23: AM0001. SF6: AM0035, AM0065, AM0078.
-- IFM: VM0003, VM0005, VM0010, VM0012 or "improved forest" in the name; US projects only get the US OAR.
-- Grid renewables: ACM0002, AMS-I.A, AMS-I.D, AMS-I.F or wind/solar/hydro/PV/geothermal in type or name; Chinese wind gets the China wind OAR.
+Each retirement row is joined by project ID (Verra `VCS<id>`, Gold Standard `GS<GSID>`) to the **curated project Type in Berkeley VROD's PROJECTS sheet** (11,856 projects). Join rate: 100% of rows and tonnes. Type is mapped to an OAR category (`data/build.py`, function `category`):
+- `REDD+` -> REDD+. `Cookstoves` -> cookstoves. `HFC23 Destruction` -> HFC-23.
+- `Improved Forest Management` -> IFM (US) only for US projects; elsewhere no OAR.
+- `Wind` in China -> China wind (0%).
+- `Wind` elsewhere, `Hydropower`, `Solar - Centralized`, `Solar - Distributed`, `Geothermal`, `RE Bundled`, `Biomass` -> renewables (no OAR).
+- Everything else (e.g. Clean Water, Biodigesters, Afforestation/Reforestation, Wetland Restoration, Landfill Methane, SF6 Replacement) -> no OAR.
 
-Checks done on 2026-10-20: the 12 largest projects in each category were reviewed by hand. Fixes made after review: biogas (Vietnam), LifeStraw water filters and mixed stove-plus-water projects moved out of "cookstoves". Mixed projects are treated as "other" (no OAR) to stay conservative. Automated checks live in the `__main__` block of `data/build.py`.
+Why not keyword rules: an earlier keyword version misfiled biogas and water-filter projects as cookstoves. Berkeley's Type is maintained by the VROD team and is the classification used by Trencher et al. 2024 (*Nature Communications*, doi:10.1038/s41467-024-51151-w).
+
+Notes:
+- Probst's SF6 figure covers SF6 waste-gas destruction (JI, Russia). VROD's `SF6 Replacement` (e.g. magnesium cover gas) is a different activity and gets no OAR.
+- Some peatland projects registered under REDD+ methodologies (e.g. Katingan, VM0007) are typed by Berkeley as `Wetland Restoration` and therefore get no OAR. This is conservative.
 
 ## ICVCM status
 
@@ -41,12 +45,18 @@ Share of retired tonnes since 2020: approved 4.5%, not approved 35.9%, not asses
 
 ## Headline numbers (VROD v2026-08, Verra + Gold, since 2020)
 
-- Tonnes with a published OAR: 42.1%.
-- Of those, likely real: 20.0% central (range 2.2-71.9%, driven mainly by REDD+ uncertainty).
+- Tonnes with a published OAR: 38.4%.
+- Of those, likely real: 19.3% central (range 2.5-68.0%, driven mainly by REDD+ uncertainty).
 - Largest single owner entry: "Not Disclosed", 89.4 million t.
 
 ## Known limits
 
 - OAR values are averages per project type; individual projects vary widely.
-- Categories without a published OAR (35% grid renewables, 23% other) cannot be scored and are reported separately.
+- Categories without a published OAR (34.8% renewables, 26.8% other) cannot be scored and are reported separately.
 - Owner names in registries do not always match the company making a claim (brokers, subsidiaries, brands).
+
+## Past, present, future
+
+- **Past to present:** per-owner and market-wide yearly series (2020-2026). Market-wide, the likely-real share of OAR-covered tonnes stayed flat at 18-22% every year (2020: 18.7%, 2021: 22.4%, 2022: 18.0%, 2023: 20.2%, 2024: 18.0%, 2025: 17.9%, 2026 to Aug: 18.0%). Quality of what is retired has not improved.
+- **Present:** each owner's current mix, grade, ICVCM status share, and owner disclosure.
+- **Future:** forward-looking flags already in the data: share of tonnes from methodologies ICVCM says do not meet the CCPs; ACM0002 and AMS-I.D will be inactivated as standalone VCS methodologies on 1 January 2027 (Verra; replaced by CCP-approved VMR0017); EU Directive 2024/825 bans offset-based product neutrality claims from 27 September 2026.

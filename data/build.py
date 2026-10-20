@@ -1,6 +1,6 @@
 """Build Netra's static dataset from the Berkeley Voluntary Registry Offsets Database (VROD).
 
-Usage: python data/build.py <path to Berkeley_VROD_registry_files_*.xlsx>
+Usage: python data/build.py <Berkeley_VROD_registry_files_*.xlsx> <Berkeley_Voluntary_Registry_Offsets_Database_*.xlsx>
 Writes web/data/owners.json and web/data/factors.json.
 """
 import json
@@ -69,30 +69,25 @@ def icvcm(meth):
         return "not_approved"
     return "not_assessed"
 
-REDD = ("VM0007", "VM0009", "VM0015", "VM0006", "VM0004", "VM0037", "VM0048")
-COOK = ("VMR0006", "AMS-II.G", "AMS-I.E", "VM0050", "GS TPDDTEC", "GS METHODOLOGY FOR IMPROVED COOK", "METERED")
-IFM = ("VM0010", "VM0012", "VM0003", "VM0005")
-GRID_RE = ("ACM0002", "AMS-I.D", "AMS-I.F", "AMS-I.A")
+RENEWABLE = {"Wind", "Hydropower", "Solar - Centralized", "Solar - Distributed", "Geothermal", "RE Bundled", "Biomass"}
 
 
-def category(meth, ptype, country, name):
-    m = str(meth).upper()
-    t = f"{ptype} {name}".upper()
-    if m.startswith(REDD):
+def category(btype, country):
+    """Map Berkeley VROD's curated project Type to a Probst OAR category."""
+    us = str(country).strip().upper() in ("UNITED STATES", "USA", "US", "UNITED STATES OF AMERICA")
+    if btype == "REDD+":
         return "redd"
-    stove = any(k in t for k in ("COOK", "STOVE", "CHULHA", "FOGON", "KITCHEN"))
-    not_stove = any(k in t for k in ("BIOGAS", "BIODIGEST", "WATER", "LIFESTRAW", "FILTER", "PURIF", "LIGHTING", "LAMP"))
-    if (any(k in m for k in COOK) or "ENERGY EFFICIENCY - DOMESTIC" in t) and stove and not not_stove:
+    if btype == "Cookstoves":
         return "cookstove"
-    if m.startswith("AM0001"):
+    if btype == "HFC23 Destruction":
         return "hfc23"
-    if m.startswith(("AM0035", "AM0065", "AM0078")):
-        return "sf6"
-    if m.startswith(IFM) or "IMPROVED FOREST" in t:
-        return "ifm_us" if str(country).upper() in ("UNITED STATES", "USA", "US") else "other"
-    if m.startswith(GRID_RE) or any(k in t for k in ("WIND", "SOLAR", "HYDRO", "PV", "GEOTHERMAL")):
-        china = "CHINA" in str(country).upper()
-        return "wind_china" if china and "WIND" in t else "grid_re"
+    if btype == "Improved Forest Management":
+        return "ifm_us" if us else "other"
+    if btype == "Wind" and "CHINA" in str(country).upper():
+        return "wind_china"
+    if btype in RENEWABLE:
+        return "grid_re"
+    # Probst's SF6 figure covers SF6 waste-gas destruction; VROD's "SF6 Replacement" is a different activity.
     return "other"
 
 
@@ -103,25 +98,29 @@ def norm(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
-def load(xlsx):
+def load(xlsx, db):
     v = pd.read_excel(xlsx, sheet_name="Verra VCS Retirements")
     g = pd.read_excel(xlsx, sheet_name="Gold Retirements")
+    p = pd.read_excel(db, sheet_name="PROJECTS", header=3, usecols=["Project ID", "Type"]).dropna(subset=["Project ID"])
+    btype = dict(zip(p["Project ID"].astype(str), p["Type"]))
+    pid = lambda prefix, s: prefix + s.astype(str).str.replace(r"\.0$", "", regex=True)
     vv = pd.DataFrame({"reg": "Verra", "date": v["Retirement Date"], "qty": v["Retirement QTY"],
-                       "owner": v["Beneficial Owner"], "meth": v["Methodology"], "ptype": v["Sectoral Scope"],
-                       "country": v["Country"], "name": v["Project Name"], "vintage": v["Vintage"]})
+                       "owner": v["Beneficial Owner"], "meth": v["Methodology"], "pid": pid("VCS", v["Project ID"]),
+                       "country": v["Country"], "vintage": v["Vintage"]})
     gg = pd.DataFrame({"reg": "Gold", "date": g["Retirement Date"], "qty": g["Quantity"],
-                       "owner": g["Using Entity"], "meth": g["Methodology"], "ptype": g["Project Type"],
-                       "country": g["Country"], "name": g["Project Name"], "vintage": g["Vintage"]})
+                       "owner": g["Using Entity"], "meth": g["Methodology"], "pid": pid("GS", g["GSID"]),
+                       "country": g["Country"], "vintage": g["Vintage"]})
     a = pd.concat([vv, gg], ignore_index=True)
+    a["btype"] = a["pid"].map(btype).fillna("Unknown")
     a["date"] = pd.to_datetime(a["date"], errors="coerce")
     a["qty"] = pd.to_numeric(a["qty"], errors="coerce").fillna(0)
     a["vintage"] = pd.to_numeric(a["vintage"], errors="coerce")
     return a[a["date"] >= SINCE]
 
 
-def main(xlsx):
-    a = load(xlsx)
-    a["cat"] = [category(*r) for r in zip(a["meth"], a["ptype"], a["country"], a["name"])]
+def main(xlsx, db):
+    a = load(xlsx, db)
+    a["cat"] = [category(*r) for r in zip(a["btype"], a["country"])]
     blank = a["owner"].isna() | a["owner"].astype(str).str.strip().str.lower().isin(["", "not applicable", "nan"])
     a["key"] = a["owner"].map(norm)
     a.loc[blank, "key"] = "(no owner listed)"
@@ -145,7 +144,11 @@ def main(xlsx):
             "ccp": {s: int(x) for s, x in d.groupby("ccp")["qty"].sum().items() if x > 0},
             "o": int(d.loc[d["old"], "qty"].sum()),
             "c": {c: int(x) for c, x in d.groupby("cat")["qty"].sum().items() if x > 0},
+            "bt": {b: int(x) for b, x in d.groupby("btype")["qty"].sum().nlargest(6).items() if x > 0},
             "y": [int(d["date"].dt.year.min()), int(d["date"].dt.year.max())],
+            # per-year [tonnes, central effective, tonnes with OAR] for past-to-present trend
+            "ys": {int(yr): [int(x["qty"].sum()), int(x["eff"].sum()), int(x.loc[x["known"], "qty"].sum())]
+                   for yr, x in d.groupby(d["date"].dt.year)},
         })
     owners.sort(key=lambda o: -o["t"])
     OUT.mkdir(parents=True, exist_ok=True)
@@ -155,19 +158,22 @@ def main(xlsx):
     (OUT / "owners.json").write_text(json.dumps({"meta": meta, "owners": owners}, separators=(",", ":")), encoding="utf-8")
     (OUT / "factors.json").write_text(json.dumps({"factors": FACTORS, "icvcm_source": ICVCM["source"],
                                                   "icvcm_page_modified": ICVCM["page_modified"]}, indent=1), encoding="utf-8")
-    print(meta, "owners:", len(owners))
+    print(meta, "owners:", len(owners), "unknown type rows:", int((a["btype"] == "Unknown").sum()))
 
 
 if __name__ == "__main__":
-    assert category("VM0007 (Version 1.6)", "", "Peru", "x") == "redd"
-    assert category("ACM0002", "Wind", "China", "Wind farm") == "wind_china"
-    assert category("ACM0002", "", "India", "Solar park") == "grid_re"
-    assert category("GS TPDDTEC v 1.", "Energy Efficiency - Domestic", "Kenya", "Burn Stoves Project") == "cookstove"
-    assert category("GS TPDDTEC v 1.", "", "Vietnam", "Biogas Program for the Animal Husbandry Sector") == "other"
-    assert category("GS Methodology for Improved Cook stoves", "", "Kenya", "Sustainable Deployment of the LifeStraw Family") == "other"
+    assert category("REDD+", "Peru") == "redd"
+    assert category("Wind", "China") == "wind_china"
+    assert category("Wind", "India") == "grid_re"
+    assert category("Cookstoves", "Kenya") == "cookstove"
+    assert category("Biodigesters", "Vietnam") == "other"
+    assert category("Clean Water", "Kenya") == "other"
+    assert category("Improved Forest Management", "United States") == "ifm_us"
+    assert category("Improved Forest Management", "Malaysia") == "other"
+    assert category("SF6 Replacement", "Israel") == "other"
     assert icvcm("ACM0002 (Version 19)") == "not_approved"
     assert icvcm("GS TPDDTEC v3.1") == "approved"
     assert icvcm("GS TPDDTEC v 1.") == "not_assessed"
     assert icvcm("VM0007 (Version 1.6)") == "not_assessed"
     assert icvcm("VM0048 (Version 1.0)") == "approved"
-    main(sys.argv[1])
+    main(sys.argv[1], sys.argv[2])
