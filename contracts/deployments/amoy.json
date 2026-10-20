@@ -1,0 +1,8 @@
+{
+  "network": "amoy",
+  "chainId": 80002,
+  "claimRegistry": "0x052d89245Bf1EB867CE371817eDf74FBBc4f0be0",
+  "deployer": "0x7d981e2E4D46c4bF302476893A7Ef41f120CD6e5",
+  "tx": "0x4ed7bdd1711677df248c95babddc9b9dd01d944677d9bcd1635c25b616c63d3c",
+  "deployedAt": "2026-10-20T08:37:14.087Z"
+}
