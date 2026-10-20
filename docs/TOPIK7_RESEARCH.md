@@ -134,3 +134,19 @@ Track 1, langsung ke kalimat track: "lack of transparency, double counting, comp
 - Gratis: halaman lookup klaim publik untuk jurnalis, NGO, konsumen.
 - Pendapatan: API per kueri, laporan due diligence, white-label verify page.
 - Nama: ClaimCheck (kerja). Alternatif: Proofset, Retired Right. Tagline: "Every claim, checkable."
+
+## 9. Pemetaan ke Track 1 dan pengguna awam
+
+Track 1: Challenge "Improve trust, transparency, and efficiency"; Problem "lack of transparency, double counting, complex verification".
+
+| Build (Devpost) | ClaimCheck |
+|---|---|
+| Blockchain-based carbon credit verification | Quality gate + sertifikat soulbound berisi skor dan hash bukti |
+| Smart contracts to prevent double counting | Nullifier lintas registry (hash registry+serial), retire kedua ditolak |
+| Transparent carbon trading platforms | Lookup publik semua retirement (VROD) + feed retirement on-chain |
+| Real-time emissions tracking | Paling lemah. Hanya feed event retirement real-time; tidak melacak emisi. Akui di pitch; Build adalah contoh, bukan syarat semua. |
+
+Tiga lapis pengguna, satu data:
+1. **Siapa saja (termasuk anak/orang awam):** satu kotak pencarian atau scan QR klaim "carbon neutral". Jawaban: label huruf A-E bergaya label gizi + satu kalimat bahasa sehari-hari ("Dari 100 ton yang diklaim, kira-kira 40 ton yang benar-benar berdampak") + ikon. Tanpa wallet, tanpa istilah teknis. Bahasa Indonesia dan Inggris.
+2. **Pembeli/auditor:** rincian faktor skor, risk-adjusted tonnes, wizard retire, laporan.
+3. **Ilmuwan:** dataset terbuka hasil olahan VROD, metode dan DOI per faktor, notebook yang bisa diulang, API. Bisa dikutip.
