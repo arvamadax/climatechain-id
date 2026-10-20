@@ -187,3 +187,18 @@ Batasan yang wajib ditulis di halaman:
 - Label A-E dari OAR harapan: A >= 60%, B 40-60%, C 20-40%, D 10-20%, E < 10%. Ambang ini pilihan desain kami dan ditulis terbuka.
 - Contoh nyata menggantikan contoh karangan sebelumnya: 100 t REDD+ ~ 25 t efektif; 100 t cookstove ~ 11 t; 100 t HFC-23 ~ 68 t; 100 t wind China ~ 0 t (tidak signifikan).
 - Teks wajib di halaman: "Label ini adalah perkiraan risiko berbasis riset rata-rata per jenis proyek, bukan penilaian atas proyek atau perusahaan tertentu."
+
+## 13. Hasil riset batasan (20 Okt 2026)
+
+**Cookstove (Gill-Wiehl, Kammen et al. 2024, Nature Sustainability, 10.1038/s41893-023-01259-6).** Versi terbit (abstrak Scopus): sampel over-credited **9,2 kali** (artinya sekitar 11% efektif, konsisten dengan OAR 10,8% di Probst). Metodologi Gold Standard Metered (memantau bahan bakar langsung) paling selaras. Preprint (Research Square, CC BY) yang dibaca full text: 36 proyek, 22 negara, 37% kredit cookstove di VCM; adopsi yang dilaporkan proyek 90% dan pemakaian 99% vs literatur 53% dan 48%; fNRB proyek rata-rata 2,8 kali nilai literatur. Preprint menyebut 6,3 kali dan Metered 1,3 kali; angka akhir yang dipakai adalah versi terbit (9,2 kali).
+- Implikasi skor: pembeda tingkat metodologi. Cookstove dengan metodologi metered diberi penyesuaian lebih baik daripada metodologi survei (AMS-II-G, TPDDTEC).
+
+**REDD+ (West et al. 2023, Science, 10.1126/science.ade3535).** Naskah diterima (repositori Cambridge, CC BY), full text: 27 proyek di 6 negara, synthetic control. Dari hingga 89 juta offset yang bisa diterbitkan 18 proyek sampai 2020, 60,2 juta (68%) berasal dari proyek yang tidak mengurangi deforestasi secara signifikan; 28,8 juta (32%) dari proyek dengan sebagian pengurangan, tetapi jauh di bawah klaim. Di Peru, pengurangan nyata sekitar sepertiga dari klaim.
+- Implikasi skor: REDD+ tetap D (OAR 24,7%) dengan rentang lebar; per negara bisa beda.
+
+**Data emisi bulanan.** API Climate TRACE mengabaikan parameter bulanan (diuji: interval, timeGranularity, granularity, monthly); hanya tahunan. Halaman data Climate TRACE menyebut bulk download berisi emisi bulanan per sumber 2015-2023 dan proyeksi 2024 (belum diunduh). API berstatus beta. Keputusan: "real-time" di produk = event retirement on-chain yang langsung memperbarui angka cakupan; emisi diperbarui tahunan dan disebut terang-terangan.
+
+**Pencocokan nama.** Uji 30 beneficiary Verra terbesar sejak 2020 ke `GET /v7/owners`: hanya 4 dari 30 cocok otomatis (Shell, Delta Air Lines, CPC Taiwan, satu kecocokan DL yang meragukan). Gagal karena perusahaan jasa/brand (Netflix, Gucci, Takeda), variasi nama (Eni Upstream, Volkswagen Marke Pkw, Chevron), atau perantara (4AIR Client, Ecologi). Satu beneficiary adalah alamat wallet Ethereum (0xAf52...): bukti retirement yang terhubung ke ekosistem token on-chain, relevan untuk risiko double counting lintas rantai.
+- Keputusan: pemetaan nama manual untuk demo dengan tingkat keyakinan; "beneficiary" perantara ditandai sebagai klaim yang tidak bisa dikaitkan.
+
+**Cakupan perusahaan jasa / scope 3.** Tidak ditemukan API emisi perusahaan yang benar-benar gratis dan terbuka; opsi yang ada komersial (DitchCarbon, Oxari, Tracenable) atau bersumber CDP (Exerica via Open Net Zero, perlu dicek masih aktif). Keputusan: tiga sumber emisi berurutan, masing-masing diberi label: (1) Climate TRACE (independen, aset fisik), (2) angka yang dilaporkan perusahaan di laporan keberlanjutan, dimasukkan dengan tautan sumber dan di-hash on-chain, (3) bila tidak ada keduanya, cakupan klaim tidak dihitung dan halaman menyatakannya.
