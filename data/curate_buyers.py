@@ -74,7 +74,7 @@ M = {
     "AGL | Perth Energy": ("AGL Energy", C, AGL, "core", "Perth Energy retail brand"),
     "Anonymous": ("Anonymous", A, "", "", ""),
     "DPDgroup": ("Geopost (DPD group, La Poste)", C, "", "", ""),
-    "Hörmann KG Verkaufsgesellschaft": ("Hörmann Group", C, "", "", ""),
+    "Hörmann KG Verkaufsgesellschaft": ("Hörmann KG (door manufacturer)", C, "", "", "not HÖRMANN Industries, a different company"),
     "Volkswagen Nutzfahrzeuge": ("Volkswagen AG", C, VW, "partial", "brand"),
     "Lidl Stiftung & Co. KG": ("Schwarz Group (Lidl)", C, "", "", ""),
     "MOSS EARTH - RETIREMENT FOR TOKENIZATION": ("Moss.Earth (tokenization)", T, "", "", "credits retired to back crypto tokens"),
