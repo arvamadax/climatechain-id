@@ -5,3 +5,8 @@ graphify-out/
 node_modules/
 __pycache__/
 _t7/
+
+# local-chain demo artifacts (publish Amoy records explicitly with git add -f)
+web/data/checks/
+web/data/deployment.json
+contracts/deployments/local.json

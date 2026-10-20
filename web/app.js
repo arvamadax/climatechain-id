@@ -1,8 +1,6 @@
 "use strict";
 
-const RPC = "https://polygon-amoy-bor-rpc.publicnode.com";
-const REGISTRY = "0x052d89245Bf1EB867CE371817eDf74FBBc4f0be0";
-const EXPLORER = "https://amoy.polygonscan.com";
+let CHAIN = null; // from data/deployment.json, written by contracts/scripts/deploy.js
 const ABI = [
   "function count() view returns (uint256)",
   "function checks(uint256) view returns (bytes32 subject, bytes32 reportHash, bytes32 serialRoot, uint32 serialCount, uint64 timestamp, address attester, bool doubleClaim, string uri)",
@@ -206,7 +204,7 @@ async function chainStatus(o) {
       ? `${last.doubleClaim ? "⚠ Flagged on-chain as a double claim: at least one serial range also backs an earlier claim." : "✓ Published on-chain " + new Date(last.timestamp * 1000).toISOString().slice(0, 10) + " and matches the open data."} <a href="#verify">See record #${last.id}</a>`
       : `On-chain record #${last.id} exists but does not match the current data (the dataset was updated after it was published).`;
   } catch {
-    el.className = "flag"; el.textContent = "Could not reach the Polygon Amoy network to check on-chain records.";
+    el.className = "flag"; el.textContent = CHAIN ? `Could not reach the ${CHAIN.network} network to check on-chain records.` : "On-chain records are not published for this build yet.";
   }
 }
 
@@ -243,8 +241,9 @@ function market(m) {
 
 /* ---------- verify ---------- */
 async function loadChecks() {
-  const provider = new ethers.JsonRpcProvider(RPC, 80002, { staticNetwork: true });
-  const reg = new ethers.Contract(REGISTRY, ABI, provider);
+  if (!CHAIN) throw new Error("no deployment");
+  const provider = new ethers.JsonRpcProvider(CHAIN.rpc, CHAIN.chainId, { staticNetwork: true });
+  const reg = new ethers.Contract(CHAIN.address, ABI, provider);
   const n = Number(await reg.count());
   const ids = [...Array(n).keys()];
   return Promise.all(ids.map(async (id) => {
@@ -254,9 +253,16 @@ async function loadChecks() {
   }));
 }
 
+const contractUrl = () => (CHAIN.explorer ? `${CHAIN.explorer}/address/${CHAIN.address}` : "#verify");
+
 async function verifyPanel() {
-  $("#contractLink").href = `${EXPLORER}/address/${REGISTRY}`;
-  $("#contractLink").textContent = REGISTRY;
+  if (!CHAIN) {
+    $("#checkCount").textContent = "–";
+    $("#checks").innerHTML = `<p class="muted">The ClaimRegistry deployment for this build is not published yet.</p>`;
+    return;
+  }
+  $("#contractLink").href = contractUrl();
+  $("#contractLink").textContent = `${CHAIN.address} (${CHAIN.network})`;
   try {
     const list = await onchain;
     $("#checkCount").textContent = list.length;
@@ -277,7 +283,7 @@ async function verifyPanel() {
     $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Report</th><th>Serial ranges</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
   } catch {
     $("#checkCount").textContent = "unavailable";
-    $("#checks").innerHTML = `<p class="bad">Could not reach the Polygon Amoy network. Records are still public on <a href="${EXPLORER}/address/${REGISTRY}" target="_blank" rel="noopener">Polygonscan</a>.</p>`;
+    $("#checks").innerHTML = `<p class="bad">Could not reach the Polygon Amoy network. ${CHAIN.explorer ? `Records are still public on <a href="${contractUrl()}" target="_blank" rel="noopener">the block explorer</a>.` : "Start the local chain to see records."}</p>`;
   }
 }
 
@@ -285,6 +291,7 @@ async function verifyPanel() {
 (async function boot() {
   try {
     [INDEX, FACTORS] = await Promise.all([getJSON("data/index.json"), getJSON("data/factors.json")]);
+    CHAIN = await getJSON("data/deployment.json").catch(() => null);
   } catch (err) {
     $("#check").insertAdjacentHTML("beforeend", `<p class="bad">${esc(err.message)}.</p>`);
     return;
