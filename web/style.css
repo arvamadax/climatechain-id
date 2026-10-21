@@ -310,3 +310,4 @@ td.mono { overflow-wrap: anywhere; }
   .stat b { font-size: 2.1rem; }
   .claim .key { font-size: .66rem; }
 }
+.res-head h2.addr { font-family: var(--mono); font-size: clamp(1.1rem, 2.6vw, 1.7rem); letter-spacing: 0; word-break: break-all; font-weight: 400; }

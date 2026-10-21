@@ -111,6 +111,7 @@ function bar(parts) {
 
 function sparkline(ys) {
   const years = Object.keys(ys).map(Number).sort();
+  if (years.length < 2) return `<p class="muted small">All retirements were in ${years[0]}, so there is no trend to show.</p>`;
   const pts = years.map((y) => [y, ys[y][2] ? ys[y][1] / ys[y][2] : null]);
   const W = 260, H = 70, pad = 18, x0 = years[0], x1 = years[years.length - 1];
   const X = (y) => pad + ((y - x0) / Math.max(1, x1 - x0)) * (W - 2 * pad);
@@ -137,8 +138,9 @@ const TYPE_NOTE = {
 function buyerLine(o) {
   if (!o.g) return "";
   const note = TYPE_NOTE[o.g.type];
-  const group = o.g.group && o.g.group !== o.n ? `Part of <b>${esc(o.g.group)}</b>` : "";
-  const extra = o.g.note ? ` (${esc(o.g.note)})` : "";
+  const isCo = o.g.type === "company";
+  const group = isCo && o.g.group && o.g.group !== o.n ? `Part of <b>${esc(o.g.group)}</b>` : "";
+  const extra = isCo && o.g.note ? ` (${esc(o.g.note)})` : "";
   return `<p class="muted small">${group}${group && extra ? extra : ""}${note ? `${group ? " · " : ""}${note}` : ""}</p>`;
 }
 
@@ -213,18 +215,20 @@ async function render(i, scroll = true) {
   const group = o.g?.type === "company" ? o.g.group : null;
   const cover = o.k / o.t, real = o.k ? o.e / o.k : 0;
   const anonymous = o.n === "(no owner listed)" || /^not disclosed$/i.test(o.n);
+  const short = /^0x[0-9a-f]{20,}$/i.test(o.n) ? `${o.n.slice(0, 6)}…${o.n.slice(-4)}` : o.n; // wallet addresses
+  const years = o.y[0] === o.y[1] ? `in ${o.y[0]}` : `since ${o.y[0]}`;
   const sentence = anonymous
     ? `<b>${mt(o.t)}</b> of credits were retired since ${o.y[0]} without naming who the climate benefit belongs to. Nobody can be held to these claims.`
     : o.k
-      ? `Of every 100 tonnes <b>${esc(o.n)}</b> retired since ${o.y[0]}, research covers <b>${Math.round(cover * 100)}</b>. Of those, about <b>${Math.round(real * 100)}</b> likely cut real emissions (research range ${Math.round(o.el / o.k * 100)}–${Math.round(o.eh / o.k * 100)}).`
-      : `None of the ${mt(o.t)} <b>${esc(o.n)}</b> retired since ${o.y[0]} comes from a project type with a published research estimate, so Netra cannot estimate how much was real.`;
+      ? `Of every 100 tonnes <b>${esc(short)}</b> retired ${years}, research covers <b>${Math.round(cover * 100)}</b>${g ? "" : ", too few for a grade"}. Of those, about <b>${Math.round(real * 100)}</b> likely cut real emissions${o.el === o.eh ? "" : ` (research range ${Math.round(o.el / o.k * 100)}–${Math.round(o.eh / o.k * 100)})`}.`
+      : `None of the ${mt(o.t)} <b>${esc(short)}</b> retired ${years} comes from a project type with a published research estimate, so Netra cannot estimate how much was real.`;
 
   const cats = Object.entries(o.c).sort((a, b) => b[1] - a[1]);
   const ccp = ["approved", "not_approved", "not_assessed"].map((s) => [s, o.ccp[s] || 0]);
   const types = Object.entries(o.bt);
   box.innerHTML = `
     <div class="res-head">
-      <div><p class="eyebrow">Retired ${o.y[0]}–${o.y[1]} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2>${esc(o.n)}</h2></div>${buyerLine(o)}
+      <div><p class="eyebrow">Retired ${o.y[0] === o.y[1] ? o.y[0] : `${o.y[0]}–${o.y[1]}`} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2 class="${short !== o.n ? "addr" : ""}">${esc(o.n)}</h2></div>${buyerLine(o)}
         <p class="muted small">${mt(o.t)} retired${g ? ` · grade on the ${pct(cover)} covered by research` : " · not enough research coverage for a grade"}</p></div>
       <div class="grade ${g ? "" : "na"}" data-g="${g ? g[1] : ""}" style="${g ? `background:var(${g[2]})` : ""}" role="img" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
     </div>
@@ -252,7 +256,7 @@ async function render(i, scroll = true) {
         <p class="muted small">Grey bars: tonnes retired per year. Line: likely-real share of research-covered tonnes.</p></div>
     </div>
     ${o.o / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.o / o.t)} of these credits have a vintage before 2016, which the aviation scheme CORSIA does not accept.</div>` : ""}
-    ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles. Verra retires ACM0002 and AMS-I.D for new registrations on 1 January 2027.</div>` : ""}
+    ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles.</div>` : ""}
     ${howWeKnow(o, g)}
     <p class="note"><b>Selling in the EU?</b> Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.</p>
     <div id="chainStatus" class="flag ok">Checking on-chain records…</div>
@@ -272,7 +276,7 @@ async function chainStatus(o) {
   try {
     const list = await onchain;
     const mine = list.filter((c) => c.subject === subjectHash(o.n));
-    if (!mine.length) { el.className = "flag"; el.textContent = "No check for this buyer has been published on-chain yet."; return; }
+    if (!mine.length) { el.className = "note"; el.textContent = "Not published on-chain yet. Published checks are listed under On-chain proof."; return; }
     const last = mine[mine.length - 1], match = last.reportHash === reportHash(o);
     el.className = match && !last.doubleClaim ? "flag ok" : "flag";
     el.innerHTML = match
