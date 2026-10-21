@@ -535,7 +535,18 @@ async function claimVerdict(c, fields) {
 function setupClaim() {
   const form = $("#claimForm"), out = $("#claimOut"), ta = $("#claimText");
   if (!form) return;
-  form.addEventListener("click", (e) => { const b = e.target.closest("[data-ex]"); if (b) { ta.value = b.dataset.ex; ta.focus(); } });
+  $("#claimExamples").addEventListener("click", (e) => { const b = e.target.closest("[data-ex]"); if (b) { ta.value = b.dataset.ex; form.requestSubmit(); } });
+  const setMode = (claim) => {
+    $("#modeCompany").setAttribute("aria-selected", String(!claim));
+    $("#modeClaim").setAttribute("aria-selected", String(claim));
+    $("#search").hidden = claim; $("#examples").hidden = claim;
+    form.hidden = !claim; $("#claimExamples").hidden = !claim; $("#claimNote").hidden = !claim;
+    if (!claim) out.innerHTML = "";
+    (claim ? ta : $("#q")).focus();
+  };
+  $("#modeCompany").addEventListener("click", () => setMode(false));
+  $("#modeClaim").addEventListener("click", () => setMode(true));
+  ta.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) form.requestSubmit(); });
   const picker = () => `<div class="panel"><label for="claimPick" class="label">Or pick the company</label>
     <select id="claimPick" class="filter"><option value="">Choose a reviewed company…</option>${(COMPANIES || []).map((c, k) => `<option value="${k}">${esc(c.group)}</option>`).join("")}</select></div>`;
   out.addEventListener("change", async (e) => {
@@ -547,7 +558,7 @@ function setupClaim() {
     await companiesReady;
     const text = ta.value.trim();
     if (text.length < 30) { out.innerHTML = `<p class="bad">Paste at least a full sentence (30 characters).</p>`; return; }
-    out.innerHTML = `<p class="muted">Reading the claim…</p>`;
+    out.innerHTML = `<p class="muted claim-wait">Reading the claim…</p>`;
     let r;
     try {
       const res = await fetch("api/claim", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text }) });
@@ -560,14 +571,15 @@ function setupClaim() {
     const f = r.fields, labels = { company: "Who", claim_words: "Claim", scope: "Covers", year: "Year", tonnes: "Tonnes offset" };
     const found = f.company ? matchCompany(f.company.value) : null;
     const read = Object.keys(labels).filter((k) => f[k]).map((k) => `<div><dt>${labels[k]}</dt><dd><b>${esc(k === "tonnes" ? mt(f[k].value) : f[k].value)}</b><br><span class="quote">“${esc(f[k].quote)}”</span></dd></div>`).join("");
+    $("#result").hidden = true;
     out.innerHTML = `<div class="claim-grid">
-      <div class="panel"><p class="eyebrow">What the AI read <span class="tag">${esc(r.model || "model")}</span></p>
+      <div class="panel"><p class="eyebrow">What the AI read</p>
         <dl class="facts">${read || "<p class='muted'>Nothing could be read with a supporting quote.</p>"}</dl>
         ${r.dropped.length ? `<p class="muted small">Dropped because the quote was not in the text: ${r.dropped.map((k) => labels[k] || k).join(", ")}.</p>` : ""}</div>
       <div class="verdict-slot">${found ? await claimVerdict(found, f) : `<div class="panel"><p>${f.company ? `“${esc(f.company.value)}” is not one of the 94 company groups Netra has reviewed.` : "No company could be read from the text."} <a href="#check" id="claimSearch">Search all 44,465 buyers</a></p></div>${picker()}`}</div>
     </div>`;
     const sl = $("#claimSearch");
-    if (sl && f.company) sl.addEventListener("click", () => { $("#q").value = f.company.value; $("#q").dispatchEvent(new Event("input")); });
+    if (sl && f.company) sl.addEventListener("click", (ev) => { ev.preventDefault(); setMode(false); $("#q").value = f.company.value; $("#q").dispatchEvent(new Event("input")); });
   });
 }
 setupClaim();
