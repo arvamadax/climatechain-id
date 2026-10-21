@@ -158,6 +158,9 @@ function reportedBox(o) {
 
 // Reasons a company group has no reported emissions, from data/emissions_gaps.csv via companies.json.
 let GAPS = {};
+// Unusual retirement patterns from pipeline/anomalies.py (Isolation Forest); a reason to look closer, not proof.
+let ANOM = {};
+const anomReady = getJSON("data/anomalies.json").then((x) => (ANOM = x.flags || {})).catch(() => {});
 const gapsReady = getJSON("data/companies.json").then((cs) => cs.forEach((c) => c.gap && (GAPS[c.group] = c.gap))).catch(() => {});
 
 function gapBox(o) {
@@ -210,7 +213,7 @@ async function render(i, scroll = true) {
   box.hidden = false;
   if (scroll) box.innerHTML = `<p class="muted">Loading ${esc(rows[i][0])}…</p>`;
   let o;
-  try { o = await owner(i); await Promise.all([logosReady, gapsReady]); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
+  try { o = await owner(i); await Promise.all([logosReady, gapsReady, anomReady]); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
   const g = grade(o.e, o.k, o.t);
   const group = o.g?.type === "company" ? o.g.group : null;
   const cover = o.k / o.t, real = o.k ? o.e / o.k : 0;
@@ -257,6 +260,9 @@ async function render(i, scroll = true) {
     </div>
     ${o.o / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.o / o.t)} of these credits have a vintage before 2016, which the aviation scheme CORSIA does not accept.</div>` : ""}
     ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles.</div>` : ""}
+    ${ANOM[i] ? `<div class="unusual"><b>Unusual pattern</b> <span class="tag">machine learning</span>
+      <ul>${ANOM[i].reasons.map((r) => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join("")}</ul>
+      <p class="muted small">Flagged by an Isolation Forest model among 540 buyers with at least 100,000 t retired. An unusual pattern is a reason to look closer, not proof of wrongdoing. <a href="data.html#unusual">How it works</a></p></div>` : ""}
     ${howWeKnow(o, g)}
     <p class="note"><b>Selling in the EU?</b> Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.</p>
     <div id="chainStatus" class="flag ok">Checking on-chain records…</div>
@@ -367,10 +373,24 @@ async function hiddenSection() {
 }
 
 /* ---------- verify ---------- */
+// Public RPCs tried in order; the first that answers is kept (public nodes drop connections now and then).
+const BACKUP_RPC = { 11155111: ["https://ethereum-sepolia-rpc.publicnode.com", "https://sepolia.drpc.org", "https://1rpc.io/sepolia"] };
+let REG = null;
+async function registry() {
+  if (REG) return REG;
+  for (const url of [CHAIN.rpc, ...(BACKUP_RPC[CHAIN.chainId] || [])].filter((u, k, a) => u && a.indexOf(u) === k)) {
+    try {
+      const reg = new ethers.Contract(CHAIN.address, ABI, new ethers.JsonRpcProvider(url, CHAIN.chainId, { staticNetwork: true }));
+      await reg.count();
+      return (REG = reg);
+    } catch { /* try the next node */ }
+  }
+  throw new Error("no RPC answered");
+}
+
 async function loadChecks() {
   if (!CHAIN) throw new Error("no deployment");
-  const provider = new ethers.JsonRpcProvider(CHAIN.rpc, CHAIN.chainId, { staticNetwork: true });
-  const reg = new ethers.Contract(CHAIN.address, ABI, provider);
+  const reg = await registry();
   const n = Number(await reg.count());
   const ids = [...Array(n).keys()];
   return Promise.all(ids.map(async (id) => {
@@ -431,6 +451,7 @@ async function verifyPanel() {
   market(INDEX.meta);
   hiddenSection();
   verifyPanel();
+  liveFeed();
   // #buyer-N opens that buyer: on load, and from in-page links (verify table, hidden buyers, data page).
   const open = () => { const m = location.hash.match(/^#buyer-(\d+)$/); if (m && rows[+m[1]]) pick(+m[1]); };
   addEventListener("hashchange", open);
@@ -438,3 +459,37 @@ async function verifyPanel() {
   // Charts draw with the current theme's colours: redraw them when the theme changes.
   document.addEventListener("themechange", () => { market(INDEX.meta); hiddenSection(); if (CURRENT !== null) render(CURRENT, false); });
 })();
+
+/* ---------- live feed: new on-chain checks and double-claim flags appear without a reload ---------- */
+function liveFeed() {
+  if (!CHAIN || !CHAIN.explorer) return; // public networks only
+  const dot = $("#live");
+  let known = null, flags = null;
+  const tick = async () => {
+    try {
+      const reg = await registry();
+      const n = Number(await reg.count());
+      const list = n === known ? null : await loadChecks();
+      const f = list ? list.filter((c) => c.doubleClaim).length : flags;
+      if (known !== null && (n > known || f > flags)) {
+        onchain = Promise.resolve(list);
+        await verifyPanel();
+        toast(n > known ? `New on-chain check #${n - 1} recorded` : "A double claim was just flagged on-chain");
+      }
+      known = n; flags = f;
+      dot.className = "live on"; dot.textContent = "Live";
+    } catch {
+      REG = null;
+      dot.className = "live off"; dot.textContent = "Reconnecting";
+    }
+  };
+  tick();
+  setInterval(tick, 15000);
+}
+
+function toast(text) {
+  const t = document.createElement("div");
+  t.className = "toast"; t.setAttribute("role", "status"); t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 6000);
+}

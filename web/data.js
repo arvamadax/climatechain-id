@@ -100,6 +100,12 @@ function staticTables(index, factors) {
   ROWS = companies.map(prepare);
   ["Shell plc", "Delta Air Lines Inc", "Netflix, Inc."].forEach((g) => ROWS.some((r) => r.group === g) && picked.add(g));
   staticTables(index, factors);
+  getJSON("data/anomalies.json").then((an) => {
+    const rows = Object.entries(an.flags).sort((x, y) => y[1].score - x[1].score);
+    $("#atable tbody").innerHTML = rows.map(([i, f]) => `<tr><td><a href="index.html#buyer-${i}" class="${/^0x/.test(index.rows[i][0]) ? "mono" : ""}">${esc(index.rows[i][0])}</a></td>
+      <td><ul class="reasons">${f.reasons.map((r) => `<li>${esc(r[0].toUpperCase() + r.slice(1))}</li>`).join("")}</ul></td><td class="num">${f.score.toFixed(2)}</td></tr>`).join("");
+    $("#ameta").textContent = `${an.meta.method}. Population: ${an.meta.population}. Reasons: ${an.meta.reason_rule}.`;
+  }).catch(() => {});
   drawTable();
   drawCompare();
   $("#cq").addEventListener("input", drawTable);

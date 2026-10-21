@@ -33,7 +33,7 @@
     <p class="eyebrow">Data</p>
     <h1>All the numbers, side by side.</h1>
     <p class="lede">Every company group Netra has reviewed, with what it retired, how much research says is likely real, what it reports emitting and what independent estimates see. Sort any column, filter by name, compare up to three. New to a word? See the <a href="glossary.html">glossary</a>.</p>
-    <div class="jump"><a href="#companies">Companies</a><a href="#compare">Compare</a><a href="#types">Project types</a><a href="#years">Years</a><a href="#downloads">Downloads</a></div>
+    <div class="jump"><a href="#companies">Companies</a><a href="#compare">Compare</a><a href="#unusual">Unusual patterns</a><a href="#types">Project types</a><a href="#years">Years</a><a href="#downloads">Downloads</a></div>
   </section>
 
   <section class="block" id="overview">
@@ -68,6 +68,14 @@
     <h2>Pick up to three companies</h2>
     <p class="muted" id="cmpHint">Press Compare in the table. Shell, Delta and Netflix are shown to start.</p>
     <div class="compare" id="cmp"></div>
+  </section>
+
+  <section class="block" id="unusual">
+    <p class="eyebrow">Unusual patterns · machine learning</p>
+    <h2>Buyers whose pattern stands out</h2>
+    <p class="muted">An Isolation Forest model (scikit-learn) looks at every buyer with at least 100,000 t retired and finds the few whose mix of old vintages, rejected methodologies, unresearched project types, one-year bursts, low likely-real share and batch size is far from the rest. Each flag lists the plain reasons behind it. Unusual is a reason to look closer, never proof of wrongdoing.</p>
+    <div class="tablewrap"><table class="data" id="atable"><thead><tr><th>Buyer</th><th>Why it stands out</th><th>Score</th></tr></thead><tbody></tbody></table></div>
+    <p class="muted small" id="ameta"></p>
   </section>
 
   <section class="block" id="types">

@@ -313,3 +313,13 @@ td.mono { overflow-wrap: anywhere; }
   .claim .key { font-size: .66rem; }
 }
 .res-head h2.addr { font-family: var(--mono); font-size: clamp(1.1rem, 2.6vw, 1.7rem); letter-spacing: 0; word-break: break-all; font-weight: 400; }
+.unusual { margin-top: 1rem; border: 1px solid var(--line); border-left: 4px solid var(--signal); border-radius: 12px; padding: .9rem 1.1rem; background: var(--card); }
+.unusual ul, .reasons { margin: .4rem 0; padding-left: 1.1rem; }
+.reasons li { font-size: .92rem; }
+.live { display: inline-flex; align-items: center; gap: .45rem; font: 600 .75rem var(--body); letter-spacing: .07em; text-transform: uppercase; color: #b8b3aa; }
+.live::before { content: ""; width: .55rem; height: .55rem; border-radius: 999px; background: #6b675f; }
+.live.on { color: #8fb8e8; } .live.on::before { background: #8fb8e8; animation: pulse 2s ease-in-out infinite; }
+.live.off { color: #f2a36b; } .live.off::before { background: #f2a36b; }
+@keyframes pulse { 50% { opacity: .35; } }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: .8rem 1.2rem;
+  border-radius: 12px; font-weight: 600; box-shadow: 0 12px 40px rgb(0 0 0 / .25); z-index: 20; animation: rise .4s var(--ease) both; }
