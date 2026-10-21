@@ -1,4 +1,8 @@
+<p align="center"><img src="assets/banner.svg" alt="Netra" width="100%"></p>
+
 # Netra methods
+
+<p align="center"><img src="assets/how-it-works.svg" alt="How Netra works in six steps" width="100%"></p>
 
 Netra estimates how much of a company's retired carbon credits likely represent real emission reductions. It is a risk estimate based on average research findings per project type, not a verdict on any single project or company.
 
@@ -22,6 +26,10 @@ OAR = share of issued credits that research estimates to be real reductions. Sou
 | Improved forest management, US | 0% | 0% | No statistically significant reductions; paper sets 0% |
 | Other grid renewables, all other types | none | none | No published estimate; shown as "limited evidence" and never scored better than D |
 
+## Grades
+
+<p align="center"><img src="assets/grades.svg" alt="Grade scale A to E" width="100%"></p>
+
 ## Classification rules (three independent signals)
 
 Every project gets a category only when independent sources agree. Any disagreement gets **no OAR**, so a dispute can only lower a company's estimated real tonnes, never raise it.
@@ -41,6 +49,8 @@ Each methodology string is matched to the ICVCM table by code and version range:
 Share of retired tonnes since 2020: approved 4.5%, not approved 35.9%, not assessed 59.6%.
 
 ## Headline numbers (VROD v2026-08, Verra + Gold, since 2020)
+
+<p align="center"><img src="assets/key-findings.svg" alt="Key findings" width="100%"></p>
 
 - Tonnes with a published OAR: 37.8%.
 - Of those, likely real: 19.4% central (range 2.4-68.8%, driven mainly by REDD+ uncertainty).
@@ -81,7 +91,9 @@ Registry beneficiary names are shown as published, with two repairs (`clean_owne
 
 `data/reported_emissions.csv` holds figures read by hand from each company's own primary document (annual report, sustainability statement, assurance or verification statement, SASB index, CDP response or ESG data book), one row per group, with boundary, URL, section and date checked (2026-10-20). Figures available only from aggregators (Tracenable, DitchCarbon) or AI-extracted summaries were **not** used, and figures whose table could not be read unambiguously were left out (e.g. Lyft). Where a company publishes only a combined Scope 1+2 or total figure, Scope 1 is left blank. Rows are shown next to, never merged with, the Climate TRACE estimate.
 
-Coverage: 76 of the 94 classified company groups, together 93.7% of the tonnes retired by classified companies. Notable checks: "Hörmann Gruppe" reports belong to HÖRMANN Industries, not the buyer Hörmann KG, so they were not used; Civitas Resources is now part of SM Energy; Reports from Air France-KLM, Infosys, Allianz, BAT and BCG were read in a regular browser because those sites block scripted downloads; the CMA CGM report was read from the copy hosted by its subsidiary CEVA Logistics because the group site link is broken. BCG publishes Scope 1 only inside a chart without a clear label, so it was left out. The Civitas report was removed after the SM Energy merger. OVO and BrewDog figures come from their audited accounts filed at Companies House (scanned documents, read page by page); BrewDog labels its figures as estimates pending final calculation. Tables extracted from PDFs were checked against the rendered page or against the report's own totals, because text extraction can shift table rows. Greenchoice and ESWE servers could not be reached, LichtBlick's management report contains no emissions figures, and Bonnier reports emissions only per business unit. The remaining groups (mostly energy retailers and small private companies) publish no group-level absolute Scope 1 figure that could be found in a primary document.
+Coverage: 79 of the 94 classified company groups, together 94.3% of the tonnes retired by classified companies. Notable checks: "Hörmann Gruppe" reports belong to HÖRMANN Industries, not the buyer Hörmann KG, so they were not used; Civitas Resources is now part of SM Energy; Reports from Air France-KLM, Infosys, Allianz, BAT and BCG were read in a regular browser because those sites block scripted downloads; the CMA CGM report was read from the copy hosted by its subsidiary CEVA Logistics because the group site link is broken. BCG publishes Scope 1 only inside a chart without a clear label, so it was left out. The Civitas report was removed after the SM Energy merger. OVO and BrewDog figures come from their audited accounts filed at Companies House (scanned documents, read page by page); BrewDog labels its figures as estimates pending final calculation. Tables extracted from PDFs were checked against the rendered page or against the report's own totals, because text extraction can shift table rows. Greenchoice and ESWE servers could not be reached, LichtBlick's management report contains no emissions figures, and Bonnier reports emissions only per business unit. The remaining groups (mostly energy retailers and small private companies) publish no group-level absolute Scope 1 figure that could be found in a primary document.
+
+Every group without a reported figure has a written reason in `data/emissions_gaps.csv` (what was checked, where, when, and why no figure is shown); the site shows that reason instead of a blank. A second, targeted search on 21 Oct 2026 found figures for three groups first listed as missing (Süwag, Friedrich Scharr, Städtische Werke Kassel via its parent KVV), which are now included.
 
 | Group | Year | Scope 1 | Reported total | Boundary | Source |
 |---|---|---|---|---|---|
@@ -161,4 +173,7 @@ Coverage: 76 of the 94 classified company groups, together 93.7% of the tonnes r
 | Lyft | 2024 | 2,451 t | 4,321 t | Lyft Inc., calendar 2024, limited assurance by Cameron-Cole; total = Scope 1 + Scope 2 market-based (1,870 t) | [Lyft 2024 Sustainability Impact Report](https://s27.q4cdn.com/263799617/files/doc_downloads/2025/09/Lyft-2024-Sustainability-Impact-Report.pdf) |
 | Chiesi Group | 2025 | 21,358 t | 22,037 t | Chiesi Group, ISO 14064 / GHG Protocol; total = Scope 1 + Scope 2 market-based (679 t) | [Chiesi ESG Reports 2025 (TCFD Report 2025)](https://www.chiesi.com/content/dam/chiesi-corporate/global/en/archive/document-archive/2026/esg_reports_2025.pdf.coredownload.pdf) |
 | Berkshire Hathaway (Shaw Industries) | 2025 | 0.290 Mt | 0.610 Mt | Shaw Industries Group (Berkshire Hathaway subsidiary), enterprise-wide; figures given to two decimals in million tonnes; total = Scope 1 + Scope 2 (0.32 Mt) | [Shaw Industries 2025 Corporate Sustainability Report](https://shawinc.com/2025sustainabilityreport) |
+| Süwag (energy retailer) | 2025 | - | 3.290 Mt | Greenhouse gas emissions as published in the key figures (split by scope not given) | [Süwag Geschäftsbericht 2025, key figures (Kennzahlen, Nachhaltigkeit)](https://www.suewag.com/corp/ueber-uns/finanzen/zahlen-daten-fakten/geschaeftsbericht) |
+| Friedrich Scharr KG | 2022 | 3,441 t | 21,828 t | SCHARR group, financial year 2022; total = Scope 1 + 2 (0 t) + 3; full calculation every two years | [SCHARR KLIMAWIN report 2023](https://scharr.de/fileadmin/media/KG/Dateien/Nachhaltigkeit/SCHARR-KLIMAWIN-Nachhaltigkeitsbericht-2023.pdf) |
+| Städtische Werke Kassel (energy retailer) | 2022 | - | 0.783 Mt | KVV Kassel group (parent of Städtische Werke AG), all three scopes as far as recorded | [KVV Kassel sustainability report 2022](https://www.kvvks.de/fileadmin/kvvks/Dokumente/Geschaeftsberichte/2022/2023_01_Kassel__KVV_Nachhaltigkeitsbericht_DS.pdf) |
 

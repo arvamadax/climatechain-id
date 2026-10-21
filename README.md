@@ -1,11 +1,6 @@
-<p align="center"><img src="web/favicon.svg" width="72" alt="Netra logo"></p>
+<p align="center"><img src="docs/assets/banner.svg" alt="Netra: see what a carbon claim is really worth" width="100%"></p>
 
-<h1 align="center">Netra</h1>
-
-<p align="center"><b>See what a carbon claim is really worth.</b><br>
-Carbon credits retired by companies, checked against peer-reviewed research, the company's own emissions report and an independent estimate, with every check recorded on a public blockchain.</p>
-
-<p align="center">IEEE ClimateChain Global Hackathon 2026 · Track 1: Carbon Markets &amp; Emissions Transparency</p>
+<p align="center"><a href="https://netra.rofihosted.space"><b>Open Netra</b></a> · <a href="docs/METHODS.md">Method</a> · <a href="brand/guidelines.md">Brand</a> · IEEE ClimateChain Global Hackathon 2026, Track 1</p>
 
 ---
 
@@ -28,13 +23,19 @@ Carbon credits retired by companies, checked against peer-reviewed research, the
 |---|---|
 | What did a company retire? | Every Verra and Gold Standard retirement since 2020 (342,012 records, 876 Mt), grouped by the beneficiary and, for the largest buyers, by company group. |
 | How much of it is likely real? | Tonnes × the share of real reductions that research found for that project type (Probst et al. 2024), with the published range and a grade from A to E. |
-| What does the company emit? | Its own reported figure, read from its primary report (76 company groups, 93.7% of company tonnes), next to Climate TRACE's independent ownership-weighted estimate. |
+| What does the company emit? | Its own reported figure, read from its primary report (79 company groups, 94.3% of company tonnes), next to Climate TRACE's independent ownership-weighted estimate. |
 | Who is hiding? | Anonymous, "Not Disclosed", reseller, wallet and untraceable accounts, labelled and quantified. |
 | Can the check be trusted later? | A hash of each published check and a Merkle root of its registry serial ranges are written to the `ClaimRegistry` contract. A serial range claimed twice can be flagged on-chain by anyone. |
+
+<p align="center"><img src="docs/assets/how-it-works.svg" alt="How Netra works in six steps" width="100%"></p>
+
+<p align="center"><img src="docs/assets/grades.svg" alt="Grade scale A to E" width="100%"></p>
 
 The web app has five views: **Check** (search and company result), **Hidden buyers**, **Data** (all company groups, sortable, with side-by-side comparison and downloads), **About** (story, research, sources, limits) and **Glossary** (every term in plain English).
 
 ## Key findings
+
+<p align="center"><img src="docs/assets/key-findings.svg" alt="Key findings" width="100%"></p>
 
 - About **1 in 5** researched tonnes retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%), with no improvement from year to year (18–22%).
 - **57%** of retired tonnes cannot be tied to a named claimant; 40.9% have no beneficiary at all.
@@ -43,33 +44,7 @@ The web app has five views: **Check** (search and company result), **Hidden buye
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  subgraph Sources
-    V[Berkeley VROD<br/>retirements]
-    O[CarbonPlan OffsetsDB<br/>project types]
-    I[ICVCM<br/>CCP status]
-    P[Probst et al. 2024<br/>outcome ratios]
-    C[Climate TRACE<br/>ownership emissions]
-    R[Company reports<br/>reported emissions]
-  end
-  subgraph Pipeline["pipeline/ (Python)"]
-    B[build.py<br/>three-signal classification]
-    W[ownership.py]
-    S[summaries.py]
-  end
-  subgraph Web["web/ (static site)"]
-    A[Check · Hidden · Data · About · Glossary]
-  end
-  K[(ClaimRegistry<br/>Ethereum Sepolia)]
-  V & O & I & P --> B
-  C --> W --> B
-  R --> B
-  B --> S
-  B & S -->|JSON| A
-  B -->|report hash + serial Merkle root| K
-  A -->|recompute and compare| K
-```
+<p align="center"><img src="docs/assets/architecture.svg" alt="Architecture: sources, pipeline, static web app, ClaimRegistry contract" width="100%"></p>
 
 The site is fully static: no backend, no accounts, no tracking. All data is pre-computed into JSON under `web/data/`.
 
@@ -113,9 +88,12 @@ python pipeline/build.py \
   raw/vrod-pack/<pack>/datasets/Berkeley_Voluntary_Registry_Offsets_Database_v2026-08.xlsx \
   raw/offsetsdb/projects.parquet                                # main dataset, with built-in checks
 python pipeline/summaries.py                                    # hidden-buyer and company summaries
+python pipeline/logos.py                                        # company logos and brand colours
+python pipeline/exports.py                                      # branded downloads (Excel, CSV, JSON)
+python brand/embed_font.py                                      # embed the brand font in docs/assets/*.svg
 ```
 
-Reviewed inputs live in `data/`: `buyers.csv` (written by `pipeline/curate_buyers.py`), `reported_emissions.csv` (one row per company group, with source URL and section; append with `pipeline/add_reported.py`) and `serials/` (written by `pipeline/serials.py`).
+Reviewed inputs live in `data/`: `emissions_gaps.csv` (for every company group without a reported figure: what was checked and why no figure is shown), `logos.csv` (official domain per group), `buyers.csv` (written by `pipeline/curate_buyers.py`), `reported_emissions.csv` (one row per company group, with source URL and section; append with `pipeline/add_reported.py`) and `serials/` (written by `pipeline/serials.py`).
 
 ## Smart contract
 
@@ -150,5 +128,8 @@ Network settings live in `contracts/scripts/chains.js`; the web app reads the ac
 Research ratios are averages per project type, not verdicts on individual projects or companies. Project types without a published ratio (62% of tonnes) are not scored. Registry beneficiaries can be resellers or brands rather than the claimant. Company-reported and independent emissions use different boundaries and are never merged. Full detail: [docs/METHODS.md](docs/METHODS.md).
 
 ## License
+
+Company logos are trademarks of their owners and are shown only to identify each company. Hanken Grotesk is used under the SIL Open Font License (`brand/fonts/OFL.txt`).
+
 
 Code: [MIT](LICENSE). Data derived from Berkeley VROD is shared under CC BY 4.0 with attribution to the Berkeley Carbon Trading Project.

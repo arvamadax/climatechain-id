@@ -154,10 +154,20 @@ function reportedBox(o) {
     ${comp}</div>`;
 }
 
+// Reasons a company group has no reported emissions, from data/emissions_gaps.csv via companies.json.
+let GAPS = {};
+const gapsReady = getJSON("data/companies.json").then((cs) => cs.forEach((c) => c.gap && (GAPS[c.group] = c.gap))).catch(() => {});
+
+function gapBox(o) {
+  const gap = o.g && GAPS[o.g.group];
+  if (gap) return `<div class="box"><h3>Company-reported emissions</h3><p><b>Not published, or not readable.</b> ${esc(gap.reason)}</p>
+    <p class="muted small">What we checked: ${esc(gap.checked)}.</p></div>`;
+  if (o.g && o.g.type === "company") return "";
+  return `<div class="box"><h3>Emissions</h3><p class="muted small">${o.g ? "This account is not a company, so there is no company report to read." : "This buyer is outside the 167 largest names reviewed by hand, so no emissions report has been matched to it."}</p></div>`;
+}
+
 function emissionsBox(o) {
-  if (!o.ct) {
-    return reportedBox(o) || `<div class="box"><h3>Emissions</h3><p class="muted small">No independent (Climate TRACE) match and no company-reported figure is linked to this buyer yet.</p></div>`;
-  }
+  if (!o.ct) return reportedBox(o) || gapBox(o);
   if (o.rep && o.ct.coverage === "partial") return reportedBox(o);
   const c = o.ct;
   const range = c.low === c.high ? mt(c.low) : `${mt(c.low)} – ${mt(c.high)}`;
@@ -167,16 +177,40 @@ function emissionsBox(o) {
   return `<div class="box"><h3>Independent emissions</h3>
     <p><b class="num">${range}</b> CO₂e in ${c.year}</p>
     <p class="muted small">Ownership-weighted emissions of ${fmt(c.assets)} assets linked to <b>${esc(c.parent)}</b> (${esc(c.match)}) in Climate TRACE v5.7.0. The range is wide where ownership shares are unknown. This is an equity-share estimate from satellite and model data, not the company's own reported scope 1, so the two can differ by a factor of two or more.</p>
-    ${note}</div>${reportedBox(o)}`;
+    ${note}</div>${reportedBox(o) || gapBox(o)}`;
 }
 
-async function render(i) {
+// "How we know": the basis of every number on the result, with sources. No claim without a reason.
+function howWeKnow(o, g) {
+  const types = Object.entries(o.c).filter(([, t]) => t > 0).sort((a, b) => b[1] - a[1]).map(([c, t]) => {
+    const f = FACTORS.factors[c];
+    return `<li>${esc(f.label)}: ${mt(t)}, ${f.oar === null ? "no published estimate, so not scored" : `${pct(f.oar)} likely real (range ${pct(f.lo)}–${pct(f.hi)}); ${esc(f.source)}`}</li>`;
+  }).join("");
+  const r = o.rep;
+  return `<details class="how"><summary>How we know</summary>
+    <dl>
+      <div><dt>Retired</dt><dd>${fmt(o.r)} retirement records naming "${esc(o.n)}" as beneficiary on Verra and Gold Standard, ${o.y[0]}–${o.y[1]}, from the Berkeley Voluntary Registry Offsets Database v2026-08 (CC BY 4.0). Names are shown as published.</dd></div>
+      ${o.g ? `<div><dt>Who this is</dt><dd>Reviewed by hand against the registry retirement details${o.g.group !== o.n ? ` and linked to <b>${esc(o.g.group)}</b>` : ""}${o.g.note ? ` (${esc(o.g.note)})` : ""}.</dd></div>` : ""}
+      <div><dt>Project types</dt><dd>A type counts only when three sources agree: Berkeley's curated type, CarbonPlan OffsetsDB and the registry methodology code. Otherwise: no estimate.<ul>${types}</ul></dd></div>
+      <div><dt>Likely real</dt><dd>Tonnes × the share of real reductions measured for that type in peer-reviewed research. The range is the study's uncertainty. ${o.k ? `Here: ${mt(o.e)} of ${mt(o.k)} researched tonnes (range ${mt(o.el)}–${mt(o.eh)}).` : "None of these tonnes are in a researched type."}</dd></div>
+      <div><dt>Grade</dt><dd>${g ? `${g[1]}, because ${pct(o.e / o.k)} of researched tonnes are likely real.` : "No grade: research covers less than a quarter of the tonnes."} Bands: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E &lt; 10%.</dd></div>
+      <div><dt>Quality label</dt><dd>Each methodology's status in the ICVCM Core Carbon Principles assessment, snapshot 18 Aug 2026.</dd></div>
+      <div><dt>Emissions</dt><dd>${r ? `Read by hand from <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.source)}</a>, ${esc(r.section)}; checked ${esc(r.checked)}.` : "No figure is shown unless it comes from the company's own document."}${o.ct ? ` Independent estimate: Climate TRACE v5.7.0 ownership data, ${fmt(o.ct.assets)} assets of ${esc(o.ct.parent)}.` : ""}</dd></div>
+    </dl>
+    <p class="muted small">Full rules: <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">METHODS.md</a>. Plain-English terms: <a href="glossary.html">glossary</a>.</p>
+  </details>`;
+}
+
+let CURRENT = null;
+async function render(i, scroll = true) {
+  CURRENT = i;
   const box = $("#result");
   box.hidden = false;
-  box.innerHTML = `<p class="muted">Loading ${esc(rows[i][0])}…</p>`;
+  if (scroll) box.innerHTML = `<p class="muted">Loading ${esc(rows[i][0])}…</p>`;
   let o;
-  try { o = await owner(i); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
+  try { o = await owner(i); await Promise.all([logosReady, gapsReady]); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
   const g = grade(o.e, o.k, o.t);
+  const group = o.g?.type === "company" ? o.g.group : null;
   const cover = o.k / o.t, real = o.k ? o.e / o.k : 0;
   const anonymous = o.n === "(no owner listed)" || /^not disclosed$/i.test(o.n);
   const sentence = anonymous
@@ -190,7 +224,7 @@ async function render(i) {
   const types = Object.entries(o.bt);
   box.innerHTML = `
     <div class="res-head">
-      <div><p class="eyebrow">Retired ${o.y[0]}–${o.y[1]} · ${fmt(o.r)} retirements</p><h2>${esc(o.n)}</h2>${buyerLine(o)}
+      <div><p class="eyebrow">Retired ${o.y[0]}–${o.y[1]} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2>${esc(o.n)}</h2></div>${buyerLine(o)}
         <p class="muted small">${mt(o.t)} retired${g ? ` · grade on the ${pct(cover)} covered by research` : " · not enough research coverage for a grade"}</p></div>
       <div class="grade ${g ? "" : "na"}" data-g="${g ? g[1] : ""}" style="${g ? `background:var(${g[2]})` : ""}" role="img" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
     </div>
@@ -219,13 +253,16 @@ async function render(i) {
     </div>
     ${o.o / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.o / o.t)} of these credits have a vintage before 2016, which the aviation scheme CORSIA does not accept.</div>` : ""}
     ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles. Verra retires ACM0002 and AMS-I.D for new registrations on 1 January 2027.</div>` : ""}
-    <label class="toggle"><input type="checkbox" id="euToggle"> This is a "carbon neutral" claim on a product sold in the EU</label>
-    <div id="euFlag" hidden class="flag">⚠ Since 27 September 2026, EU Directive 2024/825 bans claims that a product has a neutral, reduced or positive climate impact based on offsetting. Credit quality does not change that.</div>
+    ${howWeKnow(o, g)}
+    <p class="note"><b>Selling in the EU?</b> Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.</p>
     <div id="chainStatus" class="flag ok">Checking on-chain records…</div>
     <div class="actions"><a href="#buyer-${i}">Link to this result</a>
       <a href="https://github.com/rofiperlungoding/climatechain-id/issues/new?title=${encodeURIComponent("Correction request: " + o.n)}" target="_blank" rel="noopener">Request a correction</a>
       <span class="muted mono">report ${reportHash(o).slice(0, 18)}…</span></div>`;
-  $("#euToggle").addEventListener("change", (e) => { $("#euFlag").hidden = !e.target.checked; });
+  box.className = "result tinted";
+  box.style.cssText = tint(group || o.n, g);
+  if (!scroll) { chainStatus(o); return; }
+  box.classList.remove("in-view"); void box.offsetWidth; box.classList.add("in-view");
   box.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   chainStatus(o);
 }
@@ -393,4 +430,6 @@ async function verifyPanel() {
   const open = () => { const m = location.hash.match(/^#buyer-(\d+)$/); if (m && rows[+m[1]]) pick(+m[1]); };
   addEventListener("hashchange", open);
   open();
+  // Charts draw with the current theme's colours: redraw them when the theme changes.
+  document.addEventListener("themechange", () => { market(INDEX.meta); hiddenSection(); if (CURRENT !== null) render(CURRENT, false); });
 })();

@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
 <link rel="stylesheet" href="style.css">
+<script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
+
 </head>
 <body>
 <header class="top">
@@ -19,6 +21,9 @@
   </a>
   <nav aria-label="Main">
     <a href="index.html#check">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html" aria-current="page">About</a><a href="glossary.html">Glossary</a>
+    <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+    </button>
     <a class="pill" href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
@@ -62,7 +67,7 @@
       <li><b>Classify, carefully.</b> A project type counts only when three sources agree: Berkeley's type, CarbonPlan's type and the methodology code. 234 projects disagree; they get no estimate instead of a guess.</li>
       <li><b>Estimate.</b> Tonnes × the share research found real for that type (Probst et al. 2024), with the published range. Types with no research stay "no estimate".</li>
       <li><b>Name the buyer.</b> 167 of the largest buyer names reviewed by hand and grouped by owner. Resellers, wallets and anonymous accounts are labelled, never guessed.</li>
-      <li><b>Add emissions.</b> Company figures read from 76 groups' own reports (93.7% of company tonnes), each with its URL and page. Independent emissions from Climate TRACE's ownership data.</li>
+      <li><b>Add emissions.</b> Company figures read from 79 groups, each with its URL and page. Independent emissions from Climate TRACE's ownership data.</li>
       <li><b>Record.</b> Each published check is hashed and written to the ClaimRegistry smart contract, together with a Merkle root of its serial ranges. Anyone can recompute both from the open data.</li>
     </ol>
   </section>
@@ -78,7 +83,7 @@
       <li><span class="when">20 Oct</span><div><b>What the data said.</b> In Verra's own data, no serial range was retired twice: double counting inside one registry is not the problem. The problem is what happens around it: 44.7% of retirement records name no beneficiary, and one credit can back several claims outside the registry.</div></li>
       <li><span class="when">20 Oct</span><div><b>Red team.</b> 14 weaknesses written down and fixed. Three changed the design: build on open data instead of copying it; record claims on-chain instead of minting tokens (which can itself create double counting); and target double <i>claiming</i>, not double issuing.</div></li>
       <li><span class="when">20 Oct</span><div><b>The name.</b> Working names ClaimCheck and Proofset were descriptive but forgettable. Netra was chosen (see below).</div></li>
-      <li><span class="when">20–21 Oct</span><div><b>Data and contract.</b> Three-signal classification, research ranges from the source data, Climate TRACE ownership attribution, emissions from 76 company groups' own reports, and ClaimRegistry v2 with Merkle-root claims and on-chain challenges (8 tests passing).</div></li>
+      <li><span class="when">20–21 Oct</span><div><b>Data and contract.</b> Three-signal classification, research ranges from the source data, Climate TRACE ownership attribution, emissions from 79 company groups, and ClaimRegistry v2 with Merkle-root claims and on-chain challenges (8 tests passing).</div></li>
       <li><span class="when">21 Oct</span><div><b>Brand and site.</b> Ink, paper and one orange signal; the claimed-vs-real bar; no green, because green is the colour of greenwashing.</div></li>
       <li><span class="when">25 Oct</span><div><b>Submission</b> to Track 1: Carbon Markets &amp; Emissions Transparency.</div></li>
     </ol>
@@ -173,7 +178,7 @@
       <tr><td>ICVCM assessment status</td><td>Which methodologies carry the CCP quality label</td><td>Snapshot 18 Aug 2026, 174 entries</td></tr>
       <tr><td>Probst et al. 2024, Supplementary Data</td><td>Share of real reductions per project type, with ranges</td><td>doi:10.1038/s41467-024-53645-z</td></tr>
       <tr><td>Climate TRACE</td><td>Independent, ownership-weighted emissions per company</td><td>v5.7.0, 2025 emissions</td></tr>
-      <tr><td>Company reports</td><td>Reported emissions for 76 company groups, each with URL and section</td><td>Annual and sustainability reports, assurance statements, checked Oct 2026</td></tr>
+      <tr><td>Company reports</td><td>Reported emissions for 79 company groups, each with URL and section</td><td>Annual and sustainability reports, assurance statements, checked Oct 2026</td></tr>
     </tbody></table></div>
   </section>
 
@@ -196,5 +201,6 @@
   <span>netra · Built by Rofi for the IEEE ClimateChain Global Hackathon 2026. Code open on GitHub.</span>
   <span>Track 1 · Carbon Markets &amp; Emissions Transparency</span>
 </footer>
+<script src="common.js"></script>
 </body>
 </html>

@@ -1,3 +1,5 @@
+<p align="center"><img src="../docs/assets/banner.svg" alt="Netra" width="100%"></p>
+
 # Netra brand guidelines (v0.1)
 
 Format follows [cofoundy/brand-skills](https://github.com/cofoundy/brand-skills): context, positioning, identity, voice, messaging. Visual board: see `brand.yaml`.
@@ -10,12 +12,14 @@ Format follows [cofoundy/brand-skills](https://github.com/cofoundy/brand-skills)
 ## Positioning
 - Sylvera, BeZero and Calyx grade carbon **projects**, behind paywalls. CarbonPlan publishes open research but does not grade companies. Climate TRACE estimates emissions only.
 - **Netra grades the claim a company makes**, free, with every source linked and every check on the record.
-- Proof points: 876 Mt retired since 2020 checked; 44,465 buyers; primary-source emissions for 76 of 94 classified company groups (93.7% of company tonnes).
+- Proof points: 876 Mt retired since 2020 checked; 44,465 buyers; primary-source emissions for 79 of 94 classified company groups (94.3% of company tonnes).
 
 ## Identity
 - **Mark:** an eye whose iris is half filled with the signal colour: the share of a claim that holds up. Always with the lowercase wordmark `netra` (Hanken Grotesk 600, tracking −0.04em). Mark alone for favicon and app icon.
 - **Colour:** ink `#121212`, paper `#FBFAF7`, one signal `#E8590C`, line `#E6E2DA`. No green (the colour of greenwashing). Dark sections are reserved for proof (on-chain record).
-- **Grades:** A `#1D4E89`, B `#4C82C3`, C `#D9D4CB`, D `#F2A36B`, E `#B83A0E`. Blue to orange, readable with colour blindness; the letter is always printed on the swatch.
+<p align="center"><img src="../docs/assets/grades.svg" alt="Grade scale" width="100%"></p>
+
+- **Grades:** A `#1D4E89`, B `#3A6FB0`, C `#D9D4CB`, D `#F2A36B`, E `#B83A0E`. Blue to orange, readable with colour blindness; the letter is always printed on the swatch.
 - **Type:** Hanken Grotesk for everything (headlines 600, body 400, labels 600 caps with +0.08em tracking, tabular numbers). Fragment Mono only for hashes and serial numbers.
 - **Signature device:** the claimed-vs-real bar. Outline = claimed, hatched = research range, filled = best estimate. Use it wherever a claim is shown.
 - **Layout:** centred hero with one search box, generous white space, cards with 16 px radius and 1 px line borders. One action per screen.

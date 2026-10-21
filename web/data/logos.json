@@ -1,0 +1,338 @@
+{
+"Shell plc": {
+"src": "logos/shell.com.png",
+"color": "#f8c808"
+},
+"Eni SpA": {
+"src": "logos/eni.com.png",
+"color": "#080838"
+},
+"Volkswagen AG": {
+"src": "logos/volkswagen-group.com.png",
+"color": "#082838"
+},
+"Geopost (DPD group, La Poste)": {
+"src": "logos/geopost.com.png",
+"color": "#d80838"
+},
+"Telstra": {
+"src": "logos/telstra.com.au.png",
+"color": "#f86848"
+},
+"Takeda Pharmaceutical": {
+"src": "logos/takeda.com.png",
+"color": "#e81828"
+},
+"Delta Air Lines Inc": {
+"src": "logos/delta.com.png",
+"color": "#980838"
+},
+"EY": {
+"src": "logos/ey.com.png",
+"color": "#f8e838"
+},
+"Netflix, Inc.": {
+"src": "logos/netflix.com.png",
+"color": "#e80818"
+},
+"Kering (Gucci)": {
+"src": "logos/kering.com.png",
+"color": null
+},
+"Norwegian Cruise Line Holdings": {
+"src": "logos/nclhltd.com.png",
+"color": "#085888"
+},
+"VistaJet": {
+"src": "logos/vistajet.com.png",
+"color": "#b80818"
+},
+"Woodside Energy Group": {
+"src": "logos/woodside.com.png",
+"color": "#d81838"
+},
+"ENGIE SA": {
+"src": "logos/engie.com.png",
+"color": "#0888d8"
+},
+"easyJet plc": {
+"src": "logos/easyjet.com.png",
+"color": "#f86808"
+},
+"Natura &Co": {
+"src": "logos/natura.com.br.png",
+"color": "#f88818"
+},
+"CPC Corporation, Taiwan": {
+"src": "logos/www.cpc.com.tw.png",
+"color": "#184888"
+},
+"CMA CGM": {
+"src": "logos/cma-cgm.com.png",
+"color": "#f86858"
+},
+"Chevron Corp": {
+"src": "logos/chevron.com.png",
+"color": "#0898d8"
+},
+"Interface, Inc.": {
+"src": "logos/interface.com.png",
+"color": null
+},
+"Civitas Resources": {
+"src": "logos/civitasresources.com.png",
+"color": "#180858"
+},
+"Apple Inc.": {
+"src": "logos/apple.com.png",
+"color": null
+},
+"Greenchoice (energy retailer, offsets for customers)": {
+"src": "logos/greenchoice.nl.png",
+"color": "#086838"
+},
+"Air Canada": {
+"src": "logos/aircanada.com.png",
+"color": "#f81828"
+},
+"Finarvedi (Arvedi steel)": {
+"src": "logos/arvedi.it.png",
+"color": "#083878"
+},
+"Salesforce": {
+"src": "logos/salesforce.com.png",
+"color": "#0898d8"
+},
+"Etsy": {
+"src": "logos/etsy.com.png",
+"color": "#f86808"
+},
+"Grab Holdings": {
+"src": "logos/grab.com.png",
+"color": "#08b848"
+},
+"Powershop (energy retailer, offsets for customers)": {
+"src": "logos/powershop.com.au.png",
+"color": "#f80868"
+},
+"Bayer AG": {
+"src": "logos/bayer.com.png",
+"color": "#08b8f8"
+},
+"Entega AG": {
+"src": "logos/entega.de.png",
+"color": "#f8a828"
+},
+"The Walt Disney Company": {
+"src": "logos/thewaltdisneycompany.com.png",
+"color": null
+},
+"LichtBlick (energy retailer, offsets for customers)": {
+"src": "logos/lichtblick.de.png",
+"color": "#f8b868"
+},
+"GASAG (energy retailer, offsets for customers)": {
+"src": "logos/gasag.de.png",
+"color": "#084878"
+},
+"AGL Energy": {
+"src": "logos/agl.com.au.png",
+"color": "#38e8f8"
+},
+"Hörmann KG (door manufacturer)": {
+"src": "logos/hoermann.de.png",
+"color": "#083878"
+},
+"Schwarz Group (Lidl)": {
+"src": "logos/lidl.com.png",
+"color": "#f8f808"
+},
+"Berkshire Hathaway (Shaw Industries)": {
+"src": "logos/shawfloors.com.png",
+"color": "#083848"
+},
+"Barilla Group": {
+"src": "logos/barillagroup.com.png",
+"color": "#083878"
+},
+"Toho Gas": {
+"src": "logos/www.tohogas.co.jp.png",
+"color": "#0898d8"
+},
+"Osaka Gas": {
+"src": "logos/www.osakagas.co.jp.png",
+"color": "#084898"
+},
+"PwC": {
+"src": "logos/pwc.com.png",
+"color": "#f84808"
+},
+"CATL": {
+"src": "logos/catl.com.png",
+"color": "#1858a8"
+},
+"Chanel": {
+"src": "logos/chanel.com.png",
+"color": null
+},
+"Infosys": {
+"src": "logos/infosys.com.png",
+"color": "#0878c8"
+},
+"Kuehne+Nagel": {
+"src": "logos/kuehne-nagel.com.png",
+"color": "#184878"
+},
+"AECI (AEL Mining Services)": {
+"src": "logos/aeciworld.com.png",
+"color": "#e81838"
+},
+"Boston Consulting Group": {
+"src": "logos/bcg.com.png",
+"color": "#085828"
+},
+"Fortescue": {
+"src": "logos/fortescue.com.png",
+"color": "#08f808"
+},
+"Tokyo Gas": {
+"src": "logos/www.tokyo-gas.co.jp.png",
+"color": "#082888"
+},
+"Nedbank Group": {
+"src": "logos/nedbank.co.za.png",
+"color": "#086848"
+},
+"Lufthansa Group": {
+"src": "logos/lufthansagroup.com.png",
+"color": "#183888"
+},
+"REI": {
+"src": "logos/rei.com.png",
+"color": null
+},
+"Japan Airlines (ZIPAIR)": {
+"src": "logos/www.jal.co.jp.png",
+"color": "#c80808"
+},
+"Qantas": {
+"src": "logos/qantas.com.png",
+"color": "#c80808"
+},
+"Lyft": {
+"src": "logos/lyft.com.png",
+"color": "#f808b8"
+},
+"Beiersdorf": {
+"src": "logos/beiersdorf.com.png",
+"color": "#081868"
+},
+"EnergyAustralia (energy retailer, offsets for customers)": {
+"src": "logos/energyaustralia.com.au.png",
+"color": "#08e838"
+},
+"Jet2": {
+"src": "logos/jet2.com.png",
+"color": "#e82828"
+},
+"Zalando": {
+"src": "logos/zalando.com.png",
+"color": "#f84808"
+},
+"Nestlé (Nespresso)": {
+"src": "logos/nestle.com.png",
+"color": null
+},
+"Vattenfall AB": {
+"src": "logos/vattenfall.se.png",
+"color": "#f8d808"
+},
+"Allianz": {
+"src": "logos/allianz.com.png",
+"color": "#083888"
+},
+"Origin Energy": {
+"src": "logos/originenergy.com.au.png",
+"color": "#f86828"
+},
+"Stadtwerke Rostock AG": {
+"src": "logos/swrag.de.png",
+"color": "#0898a8"
+},
+"Chiesi Group": {
+"src": "logos/chiesi.com.png",
+"color": "#b81868"
+},
+"British American Tobacco (Nicoventures)": {
+"src": "logos/bat.com.png",
+"color": "#081858"
+},
+"E.ON SE": {
+"src": "logos/eon.com.png",
+"color": "#e81808"
+},
+"ANZ": {
+"src": "logos/anz.com.png",
+"color": "#082838"
+},
+"Lavazza Group": {
+"src": "logos/lavazza.com.png",
+"color": "#082848"
+},
+"Ovako": {
+"src": "logos/ovako.com.png",
+"color": "#084878"
+},
+"Groupe La Poste": {
+"src": "logos/laposte.fr.png",
+"color": "#f8c808"
+},
+"OVO (energy retailer, offsets for customers)": {
+"src": "logos/ovoenergy.com.png",
+"color": "#089828"
+},
+"BrewDog": {
+"src": "logos/brewdog.com.png",
+"color": null
+},
+"Süwag (energy retailer)": {
+"src": "logos/suewag.de.png",
+"color": "#0898a8"
+},
+"Maple Leaf Foods": {
+"src": "logos/mapleleaffoods.com.png",
+"color": "#0858a8"
+},
+"Städtische Werke Kassel (energy retailer)": {
+"src": "logos/sw-kassel.de.png",
+"color": "#085898"
+},
+"Booking Holdings": {
+"src": "logos/bookingholdings.com.png",
+"color": "#0868b8"
+},
+"Rémy Cointreau": {
+"src": "logos/remy-cointreau.com.png",
+"color": "#f82838"
+},
+"Friedrich Scharr KG": {
+"src": "logos/scharr.de.png",
+"color": "#f89808"
+},
+"Traxys (South African carbon tax offset account)": {
+"src": "logos/traxys.com.png",
+"color": "#181838"
+},
+"Microsoft": {
+"src": "logos/microsoft.com.png",
+"color": "#f85828"
+},
+"Holcim (Australia)": {
+"src": "logos/holcim.com.au.png",
+"color": "#98c828"
+},
+"Holcim AG": {
+"src": "logos/holcim.com.png",
+"color": "#98c828"
+}
+}
