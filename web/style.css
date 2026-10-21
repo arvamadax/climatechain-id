@@ -226,8 +226,12 @@ table.data td { vertical-align: middle; }
 .how { margin-top: 1.2rem; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
 .how summary { cursor: pointer; padding: .9rem 1.1rem; font-weight: 600; list-style: none; display: flex; align-items: center; gap: .6rem; }
 .how summary::-webkit-details-marker { display: none; }
-.how summary::before { content: "+"; display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 999px;
-  background: var(--soft); font-weight: 700; transition: transform .3s var(--ease); }
+.how summary { user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.how summary:focus:not(:focus-visible) { outline: none; }
+/* plus drawn with two bars so it sits dead centre in any font; rotates into a cross when open */
+.how summary::before { content: ""; flex: none; width: 1.4rem; height: 1.4rem; border-radius: 999px; background:
+  linear-gradient(var(--ink), var(--ink)) center / .62rem 2px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 2px .62rem no-repeat, var(--soft);
+  transition: transform .3s var(--ease); }
 .how[open] summary::before { transform: rotate(45deg); }
 .how dl { margin: 0; padding: 0 1.1rem .4rem; display: grid; gap: .8rem; }
 .how dl div { display: grid; grid-template-columns: 9rem 1fr; gap: 1rem; border-top: 1px solid var(--line); padding-top: .8rem; font-size: .94rem; }
