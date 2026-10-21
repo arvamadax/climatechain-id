@@ -165,11 +165,15 @@ class Canvas:
         head, body = rows[0], rows[1:]
         n = len(head)
         cells = [[runs(c, links) for c in r] for r in [head] + body]
-        lens = [max(sum(len(t) for t, _ in cells[r][c]) for r in range(len(cells))) for c in range(n)]
-        lens = [min(max(l, 8), 60) for l in lens]
-        avail = W - 2 * PAD
-        cw = [avail * l / sum(lens) for l in lens]
         x0, size, lh, pad = PAD, 19, 1.5, 16
+        avail = W - 2 * PAD
+        # each column at least as wide as its longest unbreakable word; the rest shared by text length
+        minw = [max(tw(w, size, st if ri else "b") for ri in range(len(cells)) for t, st in cells[ri][c] for w in t.split() or [""]) + 2 * pad + 4
+                for c in range(n)]
+        lens = [min(max(sum(len(t) for t, _ in cells[r][c]) for r in range(len(cells))), 60) for c in range(n)]
+        spare = max(avail - sum(minw), 0)
+        cw = [m + spare * l / sum(lens) for m, l in zip(minw, lens)]
+        cw = [w * avail / sum(cw) for w in cw]
         top = self.y
         out = []
         for ri, r in enumerate(cells):

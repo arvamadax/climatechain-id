@@ -111,6 +111,7 @@ function bar(parts) {
 
 function sparkline(ys) {
   const years = Object.keys(ys).map(Number).sort();
+  if (years.length < 2) return `<p class="muted small">All retirements were in ${years[0]}, so there is no trend to show.</p>`;
   const pts = years.map((y) => [y, ys[y][2] ? ys[y][1] / ys[y][2] : null]);
   const W = 260, H = 70, pad = 18, x0 = years[0], x1 = years[years.length - 1];
   const X = (y) => pad + ((y - x0) / Math.max(1, x1 - x0)) * (W - 2 * pad);
@@ -137,8 +138,9 @@ const TYPE_NOTE = {
 function buyerLine(o) {
   if (!o.g) return "";
   const note = TYPE_NOTE[o.g.type];
-  const group = o.g.group && o.g.group !== o.n ? `Part of <b>${esc(o.g.group)}</b>` : "";
-  const extra = o.g.note ? ` (${esc(o.g.note)})` : "";
+  const isCo = o.g.type === "company";
+  const group = isCo && o.g.group && o.g.group !== o.n ? `Part of <b>${esc(o.g.group)}</b>` : "";
+  const extra = isCo && o.g.note ? ` (${esc(o.g.note)})` : "";
   return `<p class="muted small">${group}${group && extra ? extra : ""}${note ? `${group ? " · " : ""}${note}` : ""}</p>`;
 }
 
@@ -156,6 +158,9 @@ function reportedBox(o) {
 
 // Reasons a company group has no reported emissions, from data/emissions_gaps.csv via companies.json.
 let GAPS = {};
+// Unusual retirement patterns from pipeline/anomalies.py (Isolation Forest); a reason to look closer, not proof.
+let ANOM = {};
+const anomReady = getJSON("data/anomalies.json").then((x) => (ANOM = x.flags || {})).catch(() => {});
 const gapsReady = getJSON("data/companies.json").then((cs) => cs.forEach((c) => c.gap && (GAPS[c.group] = c.gap))).catch(() => {});
 
 function gapBox(o) {
@@ -208,23 +213,25 @@ async function render(i, scroll = true) {
   box.hidden = false;
   if (scroll) box.innerHTML = `<p class="muted">Loading ${esc(rows[i][0])}…</p>`;
   let o;
-  try { o = await owner(i); await Promise.all([logosReady, gapsReady]); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
+  try { o = await owner(i); await Promise.all([logosReady, gapsReady, anomReady]); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
   const g = grade(o.e, o.k, o.t);
   const group = o.g?.type === "company" ? o.g.group : null;
   const cover = o.k / o.t, real = o.k ? o.e / o.k : 0;
   const anonymous = o.n === "(no owner listed)" || /^not disclosed$/i.test(o.n);
+  const short = /^0x[0-9a-f]{20,}$/i.test(o.n) ? `${o.n.slice(0, 6)}…${o.n.slice(-4)}` : o.n; // wallet addresses
+  const years = o.y[0] === o.y[1] ? `in ${o.y[0]}` : `since ${o.y[0]}`;
   const sentence = anonymous
     ? `<b>${mt(o.t)}</b> of credits were retired since ${o.y[0]} without naming who the climate benefit belongs to. Nobody can be held to these claims.`
     : o.k
-      ? `Of every 100 tonnes <b>${esc(o.n)}</b> retired since ${o.y[0]}, research covers <b>${Math.round(cover * 100)}</b>. Of those, about <b>${Math.round(real * 100)}</b> likely cut real emissions (research range ${Math.round(o.el / o.k * 100)}–${Math.round(o.eh / o.k * 100)}).`
-      : `None of the ${mt(o.t)} <b>${esc(o.n)}</b> retired since ${o.y[0]} comes from a project type with a published research estimate, so Netra cannot estimate how much was real.`;
+      ? `Of every 100 tonnes <b>${esc(short)}</b> retired ${years}, research covers <b>${Math.round(cover * 100)}</b>${g ? "" : ", too few for a grade"}. Of those, about <b>${Math.round(real * 100)}</b> likely cut real emissions${o.el === o.eh ? "" : ` (research range ${Math.round(o.el / o.k * 100)}–${Math.round(o.eh / o.k * 100)})`}.`
+      : `None of the ${mt(o.t)} <b>${esc(short)}</b> retired ${years} comes from a project type with a published research estimate, so Netra cannot estimate how much was real.`;
 
   const cats = Object.entries(o.c).sort((a, b) => b[1] - a[1]);
   const ccp = ["approved", "not_approved", "not_assessed"].map((s) => [s, o.ccp[s] || 0]);
   const types = Object.entries(o.bt);
   box.innerHTML = `
     <div class="res-head">
-      <div><p class="eyebrow">Retired ${o.y[0]}–${o.y[1]} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2>${esc(o.n)}</h2></div>${buyerLine(o)}
+      <div><p class="eyebrow">Retired ${o.y[0] === o.y[1] ? o.y[0] : `${o.y[0]}–${o.y[1]}`} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2 class="${short !== o.n ? "addr" : ""}">${esc(o.n)}</h2></div>${buyerLine(o)}
         <p class="muted small">${mt(o.t)} retired${g ? ` · grade on the ${pct(cover)} covered by research` : " · not enough research coverage for a grade"}</p></div>
       <div class="grade ${g ? "" : "na"}" data-g="${g ? g[1] : ""}" style="${g ? `background:var(${g[2]})` : ""}" role="img" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
     </div>
@@ -233,14 +240,15 @@ async function render(i, scroll = true) {
       <div class="row"><b>Likely real, in researched project types</b><span class="num">${mt(o.e)} of ${mt(o.k)}</span></div>
       ${claimBar(o.e, o.el, o.eh, o.k)}
       <div class="key"><span>Filled: best estimate ${pct(real)}</span><span>Hatched: research range ${pct(o.el / o.k)}–${pct(o.eh / o.k)}</span><span>Outline: claimed</span></div>
+      ${o.e ? `<p class="small">At the 2024 market average of $6.34 per credit, each likely-real tonne costs about <b>$${(6.34 * o.k / o.e).toFixed(2)}</b> (range $${(6.34 * o.k / o.eh).toFixed(2)}–$${o.el ? (6.34 * o.k / o.el).toFixed(2) : "?"}). <span class="muted">Price: <a href="https://www.ecosystemmarketplace.com/publications/2025-state-of-the-voluntary-carbon-market-sovcm/" target="_blank" rel="noopener">Ecosystem Marketplace, State of the Voluntary Carbon Market 2025</a>, p. 10. What this buyer paid is not public.</span></p>` : ""}
     </div>` : ""}
     <div class="grid2">
       <div class="box"><h3>Research estimate</h3>
-        ${bar([[o.e / o.t, css("--signal"), "Likely real"], [(o.k - o.e) / o.t, css("--miss"), "Likely not real"], [1 - cover, css("--line"), "No estimate"]])}
+        ${bar([[o.e / o.t, css("--signal"), "Likely real"], [(o.k - o.e) / o.t, css("--notreal"), "Likely not real"], [1 - cover, css("--noest"), "No estimate"]])}
         <div class="legend">
           <div><span><i style="background:var(--signal)"></i>Likely real</span><span class="num">${mt(o.e)}</span></div>
-          <div><span><i style="background:var(--miss)"></i>Likely not real</span><span class="num">${mt(o.k - o.e)}</span></div>
-          <div><span><i style="background:var(--line)"></i>No published estimate</span><span class="num">${mt(o.t - o.k)}</span></div>
+          <div><span><i style="background:var(--notreal)"></i>Likely not real</span><span class="num">${mt(o.k - o.e)}</span></div>
+          <div><span><i style="background:var(--noest)"></i>No published estimate</span><span class="num">${mt(o.t - o.k)}</span></div>
         </div></div>
       <div class="box"><h3>Project types</h3>
         <div class="legend">${types.map(([b, t]) => `<div><span>${esc(b)}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>
@@ -252,7 +260,10 @@ async function render(i, scroll = true) {
         <p class="muted small">Grey bars: tonnes retired per year. Line: likely-real share of research-covered tonnes.</p></div>
     </div>
     ${o.o / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.o / o.t)} of these credits have a vintage before 2016, which the aviation scheme CORSIA does not accept.</div>` : ""}
-    ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles. Verra retires ACM0002 and AMS-I.D for new registrations on 1 January 2027.</div>` : ""}
+    ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles.</div>` : ""}
+    ${ANOM[i] ? `<div class="unusual"><b>Unusual pattern</b> <span class="tag">machine learning</span>
+      <ul>${ANOM[i].reasons.map((r) => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join("")}</ul>
+      <p class="muted small">Flagged by an Isolation Forest model among 540 buyers with at least 100,000 t retired. An unusual pattern is a reason to look closer, not proof of wrongdoing. <a href="data.html#unusual">How it works</a></p></div>` : ""}
     ${howWeKnow(o, g)}
     <p class="note"><b>Selling in the EU?</b> Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.</p>
     <div id="chainStatus" class="flag ok">Checking on-chain records…</div>
@@ -272,7 +283,7 @@ async function chainStatus(o) {
   try {
     const list = await onchain;
     const mine = list.filter((c) => c.subject === subjectHash(o.n));
-    if (!mine.length) { el.className = "flag"; el.textContent = "No check for this buyer has been published on-chain yet."; return; }
+    if (!mine.length) { el.className = "note"; el.textContent = "Not published on-chain yet. Published checks are listed under On-chain proof."; return; }
     const last = mine[mine.length - 1], match = last.reportHash === reportHash(o);
     el.className = match && !last.doubleClaim ? "flag ok" : "flag";
     el.innerHTML = match
@@ -302,7 +313,7 @@ function market(m) {
   const grid = [0, 0.25, 0.5, 0.75, 1].map((v) => `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css("--line")}"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${v * 100}%</text>`).join("");
   const line = vals.map((v, k) => `${k ? "L" : "M"}${X(k)},${Y(v)}`).join("");
   $("#trend").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Likely-real share by year">${grid}
-    <path d="${line}" fill="none" stroke="${css("--signal")}" stroke-width="2.5"/>
+    <path d="${line}" pathLength="1" fill="none" stroke="${css("--signal")}" stroke-width="2.5"/>
     ${vals.map((v, k) => `<circle cx="${X(k)}" cy="${Y(v)}" r="4" fill="${css("--signal")}"/><text x="${X(k)}" y="${Y(v) - 10}" text-anchor="middle">${pct(v)}</text><text x="${X(k)}" y="${H - 10}" text-anchor="middle">${years[k]}${years[k] === 2026 ? "*" : ""}</text>`).join("")}
     </svg><p class="muted small">* 2026 up to August. The likely-real share has stayed between 18% and 22% every year.</p>`;
 
@@ -363,10 +374,24 @@ async function hiddenSection() {
 }
 
 /* ---------- verify ---------- */
+// Public RPCs tried in order; the first that answers is kept (public nodes drop connections now and then).
+const BACKUP_RPC = { 11155111: ["https://ethereum-sepolia-rpc.publicnode.com", "https://sepolia.drpc.org", "https://1rpc.io/sepolia"] };
+let REG = null;
+async function registry() {
+  if (REG) return REG;
+  for (const url of [CHAIN.rpc, ...(BACKUP_RPC[CHAIN.chainId] || [])].filter((u, k, a) => u && a.indexOf(u) === k)) {
+    try {
+      const reg = new ethers.Contract(CHAIN.address, ABI, new ethers.JsonRpcProvider(url, CHAIN.chainId, { staticNetwork: true }));
+      await reg.count();
+      return (REG = reg);
+    } catch { /* try the next node */ }
+  }
+  throw new Error("no RPC answered");
+}
+
 async function loadChecks() {
   if (!CHAIN) throw new Error("no deployment");
-  const provider = new ethers.JsonRpcProvider(CHAIN.rpc, CHAIN.chainId, { staticNetwork: true });
-  const reg = new ethers.Contract(CHAIN.address, ABI, provider);
+  const reg = await registry();
   const n = Number(await reg.count());
   const ids = [...Array(n).keys()];
   return Promise.all(ids.map(async (id) => {
@@ -393,14 +418,15 @@ async function verifyPanel() {
     const names = new Map(rows.map((r, i) => [subjectHash(r[0]), i]));
     const out = await Promise.all(list.slice().reverse().map(async (c) => {
       const i = names.get(c.subject);
-      let status = `<span class="muted">unknown buyer</span>`;
+      const file = i === undefined ? await getJSON(c.uri).catch(() => null) : null;
+      let status = `<span class="muted">${file ? "not in the dataset (demo claimant)" : "unknown buyer"}</span>`;
       if (i !== undefined) {
         const match = reportHash(await owner(i)) === c.reportHash;
         status = match ? `<span class="ok">✓ matches data</span>` : `<span class="bad">differs from current data</span>`;
       }
       const serial = await serialStatus(c);
       if (c.doubleClaim) status += ` <span class="bad">· flagged double claim</span>`;
-      return `<tr><td class="num">#${c.id}</td><td>${i !== undefined ? `<a href="#buyer-${i}">${esc(rows[i][0])}</a>` : `<span class="mono">${c.subject.slice(0, 12)}…</span>`}</td>
+      return `<tr><td class="num">#${c.id}</td><td>${i !== undefined ? `<a href="#buyer-${i}">${esc(rows[i][0])}</a>` : (file ? esc(file.buyer) : `<span class="mono">${c.subject.slice(0, 12)}…</span>`)}</td>
         <td class="mono">${c.reportHash.slice(0, 14)}…</td><td class="num">${new Date(c.timestamp * 1000).toISOString().slice(0, 10)}</td><td>${status}</td><td>${serial}</td></tr>`;
     }));
     $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Report</th><th>Serial ranges</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
@@ -426,6 +452,8 @@ async function verifyPanel() {
   market(INDEX.meta);
   hiddenSection();
   verifyPanel();
+  liveFeed();
+  registryFeed();
   // #buyer-N opens that buyer: on load, and from in-page links (verify table, hidden buyers, data page).
   const open = () => { const m = location.hash.match(/^#buyer-(\d+)$/); if (m && rows[+m[1]]) pick(+m[1]); };
   addEventListener("hashchange", open);
@@ -433,3 +461,159 @@ async function verifyPanel() {
   // Charts draw with the current theme's colours: redraw them when the theme changes.
   document.addEventListener("themechange", () => { market(INDEX.meta); hiddenSection(); if (CURRENT !== null) render(CURRENT, false); });
 })();
+
+/* ---------- live feed: new on-chain checks and double-claim flags appear without a reload ---------- */
+function liveFeed() {
+  if (!CHAIN || !CHAIN.explorer) return; // public networks only
+  const dot = $("#live");
+  let known = null, flags = null;
+  const tick = async () => {
+    try {
+      const reg = await registry();
+      const n = Number(await reg.count());
+      const list = n === known ? null : await loadChecks();
+      const f = list ? list.filter((c) => c.doubleClaim).length : flags;
+      if (known !== null && (n > known || f > flags)) {
+        onchain = Promise.resolve(list);
+        await verifyPanel();
+        toast(n > known ? `New on-chain check #${n - 1} recorded` : "A double claim was just flagged on-chain");
+      }
+      known = n; flags = f;
+      dot.className = "live on"; dot.textContent = "Live";
+    } catch {
+      REG = null;
+      dot.className = "live off"; dot.textContent = "Reconnecting";
+    }
+  };
+  tick();
+  setInterval(tick, 15000);
+}
+
+function toast(text) {
+  const t = document.createElement("div");
+  t.className = "toast"; t.setAttribute("role", "status"); t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 6000);
+}
+
+/* ---------- claim checker: an AI reader extracts, Netra's data decides ---------- */
+let COMPANIES = null;
+const companiesReady = getJSON("data/companies.json").then((x) => (COMPANIES = x)).catch(() => []);
+const nm = (x) => String(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\(.*?\)/g, " ")
+  .replace(/\b(inc|plc|ag|sa|spa|se|ltd|limited|llc|corp|corporation|co|group|holdings|the|company)\b/g, " ").replace(/[^a-z0-9]+/g, " ").trim();
+
+function matchCompany(name) {
+  const q = nm(name);
+  if (q.length < 2) return null;
+  for (const c of COMPANIES || []) {
+    const cands = [c.group, ...c.names].map(nm).filter((x) => x.length >= 2);
+    if (cands.some((x) => x === q || (" " + q + " ").includes(" " + x + " ") || (" " + x + " ").includes(" " + q + " "))) return c;
+  }
+  return null;
+}
+
+// What the claim says, held against the record. The full company result renders below it.
+async function claimChecks(c, f) {
+  const o = await owner(c.i);
+  const year = f.year && f.year.value, stated = f.tonnes && f.tonnes.value;
+  const inYear = year && o.ys[year] ? o.ys[year][0] : null;
+  const words = `${f.claim_words?.value || ""} ${f.claim_words?.quote || ""}`;
+  const eu = f.scope && ["product", "service", "event"].includes(f.scope.value) && /neutral|zero|positive|negative|compensat|offset|balanc/i.test(words);
+  return [
+    year ? (inYear ? `In ${year}, ${esc(c.group)} retired <b>${mt(inYear)}</b> of credits${stated ? `; the claim says <b>${mt(stated)}</b>` : ""}.`
+      : `No retirement by ${esc(c.group)} is recorded for ${year} on Verra or Gold Standard${stated ? `, yet the claim says <b>${mt(stated)}</b>` : ""}.`) : "",
+    c.k ? `Roughly <b>${pct(c.e / c.k)}</b> of its researched credits are likely real.` : "None of its credits are in a project type with a research estimate.",
+    c.rep ? `Offsets do not cut its own emissions: ${c.rep.scope1 != null ? `Scope 1 <b>${mt(c.rep.scope1)}</b>` : `<b>${mt(c.rep.total)}</b>`} in ${c.rep.year}.` : "",
+    eu ? `<b>EU rule:</b> since 27 Sep 2026, Directive 2024/825 bans calling a product, service or event climate neutral because of offsets. This claim reads as one.` : "",
+  ].filter(Boolean).map((x) => `<li>${x}</li>`).join("");
+}
+
+function setupClaim() {
+  const form = $("#claimForm"), out = $("#claimOut"), ta = $("#claimText");
+  if (!form) return;
+  const lede = $("#check .lede"), ledeCompany = lede.innerHTML;
+  $("#claimExamples").addEventListener("click", (e) => { const b = e.target.closest("[data-ex]"); if (b) { ta.value = b.dataset.ex; form.requestSubmit(); } });
+  const setMode = (claim) => {
+    $("#modeCompany").setAttribute("aria-selected", String(!claim));
+    $("#modeClaim").setAttribute("aria-selected", String(claim));
+    $("#search").hidden = claim; $("#examples").hidden = claim;
+    form.hidden = !claim; $("#claimExamples").hidden = !claim;
+    lede.innerHTML = claim ? `Paste a green claim from an ad, a label or a report. AI reads who claims what, quoting your text; Netra holds it against the registry record. <a href="about.html#ai">How it works</a>` : ledeCompany;
+    out.innerHTML = "";
+    (claim ? ta : $("#q")).focus();
+  };
+  $("#modeCompany").addEventListener("click", () => setMode(false));
+  $("#modeClaim").addEventListener("click", () => setMode(true));
+  ta.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) form.requestSubmit(); });
+  out.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-search]");
+    if (b) { setMode(false); $("#q").value = b.dataset.search; $("#q").dispatchEvent(new Event("input")); }
+  });
+  const note = (msg, name = "") => `<div class="strip"><p>${msg}</p><button type="button" class="btn ghost" data-search="${esc(name)}">${name ? `Search “${esc(name)}” instead` : "Search by company name"}</button></div>`;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await companiesReady;
+    const text = ta.value.trim();
+    $("#result").hidden = true;
+    if (text.length < 30) { out.innerHTML = `<div class="strip"><p>Paste at least one full sentence (30 characters or more).</p></div>`; return; }
+    out.innerHTML = `<div class="strip"><p class="muted">Reading the claim…</p></div>`;
+    let r;
+    try {
+      const res = await fetch("api/claim", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text }) });
+      r = await res.json().catch(() => ({ error: `The claim reader answered ${res.status}.` }));
+      if (!res.ok) throw new Error(r.error || `HTTP ${res.status}`);
+    } catch (err) {
+      out.innerHTML = note(esc(err.message));
+      return;
+    }
+    const f = r.fields, labels = { company: "Who", claim_words: "Says", scope: "Covers", year: "Year", tonnes: "Tonnes" };
+    const found = f.company ? matchCompany(f.company.value) : null;
+    if (!found) {
+      out.innerHTML = note(f.company ? `The claim is by <b>${esc(f.company.value)}</b>, which is not one of the 94 company groups Netra has reviewed. Its registry record may still be listed.` : "No company could be read from this text with a supporting quote.", f.company?.value);
+      return;
+    }
+    const read = Object.keys(labels).filter((k) => f[k]).map((k) => `<div><dt>${labels[k]}</dt><dd>${esc(k === "tonnes" ? mt(f[k].value) : f[k].value)}<span class="quote">“${esc(f[k].quote)}”</span></dd></div>`).join("");
+    out.innerHTML = `<div class="strip claim-grid">
+      <div><p class="eyebrow">The claim</p><dl class="facts">${read}</dl></div>
+      <div><p class="eyebrow">Against the record</p><ul class="checks">${await claimChecks(found, f)}</ul></div>
+      <p class="muted small full">Read by AI; each item is quoted from your text. Every figure comes from Netra's data. Full result for ${esc(found.group)} below.</p>
+    </div>`;
+    $("#q").value = rows[found.i][0];
+    history.replaceState(null, "", `#buyer-${found.i}`);
+    await render(found.i, false);
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+setupClaim();
+
+/* ---------- live registry check: the newest Verra retirements, scored by server/registry-watch.js ---------- */
+function registryFeed() {
+  const dot = $("#regStatus");
+  if (!dot) return;
+  const ago = (d) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(d + "Z")) / 60000)); return m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+  const CCP = { approved: "CCP-approved", not_approved: "Not approved", not_assessed: "Not assessed" };
+  let newest = null;
+  const tick = async () => {
+    try {
+      const s = await (await fetch("api/live", { cache: "no-store" })).json();
+      if (!s.ok) throw new Error(s.error);
+      const w = s.window;
+      dot.className = "live on"; dot.textContent = "Live";
+      $("#regWhen").textContent = `Checked ${ago(s.updated.replace("Z", "").slice(0, 19))} · ${w.n} newest retirements, ${ago(w.from)} to ${ago(w.to)}`;
+      $("#regSum").innerHTML = `<b>${mt(w.t)}</b> retired in the ${w.n} newest retirements. Research covers <b>${mt(w.known)}</b> of it; about <b>${mt(w.eff)}</b> is likely real${w.known ? ` (${pct(w.eff / w.known)})` : ""}.${w.companies ? ` ${w.companies} name a company Netra has reviewed.` : ""}${w.eu ? ` <b>${w.eu}</b> of the newest notes call a product, service or event neutral because of offsets (banned in the EU since 27 Sep 2026).` : ""}${w.zombies ? ` <b>${w.zombies}</b> use credits 10 or more years old.` : ""}`;
+      $("#regList").innerHTML = `<div class="tablewrap"><table><thead><tr><th>When</th><th>Tonnes</th><th>Project</th><th>Claimed for</th><th>Likely real</th><th>ICVCM</th></tr></thead><tbody>${s.items.slice(0, 12).map((x) => `<tr class="${newest && x.d > newest ? "fresh" : ""}">
+        <td>${ago(x.d)}</td><td class="num" data-l="t">${fmt(x.q)}</td>
+        <td>${esc(x.pn)}<br><span class="muted small">${esc(x.pid)} · ${esc(x.country || "")} · <a href="glossary.html#vintage" title="Vintage: the year the emission cut happened">vintage</a> ${esc(x.vintage || "?")}</span></td>
+        <td>${x.co ? `<a href="#buyer-${x.co.i}">${esc(x.co.group)}</a>` : x.owner ? `<span data-raw>${esc(x.owner)}</span>` : `<span class="muted">Not named</span>`}${x.reason && x.reason.trim() !== (x.owner || "").trim() ? `<br><span class="muted small" data-raw>${esc(x.reason)}</span>` : ""}${x.radar?.eu ? `<br><span class="tag warn" title="Offset-based neutrality claims for products, services and events are banned in the EU since 27 Sep 2026 (Directive 2024/825)">Offset-based neutrality claim</span>` : ""}${x.zombie ? `<br><span class="tag" title="Vintage ${esc(x.vintage)}: the reduction happened 10 or more years before retirement">Zombie credit · ${esc(x.vintage)}</span>` : ""}</td>
+        <td data-l="Likely real">${x.oar != null ? pct(x.oar) : `<span class="muted">${x.known ? "No estimate" : "New project"}</span>`}</td>
+        <td data-l="ICVCM">${x.ccp ? CCP[x.ccp] : `<span class="muted">Not checked</span>`}</td></tr>`).join("")}</tbody></table></div>
+        <p class="muted small">Source: ${esc(s.source)}. Likely real: Probst et al. 2024 by project type, as on every result; "New project" means the project is not in the Berkeley VROD snapshot yet. Offset-based neutrality claim: the retirement note, read by the AI claim reader with quotes, calls a product, service or event neutral (or zero, positive, compensated) because of offsets; such claims are banned in the EU since 27 Sep 2026 (Directive 2024/825). Zombie credit: vintage 10 or more years before retirement. Gold Standard is not included live.</p>`;
+      if (newest && s.items[0].d !== newest) toast(`New retirement on Verra: ${fmt(s.items[0].q)} t, ${s.items[0].pn.slice(0, 48)}`);
+      newest = s.items[0].d;
+    } catch {
+      dot.className = "live off"; dot.textContent = "Reconnecting";
+    }
+  };
+  tick();
+  setInterval(tick, 60000);
+}

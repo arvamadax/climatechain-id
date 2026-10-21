@@ -8,6 +8,15 @@ const { root, nullifier } = require("./merkle");
 
 const DATA = path.join(__dirname, "..", "..", "web", "data");
 
+// Deployed address: contracts/deployments/<network>.json, else the web app's deployment for that network.
+function registryAddress(network) {
+  const f = path.join(__dirname, "..", "deployments", `${network}.json`);
+  if (fs.existsSync(f)) return JSON.parse(fs.readFileSync(f, "utf8")).claimRegistry;
+  const web = JSON.parse(fs.readFileSync(path.join(DATA, "deployment.json"), "utf8"));
+  if (web.network !== network) throw new Error(`no deployment for ${network}`);
+  return web.address;
+}
+
 async function main() {
   const name = process.env.BUYER;
   if (!name) throw new Error("Set BUYER to the exact buyer name shown in Netra.");
@@ -22,7 +31,7 @@ async function main() {
   const subject = ethers.id(owner.n);
   const report = ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(owner)));
   const serialRoot = root(serials.map(nullifier));
-  const { claimRegistry } = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "deployments", `${hre.network.name}.json`), "utf8"));
+  const claimRegistry = registryAddress(hre.network.name);
   const reg = await ethers.getContractAt("ClaimRegistry", claimRegistry);
   const id = Number(await reg.count());
   const uri = `data/checks/${id}.json`;
@@ -35,7 +44,9 @@ async function main() {
   console.log({ id, buyer: owner.n, tx: tx.hash, gas: rc.gasUsed.toString(), serialRanges: serials.length, serialRoot, report });
 }
 
-main().catch((e) => {
+module.exports = { registryAddress };
+
+if (require.main === module) main().catch((e) => {
   console.error(e);
   process.exitCode = 1;
 });

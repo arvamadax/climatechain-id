@@ -8,7 +8,7 @@ A static site: HTML, CSS and plain JavaScript. No backend, no build step, no acc
 
 | Page | File | What it shows |
 |---|---|---|
-| Check | `index.html` + `app.js` | Search any of 44,465 buyers; grade, plain sentence, claimed-vs-real bar, research breakdown, emissions, "How we know", on-chain status. Also the market overview, Hidden buyers and on-chain proof. |
+| Check | `index.html` + `app.js` | AI claim checker; search any of 44,465 buyers; grade, plain sentence, claimed-vs-real bar, research breakdown, emissions, "How we know", on-chain status. Also the market overview, Hidden buyers and on-chain proof. |
 | Data | `data.html` + `data.js` | All 94 company groups in one sortable table, compare up to three, project types, years, branded downloads. |
 | About | `about.html` | The problem, how it works, the story, why "Netra", research library, sources, limits. |
 | Glossary | `glossary.html` | Every term in plain English with a real example. |
@@ -19,9 +19,13 @@ Shared: `common.js` (formatting, grades, logos, theme switch, reveal motion), `s
 
 | Folder | Written by | Holds |
 |---|---|---|
-| `data/` | `pipeline/build.py`, `summaries.py`, `logos.py` | `index.json` (search), `o/*.json` (500 buyers per shard), `owners.json` (all), `companies.json`, `hidden.json`, `factors.json`, `logos.json`, `deployment.json` |
+| `data/` | `pipeline/build.py`, `summaries.py`, `logos.py` | `index.json` (search), `o/*.json` (500 buyers per shard), `owners.json` (all), `companies.json`, `hidden.json`, `factors.json`, `projects.json`, `logos.json`, `deployment.json` |
 | `logos/` | `pipeline/logos.py` | One PNG per company group |
 | `downloads/` | `pipeline/exports.py` | Branded Excel, CSV, JSON and README |
+
+The claim checker calls `api/claim` and the live registry check reads `api/live`, both served by `server/claim-api.js` (with `server/registry-watch.js`); the on-chain feed polls the contract every 15 s.
+
+The Check page has an EN/ID switch (`i18n.js`): exact sentences, then rules for sentences with numbers, applied to on-screen text; registry data (names, notes, project names) is never translated.
 
 ## Run locally
 

@@ -14,6 +14,7 @@ Everything here was checked by hand. Raw downloads (registry spreadsheets, Clima
 | `logos.csv` | 94 | Official website domain per company group, used to fetch its logo. Blank when no domain could be verified. |
 | `icvcm_status.json` | 174 | ICVCM Core Carbon Principles status per methodology, snapshot 18 Aug 2026. |
 | `classification_review.csv` | 234 | Projects where the three type signals disagree, so no estimate is applied. Written by `pipeline/build.py`. |
+| `name_suggestions_review.csv` | 91 | Possible group matches for unreviewed names, waiting for a manual check. Never used on the site. |
 | `serials/*.json` | 6 | Registry serial ranges for the buyers published on-chain in the demo. |
 
 <p align="center"><img src="../docs/assets/hidden-buyers.svg" alt="Hidden buyers" width="100%"></p>

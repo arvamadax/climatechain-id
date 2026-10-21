@@ -38,7 +38,7 @@ Consequence: while one key holds both roles, that key decides what is recorded, 
 ## Limits
 
 - Double claims are detected only among the checks recorded in this contract. The contract does not see retirements or claims in Verra, Gold Standard or any other registry.
-- With `recordRoot`, nothing is flagged automatically. A double claim stays unflagged until someone submits the two proofs to `challenge`.
+- With `recordRoot`, the contract flags nothing by itself. A double claim stays unflagged until someone submits the two proofs to `challenge`. Netra runs a watcher that does this (`contracts/scripts/live-watcher.js`); if it stops, anyone else can still challenge.
 - The contract does not check how `reportHash` was computed. Netra's rule is `reportHash` in `web/app.js`; the same report serialized another way gives a different hash. `serialRoot` depends on the exact text of each serial range; list order and duplicates do not change it (`contracts/scripts/merkle.js`).
 
 ## What this system cannot prove

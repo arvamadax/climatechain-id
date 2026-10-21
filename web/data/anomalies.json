@@ -1,0 +1,69 @@
+{
+"meta": {
+"method": "Isolation Forest (scikit-learn), 300 trees, contamination 2%, seed 7",
+"population": "540 buyers with at least 100,000 t retired since 2020",
+"reason_rule": "a feature is named when it is in the top 5% of the population (bottom 5% for likely-real share)",
+"flagged": 8
+},
+"flags": {
+"131": {
+"score": 0.589,
+"reasons": [
+"100% use methodologies ICVCM found do not meet its Core Carbon Principles",
+"100% of the volume was retired in a single year",
+"only 0% of researched tonnes are likely real",
+"average retirement of 161,000 t, far above typical"
+]
+},
+"227": {
+"score": 0.598,
+"reasons": [
+"100% of the volume was retired in a single year",
+"only 0% of researched tonnes are likely real"
+]
+},
+"283": {
+"score": 0.629,
+"reasons": [
+"100% of credits have a vintage before 2016",
+"100% use methodologies ICVCM found do not meet its Core Carbon Principles",
+"only 0% of researched tonnes are likely real"
+]
+},
+"367": {
+"score": 0.594,
+"reasons": [
+"100% use methodologies ICVCM found do not meet its Core Carbon Principles",
+"100% of the volume was retired in a single year",
+"only 0% of researched tonnes are likely real"
+]
+},
+"379": {
+"score": 0.585,
+"reasons": [
+"100% of the volume was retired in a single year"
+]
+},
+"387": {
+"score": 0.616,
+"reasons": [
+"only 0% of researched tonnes are likely real"
+]
+},
+"405": {
+"score": 0.602,
+"reasons": [
+"100% of the volume was retired in a single year"
+]
+},
+"473": {
+"score": 0.624,
+"reasons": [
+"100% of credits have a vintage before 2016",
+"100% use methodologies ICVCM found do not meet its Core Carbon Principles",
+"100% of the volume was retired in a single year",
+"only 0% of researched tonnes are likely real"
+]
+}
+}
+}

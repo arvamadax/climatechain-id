@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=c640201">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
@@ -33,7 +33,7 @@
     <p class="eyebrow">About</p>
     <h1>Companies say they offset. Netra checks what that is worth.</h1>
     <p class="lede">Netra is a free, open tool that takes a company's carbon credits, the research on those credits, the company's own emissions report and an independent estimate, and puts them on one page in plain words. Every check is written to a public blockchain so nobody can change it later.</p>
-    <div class="jump"><a href="#problem">The problem</a><a href="#what">What Netra does</a><a href="#how">How it works</a><a href="#story">The story</a><a href="#name">Why "Netra"</a><a href="#research">Research</a><a href="#sources">Data sources</a><a href="#limits">Limits</a></div>
+    <div class="jump"><a href="#problem">The problem</a><a href="#what">What Netra does</a><a href="#how">How it works</a><a href="#ai">AI</a><a href="#story">The story</a><a href="#name">Why "Netra"</a><a href="#research">Research</a><a href="#sources">Data sources</a><a href="#limits">Limits</a></div>
   </section>
 
   <section class="block" id="problem">
@@ -54,7 +54,9 @@
       <div class="box"><span class="n">1</span><h3>What was retired</h3><p>Every Verra and Gold Standard retirement since 2020, grouped by the company it was retired for.</p></div>
       <div class="box"><span class="n">2</span><h3>How much is likely real</h3><p>Published research per project type, applied to those tonnes, with a range and a grade from A to E.</p></div>
       <div class="box"><span class="n">3</span><h3>What the company emits</h3><p>Its own reported emissions, read from its primary report, next to Climate TRACE's independent estimate.</p></div>
-      <div class="box"><span class="n">4</span><h3>Proof nobody can edit</h3><p>A fingerprint of each check and its serial numbers on a public blockchain. A credit claimed twice gets flagged.</p></div>
+      <div class="box"><span class="n">4</span><h3>AI that reads claims</h3><p>Paste a green claim: a language model pulls out who claims what, with quotes. Netra's data gives the verdict, and a machine-learning model flags unusual retirement patterns.</p></div>
+      <div class="box"><span class="n">5</span><h3>Proof nobody can edit</h3><p>A fingerprint of each check and its serial numbers on a public blockchain. An always-on watcher flags any credit claimed twice, live.</p></div>
+      <div class="box"><span class="n">6</span><h3>Live from the registry</h3><p>Every ten minutes Netra reads the newest retirements on Verra and checks each one with the same rules, as it lands.</p></div>
     </div>
     <p class="muted">Who it is for: anyone who reads a "carbon neutral" label; journalists and NGOs; scientists who want open data and method; buyers and auditors doing due diligence; regulators enforcing the EU ban on offset-based product claims (Directive 2024/825).</p>
   </section>
@@ -72,6 +74,17 @@
     </ol>
   </section>
 
+  <section class="block" id="ai">
+    <p class="eyebrow">AI in Netra</p>
+    <h2>AI reads. Data decides.</h2>
+    <div class="tablewrap"><table class="data"><thead><tr><th>Where</th><th>Model</th><th>What it does</th><th>What it never does</th></tr></thead><tbody>
+      <tr><td>Paste a claim</td><td>Gemini 3.5 Flash-Lite, through the project's own model gateway (9router)</td><td>Reads who claims what, the scope, the year and the tonnes, each with a word-for-word quote. A field whose quote is not in the pasted text is dropped.</td><td>Give a number. Grades, tonnes and emissions come only from Netra's data. The text is not stored.</td></tr>
+      <tr><td>Unusual patterns</td><td>Isolation Forest (scikit-learn), 300 trees</td><td>Flags the 8 of 540 large buyers whose retirement pattern stands out, with readable reasons.</td><td>Call anything fraud. A flag is a reason to look closer.</td></tr>
+      <tr><td>Live registry check</td><td>No model: Netra's published rules</td><td>Every ten minutes, reads the newest Verra retirements and scores each by project type, ICVCM label and beneficiary.</td><td>Estimate a project that is not in the research snapshot. It shows "New project" instead.</td></tr>
+      <tr><td>Name review (internal)</td><td>Character n-gram TF-IDF</td><td>Suggests which company an unreviewed registry name may belong to, for a person to check.</td><td>Appear on the site. About one in five suggestions on real names was wrong.</td></tr>
+    </tbody></table></div>
+  </section>
+
   <section class="block" id="story">
     <p class="eyebrow">The story</p>
     <h2>How Netra was built</h2>
@@ -85,6 +98,7 @@
       <li><span class="when">20 Oct</span><div><b>The name.</b> Working names ClaimCheck and Proofset were descriptive but forgettable. Netra was chosen (see below).</div></li>
       <li><span class="when">20–21 Oct</span><div><b>Data and contract.</b> Three-signal classification, research ranges from the source data, Climate TRACE ownership attribution, emissions from 79 company groups, and ClaimRegistry v2 with Merkle-root claims and on-chain challenges (8 tests passing).</div></li>
       <li><span class="when">21 Oct</span><div><b>Brand and site.</b> Ink, paper and one orange signal; the claimed-vs-real bar; no green, because green is the colour of greenwashing.</div></li>
+      <li><span class="when">21 Oct</span><div><b>Live.</b> A claim checker that reads green claims with AI and lets the data decide, and a live check of every new Verra retirement as it lands.</div></li>
       <li><span class="when">25 Oct</span><div><b>Submission</b> to Track 1: Carbon Markets &amp; Emissions Transparency.</div></li>
     </ol>
   </section>
@@ -201,6 +215,6 @@
   <span>netra · Built by Rofi for the IEEE ClimateChain Global Hackathon 2026. Code open on GitHub.</span>
   <span>Track 1 · Carbon Markets &amp; Emissions Transparency</span>
 </footer>
-<script src="common.js"></script>
+<script src="common.js?v=c640201"></script>
 </body>
 </html>

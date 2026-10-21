@@ -31,7 +31,22 @@
 
 <p align="center"><img src="docs/assets/grades.svg" alt="Grade scale A to E" width="100%"></p>
 
-The web app has five views: **Check** (search and company result), **Hidden buyers**, **Data** (all company groups, sortable, with side-by-side comparison and downloads), **About** (story, research, sources, limits) and **Glossary** (every term in plain English).
+The web app has five views: **Check** (search a company or paste a claim, company result, and the live registry check), **Hidden buyers**, **Data** (all company groups, sortable, with side-by-side comparison and downloads), **About** (story, research, sources, limits) and **Glossary** (every term in plain English). The Check page has an EN/ID switch (Bahasa Indonesia); registry data is never translated.
+
+## AI and live features
+
+| Feature | What it does | Safeguard |
+|---|---|---|
+| Claim checker (language model) | Reads a pasted green claim and pulls out who claims what, the scope, the year and the tonnes, each with a word-for-word quote, then shows the claim against the registry record above the full company result | A field is kept only if its quote is in the pasted text; every number shown comes from Netra's data, never from the model; 10 checks per hour; no text stored; one retry, then a plain fallback to name search |
+| Unusual patterns (Isolation Forest) | Finds the few large buyers (8 of 540) whose mix of old vintages, rejected methodologies, unresearched types, one-year bursts, low likely-real share and batch size stands out | Each flag lists readable reasons; labelled "a reason to look closer, not proof"; rule and threshold published |
+| Live registry check | Every 10 minutes the server reads the 200 newest retirements from Verra's public registry and scores each with Netra's rules: research share likely real by project type, ICVCM label, who the benefit is claimed for, and a link when the beneficiary is a reviewed company. Greenwash radar: retirement notes are read by the claim reader, and a product, service or event called neutral because of offsets is flagged (banned in the EU since 27 Sep 2026). Zombie credits (vintage 10+ years) are flagged | Same project categories as the snapshot (`web/data/projects.json`); a project not in the snapshot gets no estimate; Live / Reconnecting indicator; Gold Standard not included live |
+| Live on-chain feed | The site polls ClaimRegistry every 15 s; new checks and double-claim flags appear without a reload | Three public RPC nodes tried in order; Live / Reconnecting indicator |
+| Always-on watcher | A server process reads every new check, verifies its serial list against the on-chain root and challenges any reused serial range | The contract verifies both Merkle proofs itself, so a wrong challenge fails; stops below 0.05 test ETH; testnet-only key, never in git |
+| Name suggestions (internal) | Character n-gram TF-IDF proposes which reviewed company an unreviewed registry name belongs to | Not shown on the site: about one in five suggestions on real names was wrong, so each is checked by hand first (`data/name_suggestions_review.csv`) |
+
+Each company result also shows the cost per likely-real tonne at the 2024 market average of $6.34 per credit (Ecosystem Marketplace, State of the Voluntary Carbon Market 2025, p. 10); what each buyer actually paid is not public.
+
+Tested live on Sepolia: a demo duplicate (check #7) reusing five of Shell's serial ranges was flagged by the watcher about ten seconds after it read the check.
 
 ## Key findings
 
@@ -132,6 +147,17 @@ Trust model and limits: [docs/TRUST.md](docs/TRUST.md).
 ## Limitations
 
 Research ratios are averages per project type, not verdicts on individual projects or companies. Project types without a published ratio (62% of tonnes) are not scored. Registry beneficiaries can be resellers or brands rather than the claimant. Company-reported and independent emissions use different boundaries and are never merged. Full detail: [docs/METHODS.md](docs/METHODS.md).
+
+## Roadmap
+
+| Next | Why it waits |
+|---|---|
+| Daily on-chain root of the live registry check | The watcher already writes to ClaimRegistry; a daily summary root would make the live feed tamper-evident too |
+| Gold Standard in the live check | Its public registry needs its own reader |
+| Report reader: a language model proposes Scope 1 figures with page and table row from company PDFs, a person confirms | Speeds up coverage; every figure must still be checked against the rendered page |
+| Name suggestions on the site | About one in five suggestions on real names was wrong; published only after manual review |
+| More registries (ACR, CAR, ART, national registries) | Same three-signal rules need their project types |
+| Plant-level EU ETS data for utilities without a group report | Read from the EU registry, linked per plant |
 
 ## License
 

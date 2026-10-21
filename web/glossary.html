@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=c640201">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
@@ -51,6 +51,11 @@
       <div class="term" id="registry"><dt>Registry</dt><dd><p>The official database that issues credits, tracks who holds them, and records retirements. Verra and Gold Standard are the two biggest.</p><p class="ex">Example: every credit has an entry like "VCS1477", meaning Verra project number 1477.</p></dd></div>
       <div class="term" id="tco2e"><dt>tCO₂e, Mt</dt><dd><p>tCO₂e = one tonne of CO₂ or the same amount of warming from other gases. Mt = a million tonnes.</p><p class="ex">Example: 876 Mt = 876 million tonnes, the total retired on Verra and Gold Standard since 2020.</p></dd></div>
       <div class="term" id="voluntary-market"><dt>Voluntary carbon market</dt><dd><p>Where companies buy credits because they choose to, not because a law forces them. Netra covers this market.</p><p class="ex">Example: a streaming company buying credits to meet its own climate goal.</p></dd></div>
+      <div class="term" id="issuance"><dt>Issuance</dt><dd><p>When a registry creates new credits for a project, after an auditor has checked its reported reductions for a period.</p><p class="ex">Example: a solar farm gets 50,000 credits for the reductions it claimed in 2022.</p></dd></div>
+      <div class="term" id="verra"><dt>Verra (VCS)</dt><dd><p>The largest voluntary registry. Its standard is the Verified Carbon Standard; project IDs start with VCS. Netra's live check reads its public retirements.</p><p class="ex">Example: VCS1792 is a solar project in India listed on Verra.</p></dd></div>
+      <div class="term" id="gold-standard"><dt>Gold Standard</dt><dd><p>The second-largest voluntary registry, with a focus on projects that also help people locally, such as cookstoves. Project IDs start with GS.</p><p class="ex">Example: GS1021 is a cookstove project on Gold Standard.</p></dd></div>
+      <div class="term" id="cancellation"><dt>Cancellation</dt><dd><p>Taking credits out of circulation without making a claim for anyone, for example to correct an error or to cover a country's own target. Not the same as a retirement.</p><p class="ex">Example: Netra counts retirements only; cancellations are left out.</p></dd></div>
+      <div class="term" id="credit-price"><dt>Credit price</dt><dd><p>What a buyer pays per credit. Prices are mostly private; market reports publish averages.</p><p class="ex">Example: the average voluntary credit sold for $6.34 in 2024 (Ecosystem Marketplace, 2025).</p></dd></div>
     </dl>
 
     <h2 class="gsec">Is the credit real?</h2>
@@ -65,6 +70,10 @@
       <div class="term" id="buffer-pool"><dt>Buffer pool</dt><dd><p>A reserve of unsold credits kept as insurance against reversals.</p><p class="ex">Example: research in Nature (2026) found US forest buffer pools are about 6 times too small.</p></dd></div>
       <div class="term" id="leakage"><dt>Leakage</dt><dd><p>When protecting one place just moves the damage somewhere else.</p><p class="ex">Example: logging stops in a protected forest and moves to the next valley.</p></dd></div>
       <div class="term" id="vintage"><dt>Vintage</dt><dd><p>The year the emission cut happened. Old vintages are cheaper and often lower quality.</p><p class="ex">Example: the aviation scheme CORSIA does not accept credits with vintages before 2016.</p></dd></div>
+      <div class="term" id="avoidance-removal"><dt>Avoidance vs removal</dt><dd><p>Avoidance credits pay for emissions that would otherwise have happened (a forest not cut, a stove that burns less wood). Removal credits pay for CO₂ taken out of the air (new trees, direct capture).</p><p class="ex">Example: REDD+ is avoidance; planting trees on bare land is removal.</p></dd></div>
+      <div class="term" id="nature-based"><dt>Nature-based</dt><dd><p>Credits from forests, soils, wetlands or oceans, rather than from technology such as wind farms or gas destruction.</p><p class="ex">Example: mangrove restoration in Myanmar is a nature-based project.</p></dd></div>
+      <div class="term" id="zombie-credit"><dt>Zombie credit</dt><dd><p>Netra's label for a credit retired 10 or more years after its vintage. Old credits are cheap and often come from projects that would have run anyway.</p><p class="ex">Example: a 2012 vintage retired in 2026 for a "carbon neutral 2025" claim.</p></dd></div>
+      <div class="term" id="cost-real-tonne"><dt>Cost per likely-real tonne</dt><dd><p>The market price divided by the share of a credit that research says is real. It shows what one tonne of real climate benefit costs.</p><p class="ex">Example: at $6.34 per credit and 23% likely real, one real tonne costs about $27.60.</p></dd></div>
     </dl>
 
     <h2 class="gsec">Project types</h2>
@@ -75,6 +84,10 @@
       <div class="term" id="ifm"><dt>Improved forest management (IFM)</dt><dd><p>Credits for logging less or more carefully than planned.</p><p class="ex">Example: research found no significant real effect for US IFM projects (0%).</p></dd></div>
       <div class="term" id="grid-renewables"><dt>Grid-connected renewables</dt><dd><p>Credits from wind, solar or hydro plants that feed the power grid. Often fail additionality because the plants pay for themselves.</p><p class="ex">Example: research found 0% real for wind in China. 35% of retired tonnes are renewables without a published estimate.</p></dd></div>
       <div class="term" id="methodology"><dt>Methodology</dt><dd><p>The rulebook a project uses to count its credits. Different rulebooks for the same project type can give very different numbers.</p><p class="ex">Example: VM0007 is a Verra methodology for REDD+.</p></dd></div>
+      <div class="term" id="arr"><dt>Afforestation, reforestation (ARR)</dt><dd><p>Planting trees on land that has no forest, or bringing a lost forest back. A removal type; trees can later burn or be cut, so permanence matters.</p><p class="ex">Example: a mangrove replanting project on degraded coastal land.</p></dd></div>
+      <div class="term" id="blue-carbon"><dt>Blue carbon</dt><dd><p>Carbon stored in coastal ecosystems such as mangroves, seagrass and salt marshes.</p><p class="ex">Example: Delta Blue Carbon in Pakistan, a mangrove project on Verra (VCS2250).</p></dd></div>
+      <div class="term" id="landfill-gas"><dt>Landfill gas</dt><dd><p>Capturing methane from rubbish dumps and burning it or using it for power. Methane warms the planet far more than CO₂ in the short term.</p><p class="ex">Example: a landfill gas power plant in China earning credits on Verra.</p></dd></div>
+      <div class="term" id="sf6"><dt>SF6 destruction</dt><dd><p>Destroying sulphur hexafluoride, a very strong industrial greenhouse gas used in electrical equipment.</p><p class="ex">Example: research found about 16% of SF6 destruction credits matched real reductions (Probst et al. 2024).</p></dd></div>
     </dl>
 
     <h2 class="gsec">Quality labels and rules</h2>
@@ -86,6 +99,8 @@
       <div class="term" id="greenwashing"><dt>Greenwashing</dt><dd><p>Making something look greener than it is.</p><p class="ex">Example: a "carbon neutral" label backed by credits that research says are mostly not real.</p></dd></div>
       <div class="term" id="carbon-neutral"><dt>Carbon neutral, net zero</dt><dd><p>Carbon neutral: emissions balanced with credits, often now. Net zero: cutting emissions deeply by a target year and only removing what is left.</p><p class="ex">Example: a company can be "carbon neutral" today through offsets while its emissions keep rising.</p></dd></div>
       <div class="term" id="article-6"><dt>Article 6 and corresponding adjustment</dt><dd><p>The Paris Agreement rules for countries trading emission cuts. A corresponding adjustment stops the host country from also counting the same cut.</p><p class="ex">Example: without it, Indonesia and a buyer in Japan could both claim the same forest tonne.</p></dd></div>
+      <div class="term" id="sbti"><dt>SBTi</dt><dd><p>The Science Based Targets initiative, which checks company climate targets. Under its net-zero standard, carbon credits do not count toward cutting a company's own emissions.</p><p class="ex">Example: a company with an SBTi target must reduce its Scope 1 and 2 emissions, whatever credits it buys.</p></dd></div>
+      <div class="term" id="offset-neutrality"><dt>Offset-based neutrality claim</dt><dd><p>Calling a product, service or event neutral, zero or positive for the climate because credits were retired. Banned in the EU since 27 September 2026.</p><p class="ex">Example: a retirement note for a credit card "carbon neutral 2024", flagged by Netra's live check.</p></dd></div>
     </dl>
 
     <h2 class="gsec">Company emissions</h2>
@@ -105,6 +120,8 @@
       <div class="term" id="intermediary"><dt>Intermediary, reseller</dt><dd><p>A company that buys and retires credits on behalf of its customers. The registry shows the reseller, not the customer.</p><p class="ex">Example: "4AIR Client" retired 3.9 Mt for clients who are not named.</p></dd></div>
       <div class="term" id="tokenization"><dt>Tokenization</dt><dd><p>Turning a credit into a crypto token that can be traded on a blockchain. Verra banned tokenizing retired credits in 2022.</p><p class="ex">Example: about 22 million Verra credits were moved into tokens before the ban.</p></dd></div>
       <div class="term" id="serial"><dt>Serial number, serial range</dt><dd><p>Each credit has a unique number. A retirement covers a range, from one number to another.</p><p class="ex">Example: Shell's retirements cover 684 serial ranges.</p></dd></div>
+      <div class="term" id="not-disclosed"><dt>Not Disclosed</dt><dd><p>What some registry entries say instead of a beneficiary name. The credits were used for a claim, but nobody can see whose.</p><p class="ex">Example: 89.4 Mt were retired to "Not Disclosed" since 2020, more than to any company (Shell: 42.3 Mt).</p></dd></div>
+      <div class="term" id="retirement-note"><dt>Retirement note</dt><dd><p>The free-text reason a buyer can add when retiring credits. It often names the product or the year the claim covers.</p><p class="ex">Example: "Annual Carbon Offsetting to be Carbon Neutral".</p></dd></div>
     </dl>
 
     <h2 class="gsec">The blockchain part</h2>
@@ -117,6 +134,19 @@
       <div class="term" id="nullifier"><dt>Nullifier</dt><dd><p>A fingerprint of one serial range. If the same nullifier appears in two claims, the second is a double claim.</p><p class="ex">Example: Netra's demo shows a duplicate claimant flagged this way.</p></dd></div>
       <div class="term" id="gas"><dt>Gas</dt><dd><p>The small fee paid to write to a blockchain. On a testnet it is paid with free practice coins.</p><p class="ex">Example: one Netra check costs about 590,000 gas on Sepolia, whether it covers 10 serial ranges or 684.</p></dd></div>
       <div class="term" id="wallet"><dt>Wallet, address</dt><dd><p>An account on a blockchain, written as a long code starting with 0x.</p><p class="ex">Example: 0xAf52…81B0 retired 2.0 Mt of credits. Who owns it is unknown.</p></dd></div>
+      <div class="term" id="challenge"><dt>Challenge</dt><dd><p>A call to the ClaimRegistry contract that proves one serial range sits in two published claims. The contract checks both proofs itself and flags the later claim for good.</p><p class="ex">Example: Netra's watcher challenged demo check #7 about ten seconds after it read it.</p></dd></div>
+      <div class="term" id="block-explorer"><dt>Block explorer</dt><dd><p>A public website that shows every transaction and contract on a blockchain.</p><p class="ex">Example: Etherscan for Sepolia shows each ClaimRegistry record Netra published.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">AI and live checks</h2>
+    <dl>
+      <div class="term" id="language-model"><dt>Language model (AI)</dt><dd><p>Software trained on large amounts of text that can read a sentence and pull out its facts. Netra uses one only to read claims; it never supplies numbers.</p><p class="ex">Example: from "our 2025 flights were carbon neutral" it reads the year 2025 and the wording "carbon neutral", each with a quote.</p></dd></div>
+      <div class="term" id="isolation-forest"><dt>Isolation Forest</dt><dd><p>A machine-learning method that finds the few cases that differ most from the rest, by how quickly random splits can isolate them.</p><p class="ex">Example: 8 of 540 large buyers stand out, such as a wallet whose credits are all pre-2016 vintages from rejected methodologies.</p></dd></div>
+      <div class="term" id="watcher"><dt>Watcher</dt><dd><p>A program that runs all the time, reads every new on-chain check and flags any serial range used twice.</p><p class="ex">Example: a demo duplicate reusing five of Shell's serial ranges was flagged about ten seconds after the watcher read it.</p></dd></div>
+      <div class="term" id="rpc"><dt>RPC node</dt><dd><p>A public server that lets a website read the blockchain. Netra tries three in turn in case one is down.</p><p class="ex">Example: the "Live" dot on the on-chain proof section shows the connection.</p></dd></div>
+      <div class="term" id="live-check"><dt>Live registry check</dt><dd><p>Every ten minutes Netra reads the newest Verra retirements and scores each with the same rules as the rest of the site.</p><p class="ex">Example: a retirement made 4 minutes ago, shown with its likely-real share and ICVCM label.</p></dd></div>
+      <div class="term" id="greenwash-radar"><dt>Greenwash radar</dt><dd><p>The part of the live check that reads retirement notes with the AI claim reader and flags offset-based neutrality claims.</p><p class="ex">Example: a bank's note "credit card carbon neutral" is flagged; a note that only says "offset" is not.</p></dd></div>
+      <div class="term" id="claim-checker"><dt>Claim checker</dt><dd><p>Paste a green claim; the AI reads who claims what, with quotes from your text, and Netra's data gives the verdict.</p><p class="ex">Example: "Our 2025 flights were carbon neutral" is read as company, year and wording, then checked against the registry.</p></dd></div>
     </dl>
 
     <h2 class="gsec">Netra's own terms and sources</h2>
@@ -126,6 +156,9 @@
       <div class="term" id="vrod"><dt>Berkeley VROD</dt><dd><p>The Voluntary Registry Offsets Database from UC Berkeley: every Verra and Gold Standard credit and retirement, cleaned and free to use (CC BY 4.0).</p><p class="ex">Example: Netra uses version 2026-08.</p></dd></div>
       <div class="term" id="offsetsdb"><dt>CarbonPlan OffsetsDB</dt><dd><p>An open database of carbon projects from the non-profit CarbonPlan. Netra uses its project types as the second signal.</p><p class="ex">Example: it disagrees with Berkeley on Katingan (VCS1477), so Netra gives that project no estimate.</p></dd></div>
       <div class="term" id="probst"><dt>Probst et al. 2024</dt><dd><p>A study in Nature Communications that pooled 2,346 projects and found fewer than 16% of credits were real reductions. Netra's OARs come from it.</p><p class="ex">doi:10.1038/s41467-024-53645-z</p></dd></div>
+      <div class="term" id="no-estimate"><dt>No estimate</dt><dd><p>Shown when no peer-reviewed study measured how many credits of that project type are real. Netra leaves it empty instead of guessing.</p><p class="ex">Example: most solar and hydro credits show "No estimate".</p></dd></div>
+      <div class="term" id="new-project"><dt>New project</dt><dd><p>In the live check: a project that is not yet in the Berkeley VROD snapshot, so its type has not been checked three ways. No estimate is shown.</p><p class="ex">Example: a project registered after August 2026.</p></dd></div>
+      <div class="term" id="ecosystem-marketplace"><dt>Ecosystem Marketplace</dt><dd><p>A non-profit that publishes the yearly State of the Voluntary Carbon Market report with volumes and average prices.</p><p class="ex">Example: the source of the $6.34 average price for 2024.</p></dd></div>
     </dl>
     <p id="gnone" class="muted" hidden>No term matches. Try a shorter word.</p>
   </section>
@@ -149,6 +182,6 @@ gq.addEventListener("input", () => {
   document.getElementById("gnone").hidden = shown > 0;
 });
 </script>
-<script src="common.js"></script>
+<script src="common.js?v=c640201"></script>
 </body>
 </html>

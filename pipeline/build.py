@@ -196,6 +196,9 @@ def main(xlsx, db, odb):
     review[["pid", "pname", "btype", "otype", "meth", "cat_b", "cat_o", "hint", "cat", "qty"]].to_csv(
         DATA / "classification_review.csv", index=False)
     a["cat"] = a["pid"].map(dict(zip(proj["pid"], proj["cat"])))
+    # Resolved category and ICVCM status per project, so server/registry-watch.js scores new retirements with the same rules.
+    (OUT / "projects.json").write_text(json.dumps({p: [c, icvcm(m)] for p, c, m in zip(proj["pid"], proj["cat"], proj["meth"])},
+                                                  separators=(",", ":")), encoding="utf-8")
     blank = a["owner"].isna() | a["owner"].astype(str).str.strip().str.lower().isin(["", "not applicable", "nan", "_", "-", "n/a", "na"])
     a.loc[~blank, "owner"] = a.loc[~blank, "owner"].map(clean_owner)
     a["key"] = a["owner"].map(norm)

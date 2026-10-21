@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=claim3">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
@@ -21,6 +21,7 @@
   </a>
   <nav aria-label="Main">
     <a href="index.html#check" aria-current="page">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html">About</a><a href="glossary.html">Glossary</a>
+    <button class="lang" type="button" lang="id" aria-label="Ganti ke Bahasa Indonesia">ID</button>
     <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
       <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
     </button>
@@ -33,7 +34,11 @@
     <span class="badge">876 Mt of carbon credits retired since 2020, checked</span>
     <h1>See what a carbon claim is really worth.</h1>
     <p class="lede">Type a company. Netra shows the credits it retired, how many research says are likely real, what it reports emitting, and what independent estimates see. Search <b id="ownerCount">44,465</b> buyers.</p>
-    <div class="search">
+    <div class="modes" role="tablist" aria-label="What to check">
+      <button type="button" role="tab" id="modeCompany" aria-selected="true" aria-controls="search">Search a company</button>
+      <button type="button" role="tab" id="modeClaim" aria-selected="false" aria-controls="claimForm">Paste a claim</button>
+    </div>
+    <div class="search" id="search">
       <form id="searchForm" role="search">
         <label for="q" class="sr">Company name</label>
         <input id="q" type="search" autocomplete="off" placeholder="e.g. Shell, Delta, Netflix" aria-controls="suggest" aria-expanded="false">
@@ -41,10 +46,31 @@
       </form>
       <ul id="suggest" role="listbox" hidden></ul>
     </div>
+    <form id="claimForm" class="search claimbox" hidden>
+      <label for="claimText" class="sr">Claim text</label>
+      <textarea id="claimText" rows="3" maxlength="5000" placeholder="Paste a green claim, e.g. “Our 2025 flights were carbon neutral: we offset 120,000 tonnes of CO2.”"></textarea>
+      <button class="btn" type="submit">Check</button>
+    </form>
     <div class="chips" id="examples" aria-label="Examples"></div>
+    <div class="chips" id="claimExamples" aria-label="Example claims" hidden>
+      <button type="button" data-ex="Example written by Netra: an ad says that filling up at Shell in 2025 is carbon neutral because carbon credits are retired for every litre, about 2 million tonnes of CO2 this year.">Example: fuel</button>
+      <button type="button" data-ex="Example written by Netra: a streaming service, Netflix, describes its 2025 operations as net zero after retiring carbon credits from forest protection projects.">Example: streaming</button>
+    </div>
   </section>
 
+  <div id="claimOut" aria-live="polite"></div>
   <section id="result" class="result" hidden aria-live="polite"></section>
+
+  <section id="registry" class="block">
+    <p class="eyebrow">Live from the registry</p>
+    <h2>Credits retired in the last hours, checked as they land.</h2>
+    <p class="lede">Netra reads the newest retirements from Verra's public registry every ten minutes and applies the same rules as everywhere else on this site: research share likely real for the project type, ICVCM label, and who the benefit is claimed for.</p>
+    <div class="panel">
+      <div class="verify-head"><span id="regStatus" class="live" aria-live="polite">Connecting</span><span class="muted" id="regWhen"></span></div>
+      <p id="regSum" class="plain"></p>
+      <div id="regList"></div>
+    </div>
+  </section>
 
   <section id="market" class="block">
     <p class="eyebrow">The whole market</p>
@@ -76,6 +102,7 @@
       <div class="verify-head">
         <div><span class="muted">Contract</span> <a id="contractLink" target="_blank" rel="noopener"></a></div>
         <div><span class="muted">Checks recorded</span> <b id="checkCount">…</b></div>
+        <div><span id="live" class="live" aria-live="polite">Connecting</span></div>
       </div>
       <div id="checks"></div>
     </div>
@@ -103,7 +130,8 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
-<script src="common.js"></script>
-<script src="app.js"></script>
+<script src="common.js?v=claim3"></script>
+<script src="app.js?v=claim3"></script>
+<script src="i18n.js?v=claim3"></script>
 </body>
 </html>
