@@ -240,6 +240,7 @@ async function render(i, scroll = true) {
       <div class="row"><b>Likely real, in researched project types</b><span class="num">${mt(o.e)} of ${mt(o.k)}</span></div>
       ${claimBar(o.e, o.el, o.eh, o.k)}
       <div class="key"><span>Filled: best estimate ${pct(real)}</span><span>Hatched: research range ${pct(o.el / o.k)}–${pct(o.eh / o.k)}</span><span>Outline: claimed</span></div>
+      ${o.e ? `<p class="small">At the 2024 market average of $6.34 per credit, each likely-real tonne costs about <b>$${(6.34 * o.k / o.e).toFixed(2)}</b> (range $${(6.34 * o.k / o.eh).toFixed(2)}–$${o.el ? (6.34 * o.k / o.el).toFixed(2) : "?"}). <span class="muted">Price: <a href="https://www.ecosystemmarketplace.com/publications/2025-state-of-the-voluntary-carbon-market-sovcm/" target="_blank" rel="noopener">Ecosystem Marketplace, State of the Voluntary Carbon Market 2025</a>, p. 10. What this buyer paid is not public.</span></p>` : ""}
     </div>` : ""}
     <div class="grid2">
       <div class="box"><h3>Research estimate</h3>
