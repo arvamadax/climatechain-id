@@ -240,11 +240,11 @@ async function render(i, scroll = true) {
     </div>` : ""}
     <div class="grid2">
       <div class="box"><h3>Research estimate</h3>
-        ${bar([[o.e / o.t, css("--signal"), "Likely real"], [(o.k - o.e) / o.t, css("--miss"), "Likely not real"], [1 - cover, css("--line"), "No estimate"]])}
+        ${bar([[o.e / o.t, css("--signal"), "Likely real"], [(o.k - o.e) / o.t, css("--notreal"), "Likely not real"], [1 - cover, css("--noest"), "No estimate"]])}
         <div class="legend">
           <div><span><i style="background:var(--signal)"></i>Likely real</span><span class="num">${mt(o.e)}</span></div>
-          <div><span><i style="background:var(--miss)"></i>Likely not real</span><span class="num">${mt(o.k - o.e)}</span></div>
-          <div><span><i style="background:var(--line)"></i>No published estimate</span><span class="num">${mt(o.t - o.k)}</span></div>
+          <div><span><i style="background:var(--notreal)"></i>Likely not real</span><span class="num">${mt(o.k - o.e)}</span></div>
+          <div><span><i style="background:var(--noest)"></i>No published estimate</span><span class="num">${mt(o.t - o.k)}</span></div>
         </div></div>
       <div class="box"><h3>Project types</h3>
         <div class="legend">${types.map(([b, t]) => `<div><span>${esc(b)}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>

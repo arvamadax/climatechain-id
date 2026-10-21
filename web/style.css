@@ -9,7 +9,9 @@
   --signal-text: #c2410c; /* small text and white-on-signal (4.5:1) */
   --miss: #f3e1d6;
   --soft: #f1eee8;
-  --a: #1d4e89; --b: #3a6fb0; --c: #d9d4cb; --d: #f2a36b; --e: #b83a0e; --na: #a8a39a;
+  --notreal: #a8735a; /* 4.0:1 on white */
+  --noest: #8a857c;   /* 3.7:1 on white */
+  --a: #1d4e89; --b: #3a6fb0; --c: #d9d4cb; --d: #f2a36b; --e: #b83a0e; --na: #8a857c;
   --body: "Hanken Grotesk", system-ui, sans-serif;
   --mono: "Fragment Mono", ui-monospace, monospace;
   --radius: 16px;
@@ -19,8 +21,8 @@
 /* Light by default; dark only when chosen with the theme switch (stored per visitor). */
 :root[data-theme="dark"] {
   --paper: #121212; --card: #1c1b19; --ink: #f4f1ea; --muted: #b8b3aa; --line: #34322e;
-  --signal: #f07a33; --signal-text: #f59a5f; --miss: #3a2a20; --soft: #24221f;
-  --a: #6f9fd8; --b: #9cc0ea; --c: #cfc9bf; --d: #f2a36b; --e: #f07a33; --na: #6b675f;
+  --signal: #f07a33; --signal-text: #f59a5f; --notreal: #c98b6c; --noest: #8a857c; --miss: #3a2a20; --soft: #24221f;
+  --a: #6f9fd8; --b: #9cc0ea; --c: #cfc9bf; --d: #f2a36b; --e: #f07a33; --na: #8a857c;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
