@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const hre = require("hardhat");
 const { root, proof, nullifier } = require("./merkle");
+const { canonicalJSON } = require("../../web/canonical");
 
 const ROOT = path.join(__dirname, "..", "..");
 const DATA = path.join(ROOT, "web", "data");
@@ -31,7 +32,7 @@ async function main() {
   const publish = async (name, report, serials, idx) => {
     const ns = serials.map(nullifier);
     const id = Number(await reg.count());
-    const tx = await reg.recordRoot(ethers.id(name), ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(report))),
+    const tx = await reg.recordRoot(ethers.id(name), ethers.keccak256(ethers.toUtf8Bytes(canonicalJSON(report))),
       `data/checks/${id}.json`, root(ns), serials.length);
     const rc = await tx.wait();
     fs.writeFileSync(path.join(checksDir, `${id}.json`),

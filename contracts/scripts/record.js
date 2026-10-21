@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const hre = require("hardhat");
 const { root, nullifier } = require("./merkle");
+const { canonicalJSON } = require("../../web/canonical");
 
 const DATA = path.join(__dirname, "..", "..", "web", "data");
 
@@ -20,7 +21,7 @@ async function main() {
 
   const { ethers } = hre;
   const subject = ethers.id(owner.n);
-  const report = ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(owner)));
+  const report = ethers.keccak256(ethers.toUtf8Bytes(canonicalJSON(owner)));
   const serialRoot = root(serials.map(nullifier));
   const { claimRegistry } = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "deployments", `${hre.network.name}.json`), "utf8"));
   const reg = await ethers.getContractAt("ClaimRegistry", claimRegistry);

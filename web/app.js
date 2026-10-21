@@ -23,8 +23,8 @@ async function owner(i) {
   return (await shards.get(s))[i % SHARD];
 }
 
-// Canonical report = the owner record exactly as published; the same rule is used by contracts/scripts/record.js.
-const reportHash = (o) => ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(o)));
+// Canonical report = the owner record as published, keys sorted (canonical.js); the same rule is used by contracts/scripts/record.js.
+const reportHash = (o) => ethers.keccak256(ethers.toUtf8Bytes(canonicalJSON(o)));
 const subjectHash = (name) => ethers.id(name);
 
 // Sorted-pair Merkle root of serial-range nullifiers, identical to contracts/scripts/merkle.js.
