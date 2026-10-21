@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css?v=c640201">
+<link rel="stylesheet" href="style.css?v=redesign1">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
@@ -20,7 +20,7 @@
     <span>netra</span>
   </a>
   <nav aria-label="Main">
-    <a href="index.html#check">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html" aria-current="page">Data</a><a href="about.html">About</a><a href="glossary.html">Glossary</a>
+    <a href="index.html#check">Check</a><a href="report.html">Report</a><a href="proof.html">Proof</a><a href="data.html" aria-current="page">Data</a><a href="about.html">About</a>
     <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
       <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
     </button>
@@ -37,12 +37,10 @@
   </section>
 
   <section class="block" id="overview">
-    <p class="eyebrow">At a glance</p>
     <div class="stats" id="overviewStats"></div>
   </section>
 
   <section class="block" id="companies">
-    <p class="eyebrow">Companies</p>
     <h2>Every reviewed company group</h2>
     <p class="muted">Names in the registry are grouped by owner (Gucci and Guccio Gucci are counted under Kering). "Likely real" is the share of researched tonnes; the hatched range is the research uncertainty. Emissions are shown as published, never merged: the company's own report and the independent Climate TRACE estimate use different boundaries.</p>
     <div class="toolbar">
@@ -64,14 +62,12 @@
   </section>
 
   <section class="block" id="compare">
-    <p class="eyebrow">Compare</p>
     <h2>Pick up to three companies</h2>
     <p class="muted" id="cmpHint">Press Compare in the table. Shell, Delta and Netflix are shown to start.</p>
     <div class="compare" id="cmp"></div>
   </section>
 
   <section class="block" id="unusual">
-    <p class="eyebrow">Unusual patterns · machine learning</p>
     <h2>Buyers whose pattern stands out</h2>
     <p class="muted">An Isolation Forest model (scikit-learn) looks at every buyer with at least 100,000 t retired and finds the few whose mix of old vintages, rejected methodologies, unresearched project types, one-year bursts, low likely-real share and batch size is far from the rest. Each flag lists the plain reasons behind it. Unusual is a reason to look closer, never proof of wrongdoing.</p>
     <div class="tablewrap"><table class="data" id="atable"><thead><tr><th>Buyer</th><th>Why it stands out</th><th>Score</th></tr></thead><tbody></tbody></table></div>
@@ -79,20 +75,17 @@
   </section>
 
   <section class="block" id="types">
-    <p class="eyebrow">Project types</p>
     <h2>What kind of projects the credits come from</h2>
     <p class="muted">Research estimates exist for some project types only. Netra never fills in a number where none is published.</p>
     <div class="tablewrap"><table class="data" id="ttable"><thead><tr><th>Project type</th><th>Tonnes retired</th><th>Share</th><th>Likely real (research)</th><th>Range</th><th>Source</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <section class="block" id="years">
-    <p class="eyebrow">Past to present</p>
     <h2>Year by year</h2>
     <div class="tablewrap"><table class="data" id="ytable"><thead><tr><th>Year</th><th>Tonnes retired</th><th>Researched</th><th>Likely real, of researched</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <section class="block" id="downloads">
-    <p class="eyebrow">Downloads</p>
     <h2>Take the data with you</h2>
     <div class="downloads">
       <a class="box" href="downloads/netra-dataset.xlsx" download><b>Netra dataset (Excel)</b><span class="muted small">Everything in one workbook: companies, hidden buyers, project types, years, reported emissions, with an About sheet.</span><span class="ftype">XLSX · 40 KB</span></a>
@@ -107,10 +100,11 @@
 </main>
 
 <footer class="foot">
+  <span><a href="glossary.html">Glossary</a> · <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">Method</a></span>
   <span>netra · Estimates from published research (Probst et al. 2024) applied to registry data. Every number links to its source.</span>
   <span>IEEE ClimateChain Global Hackathon 2026 · Track 1</span>
 </footer>
-<script src="common.js?v=c640201"></script>
-<script src="data.js?v=c640201"></script>
+<script src="common.js?v=redesign1"></script>
+<script src="data.js?v=redesign1"></script>
 </body>
 </html>

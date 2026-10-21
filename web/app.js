@@ -13,6 +13,12 @@ const CCP = { approved: ["CCP-approved methodology", "--a"], not_approved: ["Rej
 
 
 let INDEX, FACTORS, SHARD, rows;
+const ON_CHECK = !!document.getElementById("check");
+// Old in-page anchors moved to their own pages; keep shared links working.
+const MOVED = { market: "report.html#market", hidden: "report.html#hidden", method: "report.html#method", verify: "proof.html" };
+if (ON_CHECK && MOVED[location.hash.slice(1)]) location.replace(MOVED[location.hash.slice(1)]);
+const buyerHref = (i) => `${ON_CHECK ? "" : "index.html"}#buyer-${i}`;
+const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const shards = new Map();
 let onchain = null; // Promise<Array<check>>
 
@@ -80,7 +86,7 @@ function setupSearch() {
     if (list.hidden) return;
     if (e.key === "ArrowDown") { sel = Math.min(sel + 1, hits.length - 1); draw(); e.preventDefault(); }
     if (e.key === "ArrowUp") { sel = Math.max(sel - 1, 0); draw(); e.preventDefault(); }
-    if (e.key === "Enter" && hits.length) { e.preventDefault(); pick(hits[Math.max(sel, 0)]); close(); }
+    if (e.key === "Enter" && hits.length) { e.preventDefault(); pick(hits[Math.max(sel, 0)], list.querySelector(`li[data-i="${hits[Math.max(sel, 0)]}"] span`)); close(); }
     if (e.key === "Escape") close();
   });
   $("#searchForm").addEventListener("submit", (e) => {
@@ -88,19 +94,34 @@ function setupSearch() {
     hits = search(q.value);
     if (hits.length) { pick(hits[0]); close(); } else if (q.value.trim().length >= 2) draw();
   });
-  list.addEventListener("click", (e) => { const li = e.target.closest("li[data-i]"); if (li) { pick(+li.dataset.i); close(); } });
+  list.addEventListener("click", (e) => { const li = e.target.closest("li[data-i]"); if (li) { pick(+li.dataset.i, li.querySelector("span")); close(); } });
   document.addEventListener("click", (e) => { if (!e.target.closest(".search")) close(); });
   $("#examples").innerHTML = EXAMPLES.map((n) => {
     const i = rows.findIndex((r) => r[0] === n);
     return i < 0 ? "" : `<button type="button" data-i="${i}">${esc(n)}</button>`;
   }).join("");
-  $("#examples").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) pick(+b.dataset.i); });
+  $("#examples").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) pick(+b.dataset.i, b); });
 }
 
-function pick(i) {
+// View Transition: the picked name moves into the result title; without support (or with less motion) it just renders.
+async function pick(i, from) {
   $("#q").value = rows[i][0];
   history.replaceState(null, "", `#buyer-${i}`);
-  render(i);
+  if (!from || !document.startViewTransition || reduced()) return render(i); // only a click gets the transition
+  await owner(i).catch(() => {}); // load first, so the page is not frozen while the transition waits
+  from.style.viewTransitionName = "buyer";
+  let ran = false;
+  const vt = document.startViewTransition(async () => {
+    ran = true;
+    from.style.viewTransitionName = "";
+    await render(i);
+    const h = $("#result h2");
+    if (h) h.style.viewTransitionName = "buyer";
+  });
+  vt.ready.catch(() => {});
+  await vt.updateCallbackDone.catch(() => {});
+  if (!ran) { from.style.viewTransitionName = ""; await render(i); } // a skipped transition must not lose the result
+  vt.finished.catch(() => {}).then(() => { const h = $("#result h2"); if (h) h.style.viewTransitionName = ""; });
 }
 
 /* ---------- result ---------- */
@@ -192,8 +213,7 @@ function howWeKnow(o, g) {
     return `<li>${esc(f.label)}: ${mt(t)}, ${f.oar === null ? "no published estimate, so not scored" : `${pct(f.oar)} likely real (range ${pct(f.lo)}–${pct(f.hi)}); ${esc(f.source)}`}</li>`;
   }).join("");
   const r = o.rep;
-  return `<details class="how"><summary>How we know</summary>
-    <dl>
+  return `<dl class="how">
       <div><dt>Retired</dt><dd>${fmt(o.r)} retirement records naming "${esc(o.n)}" as beneficiary on Verra and Gold Standard, ${o.y[0]}–${o.y[1]}, from the Berkeley Voluntary Registry Offsets Database v2026-08 (CC BY 4.0). Names are shown as published.</dd></div>
       ${o.g ? `<div><dt>Who this is</dt><dd>Reviewed by hand against the registry retirement details${o.g.group !== o.n ? ` and linked to <b>${esc(o.g.group)}</b>` : ""}${o.g.note ? ` (${esc(o.g.note)})` : ""}.</dd></div>` : ""}
       <div><dt>Project types</dt><dd>A type counts only when three sources agree: Berkeley's curated type, CarbonPlan OffsetsDB and the registry methodology code. Otherwise: no estimate.<ul>${types}</ul></dd></div>
@@ -202,8 +222,7 @@ function howWeKnow(o, g) {
       <div><dt>Quality label</dt><dd>Each methodology's status in the ICVCM Core Carbon Principles assessment, snapshot 18 Aug 2026.</dd></div>
       <div><dt>Emissions</dt><dd>${r ? `Read by hand from <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.source)}</a>, ${esc(r.section)}; checked ${esc(r.checked)}.` : "No figure is shown unless it comes from the company's own document."}${o.ct ? ` Independent estimate: Climate TRACE v5.7.0 ownership data, ${fmt(o.ct.assets)} assets of ${esc(o.ct.parent)}.` : ""}</dd></div>
     </dl>
-    <p class="muted small">Full rules: <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">METHODS.md</a>. Plain-English terms: <a href="glossary.html">glossary</a>.</p>
-  </details>`;
+    <p class="muted small">Full rules: <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">METHODS.md</a>. Plain-English terms: <a href="glossary.html">glossary</a>.</p>`;
 }
 
 let CURRENT = null;
@@ -226,56 +245,91 @@ async function render(i, scroll = true) {
       ? `Of every 100 tonnes <b>${esc(short)}</b> retired ${years}, research covers <b>${Math.round(cover * 100)}</b>${g ? "" : ", too few for a grade"}. Of those, about <b>${Math.round(real * 100)}</b> likely cut real emissions${o.el === o.eh ? "" : ` (research range ${Math.round(o.el / o.k * 100)}–${Math.round(o.eh / o.k * 100)})`}.`
       : `None of the ${mt(o.t)} <b>${esc(short)}</b> retired ${years} comes from a project type with a published research estimate, so Netra cannot estimate how much was real.`;
 
-  const cats = Object.entries(o.c).sort((a, b) => b[1] - a[1]);
   const ccp = ["approved", "not_approved", "not_assessed"].map((s) => [s, o.ccp[s] || 0]);
   const types = Object.entries(o.bt);
+  const span = o.y[0] === o.y[1] ? o.y[0] : `${o.y[0]}–${o.y[1]}`;
+  // The claim receipt: what was retired, minus what research does not cover, minus what it finds not real.
+  const receipt = `<ol class="struk" aria-label="What these credits are likely worth">
+      <li style="--i:0"><span>Retired for ${esc(short)}, ${span}</span><b class="num">${mt(o.t)}</b></li>
+      <li style="--i:1" class="minus"><span>not covered by published research</span><b class="num">−${mt(o.t - o.k)}</b></li>
+      ${o.k ? `<li style="--i:2" class="minus"><span>research says likely not real</span><b class="num">−${mt(o.k - o.e)}</b></li>` : ""}
+      <li style="--i:3" class="total"><span>Likely real, best estimate</span><b class="num">${o.k ? mt(o.e) : "no estimate"}</b></li>
+    </ol>
+    ${o.k ? `<div class="claim">
+      ${claimBar(o.e, o.el, o.eh, o.k)}
+      <div class="key"><span>Filled: best estimate ${pct(real)} of researched</span><span>Hatched: range ${mt(o.el)}–${mt(o.eh)}</span><span>Outline: researched ${mt(o.k)}</span></div>
+      ${o.e ? `<p class="small">At the 2024 market average of $6.34 per credit, each likely-real tonne costs about <b>$${(6.34 * o.k / o.e).toFixed(2)}</b> (range $${(6.34 * o.k / o.eh).toFixed(2)}–$${o.el ? (6.34 * o.k / o.el).toFixed(2) : "?"}). <span class="muted">Price: <a href="https://www.ecosystemmarketplace.com/publications/2025-state-of-the-voluntary-carbon-market-sovcm/" target="_blank" rel="noopener">Ecosystem Marketplace, State of the Voluntary Carbon Market 2025</a>, p. 10. What this buyer paid is not public.</span></p>` : ""}
+    </div>` : ""}`;
+  const TABS = [
+    ["credits", "Credits", `<div class="box"><h3>Project types</h3>
+        <div class="legend">${types.map(([b, t]) => `<div><span>${esc(b)}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>
+      <div class="box"><h3>ICVCM integrity label</h3>
+        ${bar(ccp.map(([s, t]) => [t / o.t, css(CCP[s][1]), CCP[s][0]]))}
+        <div class="legend">${ccp.map(([s, t]) => `<div><span><i style="background:var(${CCP[s][1]})"></i>${CCP[s][0]}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>`],
+    ["emissions", "Emissions", emissionsBox(o)],
+    ["years", "Over time", `<div class="box"><h3>Past to present</h3>${sparkline(o.ys)}
+        <p class="muted small">Grey bars: tonnes retired per year. Line: likely-real share of research-covered tonnes.</p></div>`],
+    ["how", "How we know", howWeKnow(o, g)],
+    ["chain", "On-chain", `<div class="box"><h3>Fingerprint of this result</h3>
+        <p class="small">keccak256 of this buyer's record, exactly as published in <a href="data/o/${Math.floor(i / SHARD)}.json">data/o/${Math.floor(i / SHARD)}.json</a> (entry ${i % SHARD}).</p>
+        <button type="button" class="btn ghost" id="recompute">Recompute in your browser</button>
+        <p id="recomputed" class="small" aria-live="polite"></p></div>`],
+  ];
   box.innerHTML = `
     <div class="res-head">
-      <div><p class="eyebrow">Retired ${o.y[0] === o.y[1] ? o.y[0] : `${o.y[0]}–${o.y[1]}`} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2 class="${short !== o.n ? "addr" : ""}">${esc(o.n)}</h2></div>${buyerLine(o)}
+      <div><p class="meta">Retired ${span} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2 class="${short !== o.n ? "addr" : ""}">${esc(o.n)}</h2></div>${buyerLine(o)}
         <p class="muted small">${mt(o.t)} retired${g ? ` · grade on the ${pct(cover)} covered by research` : " · not enough research coverage for a grade"}</p></div>
       <div class="grade ${g ? "" : "na"}" data-g="${g ? g[1] : ""}" style="${g ? `background:var(${g[2]})` : ""}" role="img" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
     </div>
     <p class="plain">${sentence}</p>
-    ${o.k ? `<div class="claim">
-      <div class="row"><b>Likely real, in researched project types</b><span class="num">${mt(o.e)} of ${mt(o.k)}</span></div>
-      ${claimBar(o.e, o.el, o.eh, o.k)}
-      <div class="key"><span>Filled: best estimate ${pct(real)}</span><span>Hatched: research range ${pct(o.el / o.k)}–${pct(o.eh / o.k)}</span><span>Outline: claimed</span></div>
-      ${o.e ? `<p class="small">At the 2024 market average of $6.34 per credit, each likely-real tonne costs about <b>$${(6.34 * o.k / o.e).toFixed(2)}</b> (range $${(6.34 * o.k / o.eh).toFixed(2)}–$${o.el ? (6.34 * o.k / o.el).toFixed(2) : "?"}). <span class="muted">Price: <a href="https://www.ecosystemmarketplace.com/publications/2025-state-of-the-voluntary-carbon-market-sovcm/" target="_blank" rel="noopener">Ecosystem Marketplace, State of the Voluntary Carbon Market 2025</a>, p. 10. What this buyer paid is not public.</span></p>` : ""}
-    </div>` : ""}
-    <div class="grid2">
-      <div class="box"><h3>Research estimate</h3>
-        ${bar([[o.e / o.t, css("--signal"), "Likely real"], [(o.k - o.e) / o.t, css("--notreal"), "Likely not real"], [1 - cover, css("--noest"), "No estimate"]])}
-        <div class="legend">
-          <div><span><i style="background:var(--signal)"></i>Likely real</span><span class="num">${mt(o.e)}</span></div>
-          <div><span><i style="background:var(--notreal)"></i>Likely not real</span><span class="num">${mt(o.k - o.e)}</span></div>
-          <div><span><i style="background:var(--noest)"></i>No published estimate</span><span class="num">${mt(o.t - o.k)}</span></div>
-        </div></div>
-      <div class="box"><h3>Project types</h3>
-        <div class="legend">${types.map(([b, t]) => `<div><span>${esc(b)}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>
-      <div class="box"><h3>ICVCM integrity label</h3>
-        ${bar(ccp.map(([s, t]) => [t / o.t, css(CCP[s][1]), CCP[s][0]]))}
-        <div class="legend">${ccp.map(([s, t]) => `<div><span><i style="background:var(${CCP[s][1]})"></i>${CCP[s][0]}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>
-      ${emissionsBox(o)}
-      <div class="box"><h3>Past to present</h3>${sparkline(o.ys)}
-        <p class="muted small">Grey bars: tonnes retired per year. Line: likely-real share of research-covered tonnes.</p></div>
+    <div class="res-layout">
+      <div class="res-main">
+        ${receipt}
+        ${o.o / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.o / o.t)} of these credits have a vintage before 2016, which the aviation scheme CORSIA does not accept.</div>` : ""}
+        ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles.</div>` : ""}
+        ${ANOM[i] ? `<div class="unusual"><b>Unusual pattern</b> <span class="tag">machine learning</span>
+          <ul>${ANOM[i].reasons.map((r) => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join("")}</ul>
+          <p class="muted small">Flagged by an Isolation Forest model among 540 buyers with at least 100,000 t retired. An unusual pattern is a reason to look closer, not proof of wrongdoing. <a href="data.html#unusual">How it works</a></p></div>` : ""}
+        <div id="chainStatus" class="flag ok">Checking on-chain records…</div>
+        <p class="note"><b>Selling in the EU?</b> Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.</p>
+      </div>
+      <div class="res-side">
+        <div class="tabs" role="tablist" aria-label="Evidence">${TABS.map(([k, label], n) => `<button type="button" role="tab" id="tab-${k}" aria-controls="pan-${k}" aria-selected="${!n}" tabindex="${n ? -1 : 0}">${label}</button>`).join("")}</div>
+        ${TABS.map(([k, , html], n) => `<div class="tabpanel" role="tabpanel" id="pan-${k}" aria-labelledby="tab-${k}" tabindex="0"${n ? " hidden" : ""}>${html}</div>`).join("")}
+      </div>
     </div>
-    ${o.o / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.o / o.t)} of these credits have a vintage before 2016, which the aviation scheme CORSIA does not accept.</div>` : ""}
-    ${(o.ccp.not_approved || 0) / o.t > 0.2 ? `<div class="flag">⚠ ${pct(o.ccp.not_approved / o.t)} come from methodologies ICVCM found do not meet its Core Carbon Principles.</div>` : ""}
-    ${ANOM[i] ? `<div class="unusual"><b>Unusual pattern</b> <span class="tag">machine learning</span>
-      <ul>${ANOM[i].reasons.map((r) => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join("")}</ul>
-      <p class="muted small">Flagged by an Isolation Forest model among 540 buyers with at least 100,000 t retired. An unusual pattern is a reason to look closer, not proof of wrongdoing. <a href="data.html#unusual">How it works</a></p></div>` : ""}
-    ${howWeKnow(o, g)}
-    <p class="note"><b>Selling in the EU?</b> Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.</p>
-    <div id="chainStatus" class="flag ok">Checking on-chain records…</div>
     <div class="actions"><a href="#buyer-${i}">Link to this result</a>
       <a href="https://github.com/rofiperlungoding/climatechain-id/issues/new?title=${encodeURIComponent("Correction request: " + o.n)}" target="_blank" rel="noopener">Request a correction</a>
       <span class="muted mono">report ${reportHash(o).slice(0, 18)}…</span></div>`;
+  tabs(box);
+  $("#recompute").addEventListener("click", async () => {
+    const h = reportHash(o), out = $("#recomputed");
+    let mine = [];
+    try { mine = (await onchain).filter((c) => c.subject === subjectHash(o.n)); } catch { /* chain unreachable: show the hash alone */ }
+    const last = mine[mine.length - 1];
+    out.innerHTML = `<code class="hash">${h}</code><br>${last ? (last.reportHash === h ? `<span class="ok">✓ Same as on-chain record #${last.id}.</span>` : `<span class="bad">On-chain record #${last.id} holds ${last.reportHash.slice(0, 18)}…: the data changed after it was published.</span>`) : "No on-chain record for this buyer yet, so there is nothing to compare."}`;
+  });
   box.className = "result tinted";
   box.style.cssText = tint(group || o.n, g);
   if (!scroll) { chainStatus(o); return; }
   box.classList.remove("in-view"); void box.offsetWidth; box.classList.add("in-view");
-  box.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  box.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
   chainStatus(o);
+}
+
+function tabs(root) {
+  const list = root.querySelector('[role="tablist"]');
+  if (!list) return;
+  const all = [...list.querySelectorAll('[role="tab"]')];
+  const show = (t) => {
+    all.forEach((b) => { const on = b === t; b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1; root.querySelector(`#${b.getAttribute("aria-controls")}`).hidden = !on; });
+  };
+  list.addEventListener("click", (e) => { const t = e.target.closest('[role="tab"]'); if (t) show(t); });
+  list.addEventListener("keydown", (e) => {
+    const k = all.indexOf(document.activeElement), step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (k < 0 || !step) return;
+    const t = all[(k + step + all.length) % all.length]; show(t); t.focus(); e.preventDefault();
+  });
 }
 
 async function chainStatus(o) {
@@ -283,11 +337,11 @@ async function chainStatus(o) {
   try {
     const list = await onchain;
     const mine = list.filter((c) => c.subject === subjectHash(o.n));
-    if (!mine.length) { el.className = "note"; el.textContent = "Not published on-chain yet. Published checks are listed under On-chain proof."; return; }
+    if (!mine.length) { el.className = "note"; el.innerHTML = `Not published on-chain yet. Published checks are listed on <a href="proof.html">Proof</a>.`; return; }
     const last = mine[mine.length - 1], match = last.reportHash === reportHash(o);
     el.className = match && !last.doubleClaim ? "flag ok" : "flag";
     el.innerHTML = match
-      ? `${last.doubleClaim ? "⚠ Flagged on-chain as a double claim: at least one serial range also backs an earlier claim." : "✓ Published on-chain " + new Date(last.timestamp * 1000).toISOString().slice(0, 10) + " and matches the open data."} <a href="#verify">See record #${last.id}</a>`
+      ? `${last.doubleClaim ? "⚠ Flagged on-chain as a double claim: at least one serial range also backs an earlier claim." : "✓ Published on-chain " + new Date(last.timestamp * 1000).toISOString().slice(0, 10) + " and matches the open data."} <a href="proof.html">See record #${last.id}</a>`
       : `On-chain record #${last.id} exists but does not match the current data (the dataset was updated after it was published).`;
   } catch {
     el.className = "flag"; el.textContent = CHAIN ? `Could not reach the ${CHAIN.label || CHAIN.network} to check on-chain records.` : "On-chain records are not published for this build yet.";
@@ -296,14 +350,18 @@ async function chainStatus(o) {
 
 /* ---------- market ---------- */
 function market(m) {
-  const named = m.named_share, cover = m.known / m.tonnes, real = m.eff / m.known;
-  $("#marketStats").innerHTML = [
-    [mt(m.tonnes), "retired on Verra and Gold Standard since 2020"],
-    [pct(1 - named), "of those tonnes have a blank beneficiary field"],
-    [pct(cover), "come from project types with a research estimate"],
-    [pct(real), `of covered tonnes likely real (range ${pct(m.eff_lo / m.known)}–${pct(m.eff_hi / m.known)})`],
-    [pct((m.ccp.approved || 0) / m.tonnes), "use a methodology with the ICVCM CCP label"],
-  ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+  if (!$("#funnel")) return;
+  const named = m.named_share, cover = m.known / m.tonnes, real = m.eff / m.known, w = (t) => (t / m.tonnes * 100).toFixed(2) + "%";
+  const steps = [
+    [m.tonnes, "Retired on Verra and Gold Standard since 2020", ""],
+    [m.known, "From project types with a published research estimate", `${pct(cover)} of all tonnes`],
+    [m.eff, "Likely real, best estimate", `${pct(real)} of researched tonnes; range ${mt(m.eff_lo)}–${mt(m.eff_hi)}`],
+  ];
+  $("#funnel").setAttribute("aria-label", steps.map(([t, l]) => `${l}: ${mt(t)}`).join("; "));
+  $("#funnel").innerHTML = steps.map(([t, label, note], k) => `<div class="frow" style="--i:${k}">
+      <div class="flabel"><span>${label}</span><b class="num">${mt(t)}</b>${note ? `<span class="muted small">${note}</span>` : ""}</div>
+      <div class="fbar">${k === 2 ? `<span class="frange" style="width:${w(m.eff_hi)}"></span>` : ""}<span class="ffill" style="width:${w(t)}"></span></div></div>`).join("");
+  $("#marketLine").textContent = `${pct(1 - named)} of all tonnes have a blank beneficiary field, and only ${pct((m.ccp.approved || 0) / m.tonnes)} use a methodology with the ICVCM quality label.`;
 
   const years = Object.keys(m.ys).map(Number).sort();
   const W = 720, H = 240, L = 44, R = 16, T = 16, B = 32;
@@ -341,6 +399,7 @@ const HIDDEN_KINDS = ["intermediary", "wallet", "tokenization", "unidentified", 
 
 async function hiddenSection() {
   const el = $("#hiddenBody");
+  if (!el) return;
   let h;
   try { h = await getJSON("data/hidden.json"); } catch (err) { el.innerHTML = `<p class="bad">${esc(err.message)}.</p>`; return; }
   const kinds = Object.entries(h.kinds).filter(([, v]) => v.t > 0);
@@ -362,7 +421,7 @@ async function hiddenSection() {
     <div class="panel">
       <h3>The biggest accounts that hide who claims</h3>
       <div class="tablewrap"><table><thead><tr><th>#</th><th>Account as written in the registry</th><th>What it is</th><th>Tonnes</th><th>Likely real</th></tr></thead><tbody>
-      ${h.top.map((x, r) => `<tr><td class="num">${r + 1}</td><td><a href="#buyer-${x.i}" class="${x.n.startsWith("0x") ? "mono" : ""}">${esc(x.n)}</a></td>
+      ${h.top.map((x, r) => `<tr><td class="num">${r + 1}</td><td><a href="${buyerHref(x.i)}" class="${x.n.startsWith("0x") ? "mono" : ""}">${esc(x.n)}</a></td>
         <td>${KIND[x.kind][0]}</td><td class="num">${mt(x.t)}</td><td class="num">${x.k ? `${pct(x.e / x.k)} of ${mt(x.k)} researched` : "no estimate"}</td></tr>`).join("")}
       </tbody></table></div>
     </div>
@@ -401,9 +460,11 @@ async function loadChecks() {
   }));
 }
 
-const contractUrl = () => (CHAIN.explorer ? `${CHAIN.explorer}/address/${CHAIN.address}` : "#verify");
+const contractUrl = () => (CHAIN.explorer ? `${CHAIN.explorer}/address/${CHAIN.address}` : "proof.html");
 
+const SEEN = new Map(); // record id -> doubleClaim, to mark what changed since the last draw
 async function verifyPanel() {
+  if (!$("#checks")) return;
   if (!CHAIN) {
     $("#checkCount").textContent = "–";
     $("#checks").innerHTML = `<p class="muted">The ClaimRegistry deployment for this build is not published yet.</p>`;
@@ -425,15 +486,29 @@ async function verifyPanel() {
         status = match ? `<span class="ok">✓ matches data</span>` : `<span class="bad">differs from current data</span>`;
       }
       const serial = await serialStatus(c);
-      if (c.doubleClaim) status += ` <span class="bad">· flagged double claim</span>`;
-      return `<tr><td class="num">#${c.id}</td><td>${i !== undefined ? `<a href="#buyer-${i}">${esc(rows[i][0])}</a>` : (file ? esc(file.buyer) : `<span class="mono">${c.subject.slice(0, 12)}…</span>`)}</td>
+      const isNew = SEEN.size && !SEEN.has(c.id), newFlag = SEEN.size && c.doubleClaim && SEEN.get(c.id) === false;
+      if (c.doubleClaim) status += ` <span class="bad flagged${newFlag ? " stamp" : ""}">· flagged double claim</span>`;
+      return `<tr class="${isNew ? "fresh" : ""}"><td class="num">#${c.id}</td><td>${i !== undefined ? `<a href="${buyerHref(i)}">${esc(rows[i][0])}</a>` : (file ? esc(file.buyer) : `<span class="mono">${c.subject.slice(0, 12)}…</span>`)}</td>
         <td class="mono">${c.reportHash.slice(0, 14)}…</td><td class="num">${new Date(c.timestamp * 1000).toISOString().slice(0, 10)}</td><td>${status}</td><td>${serial}</td></tr>`;
     }));
+    list.forEach((c) => SEEN.set(c.id, c.doubleClaim));
     $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Report</th><th>Serial ranges</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
   } catch {
     $("#checkCount").textContent = "unavailable";
     $("#checks").innerHTML = `<p class="bad">Could not reach the ${esc(CHAIN.label || CHAIN.network)}.${CHAIN.explorer ? `Records are still public on <a href="${contractUrl()}" target="_blank" rel="noopener">the block explorer</a>.` : "Start the local chain to see records."}</p>`;
   }
+}
+
+// One finding under the search, computed from the reviewed company groups with the same grade rule as every result.
+async function finding() {
+  await companiesReady;
+  const graded = (COMPANIES || []).map((c) => grade(c.e, c.k, c.t)).filter(Boolean);
+  if (!graded.length) return;
+  const ab = graded.filter((g) => g[1] === "A" || g[1] === "B").length;
+  $("#findingText").textContent = ab
+    ? `${ab} of the ${graded.length} big buyers that research covers well enough to grade reach a B or better.`
+    : `None of the ${graded.length} big buyers that research covers well enough to grade reaches a B.`;
+  $("#finding").hidden = false;
 }
 
 /* ---------- boot ---------- */
@@ -442,30 +517,30 @@ async function verifyPanel() {
     [INDEX, FACTORS] = await Promise.all([getJSON("data/index.json"), getJSON("data/factors.json")]);
     CHAIN = await getJSON("data/deployment.json").catch(() => null);
   } catch (err) {
-    $("#check").insertAdjacentHTML("beforeend", `<p class="bad">${esc(err.message)}.</p>`);
+    $("main").insertAdjacentHTML("afterbegin", `<p class="bad">${esc(err.message)}.</p>`);
     return;
   }
   SHARD = INDEX.shard; rows = INDEX.rows;
-  $("#ownerCount").textContent = fmt(rows.length);
+  if ($("#ownerCount")) $("#ownerCount").textContent = fmt(rows.length);
   onchain = loadChecks();
-  setupSearch();
+  onchain.catch(() => {}); // pages without a chain view must not log an unhandled rejection
+  if (ON_CHECK) { setupSearch(); finding(); }
   market(INDEX.meta);
   hiddenSection();
   verifyPanel();
   liveFeed();
   registryFeed();
-  // #buyer-N opens that buyer: on load, and from in-page links (verify table, hidden buyers, data page).
+  // #buyer-N opens that buyer: on load, and from links on other pages (report, proof, data).
   const open = () => { const m = location.hash.match(/^#buyer-(\d+)$/); if (m && rows[+m[1]]) pick(+m[1]); };
-  addEventListener("hashchange", open);
-  open();
+  if (ON_CHECK) { addEventListener("hashchange", open); open(); }
   // Charts draw with the current theme's colours: redraw them when the theme changes.
   document.addEventListener("themechange", () => { market(INDEX.meta); hiddenSection(); if (CURRENT !== null) render(CURRENT, false); });
 })();
 
 /* ---------- live feed: new on-chain checks and double-claim flags appear without a reload ---------- */
 function liveFeed() {
-  if (!CHAIN || !CHAIN.explorer) return; // public networks only
   const dot = $("#live");
+  if (!dot || !CHAIN || !CHAIN.explorer) return; // proof page, public networks only
   let known = null, flags = null;
   const tick = async () => {
     try {
@@ -524,7 +599,7 @@ async function claimChecks(c, f) {
       : `No retirement by ${esc(c.group)} is recorded for ${year} on Verra or Gold Standard${stated ? `, yet the claim says <b>${mt(stated)}</b>` : ""}.`) : "",
     c.k ? `Roughly <b>${pct(c.e / c.k)}</b> of its researched credits are likely real.` : "None of its credits are in a project type with a research estimate.",
     c.rep ? `Offsets do not cut its own emissions: ${c.rep.scope1 != null ? `Scope 1 <b>${mt(c.rep.scope1)}</b>` : `<b>${mt(c.rep.total)}</b>`} in ${c.rep.year}.` : "",
-    eu ? `<b>EU rule:</b> since 27 Sep 2026, Directive 2024/825 bans calling a product, service or event climate neutral because of offsets. This claim reads as one.` : "",
+    eu ? `<b>EU rule:</b> since 27 Sep 2026, Directive 2024/825 does not allow a product, service or event sold in the EU to be called climate neutral because of offsets. This claim reads as one.` : "",
   ].filter(Boolean).map((x) => `<li>${x}</li>`).join("");
 }
 
@@ -604,7 +679,7 @@ function registryFeed() {
       $("#regList").innerHTML = `<div class="tablewrap"><table><thead><tr><th>When</th><th>Tonnes</th><th>Project</th><th>Claimed for</th><th>Likely real</th><th>ICVCM</th></tr></thead><tbody>${s.items.slice(0, 12).map((x) => `<tr class="${newest && x.d > newest ? "fresh" : ""}">
         <td>${ago(x.d)}</td><td class="num" data-l="t">${fmt(x.q)}</td>
         <td>${esc(x.pn)}<br><span class="muted small">${esc(x.pid)} · ${esc(x.country || "")} · <a href="glossary.html#vintage" title="Vintage: the year the emission cut happened">vintage</a> ${esc(x.vintage || "?")}</span></td>
-        <td>${x.co ? `<a href="#buyer-${x.co.i}">${esc(x.co.group)}</a>` : x.owner ? `<span data-raw>${esc(x.owner)}</span>` : `<span class="muted">Not named</span>`}${x.reason && x.reason.trim() !== (x.owner || "").trim() ? `<br><span class="muted small" data-raw>${esc(x.reason)}</span>` : ""}${x.radar?.eu ? `<br><span class="tag warn" title="Since 27 Sep 2026, a product, service or event sold in the EU may not be called neutral because of offsets (Directive 2024/825). Whether this one is sold in the EU is not checked.">Offset-based neutrality claim</span>` : ""}${x.zombie ? `<br><span class="tag" title="Vintage ${esc(x.vintage)}: the reduction happened 10 or more years before retirement">Zombie credit · ${esc(x.vintage)}</span>` : ""}</td>
+        <td>${x.co ? `<a href="${buyerHref(x.co.i)}">${esc(x.co.group)}</a>` : x.owner ? `<span data-raw>${esc(x.owner)}</span>` : `<span class="muted">Not named</span>`}${x.reason && x.reason.trim() !== (x.owner || "").trim() ? `<br><span class="muted small" data-raw>${esc(x.reason)}</span>` : ""}${x.radar?.eu ? `<br><span class="tag warn" title="Since 27 Sep 2026, a product, service or event sold in the EU may not be called neutral because of offsets (Directive 2024/825). Whether this one is sold in the EU is not checked.">Offset-based neutrality claim</span>` : ""}${x.zombie ? `<br><span class="tag" title="Vintage ${esc(x.vintage)}: the reduction happened 10 or more years before retirement">Zombie credit · ${esc(x.vintage)}</span>` : ""}</td>
         <td data-l="Likely real">${x.oar != null ? pct(x.oar) : `<span class="muted">${x.known ? "No estimate" : "New project"}</span>`}</td>
         <td data-l="ICVCM">${x.ccp ? CCP[x.ccp] : `<span class="muted">Not checked</span>`}</td></tr>`).join("")}</tbody></table></div>
         <p class="muted small">Source: ${esc(s.source)}. Likely real: Probst et al. 2024 by project type, as on every result; "New project" means the project is not in the Berkeley VROD snapshot yet. Offset-based neutrality claim: the retirement note, read by the AI claim reader with quotes, calls a product, service or event neutral (or zero, positive, compensated) because of offsets; since 27 Sep 2026 such claims are not allowed for products sold in the EU (Directive 2024/825), and Netra does not check where this one is sold. Zombie credit: vintage 10 or more years before retirement. Gold Standard is not included live.</p>`;
@@ -617,3 +692,13 @@ function registryFeed() {
   tick();
   setInterval(tick, 60000);
 }
+
+/* ---------- report: the chapter in view is marked in the table of contents ---------- */
+(function toc() {
+  const links = [...document.querySelectorAll(".toc a")];
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) links.forEach((a) => a.setAttribute("aria-current", String(a.hash === `#${e.target.id}`)));
+  }), { rootMargin: "-35% 0px -60% 0px" });
+  links.forEach((a) => { const t = document.querySelector(a.hash); if (t) io.observe(t); });
+})();

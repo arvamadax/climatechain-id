@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css?v=c640201">
+<link rel="stylesheet" href="style.css?v=redesign1">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
@@ -20,7 +20,7 @@
     <span>netra</span>
   </a>
   <nav aria-label="Main">
-    <a href="index.html#check">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html" aria-current="page">About</a><a href="glossary.html">Glossary</a>
+    <a href="index.html#check">Check</a><a href="report.html">Report</a><a href="proof.html">Proof</a><a href="data.html">Data</a><a href="about.html" aria-current="page">About</a>
     <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
       <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
     </button>
@@ -37,7 +37,6 @@
   </section>
 
   <section class="block" id="problem">
-    <p class="eyebrow">The problem</p>
     <h2>A tonne on paper is not a tonne in the air.</h2>
     <div class="three">
       <div class="stat"><b>1 in 5</b><span>researched credits retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%). The share has not improved since 2020.</span></div>
@@ -48,7 +47,6 @@
   </section>
 
   <section class="block" id="what">
-    <p class="eyebrow">What Netra does</p>
     <h2>One search box, four honest answers.</h2>
     <div class="steps-grid">
       <div class="box"><span class="n">1</span><h3>What was retired</h3><p>Every Verra and Gold Standard retirement since 2020, grouped by the company it was retired for.</p></div>
@@ -61,9 +59,8 @@
     <p class="muted">Who it is for: anyone who reads a "carbon neutral" label; journalists and NGOs; scientists who want open data and method; buyers and auditors doing due diligence; regulators enforcing the EU ban on offset-based product claims (Directive 2024/825).</p>
   </section>
 
-  <section class="block" id="how">
-    <p class="eyebrow">How it works</p>
-    <h2>From registry spreadsheet to plain sentence.</h2>
+  <section class="block fold" id="how">
+    <details class="more"><summary><h2>From registry spreadsheet to plain sentence.</h2></summary>
     <ol class="flow">
       <li><b>Collect.</b> 342,012 retirement records (876 Mt) from Berkeley's Voluntary Registry Offsets Database, project types from CarbonPlan OffsetsDB, methodology labels from ICVCM.</li>
       <li><b>Classify, carefully.</b> A project type counts only when three sources agree: Berkeley's type, CarbonPlan's type and the methodology code. 234 projects disagree; they get no estimate instead of a guess.</li>
@@ -72,10 +69,10 @@
       <li><b>Add emissions.</b> Company figures read from 79 groups, each with its URL and page. Independent emissions from Climate TRACE's ownership data.</li>
       <li><b>Record.</b> Each published check is hashed and written to the ClaimRegistry smart contract, together with a Merkle root of its serial ranges. Anyone can recompute both from the open data.</li>
     </ol>
+    </details>
   </section>
 
   <section class="block" id="ai">
-    <p class="eyebrow">AI in Netra</p>
     <h2>AI reads. Data decides.</h2>
     <div class="tablewrap"><table class="data"><thead><tr><th>Where</th><th>Model</th><th>What it does</th><th>What it never does</th></tr></thead><tbody>
       <tr><td>Paste a claim</td><td>Gemini 3.5 Flash-Lite, through the project's own model gateway (9router)</td><td>Reads who claims what, the scope, the year and the tonnes, each with a word-for-word quote. A field whose quote is not in the pasted text is dropped.</td><td>Give a number. Grades, tonnes and emissions come only from Netra's data. The text is not stored.</td></tr>
@@ -85,9 +82,8 @@
     </tbody></table></div>
   </section>
 
-  <section class="block" id="story">
-    <p class="eyebrow">The story</p>
-    <h2>How Netra was built</h2>
+  <section class="block fold" id="story">
+    <details class="more"><summary><h2>How Netra was built</h2></summary>
     <ol class="timeline">
       <li><span class="when">Aug–Oct 2026</span><div><b>The hackathon.</b> IEEE ClimateChain Global Hackathon 2026 opens, with five training sessions on AI, blockchain, ethics and good practice for climate.</div></li>
       <li><span class="when">20 Oct, morning</span><div><b>First idea, dropped.</b> AI forecasting of forest and peat fires in Indonesia. Research showed strong existing systems (ProbFire, Copernicus fire danger). Competing on a forecast model was the wrong fight.</div></li>
@@ -101,11 +97,11 @@
       <li><span class="when">21 Oct</span><div><b>Live.</b> A claim checker that reads green claims with AI and lets the data decide, and a live check of every new Verra retirement as it lands.</div></li>
       <li><span class="when">25 Oct</span><div><b>Submission</b> to Track 1: Carbon Markets &amp; Emissions Transparency.</div></li>
     </ol>
+    </details>
   </section>
 
-  <section class="block" id="name">
-    <p class="eyebrow">Why "Netra"</p>
-    <h2>Netra means "eye".</h2>
+  <section class="block fold" id="name">
+    <details class="more"><summary><h2>Netra means "eye".</h2></summary>
     <div class="name-grid">
       <div class="name-mark"><svg class="mark" viewBox="0 0 34 34" width="120" height="120" aria-hidden="true"><circle class="ring" cx="17" cy="17" r="15" fill="none" stroke-width="3"/><path class="half" d="M17 2A15 15 0 0 0 17 32Z"/><circle class="pupil" cx="17" cy="17" r="5"/></svg></div>
       <div>
@@ -113,11 +109,11 @@
         <p>The mark is an eye whose iris is only half filled. The filled part is the share of a claim that holds up, the same idea as the claimed-vs-real bar on every company page.</p>
       </div>
     </div>
+    </details>
   </section>
 
-  <section class="block" id="research">
-    <p class="eyebrow">Research</p>
-    <h2>The papers Netra stands on</h2>
+  <section class="block fold" id="research">
+    <details class="more"><summary><h2>The papers Netra stands on</h2></summary>
     <div class="papers">
       <article class="box"><h3>Probst et al. 2024</h3><p class="muted small">Nature Communications · <a href="https://doi.org/10.1038/s41467-024-53645-z" target="_blank" rel="noopener">10.1038/s41467-024-53645-z</a></p><p>Pooled 2,346 projects (about 1 billion tonnes). Fewer than 16% of credits were real reductions. Gives the share per type that Netra uses: cookstoves 10.8%, REDD+ 24.7%, HFC-23 68.3%, SF6 16.4%, wind in China and US forest management 0%.</p></article>
       <article class="box"><h3>Trencher et al. 2024</h3><p class="muted small">Nature Communications · <a href="https://doi.org/10.1038/s41467-024-51151-w" target="_blank" rel="noopener">10.1038/s41467-024-51151-w</a></p><p>The 20 companies that retired the most credits in 2020–2023: 87% of what they retired carried a high risk of not being real. Netra's vintage and project-type flags follow this work.</p></article>
@@ -180,11 +176,11 @@
       </ol>
       <p class="muted small">Found through 20 Scopus queries (704 unique documents), screened by hand to 50. Titles and metadata read for all; full text for the four papers above.</p>
     </details>
+    </details>
   </section>
 
-  <section class="block" id="sources">
-    <p class="eyebrow">Data sources</p>
-    <h2>Where every number comes from</h2>
+  <section class="block fold" id="sources">
+    <details class="more"><summary><h2>Where every number comes from</h2></summary>
     <div class="tablewrap"><table class="data"><thead><tr><th>Source</th><th>What Netra takes from it</th><th>Version, licence</th></tr></thead><tbody>
       <tr><td>Berkeley Carbon Trading Project, Voluntary Registry Offsets Database</td><td>Every Verra and Gold Standard retirement since 2020; Berkeley's project type</td><td>v2026-08, CC BY 4.0</td></tr>
       <tr><td>CarbonPlan OffsetsDB</td><td>Second project-type signal</td><td>Snapshot 2026 (updates paused upstream)</td></tr>
@@ -194,10 +190,10 @@
       <tr><td>Climate TRACE</td><td>Independent, ownership-weighted emissions per company</td><td>v5.7.0, 2025 emissions</td></tr>
       <tr><td>Company reports</td><td>Reported emissions for 79 company groups, each with URL and section</td><td>Annual and sustainability reports, assurance statements, checked Oct 2026</td></tr>
     </tbody></table></div>
+    </details>
   </section>
 
   <section class="block" id="limits">
-    <p class="eyebrow">Limits</p>
     <h2>What Netra does not claim</h2>
     <ul class="limits">
       <li><b>Averages, not verdicts.</b> Research shares are averages per project type. A single project can be better or worse. Netra estimates risk; it does not judge any one project or company.</li>
@@ -212,9 +208,10 @@
 </main>
 
 <footer class="foot">
+  <span><a href="glossary.html">Glossary</a> · <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">Method</a></span>
   <span>netra · Built by Rofi for the IEEE ClimateChain Global Hackathon 2026. Code open on GitHub.</span>
   <span>Track 1 · Carbon Markets &amp; Emissions Transparency</span>
 </footer>
-<script src="common.js?v=c640201"></script>
+<script src="common.js?v=redesign1"></script>
 </body>
 </html>

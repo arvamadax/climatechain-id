@@ -58,45 +58,22 @@ function setupTheme() {
   sync();
 }
 
-// Sections and cards rise in once as they scroll into view; numbers count up as they arrive.
-function countUp(el) {
-  const m = el.textContent.match(/^([^\d]*)([\d,]*\.?\d+)(.*)$/s);
-  if (!m || el.dataset.counted) return; // a count is not movement, so it also runs under reduced motion
-  el.dataset.counted = "1";
-  const [, pre, num, post] = m, end = parseFloat(num.replace(/,/g, "")), dec = (num.split(".")[1] || "").length, comma = num.includes(",");
-  const t0 = performance.now(), dur = 1100;
-  const step = (t) => {
-    const k = Math.min(1, (t - t0) / dur), v = end * (1 - Math.pow(1 - k, 3));
-    const s = v.toFixed(dec);
-    el.textContent = pre + (comma ? Number(s).toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec }) : s) + post;
-    if (k < 1) requestAnimationFrame(step); else el.textContent = pre + num + post;
-  };
-  requestAnimationFrame(step);
-}
-const revealer = "IntersectionObserver" in window
-  ? new IntersectionObserver((es) => es.forEach((e) => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add("in");
-      e.target.querySelectorAll(".stat b, .stat.big b").forEach(countUp);
-      if (e.target.matches(".stat")) e.target.querySelectorAll("b").forEach(countUp);
-      revealer.unobserve(e.target);
-    }), { rootMargin: "0px 0px -8% 0px" })
+// Motion: numbers are always written at their final value (no count-up). Story graphics (.story: the report
+// funnel and trend) get .in once when they scroll into view and play their one animation; nothing else fades in.
+const storyIO = "IntersectionObserver" in window
+  ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); storyIO.unobserve(e.target); } }), { rootMargin: "0px 0px -15% 0px" })
   : null;
-function reveal(root = document) {
-  if (!revealer || !root.querySelectorAll) return;
-  root.querySelectorAll(".block, .stat, .box, .panel, .term, .ccard, .timeline li, .flow li, .strip, .kind, .catrow").forEach((el) => {
-    if (el.classList.contains("reveal")) return;
-    el.classList.add("reveal");
-    // already on screen when it appears: show it now (the observer may not fire before the next frame)
-    if (el.getBoundingClientRect().top < innerHeight) requestAnimationFrame(() => { el.classList.add("in"); el.querySelectorAll(".stat b").forEach(countUp); if (el.matches(".stat")) el.querySelectorAll("b").forEach(countUp); });
-    else revealer.observe(el);
-  });
+function watchStories() {
+  document.querySelectorAll(".story:not(.in)").forEach((el) => (storyIO ? storyIO.observe(el) : el.classList.add("in")));
 }
-// Content rendered later (results, charts, live rows) gets the same entrance.
-const revealLater = () => new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => n.nodeType === 1 && reveal(n.parentElement || n))))
-  .observe(document.querySelector("main") || document.body, { childList: true, subtree: true });
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => { setupTheme(); reveal(); revealLater(); });
-else { setupTheme(); reveal(); revealLater(); }
+// Details opened by a link to something inside them (about page sections).
+function openTarget() {
+  const t = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  const d = t && (t.closest("details") || t.querySelector(":scope > details"));
+  if (d) { d.open = true; t.scrollIntoView(); }
+}
+function pageBoot() { setupTheme(); watchStories(); openTarget(); addEventListener("hashchange", openTarget); }
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", pageBoot); else pageBoot();
 
 // Claimed-vs-real bar: outline = claimed (k), hatched = research range, filled = best estimate.
 function claimBar(e, el, eh, k) {
