@@ -357,3 +357,5 @@ td.mono { overflow-wrap: anywhere; }
 #regList td:is(:nth-child(1), :nth-child(2), :nth-child(5), :nth-child(6)), #regList th { white-space: nowrap; }
 #regList .tag { display: inline-block; margin-top: .3rem; }
 #regList .tag.warn { color: var(--paper); background: var(--signal-text); border-color: var(--signal-text); }
+.lang { font: 600 .78rem var(--body); letter-spacing: .06em; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: .3rem .65rem; cursor: pointer; }
+.lang:focus-visible { border-color: var(--ink); }
