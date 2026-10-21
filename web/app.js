@@ -393,14 +393,15 @@ async function verifyPanel() {
     const names = new Map(rows.map((r, i) => [subjectHash(r[0]), i]));
     const out = await Promise.all(list.slice().reverse().map(async (c) => {
       const i = names.get(c.subject);
-      let status = `<span class="muted">unknown buyer</span>`;
+      const file = i === undefined ? await getJSON(c.uri).catch(() => null) : null;
+      let status = `<span class="muted">${file ? "not in the dataset (demo claimant)" : "unknown buyer"}</span>`;
       if (i !== undefined) {
         const match = reportHash(await owner(i)) === c.reportHash;
         status = match ? `<span class="ok">✓ matches data</span>` : `<span class="bad">differs from current data</span>`;
       }
       const serial = await serialStatus(c);
       if (c.doubleClaim) status += ` <span class="bad">· flagged double claim</span>`;
-      return `<tr><td class="num">#${c.id}</td><td>${i !== undefined ? `<a href="#buyer-${i}">${esc(rows[i][0])}</a>` : `<span class="mono">${c.subject.slice(0, 12)}…</span>`}</td>
+      return `<tr><td class="num">#${c.id}</td><td>${i !== undefined ? `<a href="#buyer-${i}">${esc(rows[i][0])}</a>` : (file ? esc(file.buyer) : `<span class="mono">${c.subject.slice(0, 12)}…</span>`)}</td>
         <td class="mono">${c.reportHash.slice(0, 14)}…</td><td class="num">${new Date(c.timestamp * 1000).toISOString().slice(0, 10)}</td><td>${status}</td><td>${serial}</td></tr>`;
     }));
     $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Report</th><th>Serial ranges</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
