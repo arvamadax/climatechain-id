@@ -1,7 +1,6 @@
 # Netra trust model
 
-This document covers `contracts/src/ClaimRegistry.sol`. Every statement about the contract is readable in that file; the two hashing rules under Limits point to the scripts that define them. Deployment facts are not final and are left as TODO.
-
+This document covers `contracts/src/ClaimRegistry.sol`. Every statement about the contract is readable in that file; the two hashing rules under Limits point to the scripts that define them.
 ## What the contract records
 
 One check is one `Check` entry in the public `checks` array. Fields:
@@ -40,7 +39,7 @@ Consequence: while one key holds both roles, that key decides what is recorded, 
 
 - Double claims are detected only among the checks recorded in this contract. The contract does not see retirements or claims in Verra, Gold Standard or any other registry.
 - With `recordRoot`, nothing is flagged automatically. A double claim stays unflagged until someone submits the two proofs to `challenge`.
-- The contract does not check how `reportHash` was computed. Netra hashes the report as canonical JSON (keys sorted, no spaces, `web/canonical.js`). `serialRoot` depends on the exact text of each serial range; list order and duplicates do not change it (`contracts/scripts/merkle.js`).
+- The contract does not check how `reportHash` was computed. Netra's rule is `reportHash` in `web/app.js`; the same report serialized another way gives a different hash. `serialRoot` depends on the exact text of each serial range; list order and duplicates do not change it (`contracts/scripts/merkle.js`).
 
 ## What this system cannot prove
 
@@ -50,4 +49,4 @@ Consequence: while one key holds both roles, that key decides what is recorded, 
 
 ## Deployment
 
-Contract address, network and deployment date: `TODO: isi setelah deploy publik`.
+Ethereum Sepolia testnet, [`0x8cac16962d34c6B6A302E7A05AEc9131d3E33909`](https://sepolia.etherscan.io/address/0x8cac16962d34c6B6A302E7A05AEc9131d3E33909). The web app reads the active deployment from `web/data/deployment.json`; the report and serial list of each recorded check are in `web/data/checks/`.

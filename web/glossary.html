@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
 <link rel="stylesheet" href="style.css">
+<script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
+
 </head>
 <body>
 <header class="top">
@@ -19,6 +21,9 @@
   </a>
   <nav aria-label="Main">
     <a href="index.html#check">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html">About</a><a href="glossary.html" aria-current="page">Glossary</a>
+    <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+    </button>
     <a class="pill" href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
@@ -110,7 +115,7 @@
       <div class="term" id="hash"><dt>Hash</dt><dd><p>A short fingerprint of a file. Change one character and the fingerprint is completely different.</p><p class="ex">Example: the report hash on Netra proves the published grade matches the data.</p></dd></div>
       <div class="term" id="merkle-root"><dt>Merkle root</dt><dd><p>One fingerprint that stands for a whole list. Anyone can prove one item is in the list without seeing the rest.</p><p class="ex">Example: Shell's 684 serial ranges are stored on-chain as one Merkle root.</p></dd></div>
       <div class="term" id="nullifier"><dt>Nullifier</dt><dd><p>A fingerprint of one serial range. If the same nullifier appears in two claims, the second is a double claim.</p><p class="ex">Example: Netra's demo shows a duplicate claimant flagged this way.</p></dd></div>
-      <div class="term" id="gas"><dt>Gas</dt><dd><p>The small fee paid to write to a blockchain. On a testnet it is paid with free practice coins.</p><p class="ex">Example: one Netra claim costs about 149,000 gas, whatever the number of serial ranges.</p></dd></div>
+      <div class="term" id="gas"><dt>Gas</dt><dd><p>The small fee paid to write to a blockchain. On a testnet it is paid with free practice coins.</p><p class="ex">Example: one Netra check costs about 590,000 gas on Sepolia, whether it covers 10 serial ranges or 684.</p></dd></div>
       <div class="term" id="wallet"><dt>Wallet, address</dt><dd><p>An account on a blockchain, written as a long code starting with 0x.</p><p class="ex">Example: 0xAf52…81B0 retired 2.0 Mt of credits. Who owns it is unknown.</p></dd></div>
     </dl>
 
@@ -144,5 +149,6 @@ gq.addEventListener("input", () => {
   document.getElementById("gnone").hidden = shown > 0;
 });
 </script>
+<script src="common.js"></script>
 </body>
 </html>

@@ -23,6 +23,56 @@ async function getJSON(url) {
   return r.json();
 }
 
+// Company logo tile and brand-to-grade gradient. LOGOS = data/logos.json {group: {src, color}}.
+let LOGOS = {};
+const logosReady = getJSON("data/logos.json").then((x) => (LOGOS = x)).catch(() => {});
+function logo(group, size = 40) {
+  const l = LOGOS[group];
+  const initials = group.replace(/\(.*?\)/g, "").split(/[\s&+-]+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  return l ? `<span class="logo" style="--s:${size}px"><img src="${esc(l.src)}" alt="" loading="lazy" width="${size}" height="${size}"></span>`
+    : `<span class="logo initials" style="--s:${size}px" aria-hidden="true">${esc(initials)}</span>`;
+}
+// Inline style for a card tinted from the company's brand colour into its grade colour.
+function tint(group, g) {
+  const brand = LOGOS[group]?.color || "var(--ink)";
+  const gc = g ? `var(${g[2]})` : "var(--na)";
+  return `--brand:${brand};--gradec:${gc}`;
+}
+
+// Theme switch (light by default; the choice is remembered on this device only).
+function setupTheme() {
+  const btn = document.querySelector(".theme");
+  if (!btn) return;
+  const sync = () => {
+    const dark = document.documentElement.dataset.theme === "dark";
+    btn.setAttribute("aria-pressed", String(dark));
+    btn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+  };
+  btn.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme !== "dark";
+    if (dark) document.documentElement.dataset.theme = "dark"; else delete document.documentElement.dataset.theme;
+    try { localStorage.setItem("netra-theme", dark ? "dark" : "light"); } catch {}
+    sync();
+    document.dispatchEvent(new Event("themechange"));
+  });
+  sync();
+}
+
+// Sections and cards rise in once as they scroll into view.
+const revealer = "IntersectionObserver" in window
+  ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); revealer.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" })
+  : null;
+function reveal(root = document) {
+  root.querySelectorAll(".block, .stat, .box, .panel, .term, .ccard, .timeline li, .flow li").forEach((el) => {
+    if (el.classList.contains("reveal")) return;
+    if (!revealer) return;
+    el.classList.add("reveal");
+    revealer.observe(el);
+  });
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => { setupTheme(); reveal(); });
+else { setupTheme(); reveal(); }
+
 // Claimed-vs-real bar: outline = claimed (k), hatched = research range, filled = best estimate.
 function claimBar(e, el, eh, k) {
   return `<div class="claimbar" role="img" aria-label="Best estimate ${pct(e / k)} likely real, research range ${pct(el / k)} to ${pct(eh / k)}">

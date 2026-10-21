@@ -1,0 +1,8 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "address": "0x8cac16962d34c6B6A302E7A05AEc9131d3E33909",
+  "label": "Ethereum Sepolia testnet",
+  "rpc": "https://ethereum-sepolia-rpc.publicnode.com",
+  "explorer": "https://sepolia.etherscan.io"
+}
