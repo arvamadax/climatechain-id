@@ -3,10 +3,12 @@
 - companies.json: one row per reviewed company group, for the Data page table and comparison
 Usage: python pipeline/summaries.py
 """
+import csv
 import json
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "web" / "data"
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "web" / "data"
 # Display order; "unreviewed" = named buyers outside the reviewed list (data/buyers.csv).
 KINDS = ["company", "unreviewed", "public_body", "intermediary", "wallet", "tokenization", "unidentified", "anonymous"]
 HIDDEN = {"intermediary", "wallet", "tokenization", "unidentified", "anonymous"}
@@ -45,9 +47,14 @@ def companies(owners):
             c["ct"] = {"low": o["ct"]["low"], "high": o["ct"]["high"], "year": o["ct"]["year"]}
         c["rep"] = c["rep"] or o.get("rep")
     rows = sorted(groups.values(), key=lambda c: -c["t"])
+    # Why a group has no reported emissions: what was checked and what was found (data/emissions_gaps.csv).
+    gaps = {r["group"]: {"reason": r["reason"], "checked": r["checked"]}
+            for r in csv.DictReader(open(ROOT / "data" / "emissions_gaps.csv", encoding="utf-8"))}
     for c in rows:
         r = c.pop("rep")
-        c["rep"] = {k: r[k] for k in ("year", "scope1", "total", "url", "source")} if r else None
+        c["rep"] = {k: r[k] for k in ("year", "scope1", "total", "url", "source", "boundary")} if r else None
+        c["gap"] = None if r else gaps.get(c["group"])
+        assert r or c["gap"], f"{c['group']}: no reported emissions and no reason in data/emissions_gaps.csv"
     return rows
 
 

@@ -11,6 +11,6 @@ tokens:
   paper: "#FBFAF7"
   signal: "#E8590C"
   line: "#E6E2DA"
-  grades: { A: "#1D4E89", B: "#4C82C3", C: "#D9D4CB", D: "#F2A36B", E: "#B83A0E" }
+  grades: { A: "#1D4E89", B: "#3A6FB0", C: "#D9D4CB", D: "#F2A36B", E: "#B83A0E" }
   font_body: Hanken Grotesk
   font_mono: Fragment Mono
