@@ -156,6 +156,7 @@ const ID_EXACT = {
   "No beneficiary named": "Tidak ada penerima manfaat yang disebut",
   "netra · Data: Berkeley Carbon Trading Project VROD (CC BY 4.0), CarbonPlan OffsetsDB, ICVCM, Climate TRACE, Probst et al. 2024, company reports.":
     "netra · Data: Berkeley Carbon Trading Project VROD (CC BY 4.0), CarbonPlan OffsetsDB, ICVCM, Climate TRACE, Probst et al. 2024, laporan perusahaan.",
+  "Vintage: the year the emission cut happened": "Vintage: tahun saat pengurangan emisi terjadi",
   // attributes
   "e.g. Shell, Delta, Netflix": "mis. Shell, Delta, Netflix",
   "Paste a green claim, e.g. “Our 2025 flights were carbon neutral: we offset 120,000 tonnes of CO2.”": "Tempel klaim hijau, mis. “Penerbangan kami tahun 2025 netral karbon: kami mengimbangi 120.000 ton CO2.”",
