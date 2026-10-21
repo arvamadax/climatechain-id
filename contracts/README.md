@@ -29,4 +29,4 @@ npm run demo:base-sepolia        # alternative public testnet
 </details>
 
 <a id="trust-model"></a>
-<p align="center"><img src="../docs/assets/md/contracts-05.svg" alt="Trust model: Question Answer Who can publish? Any address; the attester is stored with each check. The web app shows the address it trusts from web/data/deployment.json. Can a check be edited? No. A new check can be published; the old one stays." width="100%"></p>
+<p align="center"><img src="../docs/assets/md/contracts-05.svg" alt="Trust model: Question Answer Who can publish? Only an address with ATTESTER_ROLE (onlyRole on record and recordRoot). The deployer holds it, plus DEFAULT_ADMIN_ROLE, which can grant it to others. The attester is stored with each check. Who can flag a double claim? Anyone, with no role. challenge checks both Merkle proofs itself, so a wrong challenge fails." width="100%"></p>

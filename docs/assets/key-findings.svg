@@ -26,10 +26,10 @@
     </g>
     <g transform="translate(975 0)">
       <rect x="0.5" y="0.5" width="304" height="259" rx="20" fill="#fff" stroke="#e6e2da"/>
-      <text x="28" y="90" font-size="62" font-weight="600" letter-spacing="-2.4" fill="#121212">2–3×</text>
-      <text x="28" y="132" font-size="17" fill="#121212">gap between reported and</text>
-      <text x="28" y="156" font-size="17" fill="#121212">independent emissions.</text>
-      <text x="28" y="190" font-size="14" fill="#55524c">Large emitters; different boundaries.</text>
+      <text x="28" y="90" font-size="62" font-weight="600" letter-spacing="-2.4" fill="#121212">3–6×</text>
+      <text x="28" y="132" font-size="17" fill="#121212">independent vs reported</text>
+      <text x="28" y="156" font-size="17" fill="#121212">Scope 1, 4 of 14 groups.</text>
+      <text x="28" y="190" font-size="14" fill="#55524c">Shell, Chevron, E.ON, Eni; not a verdict.</text>
       <text x="28" y="232" font-size="11" font-weight="600" letter-spacing="1" fill="#55524c">COMPANY REPORTS · CLIMATE TRACE</text>
     </g>
   </g>

@@ -39,9 +39,9 @@ The web app has five views: **Check** (search a company or paste a claim, compan
 |---|---|---|
 | Claim checker (language model) | Reads a pasted green claim and pulls out who claims what, the scope, the year and the tonnes, each with a word-for-word quote, then shows the claim against the registry record above the full company result | A field is kept only if its quote is in the pasted text; every number shown comes from Netra's data, never from the model; 10 checks per hour; no text stored; one retry, then a plain fallback to name search |
 | Unusual patterns (Isolation Forest) | Finds the few large buyers (8 of 540) whose mix of old vintages, rejected methodologies, unresearched types, one-year bursts, low likely-real share and batch size stands out | Each flag lists readable reasons; labelled "a reason to look closer, not proof"; rule and threshold published |
-| Live registry check | Every 10 minutes the server reads the 200 newest retirements from Verra's public registry and scores each with Netra's rules: research share likely real by project type, ICVCM label, who the benefit is claimed for, and a link when the beneficiary is a reviewed company. Greenwash radar: retirement notes are read by the claim reader, and a product, service or event called neutral because of offsets is flagged (banned in the EU since 27 Sep 2026). Zombie credits (vintage 10+ years) are flagged | Same project categories as the snapshot (`web/data/projects.json`); a project not in the snapshot gets no estimate; Live / Reconnecting indicator; Gold Standard not included live |
+| Live registry check | Every 10 minutes the server reads the 200 newest retirements from Verra's public registry and scores each with Netra's rules: research share likely real by project type, ICVCM label, who the benefit is claimed for, and a link when the beneficiary is a reviewed company. Greenwash radar: retirement notes are read by the claim reader, and a product, service or event called neutral because of offsets is flagged (not allowed for products sold in the EU since 27 Sep 2026; where the product is sold is not checked). Zombie credits (vintage 10+ years) are flagged | Same project categories as the snapshot (`web/data/projects.json`); a project not in the snapshot gets no estimate; Live / Reconnecting indicator; Gold Standard not included live |
 | Live on-chain feed | The site polls ClaimRegistry every 15 s; new checks and double-claim flags appear without a reload | Three public RPC nodes tried in order; Live / Reconnecting indicator |
-| Always-on watcher | A server process reads every new check, verifies its serial list against the on-chain root and challenges any reused serial range | The contract verifies both Merkle proofs itself, so a wrong challenge fails; stops below 0.05 test ETH; testnet-only key, never in git |
+| Always-on watcher | A server process reads every new check, verifies its serial list against the on-chain root and challenges any serial range reused by two recorded checks; a failed or unfunded challenge is retried | The contract verifies both Merkle proofs itself, so a wrong challenge fails; stops below 0.05 test ETH; testnet-only key, never in git |
 | Name suggestions (internal) | Character n-gram TF-IDF proposes which reviewed company an unreviewed registry name belongs to | Not shown on the site: about one in five suggestions on real names was wrong, so each is checked by hand first (`data/name_suggestions_review.csv`) |
 
 Each company result also shows the cost per likely-real tonne at the 2024 market average of $6.34 per credit (Ecosystem Marketplace, State of the Voluntary Carbon Market 2025, p. 10); what each buyer actually paid is not public.
@@ -53,9 +53,10 @@ Tested live on Sepolia: a demo duplicate (check #7) reusing five of Shell's seri
 <p align="center"><img src="docs/assets/key-findings.svg" alt="Key findings" width="100%"></p>
 
 - About **1 in 5** researched tonnes retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%), with no improvement from year to year (18–22%).
-- **57%** of retired tonnes cannot be tied to a named claimant; 40.9% have no beneficiary at all.
+- **57%** of retired tonnes cannot be tied to a named claimant: 40.9% have a blank beneficiary field, 10.2% say "Not Disclosed", 6.2% go to resellers, wallets, tokens or codes that match no organisation.
+- **None** of the 52 large buyers that research covers well enough to grade reaches a B (36 C, 11 D, 5 E).
 - Only **4.5%** of retired tonnes use a methodology with the ICVCM Core Carbon Principles label.
-- Company-reported and independent emissions differ by a factor of **2–3** for large emitters.
+- For **4 of the 14** company groups with both figures, the independent estimate is **3–6×** their reported Scope 1 (Shell, Chevron, E.ON, Eni). Boundaries differ, so this is a question to ask, not a verdict.
 
 ## Architecture
 

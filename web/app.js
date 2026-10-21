@@ -129,7 +129,7 @@ function sparkline(ys) {
 const TYPE_NOTE = {
   intermediary: "An offset provider or account that retires credits on behalf of its clients. The end claimants are not named here.",
   wallet: "A crypto wallet address. These credits were retired to back tokens on a blockchain; who holds the climate claim is not visible in the registry.",
-  anonymous: "No identifiable beneficiary. Nobody can be held to claims based on these credits.",
+  anonymous: "No identifiable beneficiary. The public record names no one who could be held to claims based on these credits.",
   unidentified: "A code that could not be matched to any organisation from the registry details. Netra does not guess who it is.",
   tokenization: "Credits retired to create crypto tokens. Verra stopped allowing retired credits to be tokenized in 2022.",
   public_body: "A public authority.",
@@ -221,7 +221,7 @@ async function render(i, scroll = true) {
   const short = /^0x[0-9a-f]{20,}$/i.test(o.n) ? `${o.n.slice(0, 6)}…${o.n.slice(-4)}` : o.n; // wallet addresses
   const years = o.y[0] === o.y[1] ? `in ${o.y[0]}` : `since ${o.y[0]}`;
   const sentence = anonymous
-    ? `<b>${mt(o.t)}</b> of credits were retired since ${o.y[0]} without naming who the climate benefit belongs to. Nobody can be held to these claims.`
+    ? `<b>${mt(o.t)}</b> of credits were retired since ${o.y[0]} without naming who the climate benefit belongs to. The public record names no one who could be held to these claims.`
     : o.k
       ? `Of every 100 tonnes <b>${esc(short)}</b> retired ${years}, research covers <b>${Math.round(cover * 100)}</b>${g ? "" : ", too few for a grade"}. Of those, about <b>${Math.round(real * 100)}</b> likely cut real emissions${o.el === o.eh ? "" : ` (research range ${Math.round(o.el / o.k * 100)}–${Math.round(o.eh / o.k * 100)})`}.`
       : `None of the ${mt(o.t)} <b>${esc(short)}</b> retired ${years} comes from a project type with a published research estimate, so Netra cannot estimate how much was real.`;
@@ -299,7 +299,7 @@ function market(m) {
   const named = m.named_share, cover = m.known / m.tonnes, real = m.eff / m.known;
   $("#marketStats").innerHTML = [
     [mt(m.tonnes), "retired on Verra and Gold Standard since 2020"],
-    [pct(1 - named), "of those tonnes name no beneficiary at all"],
+    [pct(1 - named), "of those tonnes have a blank beneficiary field"],
     [pct(cover), "come from project types with a research estimate"],
     [pct(real), `of covered tonnes likely real (range ${pct(m.eff_lo / m.known)}–${pct(m.eff_hi / m.known)})`],
     [pct((m.ccp.approved || 0) / m.tonnes), "use a methodology with the ICVCM CCP label"],
@@ -334,8 +334,8 @@ const KIND = {
   intermediary: ["Resellers, for clients", "#f2a36b", "An offset seller retires credits on behalf of its customers. Who the customers are is not in the registry."],
   wallet: ["Crypto wallets", "#d9480f", "Retired to a blockchain address. Who holds the climate claim cannot be seen."],
   tokenization: ["Turned into tokens", "#b83a0e", "Retired to create crypto tokens. Verra stopped allowing this in 2022."],
-  unidentified: ["Codes nobody can trace", "#7a2e0c", "A short code (for example \"DL\") that matches no organisation in the registry details. Netra does not guess."],
-  anonymous: ["No name at all", "var(--signal)", "The beneficiary field is blank or says \"Not Disclosed\". Nobody can be held to this claim."],
+  unidentified: ["Codes that match no organisation", "#7a2e0c", "A short code (for example \"DL\") that matches no organisation in the registry details. Netra does not guess."],
+  anonymous: ["No name at all", "var(--signal)", "The beneficiary field is blank or says \"Not Disclosed\". The public record names no one who could be held to this claim."],
 };
 const HIDDEN_KINDS = ["intermediary", "wallet", "tokenization", "unidentified", "anonymous"];
 
@@ -367,7 +367,7 @@ async function hiddenSection() {
       </tbody></table></div>
     </div>
     <div class="why">
-      <div class="box"><h3>Why it matters</h3><p>A company can say "we offset our emissions". If the registry does not name it, nobody can check which credits back that sentence, or whether the same credits back someone else's.</p></div>
+      <div class="box"><h3>Why it matters</h3><p>A company can say "we offset our emissions". If the registry does not name it, no one can check in public which credits back that sentence, or whether the same credits back someone else's.</p></div>
       <div class="box"><h3>Double claiming</h3><p>Resellers and wallets can pass one retirement to many customers. The registry cannot see it. Netra's on-chain registry lets anyone flag a serial range claimed twice.</p></div>
       <div class="box"><h3>What would fix it</h3><p>A mandatory, public beneficiary for every retirement, and claims that point to exact serial numbers. Until then, treat unnamed volume as unverifiable.</p></div>
     </div>`;
@@ -600,14 +600,14 @@ function registryFeed() {
       const w = s.window;
       dot.className = "live on"; dot.textContent = "Live";
       $("#regWhen").textContent = `Checked ${ago(s.updated.replace("Z", "").slice(0, 19))} · ${w.n} newest retirements, ${ago(w.from)} to ${ago(w.to)}`;
-      $("#regSum").innerHTML = `<b>${mt(w.t)}</b> retired in the ${w.n} newest retirements. Research covers <b>${mt(w.known)}</b> of it; about <b>${mt(w.eff)}</b> is likely real${w.known ? ` (${pct(w.eff / w.known)})` : ""}.${w.companies ? ` ${w.companies} name a company Netra has reviewed.` : ""}${w.eu ? ` <b>${w.eu}</b> of the newest notes call a product, service or event neutral because of offsets (banned in the EU since 27 Sep 2026).` : ""}${w.zombies ? ` <b>${w.zombies}</b> use credits 10 or more years old.` : ""}`;
+      $("#regSum").innerHTML = `<b>${mt(w.t)}</b> retired in the ${w.n} newest retirements. Research covers <b>${mt(w.known)}</b> of it; about <b>${mt(w.eff)}</b> is likely real${w.known ? ` (${pct(w.eff / w.known)})` : ""}.${w.companies ? ` ${w.companies} name a company Netra has reviewed.` : ""}${w.eu ? ` <b>${w.eu}</b> of the newest notes call a product, service or event neutral because of offsets (not allowed for products sold in the EU since 27 Sep 2026).` : ""}${w.zombies ? ` <b>${w.zombies}</b> use credits 10 or more years old.` : ""}`;
       $("#regList").innerHTML = `<div class="tablewrap"><table><thead><tr><th>When</th><th>Tonnes</th><th>Project</th><th>Claimed for</th><th>Likely real</th><th>ICVCM</th></tr></thead><tbody>${s.items.slice(0, 12).map((x) => `<tr class="${newest && x.d > newest ? "fresh" : ""}">
         <td>${ago(x.d)}</td><td class="num" data-l="t">${fmt(x.q)}</td>
         <td>${esc(x.pn)}<br><span class="muted small">${esc(x.pid)} · ${esc(x.country || "")} · <a href="glossary.html#vintage" title="Vintage: the year the emission cut happened">vintage</a> ${esc(x.vintage || "?")}</span></td>
-        <td>${x.co ? `<a href="#buyer-${x.co.i}">${esc(x.co.group)}</a>` : x.owner ? `<span data-raw>${esc(x.owner)}</span>` : `<span class="muted">Not named</span>`}${x.reason && x.reason.trim() !== (x.owner || "").trim() ? `<br><span class="muted small" data-raw>${esc(x.reason)}</span>` : ""}${x.radar?.eu ? `<br><span class="tag warn" title="Offset-based neutrality claims for products, services and events are banned in the EU since 27 Sep 2026 (Directive 2024/825)">Offset-based neutrality claim</span>` : ""}${x.zombie ? `<br><span class="tag" title="Vintage ${esc(x.vintage)}: the reduction happened 10 or more years before retirement">Zombie credit · ${esc(x.vintage)}</span>` : ""}</td>
+        <td>${x.co ? `<a href="#buyer-${x.co.i}">${esc(x.co.group)}</a>` : x.owner ? `<span data-raw>${esc(x.owner)}</span>` : `<span class="muted">Not named</span>`}${x.reason && x.reason.trim() !== (x.owner || "").trim() ? `<br><span class="muted small" data-raw>${esc(x.reason)}</span>` : ""}${x.radar?.eu ? `<br><span class="tag warn" title="Since 27 Sep 2026, a product, service or event sold in the EU may not be called neutral because of offsets (Directive 2024/825). Whether this one is sold in the EU is not checked.">Offset-based neutrality claim</span>` : ""}${x.zombie ? `<br><span class="tag" title="Vintage ${esc(x.vintage)}: the reduction happened 10 or more years before retirement">Zombie credit · ${esc(x.vintage)}</span>` : ""}</td>
         <td data-l="Likely real">${x.oar != null ? pct(x.oar) : `<span class="muted">${x.known ? "No estimate" : "New project"}</span>`}</td>
         <td data-l="ICVCM">${x.ccp ? CCP[x.ccp] : `<span class="muted">Not checked</span>`}</td></tr>`).join("")}</tbody></table></div>
-        <p class="muted small">Source: ${esc(s.source)}. Likely real: Probst et al. 2024 by project type, as on every result; "New project" means the project is not in the Berkeley VROD snapshot yet. Offset-based neutrality claim: the retirement note, read by the AI claim reader with quotes, calls a product, service or event neutral (or zero, positive, compensated) because of offsets; such claims are banned in the EU since 27 Sep 2026 (Directive 2024/825). Zombie credit: vintage 10 or more years before retirement. Gold Standard is not included live.</p>`;
+        <p class="muted small">Source: ${esc(s.source)}. Likely real: Probst et al. 2024 by project type, as on every result; "New project" means the project is not in the Berkeley VROD snapshot yet. Offset-based neutrality claim: the retirement note, read by the AI claim reader with quotes, calls a product, service or event neutral (or zero, positive, compensated) because of offsets; since 27 Sep 2026 such claims are not allowed for products sold in the EU (Directive 2024/825), and Netra does not check where this one is sold. Zombie credit: vintage 10 or more years before retirement. Gold Standard is not included live.</p>`;
       if (newest && s.items[0].d !== newest) toast(`New retirement on Verra: ${fmt(s.items[0].q)} t, ${s.items[0].pn.slice(0, 48)}`);
       newest = s.items[0].d;
     } catch {

@@ -264,6 +264,8 @@ def main(xlsx, db, odb):
     (OUT / "index.json").write_text(json.dumps({"meta": meta, "shard": SHARD, "rows": [
         [o["n"], o["t"], o["k"], o["e"]] for o in owners]}, separators=(",", ":")), encoding="utf-8")
     (OUT / "o").mkdir(exist_ok=True)
+    for old in (OUT / "o").glob("*.json"):  # a smaller rebuild must not leave shards from a bigger one behind
+        old.unlink()
     for i in range(0, len(owners), SHARD):
         (OUT / "o" / f"{i // SHARD}.json").write_text(json.dumps(owners[i:i + SHARD], separators=(",", ":")), encoding="utf-8")
     (OUT / "factors.json").write_text(json.dumps({"factors": FACTORS, "icvcm_source": ICVCM["source"],
