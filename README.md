@@ -85,7 +85,6 @@ python brand/embed_font.py                                      # embed the bran
 
 <a id="smart-contract"></a>
 <p align="center"><img src="docs/assets/md/readme-09.svg" alt="Smart contract: contracts/src/ClaimRegistry.sol (Solidity 0.8.24, OpenZeppelin MerkleProof): Function Purpose recordRoot Publish a check: subject, report hash, report URI and the Merkle root of its serial-range nullifiers. Constant gas whatever the serial count (measured on Sepolia: 589,915 for Shell&#x27;s 684 ranges, 589,903 for easyJet&#x27;s 10). record Publish a check with explicit nullifiers; rejects any nullifier already claimed. Network settings live in contracts/scripts/chains.js; the web app reads the active deployment from web/data/deployment.json." width="100%"></p>
-<p align="center"><sub><a href="docs/TRUST.md">docs/TRUST.md</a></sub></p>
 <details><summary>Copy the commands</summary>
 
 ```bash

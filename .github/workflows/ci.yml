@@ -19,6 +19,9 @@ jobs:
       - name: Hardhat tests
         run: cd contracts && npm ci && npx hardhat test
 
+      - name: Server self-checks
+        run: node server/claim-api.js --check && node server/registry-watch.js
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"

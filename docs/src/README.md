@@ -131,8 +131,6 @@ npm run demo:base-sepolia   # alternative public testnet
 
 Network settings live in `contracts/scripts/chains.js`; the web app reads the active deployment from `web/data/deployment.json`.
 
-Trust model and limits: [docs/TRUST.md](docs/TRUST.md).
-
 ## Data sources and licences
 
 | Source | Use | Licence or version |
