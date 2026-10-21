@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: contracts/package-lock.json
+
+      - name: Hardhat tests
+        run: cd contracts && npm ci && npx hardhat test
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile pipeline
+        run: python -m compileall -q pipeline
+
+      - name: Validate JSON data
+        run: python -c "import json,glob; fs=glob.glob('web/data/*.json')+glob.glob('data/*.json'); assert fs, 'no JSON files found'; [json.load(open(f,encoding='utf-8')) for f in fs]; print(len(fs), 'json ok')"
