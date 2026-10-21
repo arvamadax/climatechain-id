@@ -25,6 +25,8 @@ Shared: `common.js` (formatting, grades, logos, theme switch, reveal motion), `s
 
 The claim checker calls `api/claim` and the live registry check reads `api/live`, both served by `server/claim-api.js` (with `server/registry-watch.js`); the on-chain feed polls the contract every 15 s.
 
+The Check page has an EN/ID switch (`i18n.js`): exact sentences, then rules for sentences with numbers, applied to on-screen text; registry data (names, notes, project names) is never translated.
+
 ## Run locally
 
 ```bash
