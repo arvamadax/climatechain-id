@@ -31,6 +31,10 @@ function quotedNumbers(q) {
 }
 
 const norm = (s) => String(s).toLowerCase().replace(/\s+/g, " ").trim();
+// The value must be written inside its quote: letters and digits only ("carbon-neutral" backs "carbon neutral"),
+// and not inside a longer Latin word ("Shell" is not backed by "Shellfish"). Works for scripts without spaces too.
+const words = (s) => norm(s).replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+const backs = (quote, value) => { const v = words(value); return v.length >= 2 && new RegExp(`(?<![a-z])${v}(?![a-z])`, "u").test(words(quote)); };
 
 // Keep a field only if its quote is in the text and its value is backed by the quote.
 function validate(raw, text) {
@@ -48,7 +52,7 @@ function validate(raw, text) {
       value = Number(String(value).replace(/[^0-9.]/g, ""));
       ok = value > 0 && quotedNumbers(q).some((n) => Math.abs(n - value) <= value * 0.01);
     }
-    if (ok && (k === "company" || k === "claim_words")) ok = q.includes(norm(value)) || norm(value).length < 60;
+    if (ok && (k === "company" || k === "claim_words")) ok = backs(f.quote, value);
     (ok ? (out[k] = { value, quote: f.quote }) : dropped.push(k));
   }
   return { fields: out, dropped };
@@ -120,6 +124,13 @@ if (require.main === module) {
   const v4 = validate({ tonnes: { value: 2000000, quote: "sekitar 2 juta ton CO2" } }, "Shell memensiunkan sekitar 2 juta ton CO2 tahun ini.");
   const v5 = validate({ tonnes: { value: 120000, quote: "120.000 ton" } }, "Kami mengimbangi 120.000 ton CO2.");
   if (!v2.fields.tonnes || v3.fields.tonnes || !v4.fields.tonnes || !v5.fields.tonnes) throw new Error("tonnes self-check failed");
+  // a value the model made up is dropped even when its quote is real text
+  const t6 = "Our Coffee Co. reusable cups help us reduce waste.";
+  const v6 = validate({ company: { value: "Shell", quote: "Our Coffee Co." }, claim_words: { value: "carbon neutral", quote: "reusable cups" } }, t6);
+  const v7 = validate({ claim_words: { value: "carbon neutral", quote: "carbon-neutral flights" }, company: { value: "Shell", quote: "Shellfish Ltd" } },
+    "Book carbon-neutral flights with Shellfish Ltd today.");
+  const v8 = validate({ claim_words: { value: "碳中和", quote: "2024/12/31碳中和" } }, "玉山銀行信用卡 2024/1/1~2024/12/31碳中和");
+  if (v6.fields.company || v6.fields.claim_words || !v7.fields.claim_words || v7.fields.company || !v8.fields.claim_words) throw new Error("quote-backs-value self-check failed");
   if (process.argv[2] === "--check") { console.log("ok"); process.exit(0); }
   for (const k of ["ROUTER_URL", "ROUTER_KEY"]) if (!process.env[k]) throw new Error(`missing ${k}`);
   watch.start(process.env.NETRA_SITE || "http://127.0.0.1:8098", async (text) => validate((await extract(text)).parsed, text).fields);

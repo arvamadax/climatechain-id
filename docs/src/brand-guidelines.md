@@ -12,7 +12,7 @@ Format follows [cofoundy/brand-skills](https://github.com/cofoundy/brand-skills)
 ## Positioning
 - Sylvera, BeZero and Calyx grade carbon **projects**, behind paywalls. CarbonPlan publishes open research but does not grade companies. Climate TRACE estimates emissions only.
 - **Netra grades the claim a company makes**, free, with every source linked and every check on the record.
-- Proof points: 876 Mt retired since 2020 checked; 44,465 buyers; primary-source emissions for 79 of 94 classified company groups (94.3% of company tonnes).
+- Proof points: 876 Mt retired since 2020, searchable by buyer; 44,465 buyers; primary-source emissions for 79 of 94 classified company groups (94.3% of company tonnes).
 
 ## Identity
 
@@ -36,5 +36,5 @@ Format follows [cofoundy/brand-skills](https://github.com/cofoundy/brand-skills)
 ## Messaging
 - **Tagline:** See what a carbon claim is really worth.
 - **Value line:** Type a company. See the credits it retired, how many research says are likely real, what it reports emitting, and what independent estimates see.
-- **Headline facts:** about 1 in 5 researched tonnes likely real (19.4%, range 2.4–68.8%, flat since 2020); 40% of tonnes name no buyer; 4.5% carry the ICVCM quality label; reported and independent emissions differ 2–3×.
-- **Proof line:** Every check is on the record. Nobody can edit it later.
+- **Headline facts:** about 1 in 5 researched tonnes likely real (19.4%, range 2.4–68.8%, flat since 2020); 57% of tonnes cannot be tied to a named claimant (41% blank); none of the 52 gradable large buyers reaches a B; 4.5% carry the ICVCM quality label; for 4 of 14 comparable groups the independent estimate is 3–6× reported Scope 1.
+- **Proof line:** Every published check is on the record. No one, not even Netra, can edit it.

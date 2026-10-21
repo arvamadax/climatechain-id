@@ -51,19 +51,23 @@ async function tick() {
       ns = (await serials(c.uri)).map(nullifier);
       if (ns.length && root(ns) !== c.serialRoot) { log({ event: "root_mismatch", id }); ns = []; }
     } catch (e) { log({ event: "serials_unavailable", id, error: String(e.message || e) }); return; } // retry next tick
-    loaded.push({ id, ns, flagged: c.doubleClaim });
-    log({ event: "check", id, ranges: ns.length, flagged: c.doubleClaim });
+    // A check counts as done only after its challenge went through: a failed tx or a low balance leaves it
+    // unread, so the next tick tries again (re-reading doubleClaim, so a tx that landed is not sent twice).
+    // ponytail: a low balance pauses every later check too; fine for one testnet key, per-check queue if that ever matters
+    let flagged = c.doubleClaim;
     for (const x of ns) {
       const first = seen.get(x);
-      if (!first) { seen.set(x, { id, ns }); continue; }
-      if (loaded[id].flagged) continue;
+      if (!first || flagged) continue;
       const bal = await wallet.provider.getBalance(wallet.address);
-      if (bal < MIN) { log({ event: "low_balance", eth: ethers.formatEther(bal), id }); continue; }
+      if (bal < MIN) { log({ event: "low_balance", eth: ethers.formatEther(bal), id }); return; }
       const tx = await reg.challenge(x, first.id, proof(first.ns, x), id, proof(ns, x));
       await tx.wait();
-      loaded[id].flagged = true;
+      flagged = true;
       log({ event: "double_claim_flagged", earlier: first.id, later: id, tx: tx.hash });
     }
+    for (const x of ns) if (!seen.has(x)) seen.set(x, { id, ns });
+    loaded.push({ id, ns, flagged });
+    log({ event: "check", id, ranges: ns.length, flagged });
   }
 }
 
@@ -72,7 +76,34 @@ async function loop() {
   setTimeout(loop, 30000);
 }
 
-if (require.main === module) {
+// self-check: a challenge that fails once, and a low balance, are both retried on the next tick
+async function check() {
+  const dir = fs.mkdtempSync(path.join(require("os").tmpdir(), "watcher-"));
+  const lists = [["VCS:1-10", "VCS:11-20"], ["VCS:11-20", "VCS:99"]];
+  lists.forEach((s, i) => fs.writeFileSync(path.join(dir, `${i}.json`), JSON.stringify({ serials: s })));
+  env.CHECKS_DIR = dir;
+  const chain = lists.map((s, i) => ({ uri: `data/checks/${i}.json`, serialRoot: root(s.map(nullifier)), doubleClaim: false }));
+  let balance = 0n, fail = 1, sent = 0;
+  reg = { count: async () => chain.length, checks: async (id) => ({ ...chain[id] }),
+    challenge: async (n, a, pa, b) => { if (fail-- > 0) throw new Error("rpc dropped"); sent++; chain[b].doubleClaim = true; return { hash: "0x1", wait: async () => {} }; } };
+  wallet = { address: "0x0", provider: { getBalance: async () => balance } };
+  const quiet = console.log; console.log = () => {};
+  try {
+    await tick(); // low balance: check 1 stays unread
+    if (loaded.length !== 1) throw new Error("low balance should pause at check 1");
+    balance = MIN;
+    await tick().catch(() => {}); // challenge throws once
+    if (loaded.length !== 1) throw new Error("a failed challenge must not mark the check done");
+    await tick();
+    if (loaded.length !== 2 || !loaded[1].flagged || sent !== 1 || !chain[1].doubleClaim) throw new Error("retry did not flag");
+    await tick();
+    if (sent !== 1) throw new Error("flagged twice");
+  } finally { console.log = quiet; fs.rmSync(dir, { recursive: true, force: true }); }
+  console.log("ok");
+}
+
+if (require.main === module && process.argv[2] === "--check") check().catch((e) => { console.error(e); process.exitCode = 1; });
+else if (require.main === module) {
   for (const k of ["PRIVATE_KEY", "REGISTRY", "CHAIN_ID", "RPC_URLS", "CHECKS_DIR"]) if (!env[k]) throw new Error(`missing ${k}`);
   log({ event: "start", registry: env.REGISTRY });
   loop();

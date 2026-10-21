@@ -51,7 +51,8 @@ On Sepolia, two publish runs (deploy, checks, challenge; the first was cut off b
 
 | Question | Answer |
 |---|---|
-| Who can publish? | Any address; the attester is stored with each check. The web app shows the address it trusts from `web/data/deployment.json`. |
-| Can a check be edited? | No. A new check can be published; the old one stays. |
+| Who can publish? | Only an address with `ATTESTER_ROLE` (`onlyRole` on `record` and `recordRoot`). The deployer holds it, plus `DEFAULT_ADMIN_ROLE`, which can grant it to others. The attester is stored with each check. |
+| Who can flag a double claim? | Anyone, with no role. `challenge` checks both Merkle proofs itself, so a wrong challenge fails. |
+| Can a check be edited? | No, not even by Netra: no function changes or deletes a check. The only change is the double-claim flag, and only with valid proofs. A new check can be published; the old one stays. |
 | What if the data changes? | The page shows "differs from current data" for older checks. |
 | What is still trusted off-chain? | That the published JSON reflects the registry. Anyone can recompute it from Berkeley VROD with `pipeline/build.py`. |

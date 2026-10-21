@@ -6,7 +6,7 @@
 const ID_EXACT = {
   // header, hero
   "Check": "Periksa", "Hidden buyers": "Pembeli tersembunyi", "About": "Tentang", "Glossary": "Glosarium",
-  "876 Mt of carbon credits retired since 2020, checked": "876 Mt kredit karbon yang dipensiunkan sejak 2020, diperiksa",
+  "876 Mt of carbon credits retired since 2020, searchable by buyer": "876 Mt kredit karbon yang dipensiunkan sejak 2020, bisa dicari per pembeli",
   "See what a carbon claim is really worth.": "Lihat nilai sebenarnya dari sebuah klaim karbon.",
   "Type a company. Netra shows the credits it retired, how many research says are likely real, what it reports emitting, and what independent estimates see. Search":
     "Ketik nama perusahaan. Netra menampilkan kredit yang dipensiunkannya, berapa banyak yang menurut riset kemungkinan nyata, emisi yang dilaporkannya, dan perkiraan independen. Cari di antara",
@@ -41,7 +41,7 @@ const ID_EXACT = {
   "Part of": "Bagian dari",
   "An offset provider or account that retires credits on behalf of its clients. The end claimants are not named here.": "Penyedia offset atau akun yang memensiunkan kredit atas nama kliennya. Pengklaim akhirnya tidak disebut di sini.",
   "A crypto wallet address. These credits were retired to back tokens on a blockchain; who holds the climate claim is not visible in the registry.": "Alamat dompet kripto. Kredit ini dipensiunkan untuk mendukung token di blockchain; siapa pemegang klaim iklimnya tidak terlihat di registry.",
-  "No identifiable beneficiary. Nobody can be held to claims based on these credits.": "Tidak ada penerima manfaat yang bisa dikenali. Tidak ada yang bisa dimintai tanggung jawab atas klaim berbasis kredit ini.",
+  "No identifiable beneficiary. The public record names no one who could be held to claims based on these credits.": "Tidak ada penerima manfaat yang bisa dikenali. Catatan publik tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaim berbasis kredit ini.",
   "A code that could not be matched to any organisation from the registry details. Netra does not guess who it is.": "Kode yang tidak cocok dengan organisasi mana pun di detail registry. Netra tidak menebak siapa itu.",
   "Credits retired to create crypto tokens. Verra stopped allowing retired credits to be tokenized in 2022.": "Kredit yang dipensiunkan untuk membuat token kripto. Verra berhenti mengizinkannya pada 2022.",
   "A public authority.": "Lembaga publik.",
@@ -97,7 +97,7 @@ const ID_EXACT = {
   "Has the quality of retired credits improved? Central research estimate per retirement year.": "Apakah kualitas kredit yang dipensiunkan membaik? Estimasi riset utama per tahun retirement.",
   "Where the tonnes come from": "Dari mana ton itu berasal",
   "retired on Verra and Gold Standard since 2020": "dipensiunkan di Verra dan Gold Standard sejak 2020",
-  "of those tonnes name no beneficiary at all": "dari ton itu tidak menyebut penerima manfaat sama sekali",
+  "of those tonnes have a blank beneficiary field": "dari ton itu kolom penerima manfaatnya kosong",
   "come from project types with a research estimate": "berasal dari jenis proyek yang punya estimasi riset",
   "use a methodology with the ICVCM CCP label": "memakai metodologi berlabel ICVCM CCP",
   "* 2026 up to August. The likely-real share has stayed between 18% and 22% every year.": "* 2026 hingga Agustus. Porsi kemungkinan nyata bertahan di 18% sampai 22% setiap tahun.",
@@ -107,24 +107,24 @@ const ID_EXACT = {
   "Other project types": "Jenis proyek lain",
   // hidden buyers
   "Who is behind the credits? Most of the time, nobody you can name.": "Siapa di balik kredit itu? Seringnya, tidak ada yang bisa disebut namanya.",
-  "A carbon credit is \"retired\" when someone uses it for a climate claim. The registry asks who that someone is. For more than half of all tonnes since 2020, the answer is blank, \"Not Disclosed\", a reseller, a crypto wallet, or a code nobody can trace. A claim without a name cannot be checked by anyone.":
-    "Kredit karbon \"dipensiunkan\" saat seseorang memakainya untuk klaim iklim. Registry menanyakan siapa orang itu. Untuk lebih dari separuh ton sejak 2020, jawabannya kosong, \"Not Disclosed\", reseller, dompet kripto, atau kode yang tidak bisa dilacak. Klaim tanpa nama tidak bisa diperiksa siapa pun.",
+  "A carbon credit is \"retired\" when someone uses it for a climate claim. The registry asks who that someone is. For more than half of all tonnes since 2020, the answer is blank, \"Not Disclosed\", a reseller, a crypto wallet, or a code that matches no organisation. A claim without a name cannot be checked in public.":
+    "Kredit karbon \"dipensiunkan\" saat seseorang memakainya untuk klaim iklim. Registry menanyakan siapa orang itu. Untuk lebih dari separuh ton sejak 2020, jawabannya kosong, \"Not Disclosed\", reseller, dompet kripto, atau kode yang tidak cocok dengan organisasi mana pun. Klaim tanpa nama tidak bisa diperiksa secara publik.",
   "Loading…": "Memuat…",
   "Named companies": "Perusahaan bernama", "Other named buyers": "Pembeli bernama lainnya", "Public bodies": "Lembaga publik",
   "Resellers, for clients": "Reseller, untuk klien", "Crypto wallets": "Dompet kripto", "Turned into tokens": "Dijadikan token",
-  "Codes nobody can trace": "Kode yang tak bisa dilacak", "No name at all": "Tanpa nama sama sekali", "hidden": "tersembunyi",
+  "Codes that match no organisation": "Kode tanpa organisasi yang cocok", "No name at all": "Tanpa nama sama sekali", "hidden": "tersembunyi",
   "Every tonne retired since 2020, by who claims it": "Setiap ton yang dipensiunkan sejak 2020, menurut siapa yang mengklaimnya",
   "The biggest accounts that hide who claims": "Akun terbesar yang menyembunyikan siapa pengklaimnya",
   "Account as written in the registry": "Akun seperti tertulis di registry", "What it is": "Apa itu",
   "Why it matters": "Kenapa penting", "Double claiming": "Klaim ganda", "What would fix it": "Apa solusinya",
-  "A company can say \"we offset our emissions\". If the registry does not name it, nobody can check which credits back that sentence, or whether the same credits back someone else's.":
-    "Perusahaan bisa berkata \"kami mengimbangi emisi kami\". Jika registry tidak menyebut namanya, tak ada yang bisa memeriksa kredit mana yang mendukung kalimat itu, atau apakah kredit yang sama juga mendukung klaim pihak lain.",
+  "A company can say \"we offset our emissions\". If the registry does not name it, no one can check in public which credits back that sentence, or whether the same credits back someone else's.":
+    "Perusahaan bisa berkata \"kami mengimbangi emisi kami\". Jika registry tidak menyebut namanya, tak ada yang bisa memeriksa secara publik kredit mana yang mendukung kalimat itu, atau apakah kredit yang sama juga mendukung klaim pihak lain.",
   "Resellers and wallets can pass one retirement to many customers. The registry cannot see it. Netra's on-chain registry lets anyone flag a serial range claimed twice.":
     "Reseller dan dompet bisa meneruskan satu retirement ke banyak pelanggan. Registry tidak melihatnya. Registry on-chain Netra memungkinkan siapa pun menandai rentang serial yang diklaim dua kali.",
   "A mandatory, public beneficiary for every retirement, and claims that point to exact serial numbers. Until then, treat unnamed volume as unverifiable.":
     "Penerima manfaat yang wajib dan publik untuk setiap retirement, serta klaim yang menunjuk nomor serial yang tepat. Sampai saat itu, anggap volume tanpa nama tidak bisa diverifikasi.",
   // on-chain proof
-  "On-chain proof": "Bukti on-chain", "Every check is on the record. Nobody can edit it later.": "Setiap pemeriksaan tercatat. Tidak ada yang bisa mengubahnya nanti.",
+  "On-chain proof": "Bukti on-chain", "Every published check is on the record. No one, not even Netra, can edit it.": "Setiap pemeriksaan yang terbit tercatat. Tidak ada yang bisa mengubahnya, termasuk Netra.",
   "Each published check is anchored in the": "Setiap pemeriksaan yang terbit dijangkarkan di smart contract",
   "smart contract on a public test network. Anyone can recompute the report from the open data and confirm it matches. Each claim commits to the registry serial ranges behind it; if one range shows up in two claims, anyone can prove it on-chain and the later claim is flagged for good.":
     "di jaringan uji publik. Siapa pun bisa menghitung ulang laporan dari data terbuka dan memastikan cocok. Setiap klaim terikat pada rentang serial registry di baliknya; jika satu rentang muncul di dua klaim, siapa pun bisa membuktikannya on-chain dan klaim yang belakangan ditandai selamanya.",
@@ -177,13 +177,13 @@ const ID_RULES = [
   [/^Checked (.+) · (\d+) newest retirements, (.+) to (.+)$/, (m, a, n, b, c) => `Diperiksa ${ago(a)} · ${n} retirement terbaru, ${ago(b)} sampai ${ago(c)}`],
   [/^retired in the (\d+) newest retirements\. Research covers$/, "dipensiunkan dalam $1 retirement terbaru. Riset mencakup"],
   [/^is likely real(?: \(([\d.]+%)\))?\.(?: (\d+) name a company Netra has reviewed\.)?$/, (m, p, n) => `kemungkinan nyata${p ? ` (${p})` : ""}.${n ? ` ${n} menyebut perusahaan yang sudah ditinjau Netra.` : ""}`],
-  [/^of the newest notes call a product, service or event neutral because of offsets \(banned in the EU since 27 Sep 2026\)\.$/, "catatan terbaru menyebut produk, layanan atau acara netral karena offset (dilarang di EU sejak 27 Sep 2026)."],
+  [/^of the newest notes call a product, service or event neutral because of offsets \(not allowed for products sold in the EU since 27 Sep 2026\)\.$/, "catatan terbaru menyebut produk, layanan atau acara netral karena offset (tidak boleh untuk produk yang dijual di EU sejak 27 Sep 2026)."],
   [/^Zombie credit · (\d+)$/, "Kredit zombie · $1"],
   [/^Vintage (\d+): the reduction happened 10 or more years before retirement$/, "Vintage $1: pengurangan emisinya terjadi 10 tahun atau lebih sebelum dipensiunkan"],
-  [/^Offset-based neutrality claims for products.*$/, "Klaim netral berbasis offset untuk produk, layanan dan acara dilarang di EU sejak 27 Sep 2026 (Directive 2024/825)"],
+  [/^Since 27 Sep 2026, a product, service or event sold in the EU.*$/, "Sejak 27 Sep 2026, produk, layanan atau acara yang dijual di EU tidak boleh disebut netral karena offset (Directive 2024/825). Apakah yang ini dijual di EU tidak diperiksa."],
   [/^New retirement on Verra: (.+)$/, "Retirement baru di Verra: $1"],
   [/^New on-chain check #(\d+) recorded$/, "Pemeriksaan on-chain baru #$1 tercatat"],
-  [/^Source: Verra Registry, public retirements \(registry\.verra\.org\)\..*$/, "Sumber: Verra Registry, retirement publik (registry.verra.org). Kemungkinan nyata: Probst et al. 2024 per jenis proyek, sama seperti di setiap hasil; \"Proyek baru\" berarti proyek belum ada di snapshot Berkeley VROD. Klaim netral berbasis offset: catatan retirement, dibaca AI pembaca klaim dengan kutipan, menyebut produk, layanan atau acara netral (atau zero, positif, terkompensasi) karena offset; klaim seperti itu dilarang di EU sejak 27 Sep 2026 (Directive 2024/825). Kredit zombie: vintage 10 tahun atau lebih sebelum dipensiunkan. Gold Standard tidak termasuk dalam pemeriksaan langsung."],
+  [/^Source: Verra Registry, public retirements \(registry\.verra\.org\)\..*$/, "Sumber: Verra Registry, retirement publik (registry.verra.org). Kemungkinan nyata: Probst et al. 2024 per jenis proyek, sama seperti di setiap hasil; \"Proyek baru\" berarti proyek belum ada di snapshot Berkeley VROD. Klaim netral berbasis offset: catatan retirement, dibaca AI pembaca klaim dengan kutipan, menyebut produk, layanan atau acara netral (atau zero, positif, terkompensasi) karena offset; sejak 27 Sep 2026 klaim seperti itu tidak boleh untuk produk yang dijual di EU (Directive 2024/825), dan Netra tidak memeriksa di mana produk ini dijual. Kredit zombie: vintage 10 tahun atau lebih sebelum dipensiunkan. Gold Standard tidak termasuk dalam pemeriksaan langsung."],
   [/^Search “(.+)” instead$/, "Cari “$1”"],
   [/^of credits(; the claim says)?\.?$/, (m, c) => `kredit${c ? "; klaim menyebut" : "."}`],
   [/^Offsets do not cut its own emissions: (.*)$/, "Offset tidak mengurangi emisinya sendiri: $1"],
@@ -199,7 +199,7 @@ const ID_RULES = [
   [/^retired (since|in) (\d{4}), research covers$/, (m, w, y) => `${w === "since" ? "sejak" : "pada"} ${y}, riset mencakup`],
   [/^(, too few for a grade)?\. Of those, about$/, (m, few) => `${few ? ", terlalu sedikit untuk nilai" : ""}. Dari jumlah itu, sekitar`],
   [/^likely cut real emissions(?: \(research range ([\d–-]+)\))?\.$/, (m, r) => `kemungkinan benar-benar mengurangi emisi${r ? ` (rentang riset ${r})` : ""}.`],
-  [/^of credits were retired since (\d{4}) without naming who the climate benefit belongs to\. Nobody can be held to these claims\.$/, "kredit dipensiunkan sejak $1 tanpa menyebut siapa pemilik manfaat iklimnya. Tidak ada yang bisa dimintai tanggung jawab atas klaim ini."],
+  [/^of credits were retired since (\d{4}) without naming who the climate benefit belongs to\. The public record names no one who could be held to these claims\.$/, "kredit dipensiunkan sejak $1 tanpa menyebut siapa pemilik manfaat iklimnya. Catatan publik tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaim ini."],
   [/^None of the (.+)$/, "Tidak satu pun dari $1"],
   [/^retired (since|in) (\d{4}) comes from a project type with a published research estimate, so Netra cannot estimate how much was real\.$/, (m, w, y) => `yang dipensiunkan ${w === "since" ? "sejak" : "pada"} ${y} berasal dari jenis proyek dengan estimasi riset terbit, jadi Netra tidak bisa memperkirakan berapa yang nyata.`],
   [/^Filled: best estimate (\S+)$/, "Terisi: estimasi terbaik $1"],
@@ -256,7 +256,7 @@ Object.assign(ID_EXACT, {
   "Retired to a blockchain address. Who holds the climate claim cannot be seen.": "Dipensiunkan ke alamat blockchain. Siapa pemegang klaim iklimnya tidak terlihat.",
   "Retired to create crypto tokens. Verra stopped allowing this in 2022.": "Dipensiunkan untuk membuat token kripto. Verra berhenti mengizinkannya pada 2022.",
   "A short code (for example \"DL\") that matches no organisation in the registry details. Netra does not guess.": "Kode pendek (misalnya \"DL\") yang tidak cocok dengan organisasi mana pun di detail registry. Netra tidak menebak.",
-  "The beneficiary field is blank or says \"Not Disclosed\". Nobody can be held to this claim.": "Kolom penerima manfaat kosong atau berisi \"Not Disclosed\". Tidak ada yang bisa dimintai tanggung jawab atas klaim ini.",
+  "The beneficiary field is blank or says \"Not Disclosed\". The public record names no one who could be held to this claim.": "Kolom penerima manfaat kosong atau berisi \"Not Disclosed\". Catatan publik tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaim ini.",
 });
 
 function tr(s) {
