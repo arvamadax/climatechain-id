@@ -37,6 +37,7 @@ a { color: var(--ink); text-underline-offset: 3px; transition: color .2s var(--e
 .result.in-view { animation: rise .6s var(--ease) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px) scale(.99); } to { opacity: 1; transform: none; } }
 .claimbar span, .bar span { transition: width 1s var(--ease); }
+/* motion: see the end of this file */
 .card, .box, .stat, .panel, .term, .ccard, .chips button, .btn, .jump a { transition: border-color .25s var(--ease), background-color .5s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -363,3 +364,36 @@ td.mono { overflow-wrap: anywhere; }
 #regList .tag.warn { color: var(--paper); background: var(--signal-text); border-color: var(--signal-text); }
 .lang { font: 600 .78rem var(--body); letter-spacing: .06em; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: .3rem .65rem; cursor: pointer; }
 .lang:focus-visible { border-color: var(--ink); }
+
+/* ---------- motion (all of it switches off under prefers-reduced-motion, above) ---------- */
+@keyframes up { from { opacity: 0; transform: translateY(22px); } }
+@keyframes grow { from { transform: scaleX(0); } }
+@keyframes draw { from { stroke-dashoffset: 1; } }
+@keyframes pop { 0% { opacity: 0; transform: scale(.6) rotate(-6deg); } 70% { transform: scale(1.06); } }
+@keyframes fresh { from { background: rgb(232 89 12 / .16); } }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } }
+/* hero arrives in sequence on load */
+.hero > * { animation: up .8s var(--ease) both; }
+.hero > :nth-child(2) { animation-delay: .08s; } .hero > :nth-child(3) { animation-delay: .16s; }
+.hero > :nth-child(4) { animation-delay: .24s; } .hero > :nth-child(n+5) { animation-delay: .32s; }
+/* cards in a row follow each other */
+.stats .stat:nth-child(2), .grid2 > :nth-child(2), .why > :nth-child(2), .kinds > :nth-child(2) { transition-delay: .08s; }
+.stats .stat:nth-child(3), .grid2 > :nth-child(3), .why > :nth-child(3), .kinds > :nth-child(3) { transition-delay: .16s; }
+.stats .stat:nth-child(4), .grid2 > :nth-child(4), .kinds > :nth-child(4) { transition-delay: .24s; }
+.stats .stat:nth-child(5), .grid2 > :nth-child(5), .kinds > :nth-child(n+5) { transition-delay: .32s; }
+/* bars fill from the left once visible */
+.bar span, .claimbar span { transform-origin: left center; }
+.reveal:not(.in) .bar span, .reveal:not(.in) .claimbar span, .result:not(.in-view) .claimbar span { transform: scaleX(0); }
+.in .bar span, .in .claimbar span, .result.in-view .claimbar span { animation: grow 1.2s var(--ease) .15s both; }
+.claimbar .range { animation-delay: .05s !important; }
+/* trend line draws itself */
+#trend path { stroke-dasharray: 1; }
+.reveal:not(.in) #trend path { stroke-dashoffset: 1; }
+.in #trend path { animation: draw 1.8s var(--ease) .2s both; }
+.in #trend circle, .in #trend text { animation: fade .5s var(--ease) 1.2s both; }
+/* grade lands */
+.result .grade, .ccard .chip-grade { animation: pop .7s var(--ease) .25s both; }
+/* switching between company and claim */
+#search:not([hidden]), .claimbox:not([hidden]), .chips:not([hidden]) { animation: fade .35s var(--ease) both; }
+/* a new live retirement flashes once */
+#regList tr.fresh td { animation: fresh 2.4s ease-out both; }

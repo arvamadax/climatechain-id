@@ -58,20 +58,44 @@ function setupTheme() {
   sync();
 }
 
-// Sections and cards rise in once as they scroll into view.
+// Sections and cards rise in once as they scroll into view; numbers count up as they arrive.
+const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function countUp(el) {
+  const m = el.textContent.match(/^([^\d]*)([\d,]*\.?\d+)(.*)$/s);
+  if (calm || !m || el.dataset.counted) return;
+  el.dataset.counted = "1";
+  const [, pre, num, post] = m, end = parseFloat(num.replace(/,/g, "")), dec = (num.split(".")[1] || "").length, comma = num.includes(",");
+  const t0 = performance.now(), dur = 1100;
+  const step = (t) => {
+    const k = Math.min(1, (t - t0) / dur), v = end * (1 - Math.pow(1 - k, 3));
+    const s = v.toFixed(dec);
+    el.textContent = pre + (comma ? Number(s).toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec }) : s) + post;
+    if (k < 1) requestAnimationFrame(step); else el.textContent = pre + num + post;
+  };
+  requestAnimationFrame(step);
+}
 const revealer = "IntersectionObserver" in window
-  ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); revealer.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" })
+  ? new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("in");
+      e.target.querySelectorAll(".stat b, .stat.big b").forEach(countUp);
+      if (e.target.matches(".stat")) e.target.querySelectorAll("b").forEach(countUp);
+      revealer.unobserve(e.target);
+    }), { rootMargin: "0px 0px -8% 0px" })
   : null;
 function reveal(root = document) {
-  root.querySelectorAll(".block, .stat, .box, .panel, .term, .ccard, .timeline li, .flow li").forEach((el) => {
+  if (!revealer || !root.querySelectorAll) return;
+  root.querySelectorAll(".block, .stat, .box, .panel, .term, .ccard, .timeline li, .flow li, .strip, .kind, .catrow").forEach((el) => {
     if (el.classList.contains("reveal")) return;
-    if (!revealer) return;
     el.classList.add("reveal");
     revealer.observe(el);
   });
 }
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => { setupTheme(); reveal(); });
-else { setupTheme(); reveal(); }
+// Content rendered later (results, charts, live rows) gets the same entrance.
+const revealLater = () => new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => n.nodeType === 1 && reveal(n.parentElement || n))))
+  .observe(document.querySelector("main") || document.body, { childList: true, subtree: true });
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => { setupTheme(); reveal(); revealLater(); });
+else { setupTheme(); reveal(); revealLater(); }
 
 // Claimed-vs-real bar: outline = claimed (k), hatched = research range, filled = best estimate.
 function claimBar(e, el, eh, k) {
