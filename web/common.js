@@ -87,7 +87,9 @@ function reveal(root = document) {
   root.querySelectorAll(".block, .stat, .box, .panel, .term, .ccard, .timeline li, .flow li, .strip, .kind, .catrow").forEach((el) => {
     if (el.classList.contains("reveal")) return;
     el.classList.add("reveal");
-    revealer.observe(el);
+    // already on screen when it appears: show it now (the observer may not fire before the next frame)
+    if (el.getBoundingClientRect().top < innerHeight) requestAnimationFrame(() => { el.classList.add("in"); el.querySelectorAll(".stat b").forEach(countUp); if (el.matches(".stat")) el.querySelectorAll("b").forEach(countUp); });
+    else revealer.observe(el);
   });
 }
 // Content rendered later (results, charts, live rows) gets the same entrance.

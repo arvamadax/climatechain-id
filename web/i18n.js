@@ -268,7 +268,7 @@ function tr(s) {
 }
 
 (function () {
-  const ATTRS = ["placeholder", "aria-label", "title", "data-ex"];
+  const ATTRS = ["placeholder", "aria-label", "title", "data-ex", "data-l"];
   const orig = new WeakMap(); // text node -> English original
   let lang = "en";
   try { lang = localStorage.getItem("netra-lang") === "id" ? "id" : "en"; } catch (e) { /* storage blocked */ }
