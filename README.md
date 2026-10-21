@@ -50,14 +50,16 @@ The site is fully static: no backend, no accounts, no tracking. All data is pre-
 
 ## Repository layout
 
+<p align="center"><img src="docs/assets/repo-map.svg" alt="Repository map" width="100%"></p>
+
 ```
 .
-├── brand/            Brand guidelines and design tokens
-├── contracts/        ClaimRegistry smart contract (Hardhat): source, tests, deploy and publish scripts
-├── data/             Curated, reviewed inputs: buyer classification, reported emissions, ICVCM status, serial ranges
-├── docs/             METHODS.md: every rule, source, validation step and limit
-├── pipeline/         Python scripts that build the web data from the raw sources
-└── web/              Static web app (HTML, CSS, vanilla JavaScript) and its generated data
+├── brand/            Brand guidelines, tokens and font            → brand/guidelines.md
+├── contracts/        ClaimRegistry smart contract (Hardhat)         → contracts/README.md
+├── data/             Reviewed inputs                              → data/README.md
+├── docs/             METHODS.md and visuals                       → docs/METHODS.md
+├── pipeline/         Python scripts that build the web data         → pipeline/README.md
+└── web/              Static site and its generated data             → web/README.md
 ```
 
 Raw downloads (registry spreadsheets, Climate TRACE packages, company PDFs) are kept locally in `raw/`, which is not committed.
@@ -96,6 +98,8 @@ python brand/embed_font.py                                      # embed the bran
 Reviewed inputs live in `data/`: `emissions_gaps.csv` (for every company group without a reported figure: what was checked and why no figure is shown), `logos.csv` (official domain per group), `buyers.csv` (written by `pipeline/curate_buyers.py`), `reported_emissions.csv` (one row per company group, with source URL and section; append with `pipeline/add_reported.py`) and `serials/` (written by `pipeline/serials.py`).
 
 ## Smart contract
+
+<p align="center"><img src="docs/assets/contract.svg" alt="ClaimRegistry" width="100%"></p>
 
 `contracts/src/ClaimRegistry.sol` (Solidity 0.8.24, OpenZeppelin MerkleProof):
 

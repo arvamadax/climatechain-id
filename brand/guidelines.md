@@ -15,6 +15,8 @@ Format follows [cofoundy/brand-skills](https://github.com/cofoundy/brand-skills)
 - Proof points: 876 Mt retired since 2020 checked; 44,465 buyers; primary-source emissions for 79 of 94 classified company groups (94.3% of company tonnes).
 
 ## Identity
+
+<p align="center"><img src="../docs/assets/palette.svg" alt="Colour and type" width="100%"></p>
 - **Mark:** an eye whose iris is half filled with the signal colour: the share of a claim that holds up. Always with the lowercase wordmark `netra` (Hanken Grotesk 600, tracking −0.04em). Mark alone for favicon and app icon.
 - **Colour:** ink `#121212`, paper `#FBFAF7`, one signal `#E8590C`, line `#E6E2DA`. No green (the colour of greenwashing). Dark sections are reserved for proof (on-chain record).
 <p align="center"><img src="../docs/assets/grades.svg" alt="Grade scale" width="100%"></p>
