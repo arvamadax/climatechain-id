@@ -59,10 +59,9 @@ function setupTheme() {
 }
 
 // Sections and cards rise in once as they scroll into view; numbers count up as they arrive.
-const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
 function countUp(el) {
   const m = el.textContent.match(/^([^\d]*)([\d,]*\.?\d+)(.*)$/s);
-  if (calm || !m || el.dataset.counted) return;
+  if (!m || el.dataset.counted) return; // a count is not movement, so it also runs under reduced motion
   el.dataset.counted = "1";
   const [, pre, num, post] = m, end = parseFloat(num.replace(/,/g, "")), dec = (num.split(".")[1] || "").length, comma = num.includes(",");
   const t0 = performance.now(), dur = 1100;

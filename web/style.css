@@ -31,7 +31,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 v
   transition: background-color .5s var(--ease), color .5s var(--ease); }
 a { color: var(--ink); text-underline-offset: 3px; transition: color .2s var(--ease); }
 
-/* motion: content rises in once; bars grow. Off for people who ask for less motion. */
+/* motion: content rises in once; bars grow. Calmer for people who ask for less motion (below). */
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
 .result.in-view { animation: rise .6s var(--ease) both; }
@@ -39,10 +39,6 @@ a { color: var(--ink); text-underline-offset: 3px; transition: color .2s var(--e
 .claimbar span, .bar span { transition: width 1s var(--ease); }
 /* motion: see the end of this file */
 .card, .box, .stat, .panel, .term, .ccard, .chips button, .btn, .jump a { transition: border-color .25s var(--ease), background-color .5s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease); }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-  .reveal { opacity: 1; transform: none; }
-}
 
 /* theme switch: a small quiet icon; sun in light, moon in dark */
 .theme { width: 36px; height: 36px; border: 0; background: transparent; color: var(--muted); padding: 7px; border-radius: 999px; cursor: pointer; }
@@ -365,7 +361,7 @@ td.mono { overflow-wrap: anywhere; }
 .lang { font: 600 .78rem var(--body); letter-spacing: .06em; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: .3rem .65rem; cursor: pointer; }
 .lang:focus-visible { border-color: var(--ink); }
 
-/* ---------- motion (all of it switches off under prefers-reduced-motion, above) ---------- */
+/* ---------- motion (under prefers-reduced-motion only fades, fills and counts remain, see above) ---------- */
 @keyframes up { from { opacity: 0; transform: translateY(22px); } }
 @keyframes grow { from { transform: scaleX(0); } }
 @keyframes draw { from { stroke-dashoffset: 1; } }
@@ -397,3 +393,15 @@ td.mono { overflow-wrap: anywhere; }
 #search:not([hidden]), .claimbox:not([hidden]), .chips:not([hidden]) { animation: fade .35s var(--ease) both; }
 /* a new live retirement flashes once */
 #regList tr.fresh td { animation: fresh 2.4s ease-out both; }
+
+/* Less motion requested (for example Windows "Animation effects" off): nothing slides, scales or pulses;
+   gentle fades, bar fills, the line draw and number counts stay, since they do not move content around. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .reveal { transform: none; }
+  @keyframes up { from { opacity: 0; } }
+  @keyframes rise { from { opacity: 0; } }
+  @keyframes pop { from { opacity: 0; } }
+  @keyframes fade { from { opacity: 0; } }
+  @keyframes pulse { from, to { opacity: 1; } }
+}
