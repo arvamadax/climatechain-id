@@ -93,7 +93,7 @@ const server = http.createServer((req, res) => {
     if (text.length < MIN_TEXT || text.length > MAX_TEXT) return send(res, 400, { error: `Paste between ${MIN_TEXT} and ${MAX_TEXT} characters.` });
     const started = Date.now();
     try {
-      const { parsed, model } = await extract(text);
+      const { parsed, model } = await extract(text).catch(() => extract(text)); // one retry: the gateway fails now and then
       const v = validate(parsed, text);
       console.log(JSON.stringify({ t: new Date().toISOString(), ok: true, chars: text.length, kept: Object.keys(v.fields).length, dropped: v.dropped.length, ms: Date.now() - started }));
       send(res, 200, { ...v, model });
