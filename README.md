@@ -105,7 +105,7 @@ Reviewed inputs live in `data/`: `emissions_gaps.csv` (for every company group w
 
 | Function | Purpose |
 |---|---|
-| `recordRoot` | Publish a check: subject, report hash, report URI and the Merkle root of its serial-range nullifiers. Constant gas (~149k) regardless of serial count. |
+| `recordRoot` | Publish a check: subject, report hash, report URI and the Merkle root of its serial-range nullifiers. Constant gas whatever the serial count (measured on Sepolia: 589,915 for Shell's 684 ranges, 589,903 for easyJet's 10). |
 | `record` | Publish a check with explicit nullifiers; rejects any nullifier already claimed. |
 | `challenge` | Prove with two Merkle proofs that one serial range backs two checks; the later check is flagged permanently. |
 

@@ -23,7 +23,7 @@ The contract **does not mint, bridge or burn credits**. Credits stay in their re
 
 | Function | Who calls it | What it does |
 |---|---|---|
-| `recordRoot(subject, reportHash, uri, serialRoot, serialCount)` | Publisher | Stores one check with the Merkle root of its serial-range nullifiers. Constant gas (~149k) for any number of ranges. |
+| `recordRoot(subject, reportHash, uri, serialRoot, serialCount)` | Publisher | Stores one check with the Merkle root of its serial-range nullifiers. Constant gas for any number of ranges (Sepolia: 589,915 for 684 ranges, 589,903 for 10). |
 | `record(subject, reportHash, uri, nullifiers[])` | Publisher | Stores one check with explicit nullifiers; reverts with `AlreadyClaimed` if any was used before. |
 | `challenge(nullifier, idA, proofA, idB, proofB)` | Anyone | Proves one nullifier is inside two checks; the later one gets `doubleClaim = true` and a `DoubleClaim` event. |
 | `checks(id)`, `count()` | Anyone | Read a check: subject, report hash, serial root, count, time, attester, flag, URI. |
@@ -43,7 +43,7 @@ npm run demo:sepolia             # Ethereum Sepolia (PRIVATE_KEY in ../.env, a l
 npm run demo:base-sepolia        # alternative public testnet
 ```
 
-A full publish (deploy, seven checks, one challenge) uses about 2–3 million gas. On Sepolia at current prices that is a few millionths of an ETH.
+On Sepolia, two publish runs (deploy, checks, challenge; the first was cut off by a network error) cost 0.020 test ETH in total.
 
 ## Trust model
 

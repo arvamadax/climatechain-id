@@ -10,8 +10,8 @@
       <text x="26" y="106" font-size="14" fill="#d6d1c7">· subject (buyer name hash)</text>
       <text x="26" y="130" font-size="14" fill="#d6d1c7">· report hash (keccak256 of the record)</text>
       <text x="26" y="154" font-size="14" fill="#d6d1c7">· Merkle root of its serial ranges</text>
-      <text x="26" y="196" font-size="13" fill="#f2a36b">~149k gas, whatever the number of</text>
-      <text x="26" y="216" font-size="13" fill="#f2a36b">serial ranges (Shell: 684).</text>
+      <text x="26" y="196" font-size="13" fill="#f2a36b">Same gas for 10 or 684 serial ranges</text>
+      <text x="26" y="216" font-size="13" fill="#f2a36b">(Sepolia: 589,915 for Shell).</text>
     </g>
     <line x1="410" y1="210" x2="452" y2="210" stroke="#a8a39a" stroke-width="2" marker-end="url(#a)"/>
     <g transform="translate(460 84)">
