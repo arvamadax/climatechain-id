@@ -7,8 +7,8 @@ const ABI = [
 ];
 const EXAMPLES = ["Shell", "Delta Air Lines", "Netflix, Inc.", "Volkswagen Marke Pkw", "Eni Upstream", "Apple Inc.", "Not Disclosed"];
 const GRADES = [[0.6, "A", "--a"], [0.4, "B", "--b"], [0.2, "C", "--c"], [0.1, "D", "--d"], [0, "E", "--e"]];
-const CAT_COLORS = { redd: "#3f7f5f", cookstove: "#c07a2c", wind_china: "#5a7fb0", ifm_us: "#7a6aa8", hfc23: "#8a8f3a",
-  grid_re: "#9fb3c8", other: "#c9cfca" };
+const CAT_COLORS = { redd: "#1d4e89", cookstove: "#e8590c", wind_china: "#4c82c3", ifm_us: "#8a6fb0", hfc23: "#b83a0e",
+  grid_re: "#9fb8d6", other: "#d9d4cb" };
 const CCP = { approved: ["CCP-approved methodology", "--a"], not_approved: ["Rejected by ICVCM", "--e"],
   not_assessed: ["Not assessed / not listed", "--na"] };
 
@@ -98,8 +98,13 @@ function setupSearch() {
     if (list.hidden) return;
     if (e.key === "ArrowDown") { sel = Math.min(sel + 1, hits.length - 1); draw(); e.preventDefault(); }
     if (e.key === "ArrowUp") { sel = Math.max(sel - 1, 0); draw(); e.preventDefault(); }
-    if (e.key === "Enter" && hits.length) { pick(hits[Math.max(sel, 0)]); close(); }
+    if (e.key === "Enter" && hits.length) { e.preventDefault(); pick(hits[Math.max(sel, 0)]); close(); }
     if (e.key === "Escape") close();
+  });
+  $("#searchForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    hits = search(q.value);
+    if (hits.length) { pick(hits[0]); close(); } else if (q.value.trim().length >= 2) draw();
   });
   list.addEventListener("click", (e) => { const li = e.target.closest("li[data-i]"); if (li) { pick(+li.dataset.i); close(); } });
   document.addEventListener("click", (e) => { if (!e.target.closest(".search")) close(); });
@@ -133,8 +138,8 @@ function sparkline(ys) {
   const tonnes = years.map((y) => ys[y][0]), tmax = Math.max(...tonnes);
   const bars = years.map((y, k) => `<rect x="${X(y) - 6}" y="${H - 14 - (tonnes[k] / tmax) * 22}" width="12" height="${(tonnes[k] / tmax) * 22}" fill="${css("--line")}"/>`).join("");
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Likely-real share by retirement year">
-    ${bars}<path d="${path}" fill="none" stroke="${css("--accent")}" stroke-width="2"/>
-    ${valid.map((p) => `<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="2.6" fill="${css("--accent")}"><title>${p[0]}: ${pct(p[1])} likely real</title></circle>`).join("")}
+    ${bars}<path d="${path}" fill="none" stroke="${css("--signal")}" stroke-width="2"/>
+    ${valid.map((p) => `<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="2.6" fill="${css("--signal")}"><title>${p[0]}: ${pct(p[1])} likely real</title></circle>`).join("")}
     <text x="${pad}" y="${H - 2}">${x0}</text><text x="${W - pad}" y="${H - 2}" text-anchor="end">${x1}</text></svg>`;
 }
 
@@ -203,18 +208,24 @@ async function render(i) {
   const types = Object.entries(o.bt);
   box.innerHTML = `
     <div class="res-head">
-      <div class="grade ${g ? "" : "na"}" style="${g ? `background:var(${g[2]})` : ""}" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
       <div><p class="eyebrow">Retired ${o.y[0]}–${o.y[1]} · ${fmt(o.r)} retirements</p><h2>${esc(o.n)}</h2>${buyerLine(o)}
         <p class="muted small">${mt(o.t)} retired${g ? ` · grade on the ${pct(cover)} covered by research` : " · not enough research coverage for a grade"}</p></div>
+      <div class="grade ${g ? "" : "na"}" data-g="${g ? g[1] : ""}" style="${g ? `background:var(${g[2]})` : ""}" role="img" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
     </div>
     <p class="plain">${sentence}</p>
+    ${o.k ? `<div class="claim">
+      <div class="row"><b>Likely real, in researched project types</b><span class="num">${mt(o.e)} of ${mt(o.k)}</span></div>
+      <div class="claimbar" role="img" aria-label="Best estimate ${pct(real)} likely real, research range ${pct(o.el / o.k)} to ${pct(o.eh / o.k)}">
+        <span class="range" style="width:${(o.eh / o.k * 100).toFixed(1)}%"></span><span class="real" style="width:${(real * 100).toFixed(1)}%"></span></div>
+      <div class="key"><span>Filled: best estimate ${pct(real)}</span><span>Hatched: research range ${pct(o.el / o.k)}–${pct(o.eh / o.k)}</span><span>Outline: claimed</span></div>
+    </div>` : ""}
     <div class="grid2">
       <div class="box"><h3>Research estimate</h3>
-        ${bar([[o.e / o.t, css("--a"), "Likely real"], [(o.k - o.e) / o.t, css("--e"), "Likely not real"], [1 - cover, css("--na"), "No estimate"]])}
+        ${bar([[o.e / o.t, css("--signal"), "Likely real"], [(o.k - o.e) / o.t, css("--miss"), "Likely not real"], [1 - cover, css("--line"), "No estimate"]])}
         <div class="legend">
-          <div><span><i style="background:var(--a)"></i>Likely real</span><span class="num">${mt(o.e)}</span></div>
-          <div><span><i style="background:var(--e)"></i>Likely not real</span><span class="num">${mt(o.k - o.e)}</span></div>
-          <div><span><i style="background:var(--na)"></i>No published estimate</span><span class="num">${mt(o.t - o.k)}</span></div>
+          <div><span><i style="background:var(--signal)"></i>Likely real</span><span class="num">${mt(o.e)}</span></div>
+          <div><span><i style="background:var(--miss)"></i>Likely not real</span><span class="num">${mt(o.k - o.e)}</span></div>
+          <div><span><i style="background:var(--line)"></i>No published estimate</span><span class="num">${mt(o.t - o.k)}</span></div>
         </div></div>
       <div class="box"><h3>Project types</h3>
         <div class="legend">${types.map(([b, t]) => `<div><span>${esc(b)}</span><span class="num">${pct(t / o.t)}</span></div>`).join("")}</div></div>
@@ -250,7 +261,7 @@ async function chainStatus(o) {
       ? `${last.doubleClaim ? "⚠ Flagged on-chain as a double claim: at least one serial range also backs an earlier claim." : "✓ Published on-chain " + new Date(last.timestamp * 1000).toISOString().slice(0, 10) + " and matches the open data."} <a href="#verify">See record #${last.id}</a>`
       : `On-chain record #${last.id} exists but does not match the current data (the dataset was updated after it was published).`;
   } catch {
-    el.className = "flag"; el.textContent = CHAIN ? `Could not reach the ${CHAIN.network} network to check on-chain records.` : "On-chain records are not published for this build yet.";
+    el.className = "flag"; el.textContent = CHAIN ? `Could not reach the ${CHAIN.label || CHAIN.network} to check on-chain records.` : "On-chain records are not published for this build yet.";
   }
 }
 
@@ -273,8 +284,8 @@ function market(m) {
   const grid = [0, 0.25, 0.5, 0.75, 1].map((v) => `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css("--line")}"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${v * 100}%</text>`).join("");
   const line = vals.map((v, k) => `${k ? "L" : "M"}${X(k)},${Y(v)}`).join("");
   $("#trend").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Likely-real share by year">${grid}
-    <path d="${line}" fill="none" stroke="${css("--accent")}" stroke-width="2.5"/>
-    ${vals.map((v, k) => `<circle cx="${X(k)}" cy="${Y(v)}" r="4" fill="${css("--accent")}"/><text x="${X(k)}" y="${Y(v) - 10}" text-anchor="middle">${pct(v)}</text><text x="${X(k)}" y="${H - 10}" text-anchor="middle">${years[k]}${years[k] === 2026 ? "*" : ""}</text>`).join("")}
+    <path d="${line}" fill="none" stroke="${css("--signal")}" stroke-width="2.5"/>
+    ${vals.map((v, k) => `<circle cx="${X(k)}" cy="${Y(v)}" r="4" fill="${css("--signal")}"/><text x="${X(k)}" y="${Y(v) - 10}" text-anchor="middle">${pct(v)}</text><text x="${X(k)}" y="${H - 10}" text-anchor="middle">${years[k]}${years[k] === 2026 ? "*" : ""}</text>`).join("")}
     </svg><p class="muted small">* 2026 up to August. The likely-real share has stayed between 18% and 22% every year.</p>`;
 
   const cats = Object.entries(m.cats).sort((a, b) => b[1] - a[1]);

@@ -1,0 +1,16 @@
+name: Netra
+slug: netra
+one_liner: See what a carbon claim is really worth.
+category: carbon-claim transparency
+status: v0.1 (2026-10-21)
+archetype: Sage, with a truth-teller edge
+board: https://claude.ai/artifact/5b7dVDGajdAauJKLp6dXmj
+artifacts: [guidelines.md]
+tokens:
+  ink: "#121212"
+  paper: "#FBFAF7"
+  signal: "#E8590C"
+  line: "#E6E2DA"
+  grades: { A: "#1D4E89", B: "#4C82C3", C: "#D9D4CB", D: "#F2A36B", E: "#B83A0E" }
+  font_body: Hanken Grotesk
+  font_mono: Fragment Mono
