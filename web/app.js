@@ -453,6 +453,7 @@ async function verifyPanel() {
   hiddenSection();
   verifyPanel();
   liveFeed();
+  registryFeed();
   // #buyer-N opens that buyer: on load, and from in-page links (verify table, hidden buyers, data page).
   const open = () => { const m = location.hash.match(/^#buyer-(\d+)$/); if (m && rows[+m[1]]) pick(+m[1]); };
   addEventListener("hashchange", open);
@@ -584,3 +585,35 @@ function setupClaim() {
   });
 }
 setupClaim();
+
+/* ---------- live registry check: the newest Verra retirements, scored by server/registry-watch.js ---------- */
+function registryFeed() {
+  const dot = $("#regStatus");
+  if (!dot) return;
+  const ago = (d) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(d + "Z")) / 60000)); return m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+  const CCP = { approved: "CCP-approved", not_approved: "Not approved", not_assessed: "Not assessed" };
+  let newest = null;
+  const tick = async () => {
+    try {
+      const s = await (await fetch("api/live", { cache: "no-store" })).json();
+      if (!s.ok) throw new Error(s.error);
+      const w = s.window;
+      dot.className = "live on"; dot.textContent = "Live";
+      $("#regWhen").textContent = `Checked ${ago(s.updated.replace("Z", "").slice(0, 19))} · ${w.n} newest retirements, ${ago(w.from)} to ${ago(w.to)}`;
+      $("#regSum").innerHTML = `<b>${mt(w.t)}</b> retired in the ${w.n} newest retirements. Research covers <b>${mt(w.known)}</b> of it; about <b>${mt(w.eff)}</b> is likely real${w.known ? ` (${pct(w.eff / w.known)})` : ""}.${w.companies ? ` ${w.companies} name a company Netra has reviewed.` : ""}`;
+      $("#regList").innerHTML = `<div class="tablewrap"><table><thead><tr><th>When</th><th>Tonnes</th><th>Project</th><th>Claimed for</th><th>Likely real</th><th>ICVCM</th></tr></thead><tbody>${s.items.slice(0, 12).map((x) => `<tr>
+        <td>${ago(x.d)}</td><td class="num">${fmt(x.q)}</td>
+        <td>${esc(x.pn)}<br><span class="muted small">${esc(x.pid)} · ${esc(x.country || "")} · vintage ${esc(x.vintage || "?")}</span></td>
+        <td>${x.co ? `<a href="#buyer-${x.co.i}">${esc(x.co.group)}</a>` : x.owner ? esc(x.owner) : `<span class="muted">Not named</span>`}${x.reason ? `<br><span class="muted small">${esc(x.reason)}</span>` : ""}</td>
+        <td>${x.oar != null ? pct(x.oar) : `<span class="muted">${x.known ? "No estimate" : "New project"}</span>`}</td>
+        <td>${x.ccp ? CCP[x.ccp] : `<span class="muted">Not checked</span>`}</td></tr>`).join("")}</tbody></table></div>
+        <p class="muted small">Source: ${esc(s.source)}. Likely real: Probst et al. 2024 by project type, as on every result; "New project" means the project is not in the Berkeley VROD snapshot yet. Gold Standard is not included live.</p>`;
+      if (newest && s.items[0].d !== newest) toast(`New retirement on Verra: ${fmt(s.items[0].q)} t, ${s.items[0].pn.slice(0, 48)}`);
+      newest = s.items[0].d;
+    } catch {
+      dot.className = "live off"; dot.textContent = "Reconnecting";
+    }
+  };
+  tick();
+  setInterval(tick, 60000);
+}

@@ -1,9 +1,11 @@
 // Netra claim reader: a small API that asks a language model to pull the facts out of a pasted climate claim.
 // The model only extracts; every field must come with a quote that appears word for word in the pasted text,
 // otherwise it is dropped. Netra's numbers (grades, tonnes, emissions) never come from the model.
-// No dependencies (Node 18+). No text is stored or logged. Env: ROUTER_URL, ROUTER_KEY, MODEL, PORT.
+// No dependencies (Node 18+). No text is stored or logged. Env: ROUTER_URL, ROUTER_KEY, MODEL, PORT, NETRA_SITE.
+// Also serves GET /api/live: the newest Verra retirements, scored by registry-watch.js.
 "use strict";
 const http = require("http");
+const watch = require("./registry-watch.js");
 
 const MAX_TEXT = 5000, MIN_TEXT = 30;
 const LIMIT = 10, WINDOW_MS = 60 * 60 * 1000; // 10 requests per hour per visitor
@@ -82,6 +84,7 @@ function send(res, code, body) {
 
 const server = http.createServer((req, res) => {
   if (req.method === "GET" && req.url === "/api/health") return send(res, 200, { ok: true });
+  if (req.method === "GET" && req.url === "/api/live") return send(res, 200, watch.latest());
   if (req.method !== "POST" || req.url !== "/api/claim") return send(res, 404, { error: "not found" });
   const ip = req.headers["cf-connecting-ip"] || req.socket.remoteAddress;
   if (!allowed(ip)) return send(res, 429, { error: "Too many checks from this connection. Try again in an hour." });
@@ -116,6 +119,7 @@ if (require.main === module) {
   if (!v2.fields.tonnes || v3.fields.tonnes) throw new Error("tonnes self-check failed");
   if (process.argv[2] === "--check") { console.log("ok"); process.exit(0); }
   for (const k of ["ROUTER_URL", "ROUTER_KEY"]) if (!process.env[k]) throw new Error(`missing ${k}`);
+  watch.start(process.env.NETRA_SITE || "http://127.0.0.1:8098");
   server.listen(Number(process.env.PORT || 8099), "127.0.0.1", () => console.log(JSON.stringify({ event: "listening", port: process.env.PORT || 8099 })));
 }
 
