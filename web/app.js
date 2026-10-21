@@ -493,3 +493,81 @@ function toast(text) {
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 6000);
 }
+
+/* ---------- claim checker: an AI reader extracts, Netra's data decides ---------- */
+let COMPANIES = null;
+const companiesReady = getJSON("data/companies.json").then((x) => (COMPANIES = x)).catch(() => []);
+const nm = (x) => String(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\(.*?\)/g, " ")
+  .replace(/\b(inc|plc|ag|sa|spa|se|ltd|limited|llc|corp|corporation|co|group|holdings|the|company)\b/g, " ").replace(/[^a-z0-9]+/g, " ").trim();
+
+function matchCompany(name) {
+  const q = nm(name);
+  if (q.length < 2) return null;
+  for (const c of COMPANIES || []) {
+    const cands = [c.group, ...c.names].map(nm).filter((x) => x.length >= 2);
+    if (cands.some((x) => x === q || (" " + q + " ").includes(" " + x + " ") || (" " + x + " ").includes(" " + q + " "))) return c;
+  }
+  return null;
+}
+
+async function claimVerdict(c, fields) {
+  const g = grade(c.e, c.k, c.t);
+  const o = await owner(c.i);
+  const year = fields.year && fields.year.value;
+  const inYear = year && o.ys[year] ? o.ys[year][0] : null;
+  const words = ((fields.claim_words && fields.claim_words.value) || "") + " " + ((fields.claim_words && fields.claim_words.quote) || "");
+  const productLike = fields.scope && ["product", "service", "event"].includes(fields.scope.value);
+  const offsetClaim = /neutral|zero|positive|negative|compensat|offset|balanc/i.test(words);
+  const stated = fields.tonnes && fields.tonnes.value;
+  return `<article class="ccard tinted verdict" style="${tint(c.group, g)}">
+    <div class="ccard-head"><div class="name-row">${logo(c.group, 48)}<div><p class="eyebrow">What Netra's data shows</p><h3>${esc(c.group)}</h3></div></div>
+      ${g ? `<span class="chip-grade" data-g="${g[1]}" style="background:var(${g[2]})">${g[1]}</span>` : ""}</div>
+    <ul class="checks">
+      <li>Retired <b>${mt(c.t)}</b> of credits since 2020${c.k ? `; research covers ${mt(c.k)}, of which about <b>${mt(c.e)}</b> are likely real (${pct(c.e / c.k)}).` : ", none in a project type with a research estimate."}</li>
+      ${year ? `<li>${inYear ? `In ${year}, ${esc(o.n)} retired <b>${mt(inYear)}</b>.` : `No retirement by ${esc(o.n)} is recorded for ${year} on Verra or Gold Standard.`}${stated ? ` The claim mentions <b>${mt(stated)}</b>.` : ""}</li>` : ""}
+      ${c.rep ? `<li>Its own report: ${c.rep.scope1 != null ? `Scope 1 <b>${mt(c.rep.scope1)}</b>` : `total <b>${mt(c.rep.total)}</b>`} in ${c.rep.year}. Offsets do not reduce these emissions.</li>` : c.gap ? `<li>No reported emissions figure: ${esc(c.gap.reason)}</li>` : ""}
+      ${productLike && offsetClaim ? `<li class="eu"><b>EU rule:</b> since 27 Sep 2026, Directive 2024/825 bans calling a product, service or event climate neutral, reduced or positive because of offsets. This claim reads as one.</li>` : ""}
+    </ul>
+    <a class="btn" href="#buyer-${c.i}">Open the full result</a>
+  </article>`;
+}
+
+function setupClaim() {
+  const form = $("#claimForm"), out = $("#claimOut"), ta = $("#claimText");
+  if (!form) return;
+  form.addEventListener("click", (e) => { const b = e.target.closest("[data-ex]"); if (b) { ta.value = b.dataset.ex; ta.focus(); } });
+  const picker = () => `<div class="panel"><label for="claimPick" class="label">Or pick the company</label>
+    <select id="claimPick" class="filter"><option value="">Choose a reviewed company…</option>${(COMPANIES || []).map((c, k) => `<option value="${k}">${esc(c.group)}</option>`).join("")}</select></div>`;
+  out.addEventListener("change", async (e) => {
+    if (e.target.id !== "claimPick" || e.target.value === "") return;
+    out.querySelector(".verdict-slot").innerHTML = await claimVerdict(COMPANIES[+e.target.value], {});
+  });
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await companiesReady;
+    const text = ta.value.trim();
+    if (text.length < 30) { out.innerHTML = `<p class="bad">Paste at least a full sentence (30 characters).</p>`; return; }
+    out.innerHTML = `<p class="muted">Reading the claim…</p>`;
+    let r;
+    try {
+      const res = await fetch("api/claim", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text }) });
+      r = await res.json().catch(() => ({ error: `The claim reader answered ${res.status}.` }));
+      if (!res.ok) throw new Error(r.error || `HTTP ${res.status}`);
+    } catch (err) {
+      out.innerHTML = `<p class="bad">${esc(err.message)}</p>${picker()}<div class="verdict-slot"></div>`;
+      return;
+    }
+    const f = r.fields, labels = { company: "Who", claim_words: "Claim", scope: "Covers", year: "Year", tonnes: "Tonnes offset" };
+    const found = f.company ? matchCompany(f.company.value) : null;
+    const read = Object.keys(labels).filter((k) => f[k]).map((k) => `<div><dt>${labels[k]}</dt><dd><b>${esc(k === "tonnes" ? mt(f[k].value) : f[k].value)}</b><br><span class="quote">“${esc(f[k].quote)}”</span></dd></div>`).join("");
+    out.innerHTML = `<div class="claim-grid">
+      <div class="panel"><p class="eyebrow">What the AI read <span class="tag">${esc(r.model || "model")}</span></p>
+        <dl class="facts">${read || "<p class='muted'>Nothing could be read with a supporting quote.</p>"}</dl>
+        ${r.dropped.length ? `<p class="muted small">Dropped because the quote was not in the text: ${r.dropped.map((k) => labels[k] || k).join(", ")}.</p>` : ""}</div>
+      <div class="verdict-slot">${found ? await claimVerdict(found, f) : `<div class="panel"><p>${f.company ? `“${esc(f.company.value)}” is not one of the 94 company groups Netra has reviewed.` : "No company could be read from the text."} <a href="#check" id="claimSearch">Search all 44,465 buyers</a></p></div>${picker()}`}</div>
+    </div>`;
+    const sl = $("#claimSearch");
+    if (sl && f.company) sl.addEventListener("click", () => { $("#q").value = f.company.value; $("#q").dispatchEvent(new Event("input")); });
+  });
+}
+setupClaim();

@@ -20,7 +20,7 @@
     <span>netra</span>
   </a>
   <nav aria-label="Main">
-    <a href="index.html#check" aria-current="page">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html">About</a><a href="glossary.html">Glossary</a>
+    <a href="index.html#check" aria-current="page">Check</a><a href="index.html#claim">Check a claim</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html">About</a><a href="glossary.html">Glossary</a>
     <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
       <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
     </button>
@@ -45,6 +45,24 @@
   </section>
 
   <section id="result" class="result" hidden aria-live="polite"></section>
+
+  <section id="claim" class="block">
+    <p class="eyebrow">Check a claim · AI reader</p>
+    <h2>Paste a green claim. See what stands behind it.</h2>
+    <p class="lede">Copy a "carbon neutral" or "net zero" statement from an ad, a label or a report. A language model reads out who claims what, for which year and how many tonnes, quoting the text. Netra then checks it against the registry, research and emissions data. The model only reads; every number comes from Netra's data.</p>
+    <form id="claimForm" class="claimform">
+      <label for="claimText" class="label">Claim text</label>
+      <textarea id="claimText" rows="5" maxlength="5000" placeholder="e.g. Our 2025 flights were carbon neutral: we offset 120,000 tonnes of CO2 through forest projects."></textarea>
+      <div class="claimbar-row">
+        <button class="btn" type="submit">Read the claim</button>
+        <span class="muted small">Try an example (written by Netra, not a quote):</span>
+        <button type="button" class="chipbtn" data-ex="Example written by Netra: an ad says that filling up at Shell in 2025 is carbon neutral because carbon credits are retired for every litre, about 2 million tonnes of CO2 this year.">Fuel</button>
+        <button type="button" class="chipbtn" data-ex="Example written by Netra: a streaming service, Netflix, describes its 2025 operations as net zero after retiring carbon credits from forest protection projects.">Streaming</button>
+      </div>
+      <p class="muted small">Up to 5,000 characters, 10 checks per hour. The text is not stored.</p>
+    </form>
+    <div id="claimOut" aria-live="polite"></div>
+  </section>
 
   <section id="market" class="block">
     <p class="eyebrow">The whole market</p>
