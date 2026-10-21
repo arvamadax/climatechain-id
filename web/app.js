@@ -25,6 +25,8 @@ async function owner(i) {
 
 // Canonical report = the owner record as published, keys sorted (canonical.js); the same rule is used by contracts/scripts/record.js.
 const reportHash = (o) => ethers.keccak256(ethers.toUtf8Bytes(canonicalJSON(o)));
+// ponytail: checks recorded before canonical.js (Sepolia #0-#6) hashed JSON.stringify(o); drop the fallback once they are re-recorded.
+const reportMatches = (o, h) => h === reportHash(o) || h === ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(o)));
 const subjectHash = (name) => ethers.id(name);
 
 // Sorted-pair Merkle root of serial-range nullifiers, identical to contracts/scripts/merkle.js.
@@ -273,7 +275,7 @@ async function chainStatus(o) {
     const list = await onchain;
     const mine = list.filter((c) => c.subject === subjectHash(o.n));
     if (!mine.length) { el.className = "flag"; el.textContent = "No check for this buyer has been published on-chain yet."; return; }
-    const last = mine[mine.length - 1], match = last.reportHash === reportHash(o);
+    const last = mine[mine.length - 1], match = reportMatches(o, last.reportHash);
     el.className = match && !last.doubleClaim ? "flag ok" : "flag";
     el.innerHTML = match
       ? `${last.doubleClaim ? "⚠ Flagged on-chain as a double claim: at least one serial range also backs an earlier claim." : "✓ Published on-chain " + new Date(last.timestamp * 1000).toISOString().slice(0, 10) + " and matches the open data."} <a href="#verify">See record #${last.id}</a>`
@@ -395,7 +397,7 @@ async function verifyPanel() {
       const i = names.get(c.subject);
       let status = `<span class="muted">unknown buyer</span>`;
       if (i !== undefined) {
-        const match = reportHash(await owner(i)) === c.reportHash;
+        const match = reportMatches(await owner(i), c.reportHash);
         status = match ? `<span class="ok">✓ matches data</span>` : `<span class="bad">differs from current data</span>`;
       }
       const serial = await serialStatus(c);
