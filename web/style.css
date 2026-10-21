@@ -355,3 +355,5 @@ td.mono { overflow-wrap: anywhere; }
 #registry .live.off { color: var(--signal-text); } #registry .live.off::before { background: var(--signal-text); }
 #regSum { margin: .2rem 0 1rem; }
 #regList td:is(:nth-child(1), :nth-child(2), :nth-child(5), :nth-child(6)), #regList th { white-space: nowrap; }
+#regList .tag { display: inline-block; margin-top: .3rem; }
+#regList .tag.warn { color: var(--paper); background: var(--signal-text); border-color: var(--signal-text); }

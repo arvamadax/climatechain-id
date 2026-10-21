@@ -3,6 +3,9 @@
 // pipeline/build.py) gives the research share likely real; ICVCM status comes from the same file. A project that
 // is not in the Berkeley VROD snapshot gets no estimate. Beneficiary names are matched only to the 94 reviewed
 // company groups, by exact normalized name. Used by claim-api.js: GET /api/live.
+// Greenwash radar: a retirement note is read by the same claim reader as the site (quotes required); a product,
+// service or event called neutral (or zero, positive, compensated) because of offsets is flagged: such claims are banned
+// in the EU since 27 Sep 2026 (Directive 2024/825), wherever the claimant is. Zombie: vintage 10+ years old.
 "use strict";
 
 const REGISTRY = "https://prod-us.api.platts.com/ci-raas-prod/raas-report-api/es/public/retirements/publicReportPageSearch";
@@ -10,7 +13,9 @@ const REGISTRY = "https://prod-us.api.platts.com/ci-raas-prod/raas-report-api/es
 const HEADERS = { "content-type": "application/json", accept: "application/json", language: "en", registry: "VERRA",
   standardId: "150000000000001", standardAcronym: "VCS", appkey: "wOKHFGuxKApQaujPSKgF", application: "Markit",
   "X-XSRF-TOKEN": "t20", cookie: "XSRF-TOKEN=t20", origin: "https://registry.verra.org" };
-const BATCH = 200, SHOW = 40, EVERY_MS = 10 * 60 * 1000;
+const BATCH = 200, SHOW = 40, EVERY_MS = 10 * 60 * 1000, READS_PER_POLL = 15;
+// Neutrality wording only: "we offset X" alone is not a claim of neutral, reduced or positive impact.
+const OFFSET_WORDS = /neutral|netral|neutre|neutro|中和|zero|positive|negative|compensat|kompens/i;
 
 const norm = (s) => String(s || "").normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase()
   .replace(/^\s*(retired\s+)?on behalf of\s+/, "").replace(/\(.*?\)/g, " ")
@@ -18,6 +23,8 @@ const norm = (s) => String(s || "").normalize("NFKD").replace(/[̀-ͯ]/g, "").to
   .replace(/[^a-z0-9]+/g, " ").trim();
 
 let ref = null; // { projects, factors, names }
+let reader = null; // async (text) => validated fields, from claim-api.js
+const radar = new Map(); // note text -> { claim, scope, eu } (memory only, capped)
 let state = { ok: false, updated: null, error: "Not checked yet." };
 
 async function loadRef(site) {
@@ -36,7 +43,28 @@ function score(r, R) {
     meth: r.methodologies, vintage: r.vintage, owner: r.makeBeneficialOwnerPublic === false ? null : r.beneficialOwner || null,
     reason: r.makeRetirementReasonDetailsPublic === false ? null : (r.retirementReasonDetails || "").slice(0, 200) || null,
     known: !!p, label: f ? f.label : null, oar: f && f.oar != null ? f.oar : null, ccp: p ? p[1] : null,
-    co: R.names.get(norm(r.beneficialOwner)) || null };
+    co: R.names.get(norm(r.beneficialOwner)) || null,
+    zombie: Number(r.vintage) > 0 && new Date(r.retiredDate).getFullYear() - Number(r.vintage) >= 10 };
+}
+
+// Read retirement notes not seen before (a few per poll) and attach the radar result to each item.
+async function readNotes(items) {
+  let reads = 0;
+  for (const x of items) {
+    if (!x.reason || !/\p{L}{3}/u.test(x.reason)) continue;
+    if (!radar.has(x.reason) && reader && reads < READS_PER_POLL) {
+      reads++;
+      try {
+        const f = await reader(`${x.owner ? `Beneficiary: ${x.owner}. ` : ""}Retirement note: ${x.reason}`);
+        const words = `${f.claim_words?.value || ""} ${f.claim_words?.quote || ""}`;
+        const scope = f.scope?.value || null;
+        radar.set(x.reason, { claim: f.claim_words?.quote || null, scope,
+          eu: !!f.claim_words && ["product", "service", "event"].includes(scope) && OFFSET_WORDS.test(words) });
+        if (radar.size > 2000) radar.delete(radar.keys().next().value);
+      } catch { /* model unavailable: try again next poll */ }
+    }
+    if (radar.has(x.reason)) x.radar = radar.get(x.reason);
+  }
 }
 
 async function poll(site) {
@@ -48,11 +76,13 @@ async function poll(site) {
     const rows = ((await res.json()).entities || []).map((r) => score(r, ref));
     if (!rows.length) throw new Error("registry returned no rows");
     const sum = (xs, fn) => xs.reduce((a, x) => a + fn(x), 0);
+    await readNotes(rows.slice(0, SHOW));
     const researched = rows.filter((x) => x.oar != null);
     state = { ok: true, updated: new Date().toISOString(), source: "Verra Registry, public retirements (registry.verra.org)",
       window: { n: rows.length, from: rows[rows.length - 1].d, to: rows[0].d, t: sum(rows, (x) => x.q),
         known: sum(researched, (x) => x.q), eff: Math.round(sum(researched, (x) => x.q * x.oar)),
-        companies: rows.filter((x) => x.co).length },
+        companies: rows.filter((x) => x.co).length, zombies: rows.filter((x) => x.zombie).length,
+        eu: rows.filter((x) => x.radar?.eu).length },
       items: rows.slice(0, SHOW) };
     console.log(JSON.stringify({ t: state.updated, event: "registry", rows: rows.length, newest: rows[0].d }));
   } catch (e) {
@@ -61,7 +91,7 @@ async function poll(site) {
   }
 }
 
-function start(site) { poll(site); setInterval(() => poll(site), EVERY_MS).unref(); }
+function start(site, read) { reader = read || null; poll(site); setInterval(() => poll(site), EVERY_MS).unref(); }
 
 module.exports = { start, latest: () => state, score, norm };
 
@@ -70,7 +100,7 @@ if (require.main === module) {
   const R = { projects: { VCS1650: ["redd", "not_approved"] }, factors: { redd: { label: "Avoided deforestation (REDD+)", oar: 0.247 } },
     names: new Map([[norm("Shell"), { group: "Shell plc", i: 2 }]]) };
   const a = score({ projectId: 1650, holdingQuantity: 100, beneficialOwner: "Retired on behalf of Shell" }, R);
-  const b = score({ projectId: 9999, holdingQuantity: 5, beneficialOwner: "Shellfish Ltd" }, R);
-  if (a.oar !== 0.247 || a.ccp !== "not_approved" || a.co?.group !== "Shell plc" || b.known || b.oar !== null || b.co) throw new Error("registry-watch self-check failed");
+  const b = score({ projectId: 9999, holdingQuantity: 5, beneficialOwner: "Shellfish Ltd", vintage: "2012", retiredDate: "2026-10-21T08:00:00" }, R);
+  if (a.oar !== 0.247 || a.ccp !== "not_approved" || a.co?.group !== "Shell plc" || b.known || b.oar !== null || b.co || !b.zombie || a.zombie) throw new Error("registry-watch self-check failed");
   console.log("ok");
 }

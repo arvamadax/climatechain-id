@@ -119,7 +119,7 @@ if (require.main === module) {
   if (!v2.fields.tonnes || v3.fields.tonnes) throw new Error("tonnes self-check failed");
   if (process.argv[2] === "--check") { console.log("ok"); process.exit(0); }
   for (const k of ["ROUTER_URL", "ROUTER_KEY"]) if (!process.env[k]) throw new Error(`missing ${k}`);
-  watch.start(process.env.NETRA_SITE || "http://127.0.0.1:8098");
+  watch.start(process.env.NETRA_SITE || "http://127.0.0.1:8098", async (text) => validate((await extract(text)).parsed, text).fields);
   server.listen(Number(process.env.PORT || 8099), "127.0.0.1", () => console.log(JSON.stringify({ event: "listening", port: process.env.PORT || 8099 })));
 }
 
