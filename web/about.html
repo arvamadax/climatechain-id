@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About · Netra</title>
+<meta name="description" content="Why Netra exists, how it was built, the research and data behind it, and why it is called Netra.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Netra home">
+    <svg class="mark" viewBox="0 0 34 34" width="28" height="28" aria-hidden="true"><circle class="ring" cx="17" cy="17" r="15" fill="none" stroke-width="3"/><path class="half" d="M17 2A15 15 0 0 0 17 32Z"/><circle class="pupil" cx="17" cy="17" r="5"/></svg>
+    <span>netra</span>
+  </a>
+  <nav aria-label="Main">
+    <a href="index.html#check">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html" aria-current="page">About</a><a href="glossary.html">Glossary</a>
+    <a class="pill" href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main class="about">
+  <section class="page-head">
+    <p class="eyebrow">About</p>
+    <h1>Companies say they offset. Netra checks what that is worth.</h1>
+    <p class="lede">Netra is a free, open tool that takes a company's carbon credits, the research on those credits, the company's own emissions report and an independent estimate, and puts them on one page in plain words. Every check is written to a public blockchain so nobody can change it later.</p>
+    <div class="jump"><a href="#problem">The problem</a><a href="#what">What Netra does</a><a href="#how">How it works</a><a href="#story">The story</a><a href="#name">Why "Netra"</a><a href="#research">Research</a><a href="#sources">Data sources</a><a href="#limits">Limits</a></div>
+  </section>
+
+  <section class="block" id="problem">
+    <p class="eyebrow">The problem</p>
+    <h2>A tonne on paper is not a tonne in the air.</h2>
+    <div class="three">
+      <div class="stat"><b>1 in 5</b><span>researched credits retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%). The share has not improved since 2020.</span></div>
+      <div class="stat"><b>57%</b><span>of retired tonnes cannot be tied to a named claimant: blank, "Not Disclosed", resellers, wallets or codes.</span></div>
+      <div class="stat"><b>2–3×</b><span>the gap between what large emitters report and what independent satellite-based estimates see.</span></div>
+    </div>
+    <p class="lede">Companies use carbon credits to call products, flights or whole businesses "carbon neutral". Peer-reviewed research keeps finding that most of those credits did not cut what they claim. The data to check this is public, but it sits in large spreadsheets that only specialists read. Most people, journalists and even buyers never see it.</p>
+  </section>
+
+  <section class="block" id="what">
+    <p class="eyebrow">What Netra does</p>
+    <h2>One search box, four honest answers.</h2>
+    <div class="steps-grid">
+      <div class="box"><span class="n">1</span><h3>What was retired</h3><p>Every Verra and Gold Standard retirement since 2020, grouped by the company it was retired for.</p></div>
+      <div class="box"><span class="n">2</span><h3>How much is likely real</h3><p>Published research per project type, applied to those tonnes, with a range and a grade from A to E.</p></div>
+      <div class="box"><span class="n">3</span><h3>What the company emits</h3><p>Its own reported emissions, read from its primary report, next to Climate TRACE's independent estimate.</p></div>
+      <div class="box"><span class="n">4</span><h3>Proof nobody can edit</h3><p>A fingerprint of each check and its serial numbers on a public blockchain. A credit claimed twice gets flagged.</p></div>
+    </div>
+    <p class="muted">Who it is for: anyone who reads a "carbon neutral" label; journalists and NGOs; scientists who want open data and method; buyers and auditors doing due diligence; regulators enforcing the EU ban on offset-based product claims (Directive 2024/825).</p>
+  </section>
+
+  <section class="block" id="how">
+    <p class="eyebrow">How it works</p>
+    <h2>From registry spreadsheet to plain sentence.</h2>
+    <ol class="flow">
+      <li><b>Collect.</b> 342,012 retirement records (876 Mt) from Berkeley's Voluntary Registry Offsets Database, project types from CarbonPlan OffsetsDB, methodology labels from ICVCM.</li>
+      <li><b>Classify, carefully.</b> A project type counts only when three sources agree: Berkeley's type, CarbonPlan's type and the methodology code. 234 projects disagree; they get no estimate instead of a guess.</li>
+      <li><b>Estimate.</b> Tonnes × the share research found real for that type (Probst et al. 2024), with the published range. Types with no research stay "no estimate".</li>
+      <li><b>Name the buyer.</b> 167 of the largest buyer names reviewed by hand and grouped by owner. Resellers, wallets and anonymous accounts are labelled, never guessed.</li>
+      <li><b>Add emissions.</b> Company figures read from 76 groups' own reports (93.7% of company tonnes), each with its URL and page. Independent emissions from Climate TRACE's ownership data.</li>
+      <li><b>Record.</b> Each published check is hashed and written to the ClaimRegistry smart contract, together with a Merkle root of its serial ranges. Anyone can recompute both from the open data.</li>
+    </ol>
+  </section>
+
+  <section class="block" id="story">
+    <p class="eyebrow">The story</p>
+    <h2>How Netra was built</h2>
+    <ol class="timeline">
+      <li><span class="when">Aug–Oct 2026</span><div><b>The hackathon.</b> IEEE ClimateChain Global Hackathon 2026 opens, with five training sessions on AI, blockchain, ethics and good practice for climate.</div></li>
+      <li><span class="when">20 Oct, morning</span><div><b>First idea, dropped.</b> AI forecasting of forest and peat fires in Indonesia. Research showed strong existing systems (ProbFire, Copernicus fire danger). Competing on a forecast model was the wrong fight.</div></li>
+      <li><span class="when">20 Oct</span><div><b>Second idea, parked.</b> Fire-risk "buffer pools" for forest carbon credits. A real problem (Nature, 2026: US forest buffer pools about 6× too small), but no open map of real projects to build on in five days.</div></li>
+      <li><span class="when">20 Oct</span><div><b>The pivot to carbon credit retirement.</b> 20 searches in Scopus returned 704 papers; 50 were kept. The strongest finding: companies keep buying low-quality credits, and research can measure how low.</div></li>
+      <li><span class="when">20 Oct</span><div><b>What the data said.</b> In Verra's own data, no serial range was retired twice: double counting inside one registry is not the problem. The problem is what happens around it: 44.7% of retirement records name no beneficiary, and one credit can back several claims outside the registry.</div></li>
+      <li><span class="when">20 Oct</span><div><b>Red team.</b> 14 weaknesses written down and fixed. Three changed the design: build on open data instead of copying it; record claims on-chain instead of minting tokens (which can itself create double counting); and target double <i>claiming</i>, not double issuing.</div></li>
+      <li><span class="when">20 Oct</span><div><b>The name.</b> Working names ClaimCheck and Proofset were descriptive but forgettable. Netra was chosen (see below).</div></li>
+      <li><span class="when">20–21 Oct</span><div><b>Data and contract.</b> Three-signal classification, research ranges from the source data, Climate TRACE ownership attribution, emissions from 76 company groups' own reports, and ClaimRegistry v2 with Merkle-root claims and on-chain challenges (8 tests passing).</div></li>
+      <li><span class="when">21 Oct</span><div><b>Brand and site.</b> Ink, paper and one orange signal; the claimed-vs-real bar; no green, because green is the colour of greenwashing.</div></li>
+      <li><span class="when">25 Oct</span><div><b>Submission</b> to Track 1: Carbon Markets &amp; Emissions Transparency.</div></li>
+    </ol>
+  </section>
+
+  <section class="block" id="name">
+    <p class="eyebrow">Why "Netra"</p>
+    <h2>Netra means "eye".</h2>
+    <div class="name-grid">
+      <div class="name-mark"><svg class="mark" viewBox="0 0 34 34" width="120" height="120" aria-hidden="true"><circle class="ring" cx="17" cy="17" r="15" fill="none" stroke-width="3"/><path class="half" d="M17 2A15 15 0 0 0 17 32Z"/><circle class="pupil" cx="17" cy="17" r="5"/></svg></div>
+      <div>
+        <p>In Sanskrit, <i>netra</i> (नेत्र) means eye; the word also lives on in Indonesian and other languages of South and Southeast Asia. It is short, easy to say in any language, and says exactly what the tool does: look closely, and show what is there.</p>
+        <p>The mark is an eye whose iris is only half filled. The filled part is the share of a claim that holds up, the same idea as the claimed-vs-real bar on every company page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="research">
+    <p class="eyebrow">Research</p>
+    <h2>The papers Netra stands on</h2>
+    <div class="papers">
+      <article class="box"><h3>Probst et al. 2024</h3><p class="muted small">Nature Communications · <a href="https://doi.org/10.1038/s41467-024-53645-z" target="_blank" rel="noopener">10.1038/s41467-024-53645-z</a></p><p>Pooled 2,346 projects (about 1 billion tonnes). Fewer than 16% of credits were real reductions. Gives the share per type that Netra uses: cookstoves 10.8%, REDD+ 24.7%, HFC-23 68.3%, SF6 16.4%, wind in China and US forest management 0%.</p></article>
+      <article class="box"><h3>Trencher et al. 2024</h3><p class="muted small">Nature Communications · <a href="https://doi.org/10.1038/s41467-024-51151-w" target="_blank" rel="noopener">10.1038/s41467-024-51151-w</a></p><p>The 20 companies that retired the most credits in 2020–2023: 87% of what they retired carried a high risk of not being real. Netra's vintage and project-type flags follow this work.</p></article>
+      <article class="box"><h3>West et al. 2023</h3><p class="muted small">Science · <a href="https://doi.org/10.1126/science.ade3535" target="_blank" rel="noopener">10.1126/science.ade3535</a></p><p>27 forest-protection (REDD+) projects in 6 countries: 68% of potential credits came from projects that did not reduce deforestation significantly.</p></article>
+      <article class="box"><h3>Gill-Wiehl et al. 2024</h3><p class="muted small">Nature Sustainability · <a href="https://doi.org/10.1038/s41893-023-01259-6" target="_blank" rel="noopener">10.1038/s41893-023-01259-6</a></p><p>Cookstove projects were over-credited about 9 times. Consistent with the 10.8% share Netra uses.</p></article>
+    </div>
+    <details class="library">
+      <summary>All 50 papers from the literature review (newest first)</summary>
+      <ol>
+        <li>Avoiding over-crediting of forestry carbon offsets under the new global carbon market. J. Forestry Research, 2026. <a href="https://doi.org/10.1007/s11676-025-01940-w" target="_blank" rel="noopener">doi</a></li>
+        <li>Beyond biomass: rethinking forest carbon credits for credible climate finance in India. Environmental Sustainability, 2026. <a href="https://doi.org/10.1007/s42398-026-00460-5" target="_blank" rel="noopener">doi</a></li>
+        <li>Three decades of scientific debate on the additionality of forest carbon offsets. WIREs Climate Change, 2026. <a href="https://doi.org/10.1002/wcc.70085" target="_blank" rel="noopener">doi</a></li>
+        <li>Blockchain and double auction for credible and efficient voluntary carbon market. Applied Energy, 2026. <a href="https://doi.org/10.1016/j.apenergy.2026.127719" target="_blank" rel="noopener">doi</a></li>
+        <li>Evaluating carbon additionality under short-term harvest deferrals. Forest Policy and Economics, 2026. <a href="https://doi.org/10.1016/j.forpol.2026.103784" target="_blank" rel="noopener">doi</a></li>
+        <li>Fixing carbon credits requires a new financing model. PNAS Nexus, 2026. <a href="https://doi.org/10.1093/pnasnexus/pgag117" target="_blank" rel="noopener">doi</a></li>
+        <li>Dynamic ex-post baselines for enhancing the credibility of IFM carbon offsets. Environmental Science &amp; Technology, 2026. <a href="https://doi.org/10.1021/acs.est.5c11387" target="_blank" rel="noopener">doi</a></li>
+        <li>Data-driven fraud detection in carbon markets using ML and blockchain. IEEE ETAACT, 2026. <a href="https://doi.org/10.1109/ETAACT69135.2026.11542032" target="_blank" rel="noopener">doi</a></li>
+        <li>Towards transparent blue carbon markets: blockchain-enabled digital MRV with ML. IEEE ICSSAS, 2026. <a href="https://doi.org/10.1109/ICSSAS68835.2026.11559531" target="_blank" rel="noopener">doi</a></li>
+        <li>Evaluating the transparency and traceability of carbon tokens. Procedia Computer Science, 2026. <a href="https://doi.org/10.1016/j.procs.2026.02.398" target="_blank" rel="noopener">doi</a></li>
+        <li>Voluntary carbon market: assessing its tokenisation suitability. LNNS, 2026. <a href="https://doi.org/10.1007/978-3-032-05877-5_12" target="_blank" rel="noopener">doi</a></li>
+        <li>Non-fungible tokens, blockchain carbon credits, and transition to carbon neutrality in supply chains. Int. J. Logistics, 2026. <a href="https://doi.org/10.1080/13675567.2025.2590584" target="_blank" rel="noopener">doi</a></li>
+        <li>Do investors care about the rainforest? Evidence from voluntary carbon offsets. Review of Finance, 2026. <a href="https://doi.org/10.1093/rof/rfaf059" target="_blank" rel="noopener">doi</a></li>
+        <li>Aftermath of the forest carbon credit crisis as experienced by restoration organisations. Sustainable Development, 2026. <a href="https://doi.org/10.1002/sd.71731" target="_blank" rel="noopener">doi</a></li>
+        <li>Identifying research priorities for high-integrity forest carbon credits. J. Forestry, 2026. <a href="https://doi.org/10.1007/s44392-026-00111-x" target="_blank" rel="noopener">doi</a></li>
+        <li>ASEAN carbon markets and regional energy connectivity: the role of Article 6. J. Energy &amp; Natural Resources Law, 2026. <a href="https://doi.org/10.1080/02646811.2026.2616171" target="_blank" rel="noopener">doi</a></li>
+        <li>Advancing mutual recognition agreements between Indonesia's SRN and international standards. Trees, Forests and People, 2025. <a href="https://doi.org/10.1016/j.tfp.2025.101017" target="_blank" rel="noopener">doi</a></li>
+        <li>Key issues in carbon markets and lessons for biodiversity conservation. Current Opinion in Env. Sustainability, 2025. <a href="https://doi.org/10.1016/j.cosust.2025.101586" target="_blank" rel="noopener">doi</a></li>
+        <li>Relegitimising the voluntary carbon market: visions of digital MRV. Environment and Planning A, 2025. <a href="https://doi.org/10.1177/0308518X241278937" target="_blank" rel="noopener">doi</a></li>
+        <li>Forest carbon buffers and sustainability-linked price premiums. Land Use Policy, 2025. <a href="https://doi.org/10.1016/j.landusepol.2025.107761" target="_blank" rel="noopener">doi</a></li>
+        <li>Are carbon offsets fixable? Annual Review of Environment and Resources, 2025. <a href="https://doi.org/10.1146/annurev-environ-112823-064813" target="_blank" rel="noopener">doi</a></li>
+        <li>Beyond opacity: DLT as a catalyst for carbon credit market integrity. Computers (MDPI), 2025. <a href="https://doi.org/10.3390/computers14090403" target="_blank" rel="noopener">doi</a></li>
+        <li>Current status of IFM carbon offset projects in the US voluntary market. Forest Policy and Economics, 2025. <a href="https://doi.org/10.1016/j.forpol.2025.103567" target="_blank" rel="noopener">doi</a></li>
+        <li>AI-enhanced blockchain networks for carbon credit verification. FAIML (ACM), 2025. <a href="https://doi.org/10.1145/3748382.3748389" target="_blank" rel="noopener">doi</a></li>
+        <li>Restoring credibility in carbon offsets through systematic ex post evaluation. Nature Sustainability, 2025. <a href="https://doi.org/10.1038/s41893-025-01589-7" target="_blank" rel="noopener">doi</a></li>
+        <li>Voluntary carbon market and standard setters: lessons from financial regulation. Env. Research Communications, 2025. <a href="https://doi.org/10.1088/2515-7620/adea35" target="_blank" rel="noopener">doi</a></li>
+        <li>Current forest carbon offset buffer pool contributions do not adequately insure against disturbance. Global Change Biology, 2025. <a href="https://doi.org/10.1111/gcb.70251" target="_blank" rel="noopener">doi</a></li>
+        <li>Addressing scandals and greenwashing in carbon offset markets: a framework for reform. Global Transitions, 2025. <a href="https://doi.org/10.1016/j.glt.2025.06.003" target="_blank" rel="noopener">doi</a></li>
+        <li>Embracing imperfection: offset markets must mitigate the risk of overcrediting. PNAS Nexus, 2025. <a href="https://doi.org/10.1093/pnasnexus/pgaf091" target="_blank" rel="noopener">doi</a></li>
+        <li>Digital MRV technologies supporting carbon credit-generating water projects. Env. Science &amp; Technology Letters, 2025. <a href="https://doi.org/10.1021/acs.estlett.4c01048" target="_blank" rel="noopener">doi</a></li>
+        <li>Blockchain use cases for high-integrity carbon markets: double counting, liquidity, trust. Standardising Carbon Markets (Springer), 2025. <a href="https://doi.org/10.1007/979-8-8688-2037-3_6" target="_blank" rel="noopener">doi</a></li>
+        <li>Double counting and the Paris Agreement rulebook. Economics of Environment and Climate (World Scientific), 2025. <a href="https://doi.org/10.1142/9789811292415_0025" target="_blank" rel="noopener">doi</a></li>
+        <li>Conditions for tokenisation of carbon standard-issued credits as crypto instruments. Blockchain and Climate Action (De Gruyter), 2025. <a href="https://doi.org/10.1515/9783111706719-003" target="_blank" rel="noopener">doi</a></li>
+        <li>Designing a framework for a blockchain-based voluntary carbon credit lifecycle. Blockchain and Climate Action (De Gruyter), 2025. <a href="https://doi.org/10.1515/9783111706719-011" target="_blank" rel="noopener">doi</a></li>
+        <li>Smart contracts for the EU Carbon Removal Certification Framework. LNNS, 2025. <a href="https://doi.org/10.1007/978-3-031-81928-5_35" target="_blank" rel="noopener">doi</a></li>
+        <li>End-to-end IoT-AI-Layer-2 blockchain framework for real-time MRV. SPE, 2025. <a href="https://doi.org/10.2118/229173-MS" target="_blank" rel="noopener">doi</a></li>
+        <li>Demand for low-quality offsets by major companies undermines climate integrity of the voluntary carbon market. Nature Communications, 2024. <a href="https://doi.org/10.1038/s41467-024-51151-w" target="_blank" rel="noopener">doi</a></li>
+        <li>Forest carbon offset protocols in compliance carbon markets. Forest Policy and Economics, 2024. <a href="https://doi.org/10.1016/j.forpol.2024.103253" target="_blank" rel="noopener">doi</a></li>
+        <li>Methodological issues with deforestation baselines compromise the integrity of REDD+ offsets. Global Environmental Change, 2024. <a href="https://doi.org/10.1016/j.gloenvcha.2024.102863" target="_blank" rel="noopener">doi</a></li>
+        <li>Tokenized carbon credits in voluntary carbon markets: the case of KlimaDAO. Frontiers in Blockchain, 2024. <a href="https://doi.org/10.3389/fbloc.2024.1474540" target="_blank" rel="noopener">doi</a></li>
+        <li>Verifiable carbon accounting in supply chains. IEEE Transactions on Services Computing, 2024. <a href="https://doi.org/10.1109/TSC.2023.3332831" target="_blank" rel="noopener">doi</a></li>
+        <li>Trusted off-chain ML scheme based on ZK-SNARK and oracle. IEEE COMPSAC, 2024. <a href="https://doi.org/10.1109/COMPSAC61105.2024.00073" target="_blank" rel="noopener">doi</a></li>
+        <li>Pervasive over-crediting from cookstove offset methodologies. Nature Sustainability, 2024. <a href="https://doi.org/10.1038/s41893-023-01259-6" target="_blank" rel="noopener">doi</a></li>
+        <li>International carbon markets for carbon dioxide removal. PLOS Climate, 2023. <a href="https://doi.org/10.1371/journal.pclm.0000118" target="_blank" rel="noopener">doi</a></li>
+        <li>Blockchain solutions for carbon markets are nearing maturity. One Earth, 2022. <a href="https://doi.org/10.1016/j.oneear.2022.06.004" target="_blank" rel="noopener">doi</a></li>
+        <li>Blockchain's potential in forest offsets, the voluntary carbon market and REDD+. Environmental Conservation, 2022. <a href="https://doi.org/10.1017/S0376892922000157" target="_blank" rel="noopener">doi</a></li>
+        <li>Governance of fragmented compliance and voluntary carbon markets under the Paris Agreement. Politics and Governance, 2022. <a href="https://doi.org/10.17645/pag.v10i1.4759" target="_blank" rel="noopener">doi</a></li>
+        <li>Caught in between: credibility and feasibility of the voluntary carbon market post-2020. Climate Policy, 2021. <a href="https://doi.org/10.1080/14693062.2021.1948384" target="_blank" rel="noopener">doi</a></li>
+        <li>Blockchain application for the Paris Agreement carbon market mechanism. Sustainability, 2020. <a href="https://doi.org/10.3390/su12125069" target="_blank" rel="noopener">doi</a></li>
+        <li>Designing a blockchain model for the Paris Agreement's carbon market mechanism. Sustainability, 2020. <a href="https://doi.org/10.3390/su12031068" target="_blank" rel="noopener">doi</a></li>
+      </ol>
+      <p class="muted small">Found through 20 Scopus queries (704 unique documents), screened by hand to 50. Titles and metadata read for all; full text for the four papers above.</p>
+    </details>
+  </section>
+
+  <section class="block" id="sources">
+    <p class="eyebrow">Data sources</p>
+    <h2>Where every number comes from</h2>
+    <div class="tablewrap"><table class="data"><thead><tr><th>Source</th><th>What Netra takes from it</th><th>Version, licence</th></tr></thead><tbody>
+      <tr><td>Berkeley Carbon Trading Project, Voluntary Registry Offsets Database</td><td>Every Verra and Gold Standard retirement since 2020; Berkeley's project type</td><td>v2026-08, CC BY 4.0</td></tr>
+      <tr><td>CarbonPlan OffsetsDB</td><td>Second project-type signal</td><td>Snapshot 2026 (updates paused upstream)</td></tr>
+      <tr><td>Registry methodology codes</td><td>Third project-type signal</td><td>From the registry records</td></tr>
+      <tr><td>ICVCM assessment status</td><td>Which methodologies carry the CCP quality label</td><td>Snapshot 18 Aug 2026, 174 entries</td></tr>
+      <tr><td>Probst et al. 2024, Supplementary Data</td><td>Share of real reductions per project type, with ranges</td><td>doi:10.1038/s41467-024-53645-z</td></tr>
+      <tr><td>Climate TRACE</td><td>Independent, ownership-weighted emissions per company</td><td>v5.7.0, 2025 emissions</td></tr>
+      <tr><td>Company reports</td><td>Reported emissions for 76 company groups, each with URL and section</td><td>Annual and sustainability reports, assurance statements, checked Oct 2026</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="block" id="limits">
+    <p class="eyebrow">Limits</p>
+    <h2>What Netra does not claim</h2>
+    <ul class="limits">
+      <li><b>Averages, not verdicts.</b> Research shares are averages per project type. A single project can be better or worse. Netra estimates risk; it does not judge any one project or company.</li>
+      <li><b>Only researched types are scored.</b> 62% of retired tonnes come from project types without a published estimate. They are shown as "no estimate", never filled in.</li>
+      <li><b>The registry name is not always the claimant.</b> A beneficiary can be a reseller, a brand or a subsidiary. Netra labels these and does not guess.</li>
+      <li><b>Emissions use different boundaries.</b> Company reports and Climate TRACE count different assets. They are shown side by side and never merged into one ratio.</li>
+      <li><b>Two registries.</b> Netra covers Verra and Gold Standard, the two largest. Other registries (ACR, CAR, ART, national registries) are not yet included.</li>
+      <li><b>Testnet records.</b> On-chain records live on a public test network, which works like the real one but costs nothing.</li>
+    </ul>
+    <p class="muted">Found a mistake? <a href="https://github.com/rofiperlungoding/climatechain-id/issues/new" target="_blank" rel="noopener">Open an issue</a>. Corrections are welcome and logged in public.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>netra · Built by Rofi for the IEEE ClimateChain Global Hackathon 2026. Code open on GitHub.</span>
+  <span>Track 1 · Carbon Markets &amp; Emissions Transparency</span>
+</footer>
+</body>
+</html>

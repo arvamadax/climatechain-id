@@ -16,7 +16,7 @@ async function main() {
   if (i < 0) throw new Error(`Buyer not found: ${name}`);
   const owner = JSON.parse(fs.readFileSync(path.join(DATA, "o", `${Math.floor(i / index.shard)}.json`), "utf8"))[i % index.shard];
   const serials = process.env.SERIALS ? JSON.parse(fs.readFileSync(process.env.SERIALS, "utf8")) : [];
-  if (!serials.length) throw new Error("Set SERIALS to a JSON list of registry serial ranges (data/serials.py).");
+  if (!serials.length) throw new Error("Set SERIALS to a JSON list of registry serial ranges (pipeline/serials.py).");
 
   const { ethers } = hre;
   const subject = ethers.id(owner.n);

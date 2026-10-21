@@ -18,7 +18,7 @@
     <span>netra</span>
   </a>
   <nav aria-label="Main">
-    <a href="#market">The market</a><a href="#verify">On-chain proof</a><a href="#method">Method</a>
+    <a href="index.html#check" aria-current="page">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html">About</a><a href="glossary.html">Glossary</a>
     <a class="pill" href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
@@ -56,6 +56,13 @@
     </div>
   </section>
 
+  <section id="hidden" class="block">
+    <p class="eyebrow">Hidden buyers</p>
+    <h2>Who is behind the credits? Most of the time, nobody you can name.</h2>
+    <p class="lede">A carbon credit is "retired" when someone uses it for a climate claim. The registry asks who that someone is. For more than half of all tonnes since 2020, the answer is blank, "Not Disclosed", a reseller, a crypto wallet, or a code nobody can trace. A claim without a name cannot be checked by anyone.</p>
+    <div id="hiddenBody" class="hidden-body"><p class="muted">Loading…</p></div>
+  </section>
+
   <section id="verify" class="block proof">
     <p class="eyebrow">On-chain proof</p>
     <h2>Every check is on the record. Nobody can edit it later.</h2>
@@ -91,6 +98,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<script src="common.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

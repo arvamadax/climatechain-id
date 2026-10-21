@@ -1,11 +1,11 @@
 """Append verified company-reported emissions rows to data/reported_emissions.csv (skips groups already present).
-Usage: python data/add_reported.py "group|year|scope1_t|total_t|boundary|source_title|source_url|section" ...
+Usage: python pipeline/add_reported.py "group|year|scope1_t|total_t|boundary|source_title|source_url|section" ...
 """
 import csv
 import sys
 from pathlib import Path
 
-F = Path(__file__).resolve().parent / "reported_emissions.csv"
+F = Path(__file__).resolve().parent.parent / "data" / "reported_emissions.csv"
 rows = list(csv.DictReader(open(F, encoding="utf-8")))
 have = {r["group"] for r in rows}
 for arg in sys.argv[1:]:

@@ -6,34 +6,16 @@ const ABI = [
   "function checks(uint256) view returns (bytes32 subject, bytes32 reportHash, bytes32 serialRoot, uint32 serialCount, uint64 timestamp, address attester, bool doubleClaim, string uri)",
 ];
 const EXAMPLES = ["Shell", "Delta Air Lines", "Netflix, Inc.", "Volkswagen Marke Pkw", "Eni Upstream", "Apple Inc.", "Not Disclosed"];
-const GRADES = [[0.6, "A", "--a"], [0.4, "B", "--b"], [0.2, "C", "--c"], [0.1, "D", "--d"], [0, "E", "--e"]];
 const CAT_COLORS = { redd: "#1d4e89", cookstove: "#e8590c", wind_china: "#4c82c3", ifm_us: "#8a6fb0", hfc23: "#b83a0e",
   grid_re: "#9fb8d6", other: "#d9d4cb" };
 const CCP = { approved: ["CCP-approved methodology", "--a"], not_approved: ["Rejected by ICVCM", "--e"],
   not_assessed: ["Not assessed / not listed", "--na"] };
 
-const $ = (s) => document.querySelector(s);
-const fmt = (n) => Math.round(n).toLocaleString("en-US");
-const mt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + " Mt" : n >= 1e3 ? (n / 1e3).toFixed(1) + " kt" : fmt(n) + " t");
-const pct = (x) => (x * 100).toFixed(x < 0.1 && x > 0 ? 1 : 0) + "%";
-const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 let INDEX, FACTORS, SHARD, rows;
 const shards = new Map();
 let onchain = null; // Promise<Array<check>>
 
-function grade(e, k, t) {
-  if (!k || k / t < 0.25) return null;
-  const r = e / k;
-  return GRADES.find(([min]) => r >= min);
-}
-
-async function getJSON(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`Could not load ${url} (${r.status})`);
-  return r.json();
-}
 
 async function owner(i) {
   const s = Math.floor(i / SHARD);
@@ -215,8 +197,7 @@ async function render(i) {
     <p class="plain">${sentence}</p>
     ${o.k ? `<div class="claim">
       <div class="row"><b>Likely real, in researched project types</b><span class="num">${mt(o.e)} of ${mt(o.k)}</span></div>
-      <div class="claimbar" role="img" aria-label="Best estimate ${pct(real)} likely real, research range ${pct(o.el / o.k)} to ${pct(o.eh / o.k)}">
-        <span class="range" style="width:${(o.eh / o.k * 100).toFixed(1)}%"></span><span class="real" style="width:${(real * 100).toFixed(1)}%"></span></div>
+      ${claimBar(o.e, o.el, o.eh, o.k)}
       <div class="key"><span>Filled: best estimate ${pct(real)}</span><span>Hatched: research range ${pct(o.el / o.k)}–${pct(o.eh / o.k)}</span><span>Outline: claimed</span></div>
     </div>` : ""}
     <div class="grid2">
@@ -296,6 +277,54 @@ function market(m) {
   }).join("");
 }
 
+/* ---------- hidden buyers ---------- */
+// [label, colour, plain explanation]; order = data/hidden.json kinds.
+const KIND = {
+  company: ["Named companies", "var(--ink)", "A real company, reviewed by hand and matched to its group (Gucci is counted under Kering)."],
+  unreviewed: ["Other named buyers", "#8a857c", "A name is given, but it is one of 44,000+ smaller names Netra has not reviewed one by one."],
+  public_body: ["Public bodies", "#4c82c3", "A government or public authority."],
+  intermediary: ["Resellers, for clients", "#f2a36b", "An offset seller retires credits on behalf of its customers. Who the customers are is not in the registry."],
+  wallet: ["Crypto wallets", "#d9480f", "Retired to a blockchain address. Who holds the climate claim cannot be seen."],
+  tokenization: ["Turned into tokens", "#b83a0e", "Retired to create crypto tokens. Verra stopped allowing this in 2022."],
+  unidentified: ["Codes nobody can trace", "#7a2e0c", "A short code (for example \"DL\") that matches no organisation in the registry details. Netra does not guess."],
+  anonymous: ["No name at all", "var(--signal)", "The beneficiary field is blank or says \"Not Disclosed\". Nobody can be held to this claim."],
+};
+const HIDDEN_KINDS = ["intermediary", "wallet", "tokenization", "unidentified", "anonymous"];
+
+async function hiddenSection() {
+  const el = $("#hiddenBody");
+  let h;
+  try { h = await getJSON("data/hidden.json"); } catch (err) { el.innerHTML = `<p class="bad">${esc(err.message)}.</p>`; return; }
+  const kinds = Object.entries(h.kinds).filter(([, v]) => v.t > 0);
+  const hid = HIDDEN_KINDS.reduce((s, k) => s + (h.kinds[k]?.t || 0), 0);
+  const named = h.kinds.company.t + h.kinds.unreviewed.t + h.kinds.public_body.t;
+  el.innerHTML = `
+    <div class="split">
+      <div class="stat big"><b>${pct(hid / h.total)}</b><span>of ${mt(h.total)} retired cannot be tied to a named claimant</span></div>
+      <div class="stat big"><b>${pct(named / h.total)}</b><span>name someone. Only ${pct(h.kinds.company.t / h.total)} are companies Netra has reviewed</span></div>
+    </div>
+    <div class="panel">
+      <h3>Every tonne retired since 2020, by who claims it</h3>
+      ${bar(kinds.map(([k, v]) => [v.t / h.total, KIND[k][1].startsWith("var") ? css(KIND[k][1].slice(4, -1)) : KIND[k][1], KIND[k][0]]))}
+      <div class="kinds">${kinds.map(([k, v]) => `<div class="kind">
+        <i style="background:${KIND[k][1]}"></i>
+        <div><b>${KIND[k][0]}</b> <span class="num">${mt(v.t)} · ${pct(v.t / h.total)}</span>${HIDDEN_KINDS.includes(k) ? ` <span class="tag">hidden</span>` : ""}
+        <p class="muted small">${KIND[k][2]} ${fmt(v.buyers)} account${v.buyers === 1 ? "" : "s"}.</p></div></div>`).join("")}</div>
+    </div>
+    <div class="panel">
+      <h3>The biggest accounts that hide who claims</h3>
+      <div class="tablewrap"><table><thead><tr><th>#</th><th>Account as written in the registry</th><th>What it is</th><th>Tonnes</th><th>Likely real</th></tr></thead><tbody>
+      ${h.top.map((x, r) => `<tr><td class="num">${r + 1}</td><td><a href="#buyer-${x.i}" class="${x.n.startsWith("0x") ? "mono" : ""}">${esc(x.n)}</a></td>
+        <td>${KIND[x.kind][0]}</td><td class="num">${mt(x.t)}</td><td class="num">${x.k ? `${pct(x.e / x.k)} of ${mt(x.k)} researched` : "no estimate"}</td></tr>`).join("")}
+      </tbody></table></div>
+    </div>
+    <div class="why">
+      <div class="box"><h3>Why it matters</h3><p>A company can say "we offset our emissions". If the registry does not name it, nobody can check which credits back that sentence, or whether the same credits back someone else's.</p></div>
+      <div class="box"><h3>Double claiming</h3><p>Resellers and wallets can pass one retirement to many customers. The registry cannot see it. Netra's on-chain registry lets anyone flag a serial range claimed twice.</p></div>
+      <div class="box"><h3>What would fix it</h3><p>A mandatory, public beneficiary for every retirement, and claims that point to exact serial numbers. Until then, treat unnamed volume as unverifiable.</p></div>
+    </div>`;
+}
+
 /* ---------- verify ---------- */
 async function loadChecks() {
   if (!CHAIN) throw new Error("no deployment");
@@ -358,7 +387,10 @@ async function verifyPanel() {
   onchain = loadChecks();
   setupSearch();
   market(INDEX.meta);
+  hiddenSection();
   verifyPanel();
-  const m = location.hash.match(/^#buyer-(\d+)$/);
-  if (m && rows[+m[1]]) pick(+m[1]);
+  // #buyer-N opens that buyer: on load, and from in-page links (verify table, hidden buyers, data page).
+  const open = () => { const m = location.hash.match(/^#buyer-(\d+)$/); if (m && rows[+m[1]]) pick(+m[1]); };
+  addEventListener("hashchange", open);
+  open();
 })();

@@ -1,12 +1,18 @@
+# Raw downloads and archives (registry spreadsheets, Climate TRACE packages, company PDFs)
+raw/
 *.zip
-IEEE_ClimateChain_2026_Topik6_AI_Climate_Prediction/
-graphify-out/
+
+# Secrets
 .env
+
+# Tooling and caches
 node_modules/
 __pycache__/
-_t7/
+.vscode/
+.claude/
+graphify-out/
 
-# local-chain demo artifacts (publish Amoy records explicitly with git add -f)
+# Local-chain demo output (a public testnet deployment is committed explicitly with git add -f)
 web/data/checks/
 web/data/deployment.json
 contracts/deployments/local.json

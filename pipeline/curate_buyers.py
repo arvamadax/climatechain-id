@@ -3,13 +3,13 @@
 Every row below was reviewed by hand against registry retirement details on 2026-10-20.
 Types: company | intermediary (retires on behalf of clients) | public_body | anonymous | wallet | tokenization | unidentified.
 Coverage: core = the group's main emissions are in Climate TRACE ownership sectors; partial = they are not.
-Usage: python data/curate_buyers.py   (reads web/data/index.json, writes data/buyers.csv)
+Usage: python pipeline/curate_buyers.py   (reads web/data/index.json, writes data/buyers.csv)
 """
 import csv
 import json
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 C, I, P, A, W, T, U = "company", "intermediary", "public_body", "anonymous", "wallet", "tokenization", "unidentified"
 SH, ENI, WDS, CVX, PTR, CPC, ENG = "E100000000746", "E100000000610", "E100001016083", "E100000001179", "E100000000245", "E100000001010", "E100000000382"
 AGL, ORG, TG, OG, ARV, VAT, ESWE = "E100000000014", "E100000000019", "E100000000660", "E100000000654", "E100000000614", "E100000001728", "E100000000405"
@@ -177,7 +177,7 @@ M = {
 
 
 def main(top=160):
-    rows = json.loads((HERE.parent / "web" / "data" / "index.json").read_text(encoding="utf-8"))["rows"]
+    rows = json.loads((ROOT / "web" / "data" / "index.json").read_text(encoding="utf-8"))["rows"]
     names = [r[0] for r in rows]
     targets = names[:top] + [n for n in M if n in set(names[top:])]
     out, missing = [], []
@@ -190,7 +190,7 @@ def main(top=160):
             missing.append(n)
             continue
         out.append({"buyer_name": n, "group": g[0], "type": g[1], "ct_parent_id": g[2], "coverage": g[3], "note": g[4]})
-    with open(HERE / "buyers.csv", "w", encoding="utf-8", newline="") as f:
+    with open(ROOT / "data" / "buyers.csv", "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(out[0]))
         w.writeheader()
         w.writerows(out)

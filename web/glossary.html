@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary · Netra</title>
+<meta name="description" content="Every carbon-market and blockchain word on Netra, explained in plain English with an example.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Netra home">
+    <svg class="mark" viewBox="0 0 34 34" width="28" height="28" aria-hidden="true"><circle class="ring" cx="17" cy="17" r="15" fill="none" stroke-width="3"/><path class="half" d="M17 2A15 15 0 0 0 17 32Z"/><circle class="pupil" cx="17" cy="17" r="5"/></svg>
+    <span>netra</span>
+  </a>
+  <nav aria-label="Main">
+    <a href="index.html#check">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html">About</a><a href="glossary.html" aria-current="page">Glossary</a>
+    <a class="pill" href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head">
+    <p class="eyebrow">Glossary</p>
+    <h1>Every word, in plain English.</h1>
+    <p class="lede">Carbon markets are full of jargon. Each term below has a one-line meaning and a real example. If you only read one, read <a href="#carbon-credit">carbon credit</a>, <a href="#retirement">retirement</a> and <a href="#over-crediting">over-crediting</a>.</p>
+    <div class="search glossary-search">
+      <form role="search" onsubmit="return false">
+        <label for="gq" class="sr">Filter terms</label>
+        <input id="gq" type="search" placeholder="Filter, e.g. scope, REDD, hash" autocomplete="off">
+      </form>
+    </div>
+  </section>
+
+  <section class="gloss" id="gloss">
+    <h2 class="gsec">The basics</h2>
+    <dl>
+      <div class="term" id="carbon-credit"><dt>Carbon credit</dt><dd><p>A certificate that says one tonne of CO₂ (or the same warming from another gas) was kept out of the air or taken out of it.</p><p class="ex">Example: a wind farm in India sells one credit for every tonne of coal power it claims to replace.</p></dd></div>
+      <div class="term" id="offset"><dt>Offset</dt><dd><p>Using carbon credits to "cancel out" your own emissions on paper.</p><p class="ex">Example: an airline emits 10 tonnes and buys 10 credits, then calls the flight "carbon neutral".</p></dd></div>
+      <div class="term" id="retirement"><dt>Retirement</dt><dd><p>Using up a credit for good, so nobody can sell or use it again. This is the moment a climate claim is made.</p><p class="ex">Example: Shell retired 42.3 million tonnes of credits since 2020.</p></dd></div>
+      <div class="term" id="beneficiary"><dt>Beneficiary</dt><dd><p>The person or company the registry says the retired credits are for: the one who gets to make the claim.</p><p class="ex">Example: for 40% of tonnes this field is blank. That is what Netra calls "hidden".</p></dd></div>
+      <div class="term" id="registry"><dt>Registry</dt><dd><p>The official database that issues credits, tracks who holds them, and records retirements. Verra and Gold Standard are the two biggest.</p><p class="ex">Example: every credit has an entry like "VCS1477", meaning Verra project number 1477.</p></dd></div>
+      <div class="term" id="tco2e"><dt>tCO₂e, Mt</dt><dd><p>tCO₂e = one tonne of CO₂ or the same amount of warming from other gases. Mt = a million tonnes.</p><p class="ex">Example: 876 Mt = 876 million tonnes, the total retired on Verra and Gold Standard since 2020.</p></dd></div>
+      <div class="term" id="voluntary-market"><dt>Voluntary carbon market</dt><dd><p>Where companies buy credits because they choose to, not because a law forces them. Netra covers this market.</p><p class="ex">Example: a streaming company buying credits to meet its own climate goal.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">Is the credit real?</h2>
+    <dl>
+      <div class="term" id="additionality"><dt>Additionality</dt><dd><p>Would the cut in emissions have happened anyway, without the credit money? If yes, the credit is not "additional" and changes nothing.</p><p class="ex">Example: a big wind farm that was already profitable would have been built anyway.</p></dd></div>
+      <div class="term" id="over-crediting"><dt>Over-crediting</dt><dd><p>A project gets more credits than the real tonnes it saved, usually because its "what would have happened" guess was too pessimistic.</p><p class="ex">Example: research found cookstove projects were credited about 9 times more than their real effect.</p></dd></div>
+      <div class="term" id="baseline"><dt>Baseline</dt><dd><p>The guess of what would have happened without the project. Credits = baseline minus what really happened, so an inflated baseline means fake credits.</p><p class="ex">Example: claiming a forest would have been fully cut down when it was never under threat.</p></dd></div>
+      <div class="term" id="oar"><dt>Outcome achievement ratio (OAR)</dt><dd><p>The share of credits that research found were real reductions, per project type. Netra multiplies tonnes by this number.</p><p class="ex">Example: REDD+ OAR 24.7%, so 100 tonnes of REDD+ credits ≈ 25 real tonnes.</p></dd></div>
+      <div class="term" id="likely-real"><dt>Likely real tonnes</dt><dd><p>Netra's best estimate of how many retired tonnes actually cut emissions: tonnes × OAR.</p><p class="ex">Example: Shell has 23.3 Mt in researched project types; about 5.3 Mt are likely real.</p></dd></div>
+      <div class="term" id="research-range"><dt>Research range</dt><dd><p>The low and high estimate around the best guess. Netra always shows it, because research is never exact.</p><p class="ex">Example: Shell's likely real tonnes range from 0.3 to 19.9 Mt.</p></dd></div>
+      <div class="term" id="permanence"><dt>Permanence and reversal</dt><dd><p>Will the saved carbon stay saved? A forest that burns down later "reverses" the credit.</p><p class="ex">Example: in 2021 the Bootleg Fire in Oregon burned a forest project that had already sold credits.</p></dd></div>
+      <div class="term" id="buffer-pool"><dt>Buffer pool</dt><dd><p>A reserve of unsold credits kept as insurance against reversals.</p><p class="ex">Example: research in Nature (2026) found US forest buffer pools are about 6 times too small.</p></dd></div>
+      <div class="term" id="leakage"><dt>Leakage</dt><dd><p>When protecting one place just moves the damage somewhere else.</p><p class="ex">Example: logging stops in a protected forest and moves to the next valley.</p></dd></div>
+      <div class="term" id="vintage"><dt>Vintage</dt><dd><p>The year the emission cut happened. Old vintages are cheaper and often lower quality.</p><p class="ex">Example: the aviation scheme CORSIA does not accept credits with vintages before 2016.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">Project types</h2>
+    <dl>
+      <div class="term" id="redd"><dt>REDD+</dt><dd><p>"Reducing Emissions from Deforestation and forest Degradation": credits for protecting forests that were said to be under threat.</p><p class="ex">Example: 26% of all tonnes retired since 2020 are REDD+. Research says about 25% of them are real.</p></dd></div>
+      <div class="term" id="cookstove"><dt>Cookstoves</dt><dd><p>Credits for giving families cleaner stoves, so they burn less wood or charcoal.</p><p class="ex">Example: research estimates 10.8% of cookstove credits are real.</p></dd></div>
+      <div class="term" id="hfc23"><dt>HFC-23 destruction</dt><dd><p>Destroying a very strong warming gas made as a by-product in factories.</p><p class="ex">Example: the best-performing type in the research: 68.3% real.</p></dd></div>
+      <div class="term" id="ifm"><dt>Improved forest management (IFM)</dt><dd><p>Credits for logging less or more carefully than planned.</p><p class="ex">Example: research found no significant real effect for US IFM projects (0%).</p></dd></div>
+      <div class="term" id="grid-renewables"><dt>Grid-connected renewables</dt><dd><p>Credits from wind, solar or hydro plants that feed the power grid. Often fail additionality because the plants pay for themselves.</p><p class="ex">Example: research found 0% real for wind in China. 35% of retired tonnes are renewables without a published estimate.</p></dd></div>
+      <div class="term" id="methodology"><dt>Methodology</dt><dd><p>The rulebook a project uses to count its credits. Different rulebooks for the same project type can give very different numbers.</p><p class="ex">Example: VM0007 is a Verra methodology for REDD+.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">Quality labels and rules</h2>
+    <dl>
+      <div class="term" id="icvcm"><dt>ICVCM and CCP label</dt><dd><p>The Integrity Council for the Voluntary Carbon Market checks methodologies. Approved ones get the Core Carbon Principles (CCP) label.</p><p class="ex">Example: only 4.5% of tonnes retired since 2020 use a CCP-approved methodology.</p></dd></div>
+      <div class="term" id="vcmi"><dt>VCMI</dt><dd><p>The Voluntary Carbon Markets Integrity Initiative sets rules for what companies may claim when they use credits.</p><p class="ex">Example: its Claims Code requires a science-based target before any offset claim.</p></dd></div>
+      <div class="term" id="corsia"><dt>CORSIA</dt><dd><p>The UN aviation scheme in which airlines must offset some of their growth in emissions, with stricter credit rules.</p><p class="ex">Example: Netra flags buyers whose credits are mostly pre-2016 vintages, which CORSIA rejects.</p></dd></div>
+      <div class="term" id="eu-2024-825"><dt>EU Directive 2024/825</dt><dd><p>An EU consumer law, in force since 27 September 2026, that bans calling a product climate neutral, reduced or positive because of offsets.</p><p class="ex">Example: "This flight is carbon neutral because we plant trees" is no longer allowed in the EU.</p></dd></div>
+      <div class="term" id="greenwashing"><dt>Greenwashing</dt><dd><p>Making something look greener than it is.</p><p class="ex">Example: a "carbon neutral" label backed by credits that research says are mostly not real.</p></dd></div>
+      <div class="term" id="carbon-neutral"><dt>Carbon neutral, net zero</dt><dd><p>Carbon neutral: emissions balanced with credits, often now. Net zero: cutting emissions deeply by a target year and only removing what is left.</p><p class="ex">Example: a company can be "carbon neutral" today through offsets while its emissions keep rising.</p></dd></div>
+      <div class="term" id="article-6"><dt>Article 6 and corresponding adjustment</dt><dd><p>The Paris Agreement rules for countries trading emission cuts. A corresponding adjustment stops the host country from also counting the same cut.</p><p class="ex">Example: without it, Indonesia and a buyer in Japan could both claim the same forest tonne.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">Company emissions</h2>
+    <dl>
+      <div class="term" id="scope-1"><dt>Scope 1</dt><dd><p>Emissions a company produces directly: its own fuel, factories, vehicles and planes.</p><p class="ex">Example: Air Canada's Scope 1 in 2025: 12.0 Mt, almost all jet fuel.</p></dd></div>
+      <div class="term" id="scope-2"><dt>Scope 2</dt><dd><p>Emissions from the electricity, heat or steam a company buys.</p><p class="ex">Example: an office building's electricity bill, turned into tonnes.</p></dd></div>
+      <div class="term" id="scope-3"><dt>Scope 3</dt><dd><p>Everything else in the value chain: suppliers, and customers using the product. Usually the biggest part.</p><p class="ex">Example: the petrol customers burn in their cars is in an oil company's Scope 3.</p></dd></div>
+      <div class="term" id="market-location"><dt>Market-based vs location-based</dt><dd><p>Two ways to count Scope 2. Location-based uses the local grid's average; market-based counts green power contracts the company bought.</p><p class="ex">Example: Natura's 2025 Scope 2 is 11,433 t location-based but 0.2 t market-based.</p></dd></div>
+      <div class="term" id="boundary"><dt>Operational control vs equity share</dt><dd><p>Which assets count as the company's. Operational control: what it runs. Equity share: what it owns, in proportion.</p><p class="ex">Example: Chevron's Scope 1 is 52 Mt by equity share but 55 Mt by operational control.</p></dd></div>
+      <div class="term" id="climate-trace"><dt>Climate TRACE</dt><dd><p>A coalition that estimates emissions of power plants, mines, refineries and other assets from satellites and models, independent of what companies report.</p><p class="ex">Example: Climate TRACE puts Shell's ownership-weighted 2025 emissions at 123–151 Mt; Shell reports 46 Mt Scope 1. Different boundaries, shown side by side.</p></dd></div>
+      <div class="term" id="primary-source"><dt>Primary source</dt><dd><p>The company's own document (annual report, sustainability statement, auditor's statement), not a third-party summary.</p><p class="ex">Example: Netra only uses emissions figures read from primary sources.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">Hidden claims and double counting</h2>
+    <dl>
+      <div class="term" id="double-counting"><dt>Double counting, double claiming</dt><dd><p>The same tonne used for two claims. Double claiming: two companies (or a company and a country) both say one credit is theirs.</p><p class="ex">Example: a reseller retires one batch and tells two customers it is for them.</p></dd></div>
+      <div class="term" id="intermediary"><dt>Intermediary, reseller</dt><dd><p>A company that buys and retires credits on behalf of its customers. The registry shows the reseller, not the customer.</p><p class="ex">Example: "4AIR Client" retired 3.9 Mt for clients who are not named.</p></dd></div>
+      <div class="term" id="tokenization"><dt>Tokenization</dt><dd><p>Turning a credit into a crypto token that can be traded on a blockchain. Verra banned tokenizing retired credits in 2022.</p><p class="ex">Example: about 22 million Verra credits were moved into tokens before the ban.</p></dd></div>
+      <div class="term" id="serial"><dt>Serial number, serial range</dt><dd><p>Each credit has a unique number. A retirement covers a range, from one number to another.</p><p class="ex">Example: Shell's retirements cover 684 serial ranges.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">The blockchain part</h2>
+    <dl>
+      <div class="term" id="blockchain"><dt>Blockchain</dt><dd><p>A public record that thousands of computers keep identical copies of. Once something is written, nobody can quietly change it.</p><p class="ex">Example: Netra writes each check there, so it can be compared with the open data later.</p></dd></div>
+      <div class="term" id="smart-contract"><dt>Smart contract</dt><dd><p>A small program that lives on the blockchain and runs exactly as written. Netra's is called ClaimRegistry.</p><p class="ex">Example: ClaimRegistry refuses a claim if its serial ranges were already claimed.</p></dd></div>
+      <div class="term" id="testnet"><dt>Testnet (Sepolia)</dt><dd><p>A public practice copy of a blockchain. It works the same, but its coins have no money value.</p><p class="ex">Example: Netra's records go to Ethereum Sepolia, so anyone can check them for free on Etherscan.</p></dd></div>
+      <div class="term" id="hash"><dt>Hash</dt><dd><p>A short fingerprint of a file. Change one character and the fingerprint is completely different.</p><p class="ex">Example: the report hash on Netra proves the published grade matches the data.</p></dd></div>
+      <div class="term" id="merkle-root"><dt>Merkle root</dt><dd><p>One fingerprint that stands for a whole list. Anyone can prove one item is in the list without seeing the rest.</p><p class="ex">Example: Shell's 684 serial ranges are stored on-chain as one Merkle root.</p></dd></div>
+      <div class="term" id="nullifier"><dt>Nullifier</dt><dd><p>A fingerprint of one serial range. If the same nullifier appears in two claims, the second is a double claim.</p><p class="ex">Example: Netra's demo shows a duplicate claimant flagged this way.</p></dd></div>
+      <div class="term" id="gas"><dt>Gas</dt><dd><p>The small fee paid to write to a blockchain. On a testnet it is paid with free practice coins.</p><p class="ex">Example: one Netra claim costs about 149,000 gas, whatever the number of serial ranges.</p></dd></div>
+      <div class="term" id="wallet"><dt>Wallet, address</dt><dd><p>An account on a blockchain, written as a long code starting with 0x.</p><p class="ex">Example: 0xAf52…81B0 retired 2.0 Mt of credits. Who owns it is unknown.</p></dd></div>
+    </dl>
+
+    <h2 class="gsec">Netra's own terms and sources</h2>
+    <dl>
+      <div class="term" id="grade"><dt>Grade A–E</dt><dd><p>Netra's letter for the share of researched tonnes that are likely real: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E &lt; 10%. No grade if research covers less than a quarter.</p><p class="ex">Example: Shell gets C (22.8%).</p></dd></div>
+      <div class="term" id="three-signals"><dt>Three-signal check</dt><dd><p>Netra only assigns a project type when three sources agree: Berkeley's type, CarbonPlan's type and the methodology code. Any disagreement means no estimate.</p><p class="ex">Example: 234 projects disagree and get no estimate rather than a guess.</p></dd></div>
+      <div class="term" id="vrod"><dt>Berkeley VROD</dt><dd><p>The Voluntary Registry Offsets Database from UC Berkeley: every Verra and Gold Standard credit and retirement, cleaned and free to use (CC BY 4.0).</p><p class="ex">Example: Netra uses version 2026-08.</p></dd></div>
+      <div class="term" id="offsetsdb"><dt>CarbonPlan OffsetsDB</dt><dd><p>An open database of carbon projects from the non-profit CarbonPlan. Netra uses its project types as the second signal.</p><p class="ex">Example: it disagrees with Berkeley on Katingan (VCS1477), so Netra gives that project no estimate.</p></dd></div>
+      <div class="term" id="probst"><dt>Probst et al. 2024</dt><dd><p>A study in Nature Communications that pooled 2,346 projects and found fewer than 16% of credits were real reductions. Netra's OARs come from it.</p><p class="ex">doi:10.1038/s41467-024-53645-z</p></dd></div>
+    </dl>
+    <p id="gnone" class="muted" hidden>No term matches. Try a shorter word.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>netra · Missing a word? <a href="https://github.com/rofiperlungoding/climatechain-id/issues/new?title=Glossary%3A%20" target="_blank" rel="noopener">Ask for it</a>.</span>
+  <span>IEEE ClimateChain Global Hackathon 2026 · Track 1</span>
+</footer>
+<script>
+// Filter terms as you type; hide empty sections.
+const gq = document.getElementById("gq");
+gq.addEventListener("input", () => {
+  const q = gq.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll("#gloss dl").forEach((dl) => {
+    let n = 0;
+    dl.querySelectorAll(".term").forEach((t) => { const ok = !q || t.textContent.toLowerCase().includes(q); t.hidden = !ok; n += ok; });
+    dl.hidden = !n; dl.previousElementSibling.hidden = !n; shown += n;
+  });
+  document.getElementById("gnone").hidden = shown > 0;
+});
+</script>
+</body>
+</html>

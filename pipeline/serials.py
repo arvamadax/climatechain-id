@@ -1,6 +1,6 @@
 """Write the registry serial ranges retired on behalf of one beneficiary since 2020.
 
-Usage: python data/serials.py <Berkeley_VROD_registry_files_*.xlsx> "<exact beneficiary name as shown in Netra>" <out.json>
+Usage: python pipeline/serials.py <Berkeley_VROD_registry_files_*.xlsx> "<exact beneficiary name as shown in Netra>" <out.json>
 Output: ["VCS:<serial>", "GS:<serial>", ...] used as ClaimRegistry nullifiers.
 """
 import json

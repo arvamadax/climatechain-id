@@ -1,6 +1,6 @@
 """Attribute Climate TRACE asset emissions to parent companies using ownership shares.
 
-Usage: python data/ownership.py <dir with extracted Climate TRACE sector packages> [year]
+Usage: python pipeline/ownership.py <dir with extracted Climate TRACE sector packages> [year]
 Reads every *_emissions_sources_ownership_*.csv and the matching *_emissions_sources_*.csv (co2e_100yr),
 writes web/data/ct_owners.json:
   {parent_entity_id: [name, low, high, assets]}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data · Netra</title>
+<meta name="description" content="All of Netra's data in one place: every reviewed company side by side, comparisons, project types, years and downloads.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Netra home">
+    <svg class="mark" viewBox="0 0 34 34" width="28" height="28" aria-hidden="true"><circle class="ring" cx="17" cy="17" r="15" fill="none" stroke-width="3"/><path class="half" d="M17 2A15 15 0 0 0 17 32Z"/><circle class="pupil" cx="17" cy="17" r="5"/></svg>
+    <span>netra</span>
+  </a>
+  <nav aria-label="Main">
+    <a href="index.html#check">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html" aria-current="page">Data</a><a href="about.html">About</a><a href="glossary.html">Glossary</a>
+    <a class="pill" href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head">
+    <p class="eyebrow">Data</p>
+    <h1>All the numbers, side by side.</h1>
+    <p class="lede">Every company group Netra has reviewed, with what it retired, how much research says is likely real, what it reports emitting and what independent estimates see. Sort any column, filter by name, tick up to three to compare. New to a word? See the <a href="glossary.html">glossary</a>.</p>
+    <div class="jump"><a href="#companies">Companies</a><a href="#compare">Compare</a><a href="#types">Project types</a><a href="#years">Years</a><a href="#downloads">Downloads</a></div>
+  </section>
+
+  <section class="block" id="overview">
+    <p class="eyebrow">At a glance</p>
+    <div class="stats" id="overviewStats"></div>
+  </section>
+
+  <section class="block" id="companies">
+    <p class="eyebrow">Companies</p>
+    <h2>Every reviewed company group</h2>
+    <p class="muted">Names in the registry are grouped by owner (Gucci and Guccio Gucci are counted under Kering). "Likely real" is the share of researched tonnes; the hatched range is the research uncertainty. Emissions are shown as published, never merged: the company's own report and the independent Climate TRACE estimate use different boundaries.</p>
+    <div class="toolbar">
+      <label for="cq" class="sr">Filter companies</label>
+      <input id="cq" class="filter" type="search" placeholder="Filter by name" autocomplete="off">
+      <span class="muted small" id="ccount"></span>
+    </div>
+    <div class="tablewrap"><table class="data" id="ctable"><thead><tr>
+      <th scope="col"><span class="sr">Compare</span></th>
+      <th scope="col"><button type="button" data-k="group">Company group</button></th>
+      <th scope="col"><button type="button" data-k="t">Retired</button></th>
+      <th scope="col"><button type="button" data-k="cover">Researched</button></th>
+      <th scope="col"><button type="button" data-k="real">Likely real</button></th>
+      <th scope="col"><button type="button" data-k="g">Grade</button></th>
+      <th scope="col"><button type="button" data-k="ccpShare">Quality label</button></th>
+      <th scope="col"><button type="button" data-k="s1">Own report, Scope 1</button></th>
+      <th scope="col"><button type="button" data-k="ctMid">Independent estimate</button></th>
+    </tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="block" id="compare">
+    <p class="eyebrow">Compare</p>
+    <h2>Pick up to three companies</h2>
+    <p class="muted" id="cmpHint">Tick the boxes in the table above. Shell, Delta and Netflix are shown to start.</p>
+    <div class="compare" id="cmp"></div>
+  </section>
+
+  <section class="block" id="types">
+    <p class="eyebrow">Project types</p>
+    <h2>What kind of projects the credits come from</h2>
+    <p class="muted">Research estimates exist for some project types only. Netra never fills in a number where none is published.</p>
+    <div class="tablewrap"><table class="data" id="ttable"><thead><tr><th>Project type</th><th>Tonnes retired</th><th>Share</th><th>Likely real (research)</th><th>Range</th><th>Source</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="block" id="years">
+    <p class="eyebrow">Past to present</p>
+    <h2>Year by year</h2>
+    <div class="tablewrap"><table class="data" id="ytable"><thead><tr><th>Year</th><th>Tonnes retired</th><th>Researched</th><th>Likely real, of researched</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="block" id="downloads">
+    <p class="eyebrow">Downloads</p>
+    <h2>Take the data with you</h2>
+    <div class="downloads">
+      <a class="box" href="data/companies.json" download><b>companies.json</b><span class="muted small">This table: 94 company groups.</span></a>
+      <a class="box" href="data/owners.json" download><b>owners.json</b><span class="muted small">All 44,465 buyers with every figure (9 MB).</span></a>
+      <a class="box" href="data/hidden.json" download><b>hidden.json</b><span class="muted small">Who stands behind retired credits.</span></a>
+      <a class="box" href="data/factors.json" download><b>factors.json</b><span class="muted small">Research estimates per project type, with sources.</span></a>
+      <a class="box" href="https://github.com/rofiperlungoding/climatechain-id/blob/main/data/reported_emissions.csv" target="_blank" rel="noopener"><b>reported_emissions.csv</b><span class="muted small">Company emissions with the exact report, page and URL.</span></a>
+      <a class="box" href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener"><b>METHODS.md</b><span class="muted small">Every rule, source and limit.</span></a>
+    </div>
+    <p class="muted small">Registry data: Berkeley Carbon Trading Project VROD v2026-08 (CC BY 4.0). Cite as: Netra (2026), IEEE ClimateChain Global Hackathon.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>netra · Estimates from published research (Probst et al. 2024) applied to registry data. Every number links to its source.</span>
+  <span>IEEE ClimateChain Global Hackathon 2026 · Track 1</span>
+</footer>
+<script src="common.js"></script>
+<script src="data.js"></script>
+</body>
+</html>
