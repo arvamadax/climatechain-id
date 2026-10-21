@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Netra · WhatsApp status</title>
@@ -25,7 +25,7 @@ h2 { font-size: 96px; line-height: 1; letter-spacing: -.03em; font-weight: 700; 
 p.lead { font-size: 50px; line-height: 1.25; color: var(--muted); }
 .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; font-size: 30px; color: var(--muted); }
 .url { font: 500 38px "Fragment Mono"; color: inherit; }
-.src { font-size: 26px; color: var(--muted); line-height: 1.35; }
+.src { font-size: 26px; white-space: nowrap; color: var(--muted); line-height: 1.35; }
 .grow { flex: 1; }
 /* claimed vs real bar */
 .bar { position: relative; height: 120px; border: 4px solid currentColor; border-radius: 999px; overflow: hidden; }
@@ -40,7 +40,7 @@ p.lead { font-size: 50px; line-height: 1.25; color: var(--muted); }
 .dark .card { background: #1c1b19; box-shadow: none; }
 .row { display: flex; justify-content: space-between; align-items: center; gap: 30px; padding: 26px 0; border-top: 2px solid var(--line); font-size: 38px; }
 .row:first-of-type { border-top: 0; }
-.tag { display: inline-block; font: 600 26px "Hanken Grotesk"; letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 10px 22px; }
+.tag { display: inline-block; white-space: nowrap; flex: none; font: 600 26px "Hanken Grotesk"; letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 10px 22px; }
 .warn { background: var(--signal-text); color: var(--paper); }
 .ghost { border: 3px solid currentColor; color: var(--signal); }
 .dot { display: inline-block; width: 22px; height: 22px; border-radius: 99px; background: var(--signal); margin-right: 14px; vertical-align: 2px; }
@@ -57,71 +57,71 @@ p.lead { font-size: 50px; line-height: 1.25; color: var(--muted); }
 <section class="s" data-s="1">
   <div class="brand"><svg class="mark" viewBox="0 0 34 34"><circle class="ring" cx="17" cy="17" r="15" fill="none" stroke-width="3"/><path class="half" d="M17 2A15 15 0 0 0 17 32Z"/><circle class="pupil" cx="17" cy="17" r="5"/></svg>netra</div>
   <div class="grow"></div>
-  <p class="eyebrow">Sejak 2020</p>
-  <h1 style="margin-top:28px">876 juta ton kredit karbon dipakai untuk klaim hijau.</h1>
-  <p class="lead" style="margin-top:56px">Perusahaan bilang "netral karbon". Tapi berapa yang beneran ngurangin emisi?</p>
+  <p class="eyebrow">Since 2020</p>
+  <h1 style="margin-top:28px">876 million tonnes of carbon credits used for green claims.</h1>
+  <p class="lead" style="margin-top:56px">Companies say "carbon neutral". How much of it actually cut emissions?</p>
   <div class="grow"></div>
   <div class="foot"><span class="src">Data: Berkeley VROD v2026-08, Verra + Gold Standard</span><span>1/5</span></div>
 </section>
 
 <!-- 2: one in five -->
 <section class="s dark" data-s="2">
-  <p class="eyebrow">Menurut riset peer-reviewed</p>
+  <p class="eyebrow">According to peer-reviewed research</p>
   <div class="grow"></div>
   <div class="big">1<span class="o">/</span>5</div>
-  <h2 style="margin-top:40px">Cuma sekitar 1 dari 5 ton yang <span class="o">kemungkinan nyata.</span></h2>
+  <h2 style="margin-top:40px">Only about 1 in 5 tonnes is <span class="o">likely real.</span></h2>
   <div style="margin-top:90px">
     <div class="bar"><i style="width:19.4%"></i><b style="left:19.4%"></b></div>
-    <div class="legend"><span><span class="dot"></span>19% kemungkinan nyata</span><span>sisanya: tidak nyata</span></div>
+    <div class="legend"><span><span class="dot"></span>19% likely real</span><span>the rest: likely not</span></div>
   </div>
   <div class="grow"></div>
-  <div class="foot"><span class="src">Probst et al. 2024, Nature Communications,<br>untuk jenis proyek yang sudah diteliti</span><span>2/5</span></div>
+  <div class="foot"><span class="src">Probst et al. 2024, Nature Communications,<br>for project types with a research estimate</span><span>2/5</span></div>
 </section>
 
 <!-- 3: hidden -->
 <section class="s" data-s="3">
-  <p class="eyebrow">Siapa yang ngeklaim?</p>
+  <p class="eyebrow">Who is claiming?</p>
   <div class="grow"></div>
   <div class="big o">41%</div>
-  <h2 style="margin-top:40px">dari ton itu tidak menyebut nama sama sekali.</h2>
-  <p class="lead" style="margin-top:50px">Kolomnya kosong, atau cuma tertulis <b style="color:var(--ink)">"Not Disclosed"</b>: 89 juta ton. Lebih banyak dari perusahaan mana pun.</p>
-  <p class="lead" style="margin-top:30px">Klaim tanpa nama nggak bisa dicek siapa-siapa.</p>
+  <h2 style="margin-top:40px">of retired tonnes name nobody at all.</h2>
+  <p class="lead" style="margin-top:50px">The field is blank, or just says <b style="color:var(--ink)">"Not Disclosed"</b>: 89 million tonnes. More than any company.</p>
+  <p class="lead" style="margin-top:30px">A claim without a name cannot be checked by anyone.</p>
   <div class="grow"></div>
-  <div class="foot"><span class="src">Retirement Verra + Gold Standard sejak 2020</span><span>3/5</span></div>
+  <div class="foot"><span class="src">Verra + Gold Standard retirements since 2020</span><span>3/5</span></div>
 </section>
 
 <!-- 4: product -->
 <section class="s" data-s="4">
   <p class="eyebrow">Netra</p>
-  <h2 style="margin-top:28px">Ketik nama perusahaan. Lihat nilainya.</h2>
+  <h2 style="margin-top:28px">Type a company. See what it is worth.</h2>
   <div class="card" style="margin-top:80px">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div><p class="eyebrow">42,3 Mt dipensiunkan</p><p style="font-size:84px;font-weight:700;margin-top:10px">Shell</p></div>
+      <div><p class="eyebrow">42.3 Mt retired</p><p style="font-size:84px;font-weight:700;margin-top:10px">Shell</p></div>
       <span style="width:170px;height:170px;border-radius:40px;background:#d9d4cb;display:grid;place-items:center;font-size:110px;font-weight:700">C</span>
     </div>
-    <p style="font-size:42px;line-height:1.3;margin-top:36px">Dari kredit yang diteliti, sekitar <b class="o">23%</b> kemungkinan nyata.</p>
+    <p style="font-size:42px;line-height:1.3;margin-top:36px">Of its researched credits, about <b class="o">23%</b> are likely real.</p>
     <div class="bar" style="height:70px;margin-top:36px"><i style="width:23%"></i><b style="left:23%"></b></div>
   </div>
   <div class="grades" style="margin-top:80px">
     <span style="background:#1d4e89;color:#fff">A</span><span style="background:#3a6fb0;color:#fff">B</span><span class="c" style="background:#d9d4cb">C</span><span style="background:#f2a36b">D</span><span style="background:#b83a0e;color:#fff">E</span>
   </div>
   <div class="grow"></div>
-  <div class="foot"><span class="src">44.465 pembeli · data registry, riset, laporan emisi perusahaan</span><span>4/5</span></div>
+  <div class="foot"><span class="src">44,465 buyers · registry data, research, company emissions reports</span><span>4/5</span></div>
 </section>
 
 <!-- 5: live + chain + CTA -->
 <section class="s dark" data-s="5">
-  <p class="eyebrow"><span class="dot"></span>Live dari registry</p>
-  <h2 style="margin-top:28px">Tiap 10 menit, AI baca klaim hijau baru.</h2>
+  <p class="eyebrow"><span class="dot"></span>Live from the registry</p>
+  <h2 style="margin-top:28px">Every 10 minutes, AI reads new green claims.</h2>
   <div class="card" style="margin-top:64px;padding:44px 50px">
-    <div class="row"><span>Kartu kredit "碳中和"<br><span class="src">netral karbon 2024 · 501 t</span></span><span class="tag warn">Klaim netral offset</span></div>
-    <div class="row"><span>Kredit vintage 2016<br><span class="src">dipakai untuk klaim 2026</span></span><span class="tag ghost">Kredit zombie</span></div>
+    <div class="row"><span>Credit card "碳中和"<br><span class="src">"carbon neutral" 2024 · 501 t</span></span><span class="tag warn">Neutral via offsets</span></div>
+    <div class="row"><span>2016 vintage credit<br><span class="src">used for a 2026 claim</span></span><span class="tag ghost">Zombie credit</span></div>
   </div>
   <div class="chain" style="margin-top:64px">
-    <div class="block"><span>#4 Shell</span><span>✓ cocok</span></div>
-    <div class="block flag"><span>#7 klaim ganda</span><span>⚠ ditandai</span></div>
+    <div class="block"><span>#4 Shell</span><span>✓ matches</span></div>
+    <div class="block flag"><span>#7 double claim</span><span>⚠ flagged</span></div>
   </div>
-  <p class="lead" style="margin-top:40px">Dicatat di blockchain. Nggak bisa diedit diam-diam.</p>
+  <p class="lead" style="margin-top:40px">Recorded on a blockchain. Nobody can quietly edit it.</p>
   <div class="grow"></div>
   <span class="cta">netra.rofihosted.space</span>
   <div class="foot" style="margin-top:56px"><span class="src">IEEE ClimateChain Global Hackathon 2026 · Track 1</span><span>5/5</span></div>
