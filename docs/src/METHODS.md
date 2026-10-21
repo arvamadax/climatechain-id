@@ -189,7 +189,15 @@ Every group without a reported figure has a written reason in `data/emissions_ga
 
 ## Claim checker (language model)
 
-`server/claim-api.js` sends the pasted text to a language model through the project's model gateway with a fixed extraction prompt (company, claim wording, scope, year, tonnes). Each field must include a quote; the server keeps a field only when the quote appears word for word in the pasted text (case and spacing ignored), a year appears in its quote, and a tonnage's leading digits appear in its quote. The page then matches the company against the 94 reviewed groups only, and all figures shown come from Netra's data. The EU note appears when the claim covers a product, service or event and uses offset-based wording (neutral, zero, positive, compensated, offset, balanced).
+`server/claim-api.js` sends the pasted text to a language model through the project's model gateway with a fixed extraction prompt (company, claim wording, scope, year, tonnes). Each field must include a quote; the server keeps a field only when the quote appears word for word in the pasted text (case and spacing ignored), a year appears in its quote, and a tonnage's leading digits appear in its quote. The page then matches the company against the 94 reviewed groups only, shows the claim against the registry record (retirements in the claimed year, likely-real share, own emissions, EU rule) and renders the full company result below; all figures come from Netra's data. If the model call fails, the server retries once; if it fails again or no reviewed company is found, the page offers a search by name. The EU note appears when the claim covers a product, service or event and uses offset-based wording (neutral, zero, positive, compensated, offset, balanced).
+
+## Live registry check
+
+`server/registry-watch.js` reads the 200 newest retirements from Verra's public registry (registry.verra.org, now on the S&P Global Platts platform) every 10 minutes, with the same request and public client headers the registry's own site sends. Each row is scored with the snapshot's rules: `pipeline/build.py` writes `web/data/projects.json`, the resolved three-signal category and ICVCM status of every project; the category gives the research share likely real (Probst et al. 2024). A project that is not in the Berkeley VROD snapshot is shown as "New project" with no estimate. A beneficiary is linked to a company only when its normalized name equals a name of one of the 94 reviewed groups. The page shows the 12 newest rows and a summary of all 200; it polls the server every 60 s. Gold Standard is not included live. If the registry changes its interface, the feed shows "Reconnecting" and no figures.
+
+## Cost per likely-real tonne
+
+Shown on each company result with researched tonnes: $6.34 (the 2024 average voluntary credit price, Ecosystem Marketplace, State of the Voluntary Carbon Market 2025, p. 10) multiplied by researched tonnes and divided by likely-real tonnes; the range uses the research range. It is an illustration at the market average; what each buyer paid is not public.
 
 ## Name suggestions (internal only)
 

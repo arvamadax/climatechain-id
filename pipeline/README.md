@@ -8,7 +8,7 @@
 <p align="center"><img src="../docs/assets/how-it-works.svg" alt="How Netra works in six steps" width="100%"></p>
 
 <a id="order-to-run"></a>
-<p align="center"><img src="../docs/assets/md/pipeline-02.svg" alt="Order to run: Step Script Reads Writes 1 ownership.py &lt;climate-trace dir&gt; 2025 Climate TRACE ownership packages web/data/ct_owners.json 2 build.py &lt;registry xlsx&gt; &lt;database xlsx&gt; &lt;projects.parquet&gt; Berkeley VROD, CarbonPlan OffsetsDB, data/ web/data/owners.json, index.json, o/.json, factors.json, data/classification_review.csv Helpers, run when needed: Script Purpose curate_buyers.py Writes data/buyers.csv: the reviewed group, type and Climate TRACE parent of the largest buyer names add_reported.py &quot;group|year|scope1|total|boundary|title|url|section&quot; Appends a company-reported emissions row af" width="100%"></p>
+<p align="center"><img src="../docs/assets/md/pipeline-02.svg" alt="Order to run: Step Script Reads Writes 1 ownership.py &lt;climate-trace dir&gt; 2025 Climate TRACE ownership packages web/data/ct_owners.json 2 build.py &lt;registry xlsx&gt; &lt;database xlsx&gt; &lt;projects.parquet&gt; Berkeley VROD, CarbonPlan OffsetsDB, data/ web/data/owners.json, index.json, o/.json, factors.json, projects.json (category and ICVCM status per project, for the live registry check), data/classification_review.csv Helpers, run when needed: Script Purpose curate_buyers.py Writes data/buyers.csv: the reviewed group, type and Climate TRACE parent of the largest buyer names add_reported.py &quot;group|year|" width="100%"></p>
 <details><summary>Copy the commands</summary>
 
 ```bash

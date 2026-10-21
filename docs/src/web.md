@@ -19,11 +19,11 @@ Shared: `common.js` (formatting, grades, logos, theme switch, reveal motion), `s
 
 | Folder | Written by | Holds |
 |---|---|---|
-| `data/` | `pipeline/build.py`, `summaries.py`, `logos.py` | `index.json` (search), `o/*.json` (500 buyers per shard), `owners.json` (all), `companies.json`, `hidden.json`, `factors.json`, `logos.json`, `deployment.json` |
+| `data/` | `pipeline/build.py`, `summaries.py`, `logos.py` | `index.json` (search), `o/*.json` (500 buyers per shard), `owners.json` (all), `companies.json`, `hidden.json`, `factors.json`, `projects.json`, `logos.json`, `deployment.json` |
 | `logos/` | `pipeline/logos.py` | One PNG per company group |
 | `downloads/` | `pipeline/exports.py` | Branded Excel, CSV, JSON and README |
 
-The claim checker calls `api/claim`, served by `server/claim-api.js`; the live feed polls the contract every 15 s.
+The claim checker calls `api/claim` and the live registry check reads `api/live`, both served by `server/claim-api.js` (with `server/registry-watch.js`); the on-chain feed polls the contract every 15 s.
 
 ## Run locally
 
