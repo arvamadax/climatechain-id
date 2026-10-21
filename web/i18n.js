@@ -35,8 +35,8 @@ const ID_EXACT = {
   "None of its credits are in a project type with a research estimate.": "Tidak satu pun kreditnya berasal dari jenis proyek yang punya estimasi riset.",
   "Offsets do not cut its own emissions:": "Offset tidak mengurangi emisinya sendiri:",
   "EU rule:": "Aturan EU:",
-  "since 27 Sep 2026, Directive 2024/825 bans calling a product, service or event climate neutral because of offsets. This claim reads as one.":
-    "sejak 27 Sep 2026, Directive 2024/825 melarang menyebut produk, layanan atau acara netral iklim karena offset. Klaim ini terbaca demikian.",
+  "since 27 Sep 2026, Directive 2024/825 does not allow a product, service or event sold in the EU to be called climate neutral because of offsets. This claim reads as one.":
+    "sejak 27 Sep 2026, Directive 2024/825 tidak mengizinkan produk, layanan atau acara yang dijual di EU disebut netral iklim karena offset. Klaim ini terbaca demikian.",
   // result
   "Part of": "Bagian dari",
   "An offset provider or account that retires credits on behalf of its clients. The end claimants are not named here.": "Penyedia offset atau akun yang memensiunkan kredit atas nama kliennya. Pengklaim akhirnya tidak disebut di sini.",
@@ -76,7 +76,7 @@ const ID_EXACT = {
   "Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.":
     "Sejak 27 September 2026, EU Directive 2024/825 melarang menyebut produk netral iklim, rendah emisi atau positif karena offset, apa pun kualitas kreditnya.",
   "Checking on-chain records…": "Memeriksa catatan on-chain…",
-  "Not published on-chain yet. Published checks are listed under On-chain proof.": "Belum diterbitkan on-chain. Pemeriksaan yang sudah terbit ada di bagian Bukti on-chain.",
+  "Not published on-chain yet. Published checks are listed on": "Belum diterbitkan on-chain. Pemeriksaan yang sudah terbit ada di halaman",
   "⚠ Flagged on-chain as a double claim: at least one serial range also backs an earlier claim.": "⚠ Ditandai on-chain sebagai klaim ganda: minimal satu rentang serial juga mendukung klaim sebelumnya.",
   "On-chain records are not published for this build yet.": "Catatan on-chain belum diterbitkan untuk versi ini.",
   "Link to this result": "Tautan ke hasil ini", "Request a correction": "Minta koreksi",
@@ -259,6 +259,62 @@ Object.assign(ID_EXACT, {
   "The beneficiary field is blank or says \"Not Disclosed\". The public record names no one who could be held to this claim.": "Kolom penerima manfaat kosong atau berisi \"Not Disclosed\". Catatan publik tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaim ini.",
 });
 
+// Report, Proof and the redesigned result.
+Object.assign(ID_EXACT, {
+  "Netra · See what a carbon claim is really worth": "Netra · Lihat nilai sebenarnya dari sebuah klaim karbon",
+  "Report · Netra": "Laporan · Netra", "Proof · Netra": "Bukti · Netra",
+  "Report": "Laporan", "Proof": "Bukti", "Read the report": "Baca laporannya", "Source:": "Sumber:",
+  // result: claim receipt and evidence tabs
+  "not covered by published research": "tidak tercakup riset yang terbit",
+  "research says likely not real": "menurut riset kemungkinan tidak nyata",
+  "Likely real, best estimate": "Kemungkinan nyata, estimasi terbaik",
+  "Credits": "Kredit", "Over time": "Dari waktu ke waktu", "On-chain": "On-chain",
+  "Fingerprint of this result": "Sidik jari hasil ini",
+  "keccak256 of this buyer's record, exactly as published in": "keccak256 dari catatan pembeli ini, persis seperti diterbitkan di",
+  "Recompute in your browser": "Hitung ulang di browser Anda",
+  "No on-chain record for this buyer yet, so there is nothing to compare.": "Belum ada catatan on-chain untuk pembeli ini, jadi belum ada yang bisa dibandingkan.",
+  // report
+  "What 876 Mt of retired credits were really worth.": "Berapa nilai sebenarnya dari 876 Mt kredit yang dipensiunkan.",
+  "Every Verra and Gold Standard retirement since 2020, followed from the registry to what research says was real, and to who claims it.":
+    "Setiap retirement Verra dan Gold Standard sejak 2020, ditelusuri dari registry ke apa yang menurut riset nyata, dan ke siapa yang mengklaimnya.",
+  "The market": "Pasar", "Has it improved?": "Apakah membaik?", "Who is hidden": "Siapa yang tersembunyi",
+  "From 876 Mt retired to what was likely real": "Dari 876 Mt yang dipensiunkan ke yang kemungkinan nyata",
+  "Retired on Verra and Gold Standard since 2020": "Dipensiunkan di Verra dan Gold Standard sejak 2020",
+  "From project types with a published research estimate": "Dari jenis proyek dengan estimasi riset yang terbit",
+  "Has the quality of retired credits improved?": "Apakah kualitas kredit yang dipensiunkan membaik?",
+  // proof
+  "Check it yourself in three steps": "Periksa sendiri dalam tiga langkah",
+  "Get the report.": "Ambil laporannya.", "Hash it.": "Hitung hash-nya.", "Compare.": "Bandingkan.",
+  "Each record points to its file, for example": "Setiap catatan menunjuk ke filenya, misalnya",
+  "Take the report object in that file as JSON, exactly as stored, and compute its keccak256:": "Ambil objek report di file itu sebagai JSON, persis seperti tersimpan, lalu hitung keccak256-nya:",
+  "On the block explorer, read the record: its report hash must be the same, and the serial list in the file must give its serial root. This page does both for every record above.":
+    "Di block explorer, baca catatannya: hash laporannya harus sama, dan daftar serial di file harus menghasilkan serial root-nya. Halaman ini melakukan keduanya untuk setiap catatan di atas.",
+  "Who can do what": "Siapa bisa melakukan apa",
+  "Publishing needs Netra's key.": "Menerbitkan butuh kunci Netra.",
+  "Only an address holding the attester role can record a check.": "Hanya alamat pemegang peran attester yang bisa mencatat pemeriksaan.",
+  "Flagging needs only proof.": "Menandai cukup dengan bukti.",
+  "Anyone can challenge a record with two Merkle proofs; the contract checks them itself, so a wrong challenge fails.": "Siapa pun bisa menantang sebuah catatan dengan dua bukti Merkle; kontrak memeriksanya sendiri, jadi tantangan yang salah gagal.",
+  "No one can edit or delete a check.": "Tidak ada yang bisa mengubah atau menghapus pemeriksaan.",
+  "The contract has no function for it. The only change possible is the double-claim flag, and only with valid proofs.": "Kontrak tidak punya fungsi untuk itu. Satu-satunya perubahan yang mungkin adalah tanda klaim ganda, dan hanya dengan bukti yang sah.",
+  "What it does not prove.": "Yang tidak dibuktikannya.",
+  "That a report is accurate, or that its serial ranges were retired as stated: the contract stores fingerprints and reads nothing outside itself.": "Bahwa laporan itu akurat, atau bahwa rentang serialnya dipensiunkan seperti yang dinyatakan: kontrak menyimpan sidik jari dan tidak membaca apa pun di luar dirinya.",
+});
+ID_RULES.unshift( // checked before the general rules above (e.g. "None of the …")
+  [/^None of the (\d+) big buyers that research covers well enough to grade reaches a B\.$/, "Tidak satu pun dari $1 pembeli besar yang cukup tercakup riset untuk diberi nilai mencapai B."],
+  [/^(\d+) of the (\d+) big buyers that research covers well enough to grade reach a B or better\.$/, "$1 dari $2 pembeli besar yang cukup tercakup riset untuk diberi nilai mencapai B atau lebih baik."],
+  [/^Retired for (.+), (\S+)$/, "Dipensiunkan untuk $1, $2"],
+  [/^Filled: best estimate (\S+) of researched$/, "Terisi: estimasi terbaik $1 dari yang diteliti"],
+  [/^Hatched: range (.+)$/, "Arsir: rentang $1"],
+  [/^Outline: researched (.+)$/, "Garis: diteliti $1"],
+  [/^\(entry (\d+)\)\.$/, "(entri $1)."],
+  [/^✓ Same as on-chain record #(\d+)\.$/, "✓ Sama dengan catatan on-chain #$1."],
+  [/^On-chain record #(\d+) holds (\S+): the data changed after it was published\.$/, "Catatan on-chain #$1 berisi $2: datanya berubah setelah diterbitkan."],
+  [/^(\S+) of all tonnes$/, "$1 dari semua ton"],
+  [/^(\S+) of researched tonnes; range (.+)$/, "$1 dari ton yang diteliti; rentang $2"],
+  [/^(\S+) of all tonnes have a blank beneficiary field, and only (\S+) use a methodology with the ICVCM quality label\.$/,
+    "$1 dari semua ton kolom penerima manfaatnya kosong, dan hanya $2 memakai metodologi berlabel kualitas ICVCM."],
+);
+
 function tr(s) {
   const key = s.replace(/\s+/g, " ").trim();
   if (!key) return s;
@@ -318,9 +374,10 @@ function tr(s) {
   });
 
   const btn = document.querySelector(".lang");
+  const TITLE = document.title; // each page keeps its own title, translated when a key exists
   function apply() {
     document.documentElement.lang = lang;
-    document.title = lang === "id" ? "Netra · Lihat nilai sebenarnya dari sebuah klaim karbon" : "Netra · See what a carbon claim is really worth";
+    document.title = lang === "id" ? (tr(TITLE) || TITLE) : TITLE;
     busy = true; walk(document.body); mo.takeRecords(); busy = false;
     if (btn) { btn.textContent = lang === "id" ? "EN" : "ID"; btn.setAttribute("aria-label", lang === "id" ? "Switch to English" : "Ganti ke Bahasa Indonesia"); btn.setAttribute("lang", lang === "id" ? "en" : "id"); }
   }

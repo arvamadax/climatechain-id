@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css?v=claim3">
+<link rel="stylesheet" href="style.css?v=redesign1">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
@@ -20,7 +20,7 @@
     <span>netra</span>
   </a>
   <nav aria-label="Main">
-    <a href="index.html#check" aria-current="page">Check</a><a href="index.html#hidden">Hidden buyers</a><a href="data.html">Data</a><a href="about.html">About</a><a href="glossary.html">Glossary</a>
+    <a href="index.html#check" aria-current="page">Check</a><a href="report.html">Report</a><a href="proof.html">Proof</a><a href="data.html">Data</a><a href="about.html">About</a>
     <button class="lang" type="button" lang="id" aria-label="Ganti ke Bahasa Indonesia">ID</button>
     <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
       <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
@@ -61,8 +61,12 @@
   <div id="claimOut" aria-live="polite"></div>
   <section id="result" class="result" hidden aria-live="polite"></section>
 
+  <section id="finding" class="finding" hidden>
+    <p id="findingText"></p>
+    <a href="report.html">Read the report</a>
+  </section>
+
   <section id="registry" class="block">
-    <p class="eyebrow">Live from the registry</p>
     <h2>Credits retired in the last hours, checked as they land.</h2>
     <p class="lede">Netra reads the newest retirements from Verra's public registry every ten minutes and applies the same rules as everywhere else on this site: research share likely real for the project type, ICVCM label, and who the benefit is claimed for.</p>
     <div class="panel">
@@ -72,66 +76,17 @@
     </div>
   </section>
 
-  <section id="market" class="block">
-    <p class="eyebrow">The whole market</p>
-    <h2>What was retired since 2020</h2>
-    <div class="stats" id="marketStats"></div>
-    <div class="panel">
-      <h3>Likely-real share of research-covered tonnes, by year</h3>
-      <p class="muted">Has the quality of retired credits improved? Central research estimate per retirement year.</p>
-      <div id="trend" class="chart"></div>
-    </div>
-    <div class="panel">
-      <h3>Where the tonnes come from</h3>
-      <div id="cats"></div>
-    </div>
-  </section>
-
-  <section id="hidden" class="block">
-    <p class="eyebrow">Hidden buyers</p>
-    <h2>Who is behind the credits? Most of the time, nobody you can name.</h2>
-    <p class="lede">A carbon credit is "retired" when someone uses it for a climate claim. The registry asks who that someone is. For more than half of all tonnes since 2020, the answer is blank, "Not Disclosed", a reseller, a crypto wallet, or a code that matches no organisation. A claim without a name cannot be checked in public.</p>
-    <div id="hiddenBody" class="hidden-body"><p class="muted">Loading…</p></div>
-  </section>
-
-  <section id="verify" class="block proof">
-    <p class="eyebrow">On-chain proof</p>
-    <h2>Every published check is on the record. No one, not even Netra, can edit it.</h2>
-    <p class="lede">Each published check is anchored in the <code>ClaimRegistry</code> smart contract on a public test network. Anyone can recompute the report from the open data and confirm it matches. Each claim commits to the registry serial ranges behind it; if one range shows up in two claims, anyone can prove it on-chain and the later claim is flagged for good.</p>
-    <div class="panel">
-      <div class="verify-head">
-        <div><span class="muted">Contract</span> <a id="contractLink" target="_blank" rel="noopener"></a></div>
-        <div><span class="muted">Checks recorded</span> <b id="checkCount">…</b></div>
-        <div><span id="live" class="live" aria-live="polite">Connecting</span></div>
-      </div>
-      <div id="checks"></div>
-    </div>
-  </section>
-
-  <section id="method" class="block">
-    <p class="eyebrow">Method</p>
-    <h2>How Netra grades a buyer</h2>
-    <ol class="steps">
-      <li><b>Retirements.</b> Every Verra and Gold Standard retirement since 2020 from the Berkeley Voluntary Registry Offsets Database (v2026-08, CC BY 4.0), grouped by the named beneficiary.</li>
-      <li><b>Project type.</b> Assigned only when three independent sources agree: Berkeley's curated type, CarbonPlan OffsetsDB, and the registry methodology code. Any disagreement gets no research estimate.</li>
-      <li><b>Research estimate.</b> Share of credits that achieved real reductions per project type, from Probst et al. 2024 (<i>Nature Communications</i>, 2,346 projects): cookstoves 10.8%, REDD+ 24.7%, HFC-23 68.3%, wind in China and US improved forest management 0%. Types without a published estimate are shown as "no estimate", never filled in.</li>
-      <li><b>Grade.</b> Likely-real share of research-covered tonnes: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E &lt; 10%. No grade when research covers under a quarter of a buyer's tonnes.</li>
-      <li><b>Integrity labels.</b> Each methodology's status from the ICVCM Core Carbon Principles assessment (snapshot 18 Aug 2026).</li>
-      <li><b>Emissions.</b> The company's own figure, read from its primary report, next to Climate TRACE's independent ownership-weighted estimate. Different boundaries; never merged.</li>
-    </ol>
-    <p class="methodline">Estimates from published research (Probst et al. 2024) applied to registry data, per project type. Not a verdict on any single project. Registry names are shown as published; a name may be a broker or a brand. Every number links to its source. Check them.</p>
-    <p class="muted small">Full method, sources and validation: <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">METHODS.md</a> · Data: <a href="data/owners.json">owners.json</a> · <a href="data/factors.json">factors.json</a></p>
-  </section>
 </main>
 
 <footer class="foot">
+  <span><a href="glossary.html">Glossary</a> · <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">Method</a></span>
   <span>netra · Data: Berkeley Carbon Trading Project VROD (CC BY 4.0), CarbonPlan OffsetsDB, ICVCM, Climate TRACE, Probst et al. 2024, company reports.</span>
   <span>IEEE ClimateChain Global Hackathon 2026 · Track 1</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
-<script src="common.js?v=claim3"></script>
-<script src="app.js?v=claim3"></script>
-<script src="i18n.js?v=claim3"></script>
+<script src="common.js?v=redesign1"></script>
+<script src="app.js?v=redesign1"></script>
+<script src="i18n.js?v=redesign1"></script>
 </body>
 </html>

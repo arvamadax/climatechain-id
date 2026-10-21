@@ -26,14 +26,14 @@ function drawTable() {
   $("#ctable tbody").innerHTML = list.map((r) => `<tr>
     <td><button type="button" class="pick" data-g="${esc(r.group)}" aria-pressed="${picked.has(r.group)}" aria-label="Compare ${esc(r.group)}">${picked.has(r.group) ? "Comparing" : "Compare"}</button></td>
     <td><div class="name-row">${logo(r.group, 32)}<div><a href="index.html#buyer-${r.i}"><b>${esc(r.group)}</b></a>${r.names.length > 1 || r.names[0] !== r.group ? `<div class="muted small">${esc(r.names.join(" · "))}</div>` : ""}</div></div></td>
-    <td class="num">${mt(r.t)}</td>
-    <td class="num">${pct(r.cover)}</td>
-    <td>${r.k ? `<div class="mini">${claimBar(r.e, r.el, r.eh, r.k)}</div><span class="num">${pct(r.real)}</span> <span class="muted small">(${pct(r.el / r.k)}–${pct(r.eh / r.k)})</span>` : `<span class="muted">no estimate</span>`}</td>
+    <td class="num" data-l="Retired">${mt(r.t)}</td>
+    <td class="num" data-l="Researched">${pct(r.cover)}</td>
+    <td data-l="Likely real">${r.k ? `<div class="mini">${claimBar(r.e, r.el, r.eh, r.k)}</div><span class="num">${pct(r.real)}</span> <span class="muted small">(${pct(r.el / r.k)}–${pct(r.eh / r.k)})</span>` : `<span class="muted">no estimate</span>`}</td>
     <td>${gradeChip(r)}</td>
-    <td class="num">${pct(r.ccpShare)}</td>
-    <td>${r.rep?.scope1 != null ? `<a class="num" href="${esc(r.rep.url)}" target="_blank" rel="noopener">${mt(r.rep.scope1)}</a> <span class="muted small">${r.rep.year}</span>`
+    <td class="num" data-l="Quality label">${pct(r.ccpShare)}</td>
+    <td data-l="Own report, Scope 1">${r.rep?.scope1 != null ? `<a class="num" href="${esc(r.rep.url)}" target="_blank" rel="noopener">${mt(r.rep.scope1)}</a> <span class="muted small">${r.rep.year}</span>`
       : r.rep?.total ? `<a class="small" href="${esc(r.rep.url)}" target="_blank" rel="noopener">total ${mt(r.rep.total)}</a> <span class="muted small">${r.rep.year}</span>` : `<span class="gap-note" title="${esc(r.gap?.reason || "")}">not published</span>`}</td>
-    <td>${r.ct ? `<span class="num">${range(r.ct.low, r.ct.high)}</span> <span class="muted small">${r.ct.year}</span>` : `<span class="muted">–</span>`}</td>
+    <td data-l="Independent estimate">${r.ct ? `<span class="num">${range(r.ct.low, r.ct.high)}</span> <span class="muted small">${r.ct.year}</span>` : `<span class="muted">–</span>`}</td>
   </tr>`).join("");
   document.querySelectorAll("#ctable th button").forEach((b) => {
     b.closest("th").setAttribute("aria-sort", b.dataset.k === sortKey ? (sortDir < 0 ? "descending" : "ascending") : "none");
@@ -61,7 +61,7 @@ function drawCompare() {
   const list = [...picked].map((g) => ROWS.find((r) => r.group === g)).filter(Boolean);
   $("#cmp").innerHTML = list.map(card).join("") || `<p class="muted">Nothing picked yet.</p>`;
   $("#cmpHint").textContent = picked.size >= 3 ? "Three picked. Press Comparing on one to swap it." : "Press Compare in the table above (up to three).";
-  reveal($("#cmp"));
+
 }
 
 function staticTables(index, factors) {
