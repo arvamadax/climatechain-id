@@ -143,6 +143,15 @@ Network settings live in `contracts/scripts/chains.js`; the web app reads the ac
 
 Research ratios are averages per project type, not verdicts on individual projects or companies. Project types without a published ratio (62% of tonnes) are not scored. Registry beneficiaries can be resellers or brands rather than the claimant. Company-reported and independent emissions use different boundaries and are never merged. Full detail: [docs/METHODS.md](docs/METHODS.md).
 
+## Roadmap
+
+| Next | Why it waits |
+|---|---|
+| Report reader: a language model proposes Scope 1 figures with page and table row from company PDFs, a person confirms | Speeds up coverage; every figure must still be checked against the rendered page |
+| Name suggestions on the site | About one in five suggestions on real names was wrong; published only after manual review |
+| More registries (ACR, CAR, ART, national registries) | Same three-signal rules need their project types |
+| Plant-level EU ETS data for utilities without a group report | Read from the EU registry, linked per plant |
+
 ## License
 
 Company logos are trademarks of their owners and are shown only to identify each company. Hanken Grotesk is used under the SIL Open Font License (`brand/fonts/OFL.txt`).

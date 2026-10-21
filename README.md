@@ -103,6 +103,9 @@ npm run demo:base-sepolia   # alternative public testnet
 <p align="center"><img src="docs/assets/md/readme-11.svg" alt="Limitations: Research ratios are averages per project type, not verdicts on individual projects or companies. Project types without a published ratio (62% of tonnes) are not scored. Registry beneficiaries can be resellers or brands rather than the claimant. Company-reported and independent emissions use different boundaries and are never merged. Full detail: docs/METHODS.md." width="100%"></p>
 <p align="center"><sub><a href="docs/METHODS.md">docs/METHODS.md</a></sub></p>
 
+<a id="roadmap"></a>
+<p align="center"><img src="docs/assets/md/readme-12.svg" alt="Roadmap: Next Why it waits Report reader: a language model proposes Scope 1 figures with page and table row from company PDFs, a person confirms Speeds up coverage; every figure must still be checked against the rendered page Name suggestions on the site About one in five suggestions on real names was wrong; published only after manual review" width="100%"></p>
+
 <a id="license"></a>
-<p align="center"><img src="docs/assets/md/readme-12.svg" alt="License: Company logos are trademarks of their owners and are shown only to identify each company. Hanken Grotesk is used under the SIL Open Font License (brand/fonts/OFL.txt). Code: MIT. Data derived from Berkeley VROD is shared under CC BY 4.0 with attribution to the Berkeley Carbon Trading Project." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-13.svg" alt="License: Company logos are trademarks of their owners and are shown only to identify each company. Hanken Grotesk is used under the SIL Open Font License (brand/fonts/OFL.txt). Code: MIT. Data derived from Berkeley VROD is shared under CC BY 4.0 with attribution to the Berkeley Carbon Trading Project." width="100%"></p>
 <p align="center"><sub><a href="LICENSE">MIT</a></sub></p>
