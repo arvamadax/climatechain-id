@@ -119,6 +119,14 @@
       <div class="term" id="wallet"><dt>Wallet, address</dt><dd><p>An account on a blockchain, written as a long code starting with 0x.</p><p class="ex">Example: 0xAf52…81B0 retired 2.0 Mt of credits. Who owns it is unknown.</p></dd></div>
     </dl>
 
+    <h2 class="gsec">AI and live checks</h2>
+    <dl>
+      <div class="term" id="language-model"><dt>Language model (AI)</dt><dd><p>Software trained on large amounts of text that can read a sentence and pull out its facts. Netra uses one only to read claims; it never supplies numbers.</p><p class="ex">Example: from "our 2025 flights were carbon neutral" it reads the year 2025 and the wording "carbon neutral", each with a quote.</p></dd></div>
+      <div class="term" id="isolation-forest"><dt>Isolation Forest</dt><dd><p>A machine-learning method that finds the few cases that differ most from the rest, by how quickly random splits can isolate them.</p><p class="ex">Example: 8 of 540 large buyers stand out, such as a wallet whose credits are all pre-2016 vintages from rejected methodologies.</p></dd></div>
+      <div class="term" id="watcher"><dt>Watcher</dt><dd><p>A program that runs all the time, reads every new on-chain check and flags any serial range used twice.</p><p class="ex">Example: a demo duplicate reusing five of Shell's serial ranges was flagged about ten seconds after the watcher read it.</p></dd></div>
+      <div class="term" id="rpc"><dt>RPC node</dt><dd><p>A public server that lets a website read the blockchain. Netra tries three in turn in case one is down.</p><p class="ex">Example: the "Live" dot on the on-chain proof section shows the connection.</p></dd></div>
+    </dl>
+
     <h2 class="gsec">Netra's own terms and sources</h2>
     <dl>
       <div class="term" id="grade"><dt>Grade A–E</dt><dd><p>Netra's letter for the share of researched tonnes that are likely real: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E &lt; 10%. No grade if research covers less than a quarter.</p><p class="ex">Example: Shell gets C (22.8%).</p></dd></div>

@@ -18,6 +18,8 @@ The contract **does not mint, bridge or burn credits**. Credits stay in their re
 | `scripts/watch.js` | Scan published checks and challenge any serial range claimed twice |
 | `scripts/merkle.js` | Sorted-pair Merkle root and proofs, identical to the browser code in `web/app.js` |
 | `scripts/chains.js` | Public RPC, block explorer and label per network |
+| `scripts/live-watcher.js` | Always-on watcher (no Hardhat): reads new checks, verifies serial lists against their roots, challenges reused ranges |
+| `scripts/demo-duplicate.js` | Live demo: publishes a made-up claimant that reuses a few serial ranges, for the watcher to catch |
 
 ## Functions
 

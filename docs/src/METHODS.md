@@ -183,6 +183,18 @@ Every group without a reported figure has a written reason in `data/emissions_ga
 | Friedrich Scharr KG | 2022 | 3,441 t | 21,828 t | SCHARR group, financial year 2022; total = Scope 1 + 2 (0 t) + 3; full calculation every two years | [SCHARR KLIMAWIN report 2023](https://scharr.de/fileadmin/media/KG/Dateien/Nachhaltigkeit/SCHARR-KLIMAWIN-Nachhaltigkeitsbericht-2023.pdf) |
 | Städtische Werke Kassel (energy retailer) | 2022 | - | 0.783 Mt | KVV Kassel group (parent of Städtische Werke AG), all three scopes as far as recorded | [KVV Kassel sustainability report 2022](https://www.kvvks.de/fileadmin/kvvks/Dokumente/Geschaeftsberichte/2022/2023_01_Kassel__KVV_Nachhaltigkeitsbericht_DS.pdf) |
 
+## Unusual patterns (machine learning)
+
+`pipeline/anomalies.py` runs an Isolation Forest (scikit-learn, 300 trees, contamination 2%, seed 7) over the 540 buyers with at least 100,000 t retired since 2020. Features: share of pre-2016 vintages, share of ICVCM-rejected methodologies, share in project types without a research estimate, largest single-year share, likely-real share of researched tonnes, and average retirement size (log). A flag is shown only with readable reasons: a feature is named when it is in the top 5% of the population (bottom 5% for likely-real share). Result: 8 buyers flagged. An unusual pattern is a reason to look closer, never proof of wrongdoing.
+
+## Claim checker (language model)
+
+`server/claim-api.js` sends the pasted text to a language model through the project's model gateway with a fixed extraction prompt (company, claim wording, scope, year, tonnes). Each field must include a quote; the server keeps a field only when the quote appears word for word in the pasted text (case and spacing ignored), a year appears in its quote, and a tonnage's leading digits appear in its quote. The page then matches the company against the 94 reviewed groups only, and all figures shown come from Netra's data. The EU note appears when the claim covers a product, service or event and uses offset-based wording (neutral, zero, positive, compensated, offset, balanced).
+
+## Name suggestions (internal only)
+
+`pipeline/name_suggest.py` proposes groups for unreviewed registry names with character 3-4-gram TF-IDF and cosine similarity, requiring a word that belongs to one group only. Leave-one-out precision on the reviewed names was 98.7%, but on real unreviewed names about one suggestion in five was wrong (for example "DELTA Energie" to Delta Air Lines). Suggestions are therefore never published; they go to `data/name_suggestions_review.csv` for manual checking.
+
 ## Company groups without a reported figure
 
 | Group | Why there is no figure | What was checked |

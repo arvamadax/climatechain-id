@@ -9,24 +9,27 @@
 <p align="center"><sub><a href="#what-it-does">What it does</a> · <a href="#key-findings">Key findings</a> · <a href="#architecture">Architecture</a> · <a href="#repository-layout">Repository layout</a> · <a href="#getting-started">Getting started</a> · <a href="#rebuilding-the-data">Rebuilding the data</a> · <a href="#smart-contract">Smart contract</a> · <a href="#data-sources-and-licences">Data sources and licences</a> · <a href="#limitations">Limitations</a> · <a href="#license">License</a></sub></p>
 
 <a id="what-it-does"></a>
-<p align="center"><img src="docs/assets/md/readme-02.svg" alt="What it does: Question How Netra answers it What did a company retire? Every Verra and Gold Standard retirement since 2020 (342,012 records, 876 Mt), grouped by the beneficiary and, for the largest buyers, by company group. How much of it is likely real? Tonnes × the share of real reductions that research found for that project type (Probst et al. 2024), with the published range and a grade from A to E. The web app has five views: Check (search and company result), Hidden buyers, Data (all company groups, sortable, with side-by-side comparison and downloads), About (story, research, sources, l" width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-02.svg" alt="What it does: Question How Netra answers it What did a company retire? Every Verra and Gold Standard retirement since 2020 (342,012 records, 876 Mt), grouped by the beneficiary and, for the largest buyers, by company group. How much of it is likely real? Tonnes × the share of real reductions that research found for that project type (Probst et al. 2024), with the published range and a grade from A to E. The web app has five views: Check (search, company result and the AI claim checker), Hidden buyers, Data (all company groups, sortable, with side-by-side comparison and downloads), About (story" width="100%"></p>
 
 <p align="center"><img src="docs/assets/how-it-works.svg" alt="How Netra works in six steps" width="100%"></p>
 
 <p align="center"><img src="docs/assets/grades.svg" alt="Grade scale A to E" width="100%"></p>
 
+<a id="ai-and-live-features"></a>
+<p align="center"><img src="docs/assets/md/readme-03.svg" alt="AI and live features: Feature What it does Safeguard Claim checker (language model) Reads a pasted green claim and pulls out who claims what, the scope, the year and the tonnes, each with a word-for-word quote A field is kept only if its quote is in the pasted text; every number shown comes from Netra&#x27;s data, never from the model; 10 checks per hour; no text stored; manual company picker when the model is unavailable Unusual patterns (Isolation Forest) Finds the few large buyers (8 of 540) whose mix of old vintages, rejected methodologies, unresearched types, one-year bursts, low likely-real s" width="100%"></p>
+
 <a id="key-findings"></a>
-<p align="center"><img src="docs/assets/md/readme-03.svg" alt="Key findings: About 1 in 5 researched tonnes retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%), with no improvement from year to year (18–22%). 57% of retired tonnes cannot be tied to a named claimant; 40.9% have no beneficiary at all. Only 4.5% of retired tonnes use a methodology with the ICVCM Core Carbon Principles label. Company-reported and independent emissions differ by a factor of 2–3 for large emitters." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-04.svg" alt="Key findings: About 1 in 5 researched tonnes retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%), with no improvement from year to year (18–22%). 57% of retired tonnes cannot be tied to a named claimant; 40.9% have no beneficiary at all. Only 4.5% of retired tonnes use a methodology with the ICVCM Core Carbon Principles label. Company-reported and independent emissions differ by a factor of 2–3 for large emitters." width="100%"></p>
 
 <p align="center"><img src="docs/assets/key-findings.svg" alt="Key findings" width="100%"></p>
 
 <a id="architecture"></a>
-<p align="center"><img src="docs/assets/md/readme-04.svg" alt="Architecture: The site is fully static: no backend, no accounts, no tracking. All data is pre-computed into JSON under web/data/." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-05.svg" alt="Architecture: The site is fully static: no backend, no accounts, no tracking. All data is pre-computed into JSON under web/data/." width="100%"></p>
 
 <p align="center"><img src="docs/assets/architecture.svg" alt="Architecture: sources, pipeline, static web app, ClaimRegistry contract" width="100%"></p>
 
 <a id="repository-layout"></a>
-<p align="center"><img src="docs/assets/md/readme-05.svg" alt="Repository layout: Raw downloads (registry spreadsheets, Climate TRACE packages, company PDFs) are kept locally in raw/, which is not committed." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-06.svg" alt="Repository layout: Raw downloads (registry spreadsheets, Climate TRACE packages, company PDFs) are kept locally in raw/, which is not committed." width="100%"></p>
 <details><summary>Copy the commands</summary>
 
 ```bash
@@ -44,7 +47,7 @@
 <p align="center"><img src="docs/assets/repo-map.svg" alt="Repository map" width="100%"></p>
 
 <a id="getting-started"></a>
-<p align="center"><img src="docs/assets/md/readme-06.svg" alt="Getting started: Requirements: Python 3.11+, Node.js 18–22." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-07.svg" alt="Getting started: Requirements: Python 3.11+, Node.js 18–22." width="100%"></p>
 <details><summary>Copy the commands</summary>
 
 ```bash
@@ -62,7 +65,7 @@ npm run demo:local      # terminal 2: deploys, publishes six real buyer checks, 
 </details>
 
 <a id="rebuilding-the-data"></a>
-<p align="center"><img src="docs/assets/md/readme-07.svg" alt="Rebuilding the data: Reviewed inputs live in data/: emissions_gaps.csv (for every company group without a reported figure: what was checked and why no figure is shown), logos.csv (official domain per group), buyers.csv (written by pipeline/curate_buyers.py), reported_emissions.csv (one row per company group, with source URL and section; append with pipeline/add_reported.py) and serials/ (written by pipeline/serials.py)." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-08.svg" alt="Rebuilding the data: Reviewed inputs live in data/: emissions_gaps.csv (for every company group without a reported figure: what was checked and why no figure is shown), logos.csv (official domain per group), buyers.csv (written by pipeline/curate_buyers.py), reported_emissions.csv (one row per company group, with source URL and section; append with pipeline/add_reported.py) and serials/ (written by pipeline/serials.py)." width="100%"></p>
 <details><summary>Copy the commands</summary>
 
 ```bash
@@ -81,7 +84,7 @@ python brand/embed_font.py                                      # embed the bran
 </details>
 
 <a id="smart-contract"></a>
-<p align="center"><img src="docs/assets/md/readme-08.svg" alt="Smart contract: contracts/src/ClaimRegistry.sol (Solidity 0.8.24, OpenZeppelin MerkleProof): Function Purpose recordRoot Publish a check: subject, report hash, report URI and the Merkle root of its serial-range nullifiers. Constant gas whatever the serial count (measured on Sepolia: 589,915 for Shell&#x27;s 684 ranges, 589,903 for easyJet&#x27;s 10). record Publish a check with explicit nullifiers; rejects any nullifier already claimed. Network settings live in contracts/scripts/chains.js; the web app reads the active deployment from web/data/deployment.json." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-09.svg" alt="Smart contract: contracts/src/ClaimRegistry.sol (Solidity 0.8.24, OpenZeppelin MerkleProof): Function Purpose recordRoot Publish a check: subject, report hash, report URI and the Merkle root of its serial-range nullifiers. Constant gas whatever the serial count (measured on Sepolia: 589,915 for Shell&#x27;s 684 ranges, 589,903 for easyJet&#x27;s 10). record Publish a check with explicit nullifiers; rejects any nullifier already claimed. Network settings live in contracts/scripts/chains.js; the web app reads the active deployment from web/data/deployment.json." width="100%"></p>
 <details><summary>Copy the commands</summary>
 
 ```bash
@@ -94,12 +97,12 @@ npm run demo:base-sepolia   # alternative public testnet
 <p align="center"><img src="docs/assets/contract.svg" alt="ClaimRegistry" width="100%"></p>
 
 <a id="data-sources-and-licences"></a>
-<p align="center"><img src="docs/assets/md/readme-09.svg" alt="Data sources and licences: Source Use Licence or version Berkeley Carbon Trading Project, Voluntary Registry Offsets Database Retirements, project types v2026-08, CC BY 4.0 CarbonPlan OffsetsDB Second project-type signal 2026 snapshot" width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-10.svg" alt="Data sources and licences: Source Use Licence or version Berkeley Carbon Trading Project, Voluntary Registry Offsets Database Retirements, project types v2026-08, CC BY 4.0 CarbonPlan OffsetsDB Second project-type signal 2026 snapshot" width="100%"></p>
 
 <a id="limitations"></a>
-<p align="center"><img src="docs/assets/md/readme-10.svg" alt="Limitations: Research ratios are averages per project type, not verdicts on individual projects or companies. Project types without a published ratio (62% of tonnes) are not scored. Registry beneficiaries can be resellers or brands rather than the claimant. Company-reported and independent emissions use different boundaries and are never merged. Full detail: docs/METHODS.md." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-11.svg" alt="Limitations: Research ratios are averages per project type, not verdicts on individual projects or companies. Project types without a published ratio (62% of tonnes) are not scored. Registry beneficiaries can be resellers or brands rather than the claimant. Company-reported and independent emissions use different boundaries and are never merged. Full detail: docs/METHODS.md." width="100%"></p>
 <p align="center"><sub><a href="docs/METHODS.md">docs/METHODS.md</a></sub></p>
 
 <a id="license"></a>
-<p align="center"><img src="docs/assets/md/readme-11.svg" alt="License: Company logos are trademarks of their owners and are shown only to identify each company. Hanken Grotesk is used under the SIL Open Font License (brand/fonts/OFL.txt). Code: MIT. Data derived from Berkeley VROD is shared under CC BY 4.0 with attribution to the Berkeley Carbon Trading Project." width="100%"></p>
+<p align="center"><img src="docs/assets/md/readme-12.svg" alt="License: Company logos are trademarks of their owners and are shown only to identify each company. Hanken Grotesk is used under the SIL Open Font License (brand/fonts/OFL.txt). Code: MIT. Data derived from Berkeley VROD is shared under CC BY 4.0 with attribution to the Berkeley Carbon Trading Project." width="100%"></p>
 <p align="center"><sub><a href="LICENSE">MIT</a></sub></p>

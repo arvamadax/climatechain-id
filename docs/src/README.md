@@ -31,7 +31,19 @@
 
 <p align="center"><img src="docs/assets/grades.svg" alt="Grade scale A to E" width="100%"></p>
 
-The web app has five views: **Check** (search and company result), **Hidden buyers**, **Data** (all company groups, sortable, with side-by-side comparison and downloads), **About** (story, research, sources, limits) and **Glossary** (every term in plain English).
+The web app has five views: **Check** (search, company result and the AI claim checker), **Hidden buyers**, **Data** (all company groups, sortable, with side-by-side comparison and downloads), **About** (story, research, sources, limits) and **Glossary** (every term in plain English).
+
+## AI and live features
+
+| Feature | What it does | Safeguard |
+|---|---|---|
+| Claim checker (language model) | Reads a pasted green claim and pulls out who claims what, the scope, the year and the tonnes, each with a word-for-word quote | A field is kept only if its quote is in the pasted text; every number shown comes from Netra's data, never from the model; 10 checks per hour; no text stored; manual company picker when the model is unavailable |
+| Unusual patterns (Isolation Forest) | Finds the few large buyers (8 of 540) whose mix of old vintages, rejected methodologies, unresearched types, one-year bursts, low likely-real share and batch size stands out | Each flag lists readable reasons; labelled "a reason to look closer, not proof"; rule and threshold published |
+| Live on-chain feed | The site polls ClaimRegistry every 15 s; new checks and double-claim flags appear without a reload | Three public RPC nodes tried in order; Live / Reconnecting indicator |
+| Always-on watcher | A server process reads every new check, verifies its serial list against the on-chain root and challenges any reused serial range | The contract verifies both Merkle proofs itself, so a wrong challenge fails; stops below 0.05 test ETH; testnet-only key, never in git |
+| Name suggestions (internal) | Character n-gram TF-IDF proposes which reviewed company an unreviewed registry name belongs to | Not shown on the site: about one in five suggestions on real names was wrong, so each is checked by hand first (`data/name_suggestions_review.csv`) |
+
+Tested live on Sepolia: a demo duplicate (check #7) reusing five of Shell's serial ranges was flagged by the watcher about ten seconds after it read the check.
 
 ## Key findings
 

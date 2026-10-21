@@ -6,10 +6,10 @@
 <p align="center"><img src="../docs/assets/md/web-01.svg" alt="web · the Netra site: A static site: HTML, CSS and plain JavaScript. No backend, no build step, no accounts, no tracking. Live at https://netra.rofihosted.space." width="100%"></p>
 
 <a id="pages"></a>
-<p align="center"><img src="../docs/assets/md/web-02.svg" alt="Pages: Page File What it shows Check index.html + app.js Search any of 44,465 buyers; grade, plain sentence, claimed-vs-real bar, research breakdown, emissions, &quot;How we know&quot;, on-chain status. Also the market overview, Hidden buyers and on-chain proof. Data data.html + data.js All 94 company groups in one sortable table, compare up to three, project types, years, branded downloads. Shared: common.js (formatting, grades, logos, theme switch, reveal motion), style.css (brand tokens, light and dark themes), favicon.svg." width="100%"></p>
+<p align="center"><img src="../docs/assets/md/web-02.svg" alt="Pages: Page File What it shows Check index.html + app.js AI claim checker; search any of 44,465 buyers; grade, plain sentence, claimed-vs-real bar, research breakdown, emissions, &quot;How we know&quot;, on-chain status. Also the market overview, Hidden buyers and on-chain proof. Data data.html + data.js All 94 company groups in one sortable table, compare up to three, project types, years, branded downloads. Shared: common.js (formatting, grades, logos, theme switch, reveal motion), style.css (brand tokens, light and dark themes), favicon.svg." width="100%"></p>
 
 <a id="generated-folders"></a>
-<p align="center"><img src="../docs/assets/md/web-03.svg" alt="Generated folders: Folder Written by Holds data/ pipeline/build.py, summaries.py, logos.py index.json (search), o/.json (500 buyers per shard), owners.json (all), companies.json, hidden.json, factors.json, logos.json, deployment.json logos/ pipeline/logos.py One PNG per company group" width="100%"></p>
+<p align="center"><img src="../docs/assets/md/web-03.svg" alt="Generated folders: Folder Written by Holds data/ pipeline/build.py, summaries.py, logos.py index.json (search), o/.json (500 buyers per shard), owners.json (all), companies.json, hidden.json, factors.json, logos.json, deployment.json logos/ pipeline/logos.py One PNG per company group The claim checker calls api/claim, served by server/claim-api.js; the live feed polls the contract every 15 s." width="100%"></p>
 
 <a id="run-locally"></a>
 <p align="center"><img src="../docs/assets/md/web-04.svg" alt="Run locally: " width="100%"></p>
