@@ -1,0 +1,23 @@
+name: deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: deploy   # one deploy at a time, newest wins
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: SSH to VPS and run server/deploy.sh
+        env:
+          KEY: ${{ secrets.VPS_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "$KEY" > ~/.ssh/id && chmod 600 ~/.ssh/id
+          echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id -p "${{ secrets.VPS_PORT || 22 }}" "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
+            "BRANCH=main bash '${{ secrets.VPS_PATH }}/server/deploy.sh'"
