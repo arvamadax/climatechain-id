@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Besley:wght@500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Fragment+Mono&display=swap">
 <link rel="stylesheet" href="style.css?v=story2">
+<script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
 <body>
@@ -21,6 +22,9 @@
   <nav aria-label="Main">
     <a href="index.html">Story</a><a href="index.html#check">Check</a><a href="report.html">Report</a><a href="proof.html" aria-current="page">Proof</a><a href="data.html">Data</a><a href="glossary.html">Glossary</a><a href="about.html">About</a>
     <button class="lang" type="button" lang="id" aria-label="Ganti ke Bahasa Indonesia">ID</button>
+    <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+    </button>
   </nav>
 </header>
 
