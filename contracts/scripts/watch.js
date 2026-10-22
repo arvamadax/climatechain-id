@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const hre = require("hardhat");
 const { proof, nullifier } = require("./merkle");
+const { registryAddress } = require("./record");
 
 const DIR = path.join(__dirname, "..", "..", "web", "data", "checks");
 
@@ -24,8 +25,7 @@ async function main() {
   for (const o of overlaps) console.log(`  ${o.serial}: claim #${o.earlier.id} (${o.earlier.buyer}) and #${o.later.id} (${o.later.buyer})`);
   if (!process.env.CHALLENGE || !overlaps.length) return;
 
-  const { claimRegistry } = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "deployments", `${hre.network.name}.json`), "utf8"));
-  const reg = await hre.ethers.getContractAt("ClaimRegistry", claimRegistry);
+  const reg = await hre.ethers.getContractAt("ClaimRegistry", registryAddress(hre.network.name));
   for (const o of overlaps) {
     if ((await reg.checks(o.later.id)).doubleClaim) continue;
     const tx = await reg.challenge(o.n, o.earlier.id, proof(o.earlier.ns, o.n), o.later.id, proof(o.later.ns, o.n));

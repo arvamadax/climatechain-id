@@ -233,6 +233,7 @@ async function render(i, scroll = true) {
   if (scroll) box.innerHTML = `<p class="muted">Loading ${esc(rows[i][0])}…</p>`;
   let o;
   try { o = await owner(i); await Promise.all([logosReady, gapsReady, anomReady]); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
+  if (CURRENT !== i) return; // a later pick finished loading first: do not draw over it
   const g = grade(o.e, o.k, o.t);
   const group = o.g?.type === "company" ? o.g.group : null;
   const cover = o.k / o.t, real = o.k ? o.e / o.k : 0;
@@ -312,8 +313,11 @@ async function render(i, scroll = true) {
   box.className = "result tinted";
   box.style.cssText = tint(group || o.n, g);
   if (!scroll) { chainStatus(o); return; }
-  box.classList.remove("in-view"); void box.offsetWidth; box.classList.add("in-view");
-  box.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+  box.classList.remove("in-view");
+  await document.fonts.ready; // a shared #buyer-N link renders before the web font: the hero shrinks after it loads
+  if (CURRENT !== i) return;
+  box.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" }); // measured before the entrance offset applies
+  void box.offsetWidth; box.classList.add("in-view");
   chainStatus(o);
 }
 
@@ -495,7 +499,7 @@ async function verifyPanel() {
     $("#checks").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Record</th><th>Buyer</th><th>Report hash</th><th>Date</th><th>Report</th><th>Serial ranges</th></tr></thead><tbody>${out.join("")}</tbody></table></div>`;
   } catch {
     $("#checkCount").textContent = "unavailable";
-    $("#checks").innerHTML = `<p class="bad">Could not reach the ${esc(CHAIN.label || CHAIN.network)}.${CHAIN.explorer ? `Records are still public on <a href="${contractUrl()}" target="_blank" rel="noopener">the block explorer</a>.` : "Start the local chain to see records."}</p>`;
+    $("#checks").innerHTML = `<p class="bad">Could not reach the ${esc(CHAIN.label || CHAIN.network)}. ${CHAIN.explorer ? `Records are still public on <a href="${contractUrl()}" target="_blank" rel="noopener">the block explorer</a>.` : "Start the local chain to see records."}</p>`;
   }
 }
 
@@ -546,8 +550,10 @@ function liveFeed() {
     try {
       const reg = await registry();
       const n = Number(await reg.count());
-      const list = n === known ? null : await loadChecks();
-      const f = list ? list.filter((c) => c.doubleClaim).length : flags;
+      // Reload every tick: a flag lands on an existing record, so the count alone never shows it.
+      // ponytail: n + 1 RPC calls per tick; fine for tens of checks, read DoubleClaim events if it grows to hundreds
+      const list = await loadChecks();
+      const f = list.filter((c) => c.doubleClaim).length;
       if (known !== null && (n > known || f > flags)) {
         onchain = Promise.resolve(list);
         await verifyPanel();
@@ -593,7 +599,10 @@ async function claimChecks(c, f) {
   const year = f.year && f.year.value, stated = f.tonnes && f.tonnes.value;
   const inYear = year && o.ys[year] ? o.ys[year][0] : null;
   const words = `${f.claim_words?.value || ""} ${f.claim_words?.quote || ""}`;
-  const eu = f.scope && ["product", "service", "event"].includes(f.scope.value) && /neutral|zero|positive|negative|compensat|offset|balanc/i.test(words);
+  // TODO(human): which wording makes an offset-based neutrality claim (EU Directive 2024/825)?
+  // server/registry-watch.js OFFSET_WORDS says "we offset X" alone is NOT one; this list still says it is.
+  const EU_WORDS = /neutral|zero|positive|negative|compensat|offset|balanc/i;
+  const eu = f.scope && ["product", "service", "event"].includes(f.scope.value) && EU_WORDS.test(words);
   return [
     year ? (inYear ? `In ${year}, ${esc(c.group)} retired <b>${mt(inYear)}</b> of credits${stated ? `; the claim says <b>${mt(stated)}</b>` : ""}.`
       : `No retirement by ${esc(c.group)} is recorded for ${year} on Verra or Gold Standard${stated ? `, yet the claim says <b>${mt(stated)}</b>` : ""}.`) : "",
@@ -649,8 +658,8 @@ function setupClaim() {
     }
     const read = Object.keys(labels).filter((k) => f[k]).map((k) => `<div><dt>${labels[k]}</dt><dd>${esc(k === "tonnes" ? mt(f[k].value) : f[k].value)}<span class="quote">“${esc(f[k].quote)}”</span></dd></div>`).join("");
     out.innerHTML = `<div class="strip claim-grid">
-      <div><p class="eyebrow">The claim</p><dl class="facts">${read}</dl></div>
-      <div><p class="eyebrow">Against the record</p><ul class="checks">${await claimChecks(found, f)}</ul></div>
+      <div><h3>The claim</h3><dl class="facts">${read}</dl></div>
+      <div><h3>Against the record</h3><ul class="checks">${await claimChecks(found, f)}</ul></div>
       <p class="muted small full">Read by AI; each item is quoted from your text. Every figure comes from Netra's data. Full result for ${esc(found.group)} below.</p>
     </div>`;
     $("#q").value = rows[found.i][0];

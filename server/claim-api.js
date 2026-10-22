@@ -78,6 +78,7 @@ const hits = new Map(); // ip -> request times (memory only)
 function allowed(ip) {
   const now = Date.now(), list = (hits.get(ip) || []).filter((x) => now - x < WINDOW_MS);
   if (list.length >= LIMIT) return false;
+  if (hits.size > 50000) hits.clear(); // ponytail: memory cap; resets everyone's window, fine at this traffic
   list.push(now); hits.set(ip, list);
   return true;
 }

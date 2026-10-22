@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css?v=redesign1">
+<link rel="stylesheet" href="style.css?v=audit2">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
 
 </head>
@@ -39,9 +39,9 @@
   <section class="block" id="problem">
     <h2>A tonne on paper is not a tonne in the air.</h2>
     <div class="three">
-      <div class="stat"><b>1 in 5</b><span>researched credits retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%). The share has not improved since 2020.</span></div>
-      <div class="stat"><b>57%</b><span>of retired tonnes cannot be tied to a named claimant: blank, "Not Disclosed", resellers, wallets or codes.</span></div>
-      <div class="stat"><b>0 of 52</b><span>big buyers that research covers well enough to grade reach a B. 36 score C, 11 D, 5 E; the other 42 have too little research for a grade.</span></div>
+      <div class="stat"><b>1 in 5</b><span>researched credits retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%). The share has not improved since 2020. <a href="report.html#trend-chapter">See the numbers</a></span></div>
+      <div class="stat"><b>57%</b><span>of retired tonnes cannot be tied to a named claimant: blank, "Not Disclosed", resellers, wallets or codes. <a href="report.html#hidden">See the numbers</a></span></div>
+      <div class="stat"><b>0 of 52</b><span>big buyers that research covers well enough to grade reach a B. 36 score C, 11 D, 5 E; the other 42 have too little research for a grade. <a href="data.html#companies">See the numbers</a></span></div>
     </div>
     <p class="lede">Companies use carbon credits to call products, flights or whole businesses "carbon neutral". Peer-reviewed research keeps finding that most of those credits did not cut what they claim. The data to check this is public, but it sits in large spreadsheets that only specialists read. Most people, journalists and even buyers never see it.</p>
   </section>
@@ -53,7 +53,7 @@
       <div class="box"><span class="n">2</span><h3>How much is likely real</h3><p>Published research per project type, applied to those tonnes, with a range and a grade from A to E.</p></div>
       <div class="box"><span class="n">3</span><h3>What the company emits</h3><p>Its own reported emissions, read from its primary report, next to Climate TRACE's independent estimate.</p></div>
       <div class="box"><span class="n">4</span><h3>AI that reads claims</h3><p>Paste a green claim: a language model pulls out who claims what, with quotes. Netra's data gives the verdict, and a machine-learning model flags unusual retirement patterns.</p></div>
-      <div class="box"><span class="n">5</span><h3>Proof no one can edit</h3><p>A fingerprint of each published check and its serial numbers on a public blockchain, where no one, not even Netra, can change it. An always-on watcher flags a serial range claimed by two recorded checks in about ten seconds (tested on Sepolia).</p></div>
+      <div class="box"><span class="n">5</span><h3>Proof no one can edit</h3><p>A fingerprint of each published check and its serial numbers on a public blockchain, where no one, not even Netra, can change it. An always-on watcher reads new checks every 30 seconds and flags a serial range claimed by two of them about ten seconds after reading it (tested on Sepolia).</p></div>
       <div class="box"><span class="n">6</span><h3>Live from the registry</h3><p>Every ten minutes Netra reads the newest retirements on Verra and checks each one with the same rules, as it lands.</p></div>
     </div>
     <p class="muted">Who it is for: anyone who reads a "carbon neutral" label; journalists and NGOs; scientists who want open data and method; buyers and auditors doing due diligence; regulators enforcing the EU ban on offset-based product claims (Directive 2024/825).</p>

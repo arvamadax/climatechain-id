@@ -73,7 +73,7 @@ function staticTables(index, factors) {
     [pct(m.eff / m.known), `of researched tonnes are likely real (range ${pct(m.eff_lo / m.known)}–${pct(m.eff_hi / m.known)})`],
     [pct((m.ccp.approved || 0) / m.tonnes), "use a methodology with the ICVCM quality label"],
     [String(ROWS.length), `company groups reviewed; ${ROWS.filter((r) => r.rep).length} with emissions from their own reports`],
-  ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+  ].map(([b, s]) => `<div><dt class="num">${b}</dt><dd>${s}</dd></div>`).join("");
 
   $("#ttable tbody").innerHTML = Object.entries(m.cats).sort((a, b) => b[1] - a[1]).map(([c, t]) => {
     const f = factors.factors[c];
