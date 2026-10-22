@@ -48,7 +48,7 @@ const ID_EXACT = {
   "Of every 100 tonnes": "Dari setiap 100 ton yang dipensiunkan",
   "Likely real, in researched project types": "Kemungkinan nyata, pada jenis proyek yang diteliti",
   "Outline: claimed": "Garis: yang diklaim",
-  "At the 2024 market average of $6.34 per credit, each likely-real tonne costs about": "Dengan harga rata-rata pasar 2024 sebesar $6.34 per kredit, setiap ton yang kemungkinan nyata berharga sekitar",
+  "At the 2024 market average of $6.34 per credit, each likely-real tonne costs about": "Dengan harga rata-rata pasar 2024 sebesar $6,34 per kredit, setiap ton yang kemungkinan nyata berharga sekitar",
   "Price:": "Harga:", ", p. 10. What this buyer paid is not public.": ", hlm. 10. Harga yang dibayar pembeli ini tidak publik.",
   "Research estimate": "Estimasi riset", "Likely real": "Kemungkinan nyata", "Likely not real": "Kemungkinan tidak nyata",
   "No published estimate": "Belum ada estimasi terbit", "No estimate": "Tanpa estimasi", "no estimate": "tanpa estimasi",
@@ -62,7 +62,7 @@ const ID_EXACT = {
   "Grey bars: tonnes retired per year. Line: likely-real share of research-covered tonnes.": "Batang abu-abu: ton yang dipensiunkan per tahun. Garis: porsi kemungkinan nyata dari ton yang tercakup riset.",
   "Unusual pattern": "Pola tidak biasa",
   "Flagged by an Isolation Forest model among 540 buyers with at least 100,000 t retired. An unusual pattern is a reason to look closer, not proof of wrongdoing.":
-    "Ditandai model Isolation Forest di antara 540 pembeli dengan minimal 100,000 t yang dipensiunkan. Pola tidak biasa adalah alasan untuk memeriksa lebih dekat, bukan bukti pelanggaran.",
+    "Ditandai model Isolation Forest di antara 540 pembeli dengan minimal 100.000 t yang dipensiunkan. Pola tidak biasa adalah alasan untuk memeriksa lebih dekat, bukan bukti pelanggaran.",
   "How we know": "Dari mana kami tahu", "Retired": "Dipensiunkan", "Who this is": "Siapa ini", "Grade": "Nilai", "Quality label": "Label kualitas",
   "Reviewed by hand against the registry retirement details and linked to": "Ditinjau manual terhadap detail retirement di registry dan ditautkan ke",
   "Reviewed by hand against the registry retirement details.": "Ditinjau manual terhadap detail retirement di registry.",
@@ -144,7 +144,7 @@ const ID_EXACT = {
     "Ditetapkan hanya bila tiga sumber independen sepakat: jenis kurasi Berkeley, CarbonPlan OffsetsDB, dan kode metodologi registry. Setiap ketidaksepakatan berarti tanpa estimasi riset.",
   "Share of credits that achieved real reductions per project type, from Probst et al. 2024 (": "Porsi kredit yang benar-benar menurunkan emisi per jenis proyek, dari Probst et al. 2024 (",
   ", 2,346 projects): cookstoves 10.8%, REDD+ 24.7%, HFC-23 68.3%, wind in China and US improved forest management 0%. Types without a published estimate are shown as \"no estimate\", never filled in.":
-    ", 2,346 proyek): tungku masak 10.8%, REDD+ 24.7%, HFC-23 68.3%, angin di Tiongkok dan pengelolaan hutan AS yang ditingkatkan 0%. Jenis tanpa estimasi terbit ditampilkan \"tanpa estimasi\", tidak pernah diisi.",
+    ", 2.346 proyek): tungku masak 10,8%, REDD+ 24,7%, HFC-23 68,3%, angin di Tiongkok dan pengelolaan hutan AS yang ditingkatkan 0%. Jenis tanpa estimasi terbit ditampilkan \"tanpa estimasi\", tidak pernah diisi.",
   "Likely-real share of research-covered tonnes: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E < 10%. No grade when research covers under a quarter of a buyer's tonnes.":
     "Porsi kemungkinan nyata dari ton yang tercakup riset: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E < 10%. Tanpa nilai bila riset mencakup kurang dari seperempat ton pembeli.",
   "Each methodology's status from the ICVCM Core Carbon Principles assessment (snapshot 18 Aug 2026).": "Status tiap metodologi dari penilaian ICVCM Core Carbon Principles (snapshot 18 Agu 2026).",
@@ -159,7 +159,7 @@ const ID_EXACT = {
   "Vintage: the year the emission cut happened": "Vintage: tahun saat pengurangan emisi terjadi",
   // attributes
   "e.g. Shell, Delta, Netflix": "mis. Shell, Delta, Netflix",
-  "Paste a green claim, e.g. “Our 2025 flights were carbon neutral: we offset 120,000 tonnes of CO2.”": "Tempel klaim hijau, mis. “Penerbangan kami tahun 2025 netral karbon: kami mengimbangi 120,000 ton CO2.”",
+  "Paste a green claim, e.g. “Our 2025 flights were carbon neutral: we offset 120,000 tonnes of CO2.”": "Tempel klaim hijau, mis. “Penerbangan kami tahun 2025 netral karbon: kami mengimbangi 120.000 ton CO2.”",
   "What to check": "Yang diperiksa", "Examples": "Contoh", "Example claims": "Contoh klaim", "Netra home": "Beranda Netra", "Main": "Utama",
   "Switch to dark mode": "Ganti ke mode gelap", "Switch to light mode": "Ganti ke mode terang", "Light or dark": "Terang atau gelap",
   "Grade not available": "Nilai tidak tersedia", "Likely-real share by retirement year": "Porsi kemungkinan nyata per tahun retirement",
@@ -188,7 +188,7 @@ Object.assign(ID_EXACT, {
   "Press Compare in the table. Shell, Delta and Netflix are shown to start.": "Tekan Bandingkan di tabel. Shell, Delta dan Netflix ditampilkan sebagai awal.",
   "Buyers whose pattern stands out": "Pembeli yang polanya menonjol",
   "An Isolation Forest model (scikit-learn) looks at every buyer with at least 100,000 t retired and finds the few whose mix of old vintages, rejected methodologies, unresearched project types, one-year bursts, low likely-real share and batch size is far from the rest. Each flag lists the plain reasons behind it. Unusual is a reason to look closer, never proof of wrongdoing.":
-    "Model Isolation Forest (scikit-learn) memeriksa setiap pembeli dengan minimal 100,000 t dipensiunkan dan menemukan sedikit pembeli yang campuran vintage lama, metodologi yang ditolak, jenis proyek tanpa riset, lonjakan satu tahun, porsi kemungkinan nyata yang rendah dan ukuran batch-nya jauh dari yang lain. Setiap tanda menyebut alasannya dengan jelas. Tidak biasa adalah alasan untuk melihat lebih dekat, bukan bukti kesalahan.",
+    "Model Isolation Forest (scikit-learn) memeriksa setiap pembeli dengan minimal 100.000 t dipensiunkan dan menemukan sedikit pembeli yang campuran vintage lama, metodologi yang ditolak, jenis proyek tanpa riset, lonjakan satu tahun, porsi kemungkinan nyata yang rendah dan ukuran batch-nya jauh dari yang lain. Setiap tanda menyebut alasannya dengan jelas. Tidak biasa adalah alasan untuk melihat lebih dekat, bukan bukti kesalahan.",
   "Why it stands out": "Kenapa menonjol", "Score": "Skor",
   "What kind of projects the credits come from": "Jenis proyek asal kreditnya",
   "Research estimates exist for some project types only. Netra never fills in a number where none is published.":
@@ -208,7 +208,7 @@ Object.assign(ID_EXACT, {
   "Reported emissions (CSV)": "Emisi terlapor (CSV)",
   "Every company figure with its report, section, URL and the date it was checked.":
     "Setiap angka perusahaan beserta laporannya, bagian, URL dan tanggal pemeriksaannya.",
-  "All 44,465 buyers (JSON)": "Semua 44,465 pembeli (JSON)",
+  "All 44,465 buyers (JSON)": "Semua 44.465 pembeli (JSON)",
   "The full dataset behind the search, every figure per buyer.": "Dataset lengkap di balik pencarian, setiap angka per pembeli.",
   "What each file holds, the method, sources, how to cite and the licence.": "Isi tiap file, metode, sumber, cara mengutip dan lisensinya.",
   "Cite as: Netra (2026), carbon claim dataset, IEEE ClimateChain Global Hackathon 2026, netra.rofihosted.space. Registry data: Berkeley Carbon Trading Project VROD v2026-08 (CC BY 4.0).":
@@ -234,7 +234,7 @@ Object.assign(ID_EXACT, {
   "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z (no statistically significant reductions; set to 0%)":
     "Probst et al. 2024, Nature Communications, doi:10.1038/s41467-024-53645-z (tidak ada pengurangan yang signifikan secara statistik; disetel ke 0%)",
   "Isolation Forest (scikit-learn), 300 trees, contamination 2%, seed 7. Population: 540 buyers with at least 100,000 t retired since 2020. Reasons: a feature is named when it is in the top 5% of the population (bottom 5% for likely-real share).":
-    "Isolation Forest (scikit-learn), 300 pohon, kontaminasi 2%, seed 7. Populasi: 540 pembeli dengan minimal 100,000 t dipensiunkan sejak 2020. Alasan: sebuah fitur disebut bila berada di 5% teratas populasi (5% terbawah untuk porsi kemungkinan nyata).",
+    "Isolation Forest (scikit-learn), 300 pohon, kontaminasi 2%, seed 7. Populasi: 540 pembeli dengan minimal 100.000 t dipensiunkan sejak 2020. Alasan: sebuah fitur disebut bila berada di 5% teratas populasi (5% terbawah untuk porsi kemungkinan nyata).",
 });
 
 // about page
@@ -249,7 +249,7 @@ Object.assign(ID_EXACT, {
   "Data sources": "Sumber data", "Limits": "Batas",
   "A tonne on paper is not a tonne in the air.": "Satu ton di kertas bukan satu ton di udara.",
   "researched credits retired since 2020 is likely a real reduction (19.4%, range 2.4–68.8%). The share has not improved since 2020.":
-    "kredit yang diteliti dan dipensiunkan sejak 2020 kemungkinan adalah pengurangan nyata (19.4%, rentang 2.4–68.8%). Porsinya tidak membaik sejak 2020.",
+    "kredit yang diteliti dan dipensiunkan sejak 2020 kemungkinan adalah pengurangan nyata (19,4%, rentang 2,4–68,8%). Porsinya tidak membaik sejak 2020.",
   "See the numbers": "Lihat angkanya",
   "of retired tonnes cannot be tied to a named claimant: blank, \"Not Disclosed\", resellers, wallets or codes.":
     "ton yang dipensiunkan tidak bisa dikaitkan ke pemegang klaim bernama: kosong, \"Not Disclosed\", reseller, wallet atau kode.",
@@ -281,7 +281,7 @@ Object.assign(ID_EXACT, {
   "From registry spreadsheet to plain sentence.": "Dari spreadsheet registry ke kalimat sederhana.",
   "Collect.": "Kumpulkan.",
   "342,012 retirement records (876 Mt) from Berkeley's Voluntary Registry Offsets Database, project types from CarbonPlan OffsetsDB, methodology labels from ICVCM.":
-    "342,012 catatan retirement (876 Mt) dari Voluntary Registry Offsets Database milik Berkeley, jenis proyek dari CarbonPlan OffsetsDB, label metodologi dari ICVCM.",
+    "342.012 catatan retirement (876 Mt) dari Voluntary Registry Offsets Database milik Berkeley, jenis proyek dari CarbonPlan OffsetsDB, label metodologi dari ICVCM.",
   "Classify, carefully.": "Klasifikasikan, hati-hati.",
   "A project type counts only when three sources agree: Berkeley's type, CarbonPlan's type and the methodology code. 234 projects disagree; they get no estimate instead of a guess.":
     "Sebuah jenis proyek dihitung hanya bila tiga sumber setuju: jenis dari Berkeley, jenis dari CarbonPlan dan kode metodologi. 234 proyek berbeda pendapat; mereka tidak dapat estimasi, bukan tebakan.",
@@ -339,7 +339,7 @@ Object.assign(ID_EXACT, {
     "20 pencarian di Scopus menghasilkan 704 makalah; 50 disimpan. Temuan terkuat: perusahaan terus membeli kredit berkualitas rendah, dan riset bisa mengukur seberapa rendahnya.",
   "What the data said.": "Apa yang dikatakan data.",
   "In Verra's own data, no serial range was retired twice: double counting inside one registry is not the problem. The problem is what happens around it: 44.7% of retirement records name no beneficiary (57% of tonnes once resellers, wallets and unmatched codes are counted), and one credit can back several claims outside the registry.":
-    "Di data Verra sendiri, tidak ada rentang serial yang dipensiunkan dua kali: double counting di dalam satu registry bukan masalahnya. Masalahnya adalah apa yang terjadi di sekitarnya: 44.7% catatan retirement tidak menyebut penerima manfaat (57% dari ton bila reseller, dompet dan kode yang tidak cocok ikut dihitung), dan satu kredit bisa menopang beberapa klaim di luar registry.",
+    "Di data Verra sendiri, tidak ada rentang serial yang dipensiunkan dua kali: double counting di dalam satu registry bukan masalahnya. Masalahnya adalah apa yang terjadi di sekitarnya: 44,7% catatan retirement tidak menyebut penerima manfaat (57% dari ton bila reseller, dompet dan kode yang tidak cocok ikut dihitung), dan satu kredit bisa menopang beberapa klaim di luar registry.",
   "Red team.": "Tim merah.",
   "14 weaknesses written down and fixed. Three changed the design: build on open data instead of copying it; record claims on-chain instead of minting tokens (which can itself create double counting); and target double":
     "14 kelemahan ditulis dan diperbaiki. Tiga mengubah desain: bangun di atas data terbuka alih-alih menyalinnya; catat klaim on-chain alih-alih mencetak token (yang bisa sendiri menciptakan double counting); dan bidik double",
@@ -418,13 +418,13 @@ Object.assign(ID_EXACT, {
   "netra · Built by the Netra team for the IEEE ClimateChain Global Hackathon 2026. Code open on GitHub.":
     "netra · Dibuat oleh tim Netra untuk IEEE ClimateChain Global Hackathon 2026. Kode terbuka di GitHub.",
   "Pooled 2,346 projects (about 1 billion tonnes). Fewer than 16% of credits were real reductions. Gives the share per type that Netra uses: cookstoves 10.8%, REDD+ 24.7%, HFC-23 68.3%, SF6 16.4%, wind in China and US forest management 0%. Netra applies the share for each project type to the mix of credits actually retired since 2020, so its overall figure (about 19%) differs from the study's average.":
-    "Menggabungkan 2,346 proyek (sekitar 1 miliar ton). Kurang dari 16% kredit adalah pengurangan nyata. Memberi porsi per jenis yang dipakai Netra: tungku masak 10.8%, REDD+ 24.7%, HFC-23 68.3%, SF6 16.4%, tenaga angin di Tiongkok dan pengelolaan hutan AS 0%. Netra menerapkan porsi tiap jenis proyek ke campuran kredit yang benar-benar dipensiunkan sejak 2020, jadi angka keseluruhannya (sekitar 19%) berbeda dari rata-rata studi itu.",
+    "Menggabungkan 2.346 proyek (sekitar 1 miliar ton). Kurang dari 16% kredit adalah pengurangan nyata. Memberi porsi per jenis yang dipakai Netra: tungku masak 10,8%, REDD+ 24,7%, HFC-23 68,3%, SF6 16,4%, tenaga angin di Tiongkok dan pengelolaan hutan AS 0%. Netra menerapkan porsi tiap jenis proyek ke campuran kredit yang benar-benar dipensiunkan sejak 2020, jadi angka keseluruhannya (sekitar 19%) berbeda dari rata-rata studi itu.",
   "The 20 companies that retired the most credits in 2020–2023: 87% of what they retired carried a high risk of not being real. Netra's vintage and project-type flags follow this work.":
     "20 perusahaan yang paling banyak memensiunkan kredit pada 2020–2023: 87% dari yang mereka pensiunkan berisiko tinggi tidak nyata. Penanda vintage dan jenis proyek Netra mengikuti karya ini.",
   "27 forest-protection (REDD+) projects in 6 countries: 68% of potential credits came from projects that did not reduce deforestation significantly.":
     "27 proyek perlindungan hutan (REDD+) di 6 negara: 68% kredit potensial berasal dari proyek yang tidak menurunkan deforestasi secara signifikan.",
   "Cookstove projects were over-credited about 9 times. Consistent with the 10.8% share Netra uses.":
-    "Proyek tungku masak mendapat kredit berlebih sekitar 9 kali. Konsisten dengan porsi 10.8% yang dipakai Netra.",
+    "Proyek tungku masak mendapat kredit berlebih sekitar 9 kali. Konsisten dengan porsi 10,8% yang dipakai Netra.",
   "v5.7.0, 2025 emissions": "v5.7.0, emisi 2025",
 });
 
@@ -450,7 +450,7 @@ Object.assign(ID_EXACT, {
   "Using up a credit for good, so nobody can sell or use it again. This is the moment a climate claim is made.":
     "Memakai kredit untuk selamanya, supaya tidak ada yang bisa menjual atau memakainya lagi. Inilah saat klaim iklim dibuat.",
   "Example: Shell retired 42.3 million tonnes of credits since 2020.":
-    "Contoh: Shell memensiunkan 42.3 juta ton kredit sejak 2020.",
+    "Contoh: Shell memensiunkan 42,3 juta ton kredit sejak 2020.",
   "The person or company the registry says the retired credits are for: the one who gets to make the claim.":
     "Orang atau perusahaan yang menurut registry kredit yang dipensiunkan itu miliknya: pihak yang berhak membuat klaim.",
   "Example: for 40% of tonnes this field is blank. That is what Netra calls \"hidden\".":
@@ -470,7 +470,7 @@ Object.assign(ID_EXACT, {
   "When a registry creates new credits for a project, after an auditor has checked its reported reductions for a period.":
     "Saat registry membuat kredit baru untuk sebuah proyek, setelah auditor memeriksa pengurangan yang dilaporkannya untuk sebuah periode.",
   "Example: a solar farm gets 50,000 credits for the reductions it claimed in 2022.":
-    "Contoh: pembangkit surya mendapat 50,000 kredit untuk pengurangan yang diklaimnya pada 2022.",
+    "Contoh: pembangkit surya mendapat 50.000 kredit untuk pengurangan yang diklaimnya pada 2022.",
   "The largest voluntary registry. Its standard is the Verified Carbon Standard; project IDs start with VCS. Netra's live check reads its public retirements.":
     "Registry sukarela terbesar. Standarnya adalah Verified Carbon Standard; ID proyek diawali VCS. Cek langsung Netra membaca retirement publiknya.",
   "Example: VCS1792 is a solar project in India listed on Verra.":
@@ -486,7 +486,7 @@ Object.assign(ID_EXACT, {
   "What a buyer pays per credit. Prices are mostly private; market reports publish averages.":
     "Yang dibayar pembeli per kredit. Harga sebagian besar tertutup; laporan pasar menerbitkan rata-ratanya.",
   "Example: the average voluntary credit sold for $6.34 in 2024 (Ecosystem Marketplace, 2025).":
-    "Contoh: rata-rata kredit sukarela terjual seharga $6.34 pada 2024 (Ecosystem Marketplace, 2025).",
+    "Contoh: rata-rata kredit sukarela terjual seharga $6,34 pada 2024 (Ecosystem Marketplace, 2025).",
   "Is the credit real?": "Apakah kreditnya nyata?",
   "Would the cut in emissions have happened anyway, without the credit money? If yes, the credit is not \"additional\" and changes nothing.":
     "Apakah pemotongan emisi itu tetap terjadi tanpa uang kredit? Kalau ya, kredit itu bukan \"additional\" dan tidak mengubah apa pun.",
@@ -503,15 +503,15 @@ Object.assign(ID_EXACT, {
   "The share of credits that research found were real reductions, per project type. Netra multiplies tonnes by this number.":
     "Porsi kredit yang menurut riset adalah pengurangan nyata, per jenis proyek. Netra mengalikan ton dengan angka ini.",
   "Example: REDD+ OAR 24.7%, so 100 tonnes of REDD+ credits ≈ 25 real tonnes.":
-    "Contoh: OAR REDD+ 24.7%, jadi 100 ton kredit REDD+ ≈ 25 ton nyata.",
+    "Contoh: OAR REDD+ 24,7%, jadi 100 ton kredit REDD+ ≈ 25 ton nyata.",
   "Netra's best estimate of how many retired tonnes actually cut emissions: tonnes × OAR.":
     "Estimasi terbaik Netra berapa ton yang dipensiunkan benar-benar memotong emisi: ton × OAR.",
   "Example: Shell has 23.3 Mt in researched project types; about 5.3 Mt are likely real.":
-    "Contoh: Shell punya 23.3 Mt pada jenis proyek yang diteliti; sekitar 5.3 Mt kemungkinan nyata.",
+    "Contoh: Shell punya 23,3 Mt pada jenis proyek yang diteliti; sekitar 5,3 Mt kemungkinan nyata.",
   "The low and high estimate around the best guess. Netra always shows it, because research is never exact.":
     "Estimasi terendah dan tertinggi di sekitar tebakan terbaik. Netra selalu menampilkannya, karena riset tidak pernah persis.",
   "Example: Shell's likely real tonnes range from 0.3 to 19.9 Mt.":
-    "Contoh: ton kemungkinan nyata Shell berkisar dari 0.3 sampai 19.9 Mt.",
+    "Contoh: ton kemungkinan nyata Shell berkisar dari 0,3 sampai 19,9 Mt.",
   "Will the saved carbon stay saved? A forest that burns down later \"reverses\" the credit.":
     "Akankah karbon yang disimpan tetap tersimpan? Hutan yang terbakar kemudian \"membalik\" kredit itu.",
   "Example: in 2021 the Bootleg Fire in Oregon burned a forest project that had already sold credits.":
@@ -543,7 +543,7 @@ Object.assign(ID_EXACT, {
   "The market price divided by the share of a credit that research says is real. It shows what one tonne of real climate benefit costs.":
     "Harga pasar dibagi porsi kredit yang menurut riset nyata. Ini menunjukkan berapa biaya satu ton manfaat iklim yang nyata.",
   "Example: at $6.34 per credit and 23% likely real, one real tonne costs about $27.60.":
-    "Contoh: pada $6.34 per kredit dan 23% kemungkinan nyata, satu ton nyata berbiaya sekitar $27.60.",
+    "Contoh: pada $6,34 per kredit dan 23% kemungkinan nyata, satu ton nyata berbiaya sekitar $27,60.",
   "\"Reducing Emissions from Deforestation and forest Degradation\": credits for protecting forests that were said to be under threat.":
     "\"Reducing Emissions from Deforestation and forest Degradation\": kredit untuk melindungi hutan yang dikatakan terancam.",
   "Example: 26% of all tonnes retired since 2020 are REDD+. Research says about 25% of them are real.":
@@ -551,11 +551,11 @@ Object.assign(ID_EXACT, {
   "Credits for giving families cleaner stoves, so they burn less wood or charcoal.":
     "Kredit untuk memberi keluarga tungku yang lebih bersih, supaya mereka membakar lebih sedikit kayu atau arang.",
   "Example: research estimates 10.8% of cookstove credits are real.":
-    "Contoh: riset memperkirakan 10.8% kredit tungku masak nyata.",
+    "Contoh: riset memperkirakan 10,8% kredit tungku masak nyata.",
   "Destroying a very strong warming gas made as a by-product in factories.":
     "Menghancurkan gas pemanasan yang sangat kuat, produk sampingan di pabrik.",
   "Example: the best-performing type in the research: 68.3% real.":
-    "Contoh: jenis dengan kinerja terbaik dalam riset: 68.3% nyata.",
+    "Contoh: jenis dengan kinerja terbaik dalam riset: 68,3% nyata.",
   "Credits for logging less or more carefully than planned.":
     "Kredit untuk menebang lebih sedikit atau lebih hati-hati dari rencana.",
   "Example: research found no significant real effect for US IFM projects (0%).":
@@ -587,7 +587,7 @@ Object.assign(ID_EXACT, {
   "The Integrity Council for the Voluntary Carbon Market checks methodologies. Approved ones get the Core Carbon Principles (CCP) label.":
     "Integrity Council for the Voluntary Carbon Market memeriksa metodologi. Yang disetujui mendapat label Core Carbon Principles (CCP).",
   "Example: only 4.5% of tonnes retired since 2020 use a CCP-approved methodology.":
-    "Contoh: hanya 4.5% ton yang dipensiunkan sejak 2020 memakai metodologi yang disetujui CCP.",
+    "Contoh: hanya 4,5% ton yang dipensiunkan sejak 2020 memakai metodologi yang disetujui CCP.",
   "The Voluntary Carbon Markets Integrity Initiative sets rules for what companies may claim when they use credits.":
     "Voluntary Carbon Markets Integrity Initiative menetapkan aturan tentang apa yang boleh diklaim perusahaan saat memakai kredit.",
   "Example: its Claims Code requires a science-based target before any offset claim.":
@@ -623,7 +623,7 @@ Object.assign(ID_EXACT, {
   "Emissions a company produces directly: its own fuel, factories, vehicles and planes.":
     "Emisi yang dihasilkan perusahaan secara langsung: bahan bakar, pabrik, kendaraan dan pesawatnya sendiri.",
   "Example: Air Canada's Scope 1 in 2025: 12.0 Mt, almost all jet fuel.":
-    "Contoh: Scope 1 Air Canada pada 2025: 12.0 Mt, hampir semua bahan bakar jet.",
+    "Contoh: Scope 1 Air Canada pada 2025: 12,0 Mt, hampir semua bahan bakar jet.",
   "Emissions from the electricity, heat or steam a company buys.":
     "Emisi dari listrik, panas atau uap yang dibeli perusahaan.",
   "Example: an office building's electricity bill, turned into tonnes.":
@@ -635,7 +635,7 @@ Object.assign(ID_EXACT, {
   "Two ways to count Scope 2. Location-based uses the local grid's average; market-based counts green power contracts the company bought.":
     "Dua cara menghitung Scope 2. Location-based memakai rata-rata jaringan setempat; market-based menghitung kontrak listrik hijau yang dibeli perusahaan.",
   "Example: Natura's 2025 Scope 2 is 11,433 t location-based but 0.2 t market-based.":
-    "Contoh: Scope 2 Natura 2025 adalah 11,433 t location-based tapi 0.2 t market-based.",
+    "Contoh: Scope 2 Natura 2025 adalah 11.433 t location-based tapi 0,2 t market-based.",
   "Which assets count as the company's. Operational control: what it runs. Equity share: what it owns, in proportion.":
     "Aset mana yang dihitung milik perusahaan. Operational control: apa yang dijalankannya. Equity share: apa yang dimilikinya, menurut porsi.",
   "Example: Chevron's Scope 1 is 52 Mt by equity share but 55 Mt by operational control.":
@@ -656,7 +656,7 @@ Object.assign(ID_EXACT, {
   "A company that buys and retires credits on behalf of its customers. The registry shows the reseller, not the customer.":
     "Perusahaan yang membeli dan memensiunkan kredit atas nama pelanggannya. Registry menampilkan resellernya, bukan pelanggannya.",
   "Example: \"4AIR Client\" retired 3.9 Mt for clients who are not named.":
-    "Contoh: \"4AIR Client\" memensiunkan 3.9 Mt untuk klien yang tidak disebut namanya.",
+    "Contoh: \"4AIR Client\" memensiunkan 3,9 Mt untuk klien yang tidak disebut namanya.",
   "Turning a credit into a crypto token that can be traded on a blockchain. Verra banned tokenizing retired credits in 2022.":
     "Mengubah kredit menjadi token kripto yang bisa diperdagangkan di blockchain. Verra melarang tokenisasi kredit yang sudah dipensiunkan pada 2022.",
   "Example: about 22 million Verra credits were moved into tokens before the ban.":
@@ -668,7 +668,7 @@ Object.assign(ID_EXACT, {
   "What some registry entries say instead of a beneficiary name. The credits were used for a claim, but the public record does not say whose.":
     "Tulisan di sebagian entri registry sebagai ganti nama beneficiary. Kredit dipakai untuk klaim, tapi catatan publik tidak menyebut milik siapa.",
   "Example: 89.4 Mt were retired to \"Not Disclosed\" since 2020, more than to any company (Shell: 42.3 Mt).":
-    "Contoh: 89.4 Mt dipensiunkan ke \"Not Disclosed\" sejak 2020, lebih banyak daripada ke perusahaan mana pun (Shell: 42.3 Mt).",
+    "Contoh: 89,4 Mt dipensiunkan ke \"Not Disclosed\" sejak 2020, lebih banyak daripada ke perusahaan mana pun (Shell: 42,3 Mt).",
   "The free-text reason a buyer can add when retiring credits. It often names the product or the year the claim covers.":
     "Alasan teks bebas yang bisa ditambah pembeli saat memensiunkan kredit. Sering menyebut produk atau tahun yang dicakup klaim.",
   "Example: \"Annual Carbon Offsetting to be Carbon Neutral\".":
@@ -701,11 +701,11 @@ Object.assign(ID_EXACT, {
   "The small fee paid to write to a blockchain. On a testnet it is paid with free practice coins.":
     "Biaya kecil untuk menulis ke blockchain. Di testnet biayanya dibayar dengan koin latihan gratis.",
   "Example: one Netra check costs about 590,000 gas on Sepolia, whether it covers 10 serial ranges or 684.":
-    "Contoh: satu cek Netra memakan biaya sekitar 590,000 gas di Sepolia, mau mencakup 10 rentang serial atau 684.",
+    "Contoh: satu cek Netra memakan biaya sekitar 590.000 gas di Sepolia, mau mencakup 10 rentang serial atau 684.",
   "An account on a blockchain, written as a long code starting with 0x.":
     "Akun di blockchain, ditulis sebagai kode panjang yang diawali 0x.",
   "Example: 0xAf52…81B0 retired 2.0 Mt of credits. Who owns it is unknown.":
-    "Contoh: 0xAf52…81B0 memensiunkan 2.0 Mt kredit. Siapa pemiliknya tidak diketahui.",
+    "Contoh: 0xAf52…81B0 memensiunkan 2,0 Mt kredit. Siapa pemiliknya tidak diketahui.",
   "A call to the ClaimRegistry contract that proves one serial range sits in two published claims. The contract checks both proofs itself and flags the later claim for good.":
     "Panggilan ke kontrak ClaimRegistry yang membuktikan satu rentang serial ada di dua klaim terbit. Kontrak memeriksa kedua buktinya sendiri dan menandai klaim yang lebih baru untuk selamanya.",
   "Example: Netra's watcher challenged demo check #7 about ten seconds after it read it.":
@@ -746,7 +746,7 @@ Object.assign(ID_EXACT, {
   "Netra's own terms and sources": "Istilah dan sumber milik Netra",
   "Netra's letter for the share of researched tonnes that are likely real: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E < 10%. No grade if research covers less than a quarter.":
     "Huruf Netra untuk porsi ton yang diteliti yang kemungkinan nyata: A ≥ 60%, B 40–60%, C 20–40%, D 10–20%, E < 10%. Tidak ada nilai bila riset mencakup kurang dari seperempat.",
-  "Example: Shell gets C (22.8%).": "Contoh: Shell dapat C (22.8%).",
+  "Example: Shell gets C (22.8%).": "Contoh: Shell dapat C (22,8%).",
   "Netra only assigns a project type when three sources agree: Berkeley's type, CarbonPlan's type and the methodology code. Any disagreement means no estimate.":
     "Netra hanya menetapkan jenis proyek bila tiga sumber setuju: jenis dari Berkeley, jenis dari CarbonPlan dan kode metodologi. Tidak sepakat berarti tanpa estimasi.",
   "Example: 234 projects disagree and get no estimate rather than a guess.":
@@ -759,7 +759,7 @@ Object.assign(ID_EXACT, {
   "Example: it disagrees with Berkeley on Katingan (VCS1477), so Netra gives that project no estimate.":
     "Contoh: tidak sepakat dengan Berkeley soal Katingan (VCS1477), jadi Netra tidak memberi estimasi untuk proyek itu.",
   "A study in Nature Communications that pooled 2,346 projects and found fewer than 16% of credits were real reductions. Netra's OARs come from it.":
-    "Studi di Nature Communications yang menggabungkan 2,346 proyek dan menemukan kurang dari 16% kredit adalah pengurangan nyata. OAR Netra berasal dari studi ini.",
+    "Studi di Nature Communications yang menggabungkan 2.346 proyek dan menemukan kurang dari 16% kredit adalah pengurangan nyata. OAR Netra berasal dari studi ini.",
   "Shown when no peer-reviewed study measured how many credits of that project type are real. Netra leaves it empty instead of guessing.":
     "Ditampilkan bila tidak ada studi peer-review yang mengukur berapa kredit jenis proyek itu yang nyata. Netra membiarkannya kosong alih-alih menebak.",
   "Example: most solar and hydro credits show \"No estimate\".":
@@ -770,7 +770,7 @@ Object.assign(ID_EXACT, {
   "A non-profit that publishes the yearly State of the Voluntary Carbon Market report with volumes and average prices.":
     "Nirlaba yang menerbitkan laporan tahunan State of the Voluntary Carbon Market berisi volume dan harga rata-rata.",
   "Example: the source of the $6.34 average price for 2024.":
-    "Contoh: sumber harga rata-rata $6.34 untuk 2024.",
+    "Contoh: sumber harga rata-rata $6,34 untuk 2024.",
   "No term matches. Try a shorter word.":
     "Tidak ada istilah yang cocok. Coba kata yang lebih pendek.",
   "netra · Missing a word?": "netra · Ada istilah yang kurang?",
@@ -956,7 +956,7 @@ ID_RULES.push(
 // Hidden-buyer explanations (KIND in app.js) are matched inside the "N accounts." sentence via tr().
 Object.assign(ID_EXACT, {
   "A real company, reviewed by hand and matched to its group (Gucci is counted under Kering).": "Perusahaan nyata, ditinjau manual dan dicocokkan ke grupnya (Gucci dihitung di bawah Kering).",
-  "A name is given, but it is one of 44,000+ smaller names Netra has not reviewed one by one.": "Ada nama, tetapi termasuk 44,000+ nama kecil yang belum ditinjau Netra satu per satu.",
+  "A name is given, but it is one of 44,000+ smaller names Netra has not reviewed one by one.": "Ada nama, tetapi termasuk 44.000+ nama kecil yang belum ditinjau Netra satu per satu.",
   "A government or public authority.": "Pemerintah atau lembaga publik.",
   "An offset seller retires credits on behalf of its customers. Who the customers are is not in the registry.": "Penjual offset memensiunkan kredit atas nama pelanggannya. Siapa pelanggannya tidak ada di registry.",
   "Retired to a blockchain address. Who holds the climate claim cannot be seen.": "Dipensiunkan ke alamat blockchain. Siapa pemegang klaim iklimnya tidak terlihat.",
