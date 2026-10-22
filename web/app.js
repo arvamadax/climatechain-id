@@ -503,16 +503,84 @@ async function verifyPanel() {
   }
 }
 
-// One finding under the search, computed from the reviewed company groups with the same grade rule as every result.
-async function finding() {
+/* ---------- story (home): one figure of 100 dots that changes as each chapter scrolls in ---------- */
+// Every number is computed from the same data as the rest of the site; a dot is 1 in 100 tonnes (or one buyer, or one check).
+async function story(m) {
+  const viz = $("#figViz");
+  if (!viz) return;
+  const n100 = (share) => Math.round(share * 100);
+  const spread = (k) => { const s = new Set(); for (let i = 0; s.size < k && i < 400; i++) s.add((i * 37 + 11) % 100); return s; }; // even scatter, same every load
+  const dots = (cls) => `<div class="dots">${Array.from({ length: cls.length }, (_, i) => `<i style="--k:${i}" class="${cls[i]}"></i>`).join("")}</div>`;
+  const hidden = await getJSON("data/hidden.json").catch(() => null);
   await companiesReady;
-  const graded = (COMPANIES || []).map((c) => grade(c.e, c.k, c.t)).filter(Boolean);
-  if (!graded.length) return;
-  const ab = graded.filter((g) => g[1] === "A" || g[1] === "B").length;
-  $("#findingText").textContent = ab
-    ? `${ab} of the ${graded.length} big buyers that research covers well enough to grade reach a B or better.`
-    : `None of the ${graded.length} big buyers that research covers well enough to grade reaches a B.`;
-  $("#finding").hidden = false;
+  const known = n100(m.known / m.tonnes), real = n100(m.eff / m.known), realSet = spread(real);
+  const shares = Object.keys(m.ys).sort().map((y) => [y, m.ys[y][1] / m.ys[y][2]]);
+  const hid = hidden ? ["intermediary", "wallet", "tokenization", "unidentified", "anonymous"].reduce((s, k) => s + (hidden.kinds[k]?.t || 0), 0) / hidden.total : null;
+  const graded = (COMPANIES || []).map((c) => grade(c.e, c.k, c.t)).filter(Boolean).map((g) => g[1]).sort();
+  const count = (l) => graded.filter((g) => g === l).length;
+
+  const line = () => {
+    const W = 520, H = 200, L = 34, R = 26, T = 14, B = 26, X = (k) => L + k * ((W - L - R) / (shares.length - 1)), Y = (v) => T + (1 - v / 0.5) * (H - T - B);
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Likely-real share by year">
+      ${[0, 0.25, 0.5].map((v) => `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css("--line")}"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${v * 100}%</text>`).join("")}
+      <path d="${shares.map(([, v], k) => `${k ? "L" : "M"}${X(k)},${Y(v)}`).join("")}" fill="none" stroke="${css("--accent")}" stroke-width="2.5"/>
+      ${shares.map(([y, v], k) => `<circle cx="${X(k)}" cy="${Y(v)}" r="4" fill="${css("--accent")}"/><text x="${X(k)}" y="${H - 6}" text-anchor="middle">${y}</text>`).join("")}</svg>`;
+  };
+  const STATES = [
+    { big: mt(m.tonnes), cap: "retired since 2020, each counted as a real tonne", src: "Verra and Gold Standard, Berkeley Voluntary Registry Offsets Database v2026-08",
+      viz: () => dots(Array(100).fill("r")), legend: [["r", "1 in 100 tonnes, counted as real"]] },
+    { big: `${known} of 100`, cap: "tonnes come from kinds of project that research has measured", src: "A kind counts only when Berkeley, CarbonPlan and the methodology code agree",
+      viz: () => dots(Array.from({ length: 100 }, (_, i) => (i < known ? "r" : "x"))), legend: [["r", "measured by research"], ["x", "no published estimate"]] },
+    { big: `${real} of 100`, cap: `measured tonnes likely cut real emissions (range ${pct(m.eff_lo / m.known)} to ${pct(m.eff_hi / m.known)})`, src: "Probst et al. 2024, Nature Communications, applied per kind of project",
+      viz: () => dots(Array.from({ length: 100 }, (_, i) => (realSet.has(i) ? "r" : ""))), legend: [["r", "likely a real cut"], ["", "counted, not real"]] },
+    { big: `${pct(Math.min(...shares.map((s) => s[1])))} to ${pct(Math.max(...shares.map((s) => s[1])))}`, cap: "likely real, every year since 2020", src: "Measured tonnes by year of retirement; 2026 up to August",
+      viz: line, legend: [] },
+    hid === null ? null : { big: `${n100(hid)} of 100`, cap: "tonnes since 2020 name no one you could hold to the claim", src: "Beneficiary field of every retirement, reviewed by hand for the largest accounts",
+      viz: () => { const s = spread(n100(hid)); return dots(Array.from({ length: 100 }, (_, i) => (s.has(i) ? "x" : "r"))); }, legend: [["r", "a named claimant"], ["x", "no one named"]] },
+    { big: `${graded.filter((g) => g === "A" || g === "B").length} of ${graded.length}`, cap: "big buyers that research covers well enough to grade reach a B", src: "Netra grades: A at least 60% likely real, B 40 to 60%, C 20 to 40%, D 10 to 20%, E under 10%",
+      viz: () => dots(graded.map((g) => `g${g.toLowerCase()}`)), legend: ["A", "B", "C", "D", "E"].filter(count).map((l) => [`g${l.toLowerCase()}`, `${l}: ${count(l)}`]) },
+    { big: "…", cap: "checks on a public blockchain", src: "ClaimRegistry on the Ethereum Sepolia test network", viz: () => "", legend: [], chain: true },
+  ];
+  // The last chapter waits for the chain: one dot per published check, flagged double claims marked.
+  onchain.then((list) => {
+    const flagged = list.filter((c) => c.doubleClaim).length;
+    Object.assign(STATES[6], { big: `${list.length} checks`, cap: `on a public blockchain; ${flagged} flagged as double claims`,
+      viz: () => dots(list.map((c) => (c.doubleClaim ? "ge" : "r"))), legend: [["r", "a published check"], ["ge", "flagged: serials claimed twice"]] });
+    if (current === 6) { current = -1; show(6); }
+  }).catch(() => Object.assign(STATES[6], { big: "Offline", cap: "the test network did not answer; the records stay public on the block explorer" }));
+
+  let current = -1;
+  const show = (s) => {
+    const st = STATES[s];
+    if (!st || s === current) return;
+    current = s;
+    const swaps = document.querySelectorAll(".figure .swap");
+    swaps.forEach((el) => el.classList.add("out"));
+    const draw = () => {
+      $("#figBig").textContent = st.big; $("#figCap").textContent = st.cap; $("#figSrc").textContent = st.src;
+      $("#figLegend").innerHTML = st.legend.map(([c, t]) => `<span class="${c}">${esc(t)}</span>`).join("");
+      swaps.forEach((el) => el.classList.remove("out"));
+    };
+    // dots recolour in place (a transition per dot); a different kind of figure is swapped
+    const html = st.viz(), next = new DOMParser().parseFromString(html, "text/html").querySelectorAll(".dots i"), now = viz.querySelectorAll(".dots i");
+    if (next.length && next.length === now.length) now.forEach((el, i) => (el.className = next[i].className));
+    else viz.innerHTML = html;
+    reduced() ? draw() : setTimeout(draw, 160);
+    document.querySelectorAll(".chapter").forEach((el) => el.classList.toggle("on", +el.dataset.s === s));
+  };
+  show(0);
+  const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && show(+e.target.dataset.s)),
+    { rootMargin: matchMedia("(max-width: 860px)").matches ? "-62% 0px -30% 0px" : "-45% 0px -45% 0px" });
+  document.querySelectorAll(".chapter").forEach((el) => io.observe(el));
+  document.addEventListener("themechange", () => { const s = current; current = -1; show(s); });
+  // contour lines behind the story
+  let t = "";
+  for (let k = 0; k < 74; k++) {
+    let p = "";
+    for (let x = 0; x <= 1280; x += 40) p += `${x ? " L" : "M"}${x} ${(40 + k * 54 + Math.sin(x / 170 + k * 0.7) * 22 + Math.cos(x / 90 + k) * 9).toFixed(1)}`;
+    t += `<path d="${p}"/>`;
+  }
+  $("#topo").innerHTML = t;
 }
 
 /* ---------- boot ---------- */
@@ -528,7 +596,8 @@ async function finding() {
   if ($("#ownerCount")) $("#ownerCount").textContent = fmt(rows.length);
   onchain = loadChecks();
   onchain.catch(() => {}); // pages without a chain view must not log an unhandled rejection
-  if (ON_CHECK) { setupSearch(); finding(); }
+  if (ON_CHECK) setupSearch();
+  story(INDEX.meta);
   market(INDEX.meta);
   hiddenSection();
   verifyPanel();

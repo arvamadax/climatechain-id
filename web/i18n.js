@@ -315,6 +315,91 @@ ID_RULES.unshift( // checked before the general rules above (e.g. "None of the �
     "$1 dari semua ton kolom penerima manfaatnya kosong, dan hanya $2 memakai metodologi berlabel kualitas ICVCM."],
 );
 
+// Home as a story (overhaul): hero, chapters, the figure, and where to go next.
+Object.assign(ID_EXACT, {
+  "Netra · A tonne on paper is not a tonne in the air": "Netra · Satu ton di atas kertas bukan satu ton di udara",
+  "Story": "Cerita", "The story": "Cerita",
+  "Field notes on the carbon market": "Catatan lapangan tentang pasar karbon",
+  "A tonne on paper is not a tonne in the air.": "Satu ton di atas kertas bukan satu ton di udara.",
+  "Since 2020, companies retired 876 million tonnes of carbon credits to call themselves greener. We followed every one of them, from the registry to the research.":
+    "Sejak 2020, perusahaan memensiunkan 876 juta ton kredit karbon untuk menyebut diri mereka lebih hijau. Kami menelusuri semuanya, dari registry sampai riset.",
+  "Check a company": "Periksa perusahaan",
+  "What gets counted": "Apa yang dihitung",
+  "A carbon credit is supposed to be one tonne of CO₂ kept out of the air. When a company uses one for a climate claim, the credit is":
+    "Satu kredit karbon seharusnya berarti satu ton CO₂ yang tidak sampai ke udara. Saat perusahaan memakainya untuk klaim iklim, kredit itu",
+  "retired": "dipensiunkan",
+  "in a public registry, and that tonne counts as the company's.": "di registry publik, dan ton itu dihitung sebagai milik perusahaan tersebut.",
+  "Since 2020,": "Sejak 2020,", "876 million tonnes": "876 juta ton",
+  "were retired on Verra and Gold Standard, the two largest registries.": "dipensiunkan di Verra dan Gold Standard, dua registry terbesar.",
+  "What research can measure": "Apa yang bisa diukur riset",
+  "Researchers have measured how much a credit really cut for some kinds of project: cookstoves, forest protection, wind farms, industrial gases. For the rest there is no published estimate, and Netra does not invent one.":
+    "Peneliti sudah mengukur berapa yang benar-benar dikurangi sebuah kredit untuk sebagian jenis proyek: kompor masak, perlindungan hutan, ladang angin, gas industri. Untuk sisanya belum ada estimasi terbit, dan Netra tidak mengarangnya.",
+  "The measured kinds cover": "Jenis yang sudah diukur mencakup", "38 in 100": "38 dari 100", "of the tonnes.": "ton.",
+  "What holds up": "Apa yang bertahan",
+  "A study of 2,346 projects (Probst et al.,": "Studi atas 2.346 proyek (Probst et al.,",
+  ", 2024) measured the real reductions behind each kind of project. Applied to the measured tonnes, about":
+    ", 2024) mengukur pengurangan nyata di balik tiap jenis proyek. Diterapkan pada ton yang sudah diukur, sekitar",
+  "19 in 100": "19 dari 100", "cut real emissions.": "benar-benar mengurangi emisi.",
+  "The research range is wide, so every result on Netra shows the range next to the best estimate.":
+    "Rentang risetnya lebar, jadi setiap hasil di Netra menampilkan rentang di samping estimasi terbaik.",
+  "Has it improved?": "Apakah membaik?",
+  "No. Year after year since 2020, the share of measured tonnes that is likely real has stayed": "Tidak. Tahun demi tahun sejak 2020, porsi ton terukur yang kemungkinan nyata tetap",
+  "between 18% and 22%": "di antara 18% dan 22%",
+  "Who is counting": "Siapa yang mengklaim",
+  "Every retirement has a field for who the climate benefit belongs to. For": "Setiap retirement punya kolom untuk siapa pemilik manfaat iklimnya. Untuk",
+  "57 in 100": "57 dari 100",
+  "tonnes, it names no one you could hold to the claim: it is blank, says \"Not Disclosed\", or points to a reseller, a crypto wallet or a code.":
+    "ton, kolom itu tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaimnya: kosong, berisi \"Not Disclosed\", atau menunjuk ke pengecer, dompet kripto, atau sebuah kode.",
+  "The biggest buyers": "Pembeli terbesar",
+  "Netra reviewed the largest buyers by hand and grouped them by owner. Research covers": "Netra meninjau pembeli terbesar satu per satu dan mengelompokkannya per pemilik. Riset mencakup",
+  "of them well enough for a grade from A to E.": "di antaranya cukup baik untuk diberi nilai A sampai E.",
+  "None reaches a B.": "Tidak satu pun mencapai B.",
+  "A record no one can edit": "Catatan yang tidak bisa diubah siapa pun",
+  "Every published check is written to a public blockchain, with a fingerprint of the report and of the serial numbers behind it. No one, not even Netra, can change it.":
+    "Setiap pemeriksaan yang terbit ditulis ke blockchain publik, bersama sidik jari laporan dan nomor serial di baliknya. Tidak ada yang bisa mengubahnya, termasuk Netra.",
+  "If one serial range shows up in two claims, anyone can prove it, and the later claim is flagged for good.":
+    "Jika satu rentang serial muncul di dua klaim, siapa pun bisa membuktikannya, dan klaim yang lebih baru ditandai selamanya.",
+  "See the records": "Lihat catatannya",
+  "Check a company yourself.": "Periksa sendiri sebuah perusahaan.",
+  "Go deeper.": "Lebih dalam.",
+  "The whole market as charts: project types, years, and every account that hides who claims.": "Seluruh pasar dalam grafik: jenis proyek, tahun, dan setiap akun yang menyembunyikan siapa pengklaimnya.",
+  "Every published check on a public blockchain, and how to verify one yourself.": "Setiap pemeriksaan yang terbit di blockchain publik, dan cara memverifikasinya sendiri.",
+  "All reviewed companies side by side, with downloads.": "Semua perusahaan yang ditinjau, berdampingan, dengan unduhan.",
+  "Every carbon-market and blockchain word on this site, in plain English.": "Setiap istilah pasar karbon dan blockchain di situs ini, dalam bahasa sederhana.",
+  "Who made Netra, the method, the sources and the limits.": "Siapa pembuat Netra, metodenya, sumbernya, dan batasannya.",
+  "netra · Data: Berkeley Carbon Trading Project VROD (CC BY 4.0), CarbonPlan OffsetsDB, ICVCM, Climate TRACE, Probst et al. 2024, company reports. Photo: Paul Jarvis on Unsplash.":
+    "netra · Data: Berkeley Carbon Trading Project VROD (CC BY 4.0), CarbonPlan OffsetsDB, ICVCM, Climate TRACE, Probst et al. 2024, laporan perusahaan. Foto: Paul Jarvis di Unsplash.",
+  // the story figure
+  "retired since 2020, each counted as a real tonne": "dipensiunkan sejak 2020, masing-masing dihitung sebagai satu ton nyata",
+  "Verra and Gold Standard, Berkeley Voluntary Registry Offsets Database v2026-08": "Verra dan Gold Standard, Berkeley Voluntary Registry Offsets Database v2026-08",
+  "1 in 100 tonnes, counted as real": "1 dari 100 ton, dihitung nyata",
+  "tonnes come from kinds of project that research has measured": "ton berasal dari jenis proyek yang sudah diukur riset",
+  "A kind counts only when Berkeley, CarbonPlan and the methodology code agree": "Sebuah jenis dihitung hanya bila Berkeley, CarbonPlan, dan kode metodologi sepakat",
+  "measured by research": "diukur riset", "no published estimate": "belum ada estimasi terbit",
+  "Probst et al. 2024, Nature Communications, applied per kind of project": "Probst et al. 2024, Nature Communications, diterapkan per jenis proyek",
+  "likely a real cut": "kemungkinan pengurangan nyata", "counted, not real": "dihitung, tidak nyata",
+  "likely real, every year since 2020": "kemungkinan nyata, setiap tahun sejak 2020",
+  "Measured tonnes by year of retirement; 2026 up to August": "Ton terukur per tahun retirement; 2026 sampai Agustus",
+  "tonnes since 2020 name no one you could hold to the claim": "ton sejak 2020 tidak menyebut siapa pun yang bisa dimintai tanggung jawab",
+  "Beneficiary field of every retirement, reviewed by hand for the largest accounts": "Kolom penerima manfaat setiap retirement, ditinjau satu per satu untuk akun terbesar",
+  "a named claimant": "pengklaim bernama", "no one named": "tidak ada nama",
+  "big buyers that research covers well enough to grade reach a B": "pembeli besar yang cukup tercakup riset untuk dinilai mencapai B",
+  "Netra grades: A at least 60% likely real, B 40 to 60%, C 20 to 40%, D 10 to 20%, E under 10%":
+    "Nilai Netra: A minimal 60% kemungkinan nyata, B 40 sampai 60%, C 20 sampai 40%, D 10 sampai 20%, E di bawah 10%",
+  "checks on a public blockchain": "pemeriksaan di blockchain publik",
+  "ClaimRegistry on the Ethereum Sepolia test network": "ClaimRegistry di jaringan uji Ethereum Sepolia",
+  "a published check": "pemeriksaan yang terbit", "flagged: serials claimed twice": "ditandai: serial diklaim dua kali",
+  "Offline": "Luring", "the test network did not answer; the records stay public on the block explorer": "jaringan uji tidak menjawab; catatannya tetap publik di block explorer",
+  "Likely-real share by year": "Porsi kemungkinan nyata per tahun",
+});
+ID_RULES.unshift(
+  [/^(\d+) of (\d+)$/, "$1 dari $2"],
+  [/^(\d+) checks$/, "$1 pemeriksaan"],
+  [/^(\S+%) to (\S+%)$/, "$1 sampai $2"],
+  [/^measured tonnes likely cut real emissions \(range (\S+) to (\S+)\)$/, "ton terukur kemungkinan benar-benar mengurangi emisi (rentang $1 sampai $2)"],
+  [/^on a public blockchain; (\d+) flagged as double claims$/, "di blockchain publik; $1 ditandai sebagai klaim ganda"],
+);
+
 function tr(s) {
   const key = s.replace(/\s+/g, " ").trim();
   if (!key) return s;

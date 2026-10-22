@@ -3,37 +3,93 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Netra · See what a carbon claim is really worth</title>
-<meta name="description" content="Netra grades the carbon credits a company says it retired: registry data, published research, the company's own report and an independent emissions estimate, side by side.">
+<title>Netra · A tonne on paper is not a tonne in the air</title>
+<meta name="description" content="Field notes on 876 million tonnes of carbon credits: how many were real, who claims them, and how to check a company yourself.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fragment+Mono&display=swap">
-<link rel="stylesheet" href="style.css?v=audit2">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Besley:wght@500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Fragment+Mono&display=swap">
+<link rel="preload" as="image" href="https://picsum.photos/id/10/1800/1000" fetchpriority="high">
+<link rel="stylesheet" href="style.css?v=story2">
 <script>try{if(localStorage.getItem("netra-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
-
 </head>
-<body>
+<body class="home">
 <header class="top">
-  <a class="brand" href="#check" aria-label="Netra home">
+  <a class="brand" href="index.html" aria-label="Netra home">
     <svg class="mark" viewBox="0 0 34 34" width="28" height="28" aria-hidden="true"><circle class="ring" cx="17" cy="17" r="15" fill="none" stroke-width="3"/><path class="half" d="M17 2A15 15 0 0 0 17 32Z"/><circle class="pupil" cx="17" cy="17" r="5"/></svg>
     <span>netra</span>
   </a>
   <nav aria-label="Main">
-    <a href="index.html#check" aria-current="page">Check</a><a href="report.html">Report</a><a href="proof.html">Proof</a><a href="data.html">Data</a><a href="about.html">About</a>
+    <a href="index.html" aria-current="page">Story</a><a href="index.html#check">Check</a><a href="report.html">Report</a><a href="proof.html">Proof</a><a href="data.html">Data</a><a href="glossary.html">Glossary</a><a href="about.html">About</a>
     <button class="lang" type="button" lang="id" aria-label="Ganti ke Bahasa Indonesia">ID</button>
     <button class="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Light or dark">
       <svg viewBox="0 0 24 24" aria-hidden="true"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
     </button>
-    <a class="pill" href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
 
+<section class="hero">
+  <img src="https://picsum.photos/id/10/1800/1000" alt="" width="1800" height="1000">
+  <div class="t">
+    <p class="kick">Field notes on the carbon market</p>
+    <h1>A tonne on paper is not a tonne in the air.</h1>
+    <p class="dek">Since 2020, companies retired 876 million tonnes of carbon credits to call themselves greener. We followed every one of them, from the registry to the research.</p>
+    <a class="cta" href="#check">Check a company</a>
+  </div>
+</section>
+
 <main>
-  <section id="check" class="hero">
-    <span class="badge">876 Mt of carbon credits retired since 2020, searchable by buyer</span>
-    <h1>See what a carbon claim is really worth.</h1>
-    <p class="lede">Type a company. Netra shows the credits it retired, how many research says are likely real, what it reports emitting, and what independent estimates see. Search <b id="ownerCount">44,465</b> buyers.</p>
+  <section class="field" id="story" aria-label="The story">
+    <svg class="topo" id="topo" viewBox="0 0 1280 4000" preserveAspectRatio="none" fill="none" stroke-width="1.1" aria-hidden="true"></svg>
+    <div class="story-grid">
+      <div class="chapters-list">
+        <div class="chapter" data-s="0">
+          <h2>What gets counted</h2>
+          <p>A carbon credit is supposed to be one tonne of CO₂ kept out of the air. When a company uses one for a climate claim, the credit is <b>retired</b> in a public registry, and that tonne counts as the company's.</p>
+          <p>Since 2020, <b>876 million tonnes</b> were retired on Verra and Gold Standard, the two largest registries.</p>
+        </div>
+        <div class="chapter" data-s="1">
+          <h2>What research can measure</h2>
+          <p>Researchers have measured how much a credit really cut for some kinds of project: cookstoves, forest protection, wind farms, industrial gases. For the rest there is no published estimate, and Netra does not invent one.</p>
+          <p>The measured kinds cover <b>38 in 100</b> of the tonnes.</p>
+        </div>
+        <div class="chapter" data-s="2">
+          <h2>What holds up</h2>
+          <p>A study of 2,346 projects (Probst et al., <i>Nature Communications</i>, 2024) measured the real reductions behind each kind of project. Applied to the measured tonnes, about <b>19 in 100</b> cut real emissions.</p>
+          <p>The research range is wide, so every result on Netra shows the range next to the best estimate.</p>
+        </div>
+        <div class="chapter" data-s="3">
+          <h2>Has it improved?</h2>
+          <p>No. Year after year since 2020, the share of measured tonnes that is likely real has stayed <b>between 18% and 22%</b>.</p>
+        </div>
+        <div class="chapter" data-s="4">
+          <h2>Who is counting</h2>
+          <p>Every retirement has a field for who the climate benefit belongs to. For <b>57 in 100</b> tonnes, it names no one you could hold to the claim: it is blank, says "Not Disclosed", or points to a reseller, a crypto wallet or a code.</p>
+        </div>
+        <div class="chapter" data-s="5">
+          <h2>The biggest buyers</h2>
+          <p>Netra reviewed the largest buyers by hand and grouped them by owner. Research covers <b>52</b> of them well enough for a grade from A to E.</p>
+          <p><b>None reaches a B.</b></p>
+        </div>
+        <div class="chapter" data-s="6">
+          <h2>A record no one can edit</h2>
+          <p>Every published check is written to a public blockchain, with a fingerprint of the report and of the serial numbers behind it. No one, not even Netra, can change it.</p>
+          <p>If one serial range shows up in two claims, anyone can prove it, and the later claim is flagged for good. <a href="proof.html">See the records</a></p>
+        </div>
+      </div>
+      <aside class="figure" aria-live="polite">
+        <div class="swap"><p class="big" id="figBig"></p><h3 id="figCap"></h3><p class="src" id="figSrc"></p></div>
+        <div id="figViz"></div>
+        <div class="legend swap" id="figLegend"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="check" class="check">
+    <div class="check-head">
+      <h2>Check a company yourself.</h2>
+      <p class="lede">Type a company. Netra shows the credits it retired, how many research says are likely real, what it reports emitting, and what independent estimates see. Search <b id="ownerCount">44,465</b> buyers.</p>
+    </div>
     <div class="modes" role="tablist" aria-label="What to check">
       <button type="button" role="tab" id="modeCompany" aria-selected="true" aria-controls="search">Search a company</button>
       <button type="button" role="tab" id="modeClaim" aria-selected="false" aria-controls="claimForm">Paste a claim</button>
@@ -46,7 +102,7 @@
       </form>
       <ul id="suggest" role="listbox" hidden></ul>
     </div>
-    <form id="claimForm" class="search claimbox" hidden>
+    <form id="claimForm" class="claimbox" hidden>
       <label for="claimText" class="sr">Claim text</label>
       <textarea id="claimText" rows="3" maxlength="5000" placeholder="Paste a green claim, e.g. “Our 2025 flights were carbon neutral: we offset 120,000 tonnes of CO2.”"></textarea>
       <button class="btn" type="submit">Check</button>
@@ -56,14 +112,8 @@
       <button type="button" data-ex="Example written by Netra: an ad says that filling up at Shell in 2025 is carbon neutral because carbon credits are retired for every litre, about 2 million tonnes of CO2 this year.">Example: fuel</button>
       <button type="button" data-ex="Example written by Netra: a streaming service, Netflix, describes its 2025 operations as net zero after retiring carbon credits from forest protection projects.">Example: streaming</button>
     </div>
-  </section>
-
-  <div id="claimOut" aria-live="polite"></div>
-  <section id="result" class="result" hidden aria-live="polite"></section>
-
-  <section id="finding" class="finding" hidden>
-    <p id="findingText"></p>
-    <a href="report.html">Read the report</a>
+    <div id="claimOut" aria-live="polite"></div>
+    <section id="result" class="result" hidden aria-live="polite"></section>
   </section>
 
   <section id="registry" class="block">
@@ -76,17 +126,27 @@
     </div>
   </section>
 
+  <section class="onward">
+    <h2>Go deeper.</h2>
+    <ul>
+      <li><a href="report.html"><b>Report</b><span>The whole market as charts: project types, years, and every account that hides who claims.</span></a></li>
+      <li><a href="proof.html"><b>Proof</b><span>Every published check on a public blockchain, and how to verify one yourself.</span></a></li>
+      <li><a href="data.html"><b>Data</b><span>All reviewed companies side by side, with downloads.</span></a></li>
+      <li><a href="glossary.html"><b>Glossary</b><span>Every carbon-market and blockchain word on this site, in plain English.</span></a></li>
+      <li><a href="about.html"><b>About</b><span>Who made Netra, the method, the sources and the limits.</span></a></li>
+    </ul>
+  </section>
 </main>
 
 <footer class="foot">
-  <span><a href="glossary.html">Glossary</a> · <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">Method</a></span>
-  <span>netra · Data: Berkeley Carbon Trading Project VROD (CC BY 4.0), CarbonPlan OffsetsDB, ICVCM, Climate TRACE, Probst et al. 2024, company reports.</span>
+  <span><a href="glossary.html">Glossary</a> · <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">Method</a> · <a href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a></span>
+  <span>netra · Data: Berkeley Carbon Trading Project VROD (CC BY 4.0), CarbonPlan OffsetsDB, ICVCM, Climate TRACE, Probst et al. 2024, company reports. Photo: Paul Jarvis on Unsplash.</span>
   <span>IEEE ClimateChain Global Hackathon 2026 · Track 1</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
-<script src="common.js?v=redesign1"></script>
-<script src="app.js?v=audit3"></script>
-<script src="i18n.js?v=redesign1"></script>
+<script src="common.js?v=story2"></script>
+<script src="app.js?v=story2"></script>
+<script src="i18n.js?v=story2"></script>
 </body>
 </html>
