@@ -5,7 +5,15 @@ const ABI = [
   "function count() view returns (uint256)",
   "function checks(uint256) view returns (bytes32 subject, bytes32 reportHash, bytes32 serialRoot, uint32 serialCount, uint64 timestamp, address attester, bool doubleClaim, string uri)",
 ];
-const EXAMPLES = ["Shell", "Delta Air Lines", "Netflix, Inc.", "Volkswagen Marke Pkw", "Eni Upstream", "Apple Inc.", "Not Disclosed"];
+// Shortcut cards beside the search: registry name (n), group for the logo (g), and why it is worth a look (why).
+const EXAMPLES = [
+  { n: "Shell", g: "Shell plc", why: "The biggest named buyer" },
+  { n: "Delta Air Lines", g: "Delta Air Lines Inc", why: "An airline's offsets" },
+  { n: "Netflix, Inc.", g: "Netflix, Inc.", why: "A streaming company" },
+  { n: "Volkswagen Marke Pkw", g: "Volkswagen AG", why: "A car maker" },
+  { n: "Eni Upstream", g: "Eni SpA", why: "Own report vs independent estimate" },
+  { n: "Not Disclosed", g: "?", why: "No one named as the claimant" },
+];
 const CAT_COLORS = { redd: "#1d4e89", cookstove: "#e8590c", wind_china: "#4c82c3", ifm_us: "#8a6fb0", hfc23: "#b83a0e",
   grid_re: "#9fb8d6", other: "#d9d4cb" };
 const CCP = { approved: ["CCP-approved methodology", "--a"], not_approved: ["Rejected by ICVCM", "--e"],
@@ -96,11 +104,16 @@ function setupSearch() {
   });
   list.addEventListener("click", (e) => { const li = e.target.closest("li[data-i]"); if (li) { pick(+li.dataset.i, li.querySelector("span")); close(); } });
   document.addEventListener("click", (e) => { if (!e.target.closest(".search")) close(); });
-  $("#examples").innerHTML = EXAMPLES.map((n) => {
+  logosReady.then(() => $("#examples .pick-list").innerHTML = EXAMPLES.map(({ n, g, why }, k) => {
     const i = rows.findIndex((r) => r[0] === n);
-    return i < 0 ? "" : `<button type="button" data-i="${i}">${esc(n)}</button>`;
-  }).join("");
-  $("#examples").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) pick(+b.dataset.i, b); });
+    if (i < 0) return "";
+    const [, t, kk, e] = rows[i], gr = grade(e, kk, t);
+    return `<button type="button" class="pickcard tinted" data-i="${i}" style="${tint(g, gr)};--k:${k}">
+      ${logo(g, 40)}<span class="pc-body"><span class="pc-name">${esc(n)}</span>${why ? `<span class="pc-why">${esc(why)}</span>` : ""}</span>
+      <span class="chip-grade${gr ? "" : " na"}" data-g="${gr ? gr[1] : ""}" style="background:${gr ? `var(${gr[2]})` : "var(--soft)"}">${gr ? gr[1] : "–"}</span>
+      <span class="pc-meta"><span class="num">${mt(t)}</span><span>${kk ? `${pct(e / kk)} likely real` : "no estimate"}</span></span></button>`;
+  }).join(""));
+  $("#examples").addEventListener("click", (e) => { const b = e.target.closest("[data-i]"); if (b) pick(+b.dataset.i, b.querySelector(".pc-name")); });
 }
 
 // View Transition: the picked name moves into the result title; without support (or with less motion) it just renders.
@@ -230,9 +243,11 @@ async function render(i, scroll = true) {
   CURRENT = i;
   const box = $("#result");
   box.hidden = false;
-  if (scroll) box.innerHTML = `<p class="muted">Loading ${esc(rows[i][0])}…</p>`;
+  const scan = $("#search");
+  if (scroll) { box.innerHTML = `<p class="muted">Loading ${esc(rows[i][0])}…</p>`; scan?.classList.add("scanning"); }
   let o;
   try { o = await owner(i); await Promise.all([logosReady, gapsReady, anomReady]); } catch (err) { box.innerHTML = `<p class="bad">${esc(err.message)}. Check your connection and try again.</p>`; return; }
+  finally { scan?.classList.remove("scanning"); }
   if (CURRENT !== i) return; // a later pick finished loading first: do not draw over it
   const g = grade(o.e, o.k, o.t);
   const group = o.g?.type === "company" ? o.g.group : null;
@@ -291,7 +306,7 @@ async function render(i, scroll = true) {
         ${ANOM[i] ? `<div class="unusual"><b>Unusual pattern</b> <span class="tag">machine learning</span>
           <ul>${ANOM[i].reasons.map((r) => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join("")}</ul>
           <p class="muted small">Flagged by an Isolation Forest model among 540 buyers with at least 100,000 t retired. An unusual pattern is a reason to look closer, not proof of wrongdoing. <a href="data.html#unusual">How it works</a></p></div>` : ""}
-        <div id="chainStatus" class="flag ok">Checking on-chain records…</div>
+        <div id="chainStatus" class="flag ok pending">Checking on-chain records…</div>
         <p class="note"><b>Selling in the EU?</b> Since 27 September 2026, EU Directive 2024/825 bans calling a product climate neutral, reduced or positive because of offsets, whatever the credit quality.</p>
       </div>
       <div class="res-side">
@@ -316,9 +331,27 @@ async function render(i, scroll = true) {
   box.classList.remove("in-view");
   await document.fonts.ready; // a shared #buyer-N link renders before the web font: the hero shrinks after it loads
   if (CURRENT !== i) return;
+  window.ScrollTrigger?.refresh(); // the page below moved down; measure before scrolling, a refresh mid-scroll would undo the scroll
   box.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" }); // measured before the entrance offset applies
-  void box.offsetWidth; box.classList.add("in-view");
+  if (window.gsap && !reduced()) printReceipt(box); else { void box.offsetWidth; box.classList.add("in-view"); }
   chainStatus(o);
+}
+
+// The result prints like a receipt: the card unrolls, lines arrive, bars fill, the grade lands, the evidence follows.
+// Numbers are final in every frame; only position, opacity, scale and clip move.
+function printReceipt(box) {
+  const q = (s) => box.querySelectorAll(s);
+  gsap.timeline({ defaults: { ease: "power3.out" } })
+    .fromTo(box, { clipPath: "inset(0 0 100% 0 round 14px)" }, { clipPath: "inset(0 0 0% 0 round 14px)", duration: 0.75, ease: "power2.inOut", clearProps: "clipPath" })
+    .from(q(".res-head > :not(.grade)"), { y: 14, opacity: 0, duration: 0.5 }, 0.15)
+    .from(q(".struk li:not(.minus)"), { x: -14, opacity: 0, duration: 0.45, stagger: 0.09 }, 0.3)
+    .from(q(".struk li.minus"), { x: 16, opacity: 0, duration: 0.45, stagger: 0.09 }, 0.4)
+    .fromTo(q(".struk .total"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.5, clearProps: "clipPath" }, 0.62)
+    .fromTo(q(".claimbar .range"), { scaleX: 0 }, { scaleX: 1, duration: 0.6 }, 0.7)
+    .fromTo(q(".claimbar .real"), { scaleX: 0 }, { scaleX: 1, duration: 0.75 }, 0.85)
+    .from(q(".grade"), { y: -40, rotate: -12, opacity: 0, duration: 0.65, ease: "back.out(2.6)" }, 1)
+    .from(q(".plain, .claim .key, .res-side .tabs, .res-side .tabpanel:not([hidden]) > *"), { y: 12, opacity: 0, duration: 0.45, stagger: 0.05 }, 0.95)
+    .from(q(".flag, .note, .unusual, .actions"), { y: 10, opacity: 0, duration: 0.4, stagger: 0.07 }, 1.15);
 }
 
 function tabs(root) {
@@ -349,6 +382,8 @@ async function chainStatus(o) {
       : `On-chain record #${last.id} exists but does not match the current data (the dataset was updated after it was published).`;
   } catch {
     el.className = "flag"; el.textContent = CHAIN ? `Could not reach the ${CHAIN.label || CHAIN.network} to check on-chain records.` : "On-chain records are not published for this build yet.";
+  } finally {
+    if (window.gsap && !reduced()) gsap.fromTo(el, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }); // the answer settles in
   }
 }
 
@@ -510,7 +545,9 @@ async function story(m) {
   if (!viz) return;
   const n100 = (share) => Math.round(share * 100);
   const spread = (k) => { const s = new Set(); for (let i = 0; s.size < k && i < 400; i++) s.add((i * 37 + 11) % 100); return s; }; // even scatter, same every load
-  const dots = (cls) => `<div class="dots">${Array.from({ length: cls.length }, (_, i) => `<i style="--k:${i}" class="${cls[i]}"></i>`).join("")}</div>`;
+  // --k = delay in ms by distance from the grid centre, so a recolour spreads out as a ripple
+  const dots = (cls) => { const rows = Math.ceil(cls.length / 20);
+    return `<div class="dots">${cls.map((c, i) => `<i style="--k:${Math.round(Math.hypot(i % 20 - 9.5, Math.floor(i / 20) - (rows - 1) / 2) * 26)}" class="${c}"></i>`).join("")}</div>`; };
   const hidden = await getJSON("data/hidden.json").catch(() => null);
   await companiesReady;
   const known = n100(m.known / m.tonnes), real = n100(m.eff / m.known), realSet = spread(real);
@@ -533,13 +570,14 @@ async function story(m) {
   const gapBars = () => {
     const rows = gap.slice().sort((a, b) => mid(b) / b.rep.scope1 - mid(a) / a.rep.scope1);
     const max = Math.max(...rows.flatMap((c) => [c.rep.scope1, mid(c)]));
-    const W = 520, RH = 70, barW = 340, H = rows.length * RH + 8;
+    const o = matchMedia("(max-width: 640px)").matches ? 1.45 : 1; // phones draw labels larger (style.css), so rows get more room
+    const W = 520, RH = 70 * o, barW = 340, H = rows.length * RH + 8;
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Reported Scope 1 next to the independent estimate">
       ${rows.map((c, i) => {
-        const y = i * RH + 16, rw = c.rep.scope1 / max * barW, iw = mid(c) / max * barW;
+        const y = i * RH + 16 * o, rw = c.rep.scope1 / max * barW, iw = mid(c) / max * barW;
         return `<text x="0" y="${y}" fill="${css("--ink")}">${esc(c.group)}</text>
-        <rect x="0" y="${y + 10}" height="14" width="${rw}" fill="${css("--accent")}"/><text x="${rw + 8}" y="${y + 21}">${mt(c.rep.scope1)}</text>
-        <rect x="0" y="${y + 30}" height="14" width="${iw}" fill="${css("--pale")}"/><text x="${iw + 8}" y="${y + 41}">${mt(mid(c))}</text>`;
+        <rect x="0" y="${y + 10 * o}" height="${14 * o}" width="${rw}" fill="${css("--accent")}"/><text x="${rw + 8}" y="${y + 21 * o}">${mt(c.rep.scope1)}</text>
+        <rect x="0" y="${y + 30 * o}" height="${14 * o}" width="${iw}" fill="${css("--pale")}"/><text x="${iw + 8}" y="${y + 41 * o}">${mt(mid(c))}</text>`;
       }).join("")}</svg>`;
   };
   const STATES = [
@@ -569,6 +607,16 @@ async function story(m) {
     if (current === CHAIN_AT) { current = -1; show(CHAIN_AT); }
   }).catch(() => Object.assign(STATES[CHAIN_AT], { big: "Offline", cap: "the test network did not answer; the records stay public on the block explorer" }));
 
+  // G = GSAP when it loaded and the device allows full motion; otherwise the CSS transitions alone
+  const G = window.gsap && !reduced() ? gsap : null;
+  const fig = $(".figure"), chapters = [...document.querySelectorAll(".chapter")];
+  // progress rail: one tick per chapter, named by its heading; a tick jumps to its chapter
+  fig.insertAdjacentHTML("afterbegin", `<ol class="rail">${chapters.map((c) => `<li><button type="button" data-s="${c.dataset.s}" aria-label="${esc(c.querySelector("h2").textContent)}"></button></li>`).join("")}</ol>`);
+  fig.querySelector(".rail").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-s]");
+    if (b) document.querySelector(`.chapter[data-s="${b.dataset.s}"]`).scrollIntoView({ block: "center", behavior: reduced() ? "auto" : "smooth" });
+  });
+
   let current = -1;
   const show = (s) => {
     const st = STATES[s];
@@ -580,31 +628,91 @@ async function story(m) {
       $("#figBig").textContent = st.big; $("#figCap").textContent = st.cap; $("#figSrc").textContent = st.src;
       $("#figLegend").innerHTML = st.legend.map(([c, t]) => `<span class="${c}">${esc(t)}</span>`).join("");
       swaps.forEach((el) => el.classList.remove("out"));
+      if (!G) return;
+      G.fromTo(["#figBig", "#figCap", "#figSrc"], { y: 18, opacity: 0, filter: "blur(6px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.6, stagger: 0.06, ease: "power3.out", overwrite: true });
+      if (!st.chain && st.viz() === "") G.fromTo("#figBig", { scale: 1.3, rotate: -5 }, { scale: 1, rotate: 0, duration: 0.55, ease: "back.out(2.4)" }); // a date lands like a stamp
     };
-    // dots recolour in place (a transition per dot); a different kind of figure is swapped
+    // dots recolour in place (a ripple from the centre); a different kind of figure is swapped and drawn in
     const html = st.viz(), next = new DOMParser().parseFromString(html, "text/html").querySelectorAll(".dots i"), now = viz.querySelectorAll(".dots i");
     if (next.length && next.length === now.length) now.forEach((el, i) => (el.className = next[i].className));
-    else viz.innerHTML = html;
+    else {
+      viz.innerHTML = html;
+      if (G) {
+        G.from(viz.querySelectorAll(".dots i"), { scale: 0, duration: 0.5, ease: "back.out(2)", stagger: { grid: "auto", from: "center", amount: 0.45 } });
+        G.from(viz.querySelectorAll("rect"), { scaleX: 0, transformOrigin: "0% 50%", duration: 0.8, stagger: 0.07, ease: "power3.out" });
+        const p = viz.querySelector("path");
+        if (p) {
+          const L = p.getTotalLength();
+          G.fromTo(p, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" });
+          G.from(viz.querySelectorAll("circle"), { scale: 0, transformOrigin: "50% 50%", duration: 0.4, stagger: 0.08, delay: 0.35, ease: "back.out(3)" });
+        }
+      }
+    }
     reduced() ? draw() : setTimeout(draw, 160);
-    document.querySelectorAll(".chapter").forEach((el) => el.classList.toggle("on", +el.dataset.s === s));
+    chapters.forEach((el) => el.classList.toggle("on", +el.dataset.s === s));
+    fig.querySelectorAll(".rail button").forEach((b) => { b.classList.toggle("past", +b.dataset.s < s); b.toggleAttribute("aria-current", +b.dataset.s === s); });
   };
   show(0);
-  const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && show(+e.target.dataset.s)),
-    { rootMargin: matchMedia("(max-width: 860px)").matches ? "-62% 0px -30% 0px" : "-45% 0px -45% 0px" });
-  document.querySelectorAll(".chapter").forEach((el) => io.observe(el));
+  const narrow = matchMedia("(max-width: 860px)").matches;
+  if (window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    // the chapter nearest a reading line owns the figure (the middle of the screen; lower on phones, where the figure sits on top).
+    // One rule for every scroll position, so there is never a gap or an overlap between chapters.
+    const nearest = () => {
+      const y = innerHeight * (narrow ? 0.72 : 0.5);
+      let best = chapters[0], d = Infinity;
+      for (const el of chapters) { const r = el.getBoundingClientRect(), dd = r.top > y ? r.top - y : r.bottom < y ? y - r.bottom : 0; if (dd < d) { d = dd; best = el; } }
+      show(+best.dataset.s);
+    };
+    ScrollTrigger.create({ trigger: ".chapters-list", start: "top bottom", end: "bottom top", onUpdate: nearest, onRefresh: nearest });
+    if (G) chapters.forEach((el) => {
+      G.from(el.children, { y: 22, opacity: 0, duration: 0.7, stagger: 0.09, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%", once: true } });
+      // phones: a note fades as it rises over the pinned figure, so it never hides the number it explains
+      if (narrow) G.to(el, { opacity: 0, ease: "none", scrollTrigger: { trigger: el, start: "bottom 62%", end: "bottom 38%", scrub: true } });
+    });
+  } else {
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && show(+e.target.dataset.s)),
+      { rootMargin: narrow ? "-62% 0px -30% 0px" : "-45% 0px -45% 0px" });
+    chapters.forEach((el) => io.observe(el));
+  }
   document.addEventListener("themechange", () => { const s = current; current = -1; show(s); });
-  // contour lines behind the story
+  // contour lines behind the story, drawn wider than the box so they can drift sideways
   let t = "";
   for (let k = 0; k < 74; k++) {
     let p = "";
-    for (let x = 0; x <= 1280; x += 40) p += `${x ? " L" : "M"}${x} ${(40 + k * 54 + Math.sin(x / 170 + k * 0.7) * 22 + Math.cos(x / 90 + k) * 9).toFixed(1)}`;
+    for (let x = -120; x <= 1400; x += 40) p += `${x > -120 ? " L" : "M"}${x} ${(40 + k * 54 + Math.sin(x / 170 + k * 0.7) * 22 + Math.cos(x / 90 + k) * 9).toFixed(1)}`;
     t += `<path d="${p}"/>`;
   }
   $("#topo").innerHTML = t;
+  if (G) G.timeline({ scrollTrigger: { trigger: ".field", start: "top bottom", end: "bottom top", scrub: 1.2 } })
+    .to("#topo path:nth-child(odd)", { x: 70, ease: "none" }, 0).to("#topo path:nth-child(even)", { x: -70, ease: "none" }, 0);
+  // the page grew while data loaded (and a reload may restore a deep scroll): measure the triggers again
+  if (window.ScrollTrigger) { ScrollTrigger.refresh(); document.fonts.ready.then(() => ScrollTrigger.refresh()); }
 }
 
 /* ---------- boot ---------- */
+// Page motion with GSAP (home hero, sections rising in). Without GSAP or with less motion the CSS entrances stay.
+function motion() {
+  if (!window.gsap || !window.ScrollTrigger || reduced()) return;
+  gsap.registerPlugin(ScrollTrigger);
+  document.documentElement.classList.add("gsap");
+  const hero = $(".hero");
+  if (hero) {
+    gsap.timeline({ defaults: { ease: "power3.out" } })
+      .fromTo(".hero > img", { scale: 1.12 }, { scale: 1.02, duration: 2.8, ease: "power2.out" }, 0)
+      .from(".hero .t > *", { y: 28, opacity: 0, duration: 0.9, stagger: 0.12 }, 0.15);
+    gsap.to(".hero > img", { yPercent: 10, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    gsap.to(".hero .t", { y: -60, opacity: 0.25, ease: "none", scrollTrigger: { trigger: hero, start: "center center", end: "bottom top", scrub: true } });
+  }
+  // only what starts below the fold is hidden first, so nothing on screen blinks
+  const rise = gsap.utils.toArray(".check-head, .check-grid, .block > h2, .block > .lede, .block > .panel, .onward > h2, .onward li, .chapters > section > h2, .chapters > section > .lede")
+    .filter((el) => el.getBoundingClientRect().top > innerHeight);
+  gsap.set(rise, { opacity: 0, y: 26 });
+  ScrollTrigger.batch(rise, { start: "top 90%", once: true, onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power3.out" }) });
+}
+
 (async function boot() {
+  motion();
   try {
     [INDEX, FACTORS] = await Promise.all([getJSON("data/index.json"), getJSON("data/factors.json")]);
     CHAIN = await getJSON("data/deployment.json").catch(() => null);

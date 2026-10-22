@@ -100,7 +100,16 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .chapter.on { border-color: var(--accent); color: var(--ink); }
 .chapter h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); margin-bottom: .6rem; }
 .chapter p { margin: 0 0 .8rem; }
-.chapter b { color: var(--ink); }
+.chapter b { color: var(--ink); background: linear-gradient(color-mix(in srgb, var(--accent) 24%, transparent), color-mix(in srgb, var(--accent) 24%, transparent)) no-repeat 0 88% / 0% 38%;
+  transition: background-size .8s var(--ease-out) .25s; }
+.chapter.on b { background-size: 100% 38%; } /* the key number gets a marker sweep while its chapter is on */
+/* progress rail: one tick per chapter, on top of the figure */
+.rail { list-style: none; display: flex; gap: 6px; margin: 0 0 1.2rem; padding: 0; }
+.rail li { flex: 1; }
+.rail button { display: block; width: 100%; height: 14px; padding: 5px 0; border: 0; background: none; cursor: pointer; }
+.rail button::before { content: ""; display: block; height: 4px; border-radius: 2px; background: var(--line); transition: background-color var(--t-ui) ease, transform var(--t-ui) var(--ease-out); }
+.rail button.past::before { background: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.rail button[aria-current]::before { background: var(--accent); transform: scaleY(1.5); }
 .figure { position: sticky; top: 14vh; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); padding: clamp(22px, 3vw, 36px); }
 .figure .big { font: 600 clamp(2.8rem, 5vw, 4.2rem)/1 var(--display); color: var(--accent); margin: 0 0 .4rem; letter-spacing: -.02em; }
 .figure h3 { font-size: clamp(1.15rem, 1.8vw, 1.5rem); font-weight: 500; margin: 0 0 .2rem; }
@@ -108,7 +117,7 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .figure .swap { transition: opacity .25s ease; }
 .figure .swap.out { opacity: 0; }
 .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: clamp(5px, .7vw, 8px); }
-.dots i { aspect-ratio: 1; border-radius: 50%; background: var(--pale); transition: background-color .35s var(--ease-out), box-shadow .35s var(--ease-out); transition-delay: calc(var(--k) * 2ms); }
+.dots i { aspect-ratio: 1; border-radius: 50%; background: var(--pale); transition: background-color .45s var(--ease-out), box-shadow .45s var(--ease-out), transform .45s var(--ease-out); transition-delay: calc(var(--k) * 1ms); }
 .dots i.r { background: var(--accent); }
 .dots i.x { background: transparent; box-shadow: inset 0 0 0 1.5px var(--pale); }
 .dots i.ga { background: var(--a); } .dots i.gc { background: var(--c); } .dots i.gd { background: var(--d); } .dots i.ge { background: var(--e); }
@@ -139,6 +148,12 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .search form, .claimbox { display: flex; gap: .6rem; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card);
   padding: .5rem .5rem .5rem 1.2rem; box-shadow: 0 14px 40px rgb(42 34 25 / .08); }
 .search form:focus-within, .claimbox:focus-within { border-color: var(--accent); }
+/* while a company loads, a light runs along the bottom of the search box */
+.search form { position: relative; overflow: hidden; }
+.search.scanning form::after { content: ""; position: absolute; left: 0; bottom: 0; width: 35%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scan 1s var(--ease-move) infinite; }
+@keyframes scan { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+#chainStatus.pending { animation: pulse 1.4s ease-in-out infinite; }
 #q, #gq { flex: 1; min-width: 0; border: 0; outline: none; padding: .7rem 0; font: 1.1rem var(--body); color: var(--ink); background: transparent; }
 .claimbox { align-items: flex-end; max-width: 680px; width: 100%; }
 .claimbox textarea { flex: 1; min-width: 0; border: 0; outline: none; resize: vertical; font: 1.05rem/1.55 var(--body); color: var(--ink); background: transparent; padding: .6rem 0; min-height: 3.4rem; }
@@ -152,6 +167,30 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 #suggest .t { font-size: .88rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
 .chips button { font: .95rem var(--body); padding: .4rem .95rem; border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+/* shortcut cards beside the search: company picks, or example claims in claim mode */
+.check-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 390px); gap: 1.2rem clamp(2rem, 5vw, 4.5rem); align-items: start; }
+.check-main { min-width: 0; }
+.picks[hidden] { display: none; }
+.picks-label { margin: .7rem 0 .75rem; font: italic 1.05rem var(--body); color: var(--accent-text); }
+.pick-list { display: grid; gap: .55rem; }
+.pickcard { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "logo body grade" "logo meta grade";
+  align-items: center; gap: .15rem .85rem; width: 100%; padding: .7rem .9rem; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); overflow: hidden;
+  animation: up var(--t-enter) var(--ease-out) backwards; animation-delay: calc(var(--k, 0) * 60ms + 100ms);
+  transition: transform var(--t-ui) var(--ease-out), box-shadow var(--t-ui) var(--ease-out), border-color var(--t-ui) ease; }
+.pickcard::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--gradec, var(--accent)); transform: scaleY(0); transition: transform var(--t-ui) var(--ease-out); }
+.pickcard.tinted::before { opacity: .55; transition: opacity var(--t-ui) ease; }
+.pickcard .logo { grid-area: logo; }
+.pc-body { grid-area: body; display: flex; flex-direction: column; min-width: 0; }
+.pc-name { font: 600 1.02rem/1.25 var(--display); overflow-wrap: anywhere; }
+.pc-why { font: italic .84rem/1.35 var(--body); color: var(--muted); }
+.pickcard .chip-grade { grid-area: grade; }
+.pickcard .chip-grade.na { color: var(--muted); }
+.pc-meta { grid-area: meta; display: flex; flex-wrap: wrap; gap: 0 .7rem; font-size: .8rem; color: var(--muted); }
+.pc-meta .num { color: var(--ink); }
+.pickcard.quote { display: flex; flex-direction: column; gap: .35rem; padding: .9rem 1rem .9rem 2.6rem; }
+.pickcard.quote::before { content: "“"; position: absolute; left: .75rem; top: .35rem; font: 600 2.6rem/1 var(--display); color: var(--accent); }
+.pc-quote { font-size: .9rem; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 #claimOut { margin-top: 1.5rem; scroll-margin-top: 5rem; }
 #claimOut:empty { display: none; }
 .strip { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); padding: 1.4rem 1.6rem; margin: 0 0 1.5rem;
@@ -410,6 +449,8 @@ table.data td { vertical-align: middle; }
 @keyframes fade { from { opacity: 0; } }
 .hero .t > * { animation: up 600ms var(--ease-out) both; }
 .hero .t > :nth-child(2) { animation-delay: 80ms; } .hero .t > :nth-child(3) { animation-delay: 160ms; } .hero .t > :nth-child(4) { animation-delay: 240ms; }
+.gsap .hero .t > * { animation: none; } /* GSAP plays the hero instead */
+.hero > img { will-change: transform; }
 #search:not([hidden]), .claimbox:not([hidden]), .chips:not([hidden]) { animation: fade var(--t-ui) var(--ease-out) both; }
 .result.in-view { animation: up var(--t-enter) var(--ease-out) both; }
 .result.in-view .struk li { animation: line-in 300ms var(--ease-out) both; animation-delay: calc(120ms + var(--i) * 70ms); }
@@ -438,6 +479,9 @@ table.data td { vertical-align: middle; }
   .top nav a:hover, .toc a:hover { color: var(--ink); }
   .home .top nav a:hover { color: #fff; opacity: 1; }
   .chips button:hover, .tabs button:hover, .jump a:hover, .pick:hover { border-color: var(--accent); }
+  .pickcard:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgb(42 34 25 / .1); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  .pickcard:hover::after { transform: none; }
+  .pickcard.tinted:hover::before { opacity: 1; }
   .onward li a:hover b { color: var(--accent-text); }
   .hero .cta:hover { background: #fff; }
 }
@@ -457,13 +501,23 @@ table.data td { vertical-align: middle; }
   @keyframes pulse { from, to { opacity: 1; } }
   .story #trend path { animation: none !important; stroke-dashoffset: 0 !important; }
   .dots i { transition: background-color .2s ease, box-shadow .2s ease; transition-delay: 0s; }
+  .chapter b { transition: none; }
+  .search.scanning form::after { animation: none; width: 100%; opacity: .5; }
   .btn:active, .chips button:active, .modes button:active, .tabs button:active, .pick:active, .lang:active, .hero .cta:active { transform: none; }
+  .pickcard:hover { transform: none; }
   @view-transition { navigation: none; }
 }
 
 /* ---------- narrow screens ---------- */
 @media (max-width: 860px) {
-  .res-layout, .report-grid, .onward { grid-template-columns: minmax(0, 1fr); }
+  .res-layout, .report-grid, .onward, .check-grid { grid-template-columns: minmax(0, 1fr); }
+  /* picks sit above the search as a row you swipe */
+  .picks { order: -1; }
+  .picks-label { margin-top: 0; }
+  .pick-list { grid-auto-flow: column; grid-auto-columns: min(80%, 300px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-inline: calc(-1 * clamp(16px, 5vw, 64px)); padding: .2rem clamp(16px, 5vw, 64px) .6rem; }
+  .pick-list::-webkit-scrollbar { display: none; }
+  .pickcard { scroll-snap-align: start; }
   .toc { position: static; flex-direction: row; flex-wrap: wrap; gap: .4rem; padding-top: 0; }
   .toc a { border: 1px solid var(--line); border-radius: var(--r-pill); padding: .35rem .8rem; font-size: .9rem; }
   .toc a[aria-current="true"] { border-color: var(--accent); }
@@ -510,6 +564,13 @@ table.data td { vertical-align: middle; }
   .strip { padding: 1.1rem; }
   .strip .facts div { grid-template-columns: 4rem 1fr; }
   #trend svg text { font-size: 19px; }
+  /* story figure on a phone: compact, and chart labels big enough to read once the 520-wide SVG is scaled down */
+  .figure .big { font-size: 2.3rem; }
+  .figure h3 { font-size: 1.05rem; }
+  .figure .src { font-size: .8rem; margin-bottom: .7rem; }
+  .figure .legend { font-size: .82rem; margin-top: .7rem; }
+  .figure svg text { font-size: 21px; }
+  .rail { margin-bottom: .7rem; }
   /* tables as cards */
   #regList .tablewrap, #hiddenBody .tablewrap, #checks .tablewrap { overflow: visible; }
   #regList thead, #hiddenBody thead, #checks thead, #ctable thead { display: none; }
