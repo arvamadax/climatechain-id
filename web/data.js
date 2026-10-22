@@ -2,7 +2,7 @@
 // Data page: company table (sort, filter, pick), comparison cards, project types, years.
 
 const GRADE_ORDER = { A: 5, B: 4, C: 3, D: 2, E: 1 };
-let ROWS = [], sortKey = "t", sortDir = -1;
+let ROWS = [], sortKey = "t", sortDir = -1, cmpOnScreen = false;
 const picked = new Set();
 
 const range = (lo, hi) => (lo === hi ? mt(lo) : `${mt(lo)}–${mt(hi)}`);
@@ -24,8 +24,7 @@ function drawTable() {
     .sort((a, b) => (typeof a[key] === "string" ? a[key].localeCompare(b[key]) : a[key] - b[key]) * sortDir);
   $("#ccount").textContent = `${list.length} of ${ROWS.length}`;
   $("#ctable tbody").innerHTML = list.map((r) => `<tr>
-    <td><button type="button" class="pick" data-g="${esc(r.group)}" aria-pressed="${picked.has(r.group)}" aria-label="Compare ${esc(r.group)}">${picked.has(r.group) ? "Comparing" : "Compare"}</button></td>
-    <td><div class="name-row">${logo(r.group, 32)}<div><a href="index.html#buyer-${r.i}"><b>${esc(r.group)}</b></a>${r.names.length > 1 || r.names[0] !== r.group ? `<div class="muted small aliases" data-raw title="${esc(r.names.join(" · "))}">${esc(r.names.join(" · "))}</div>` : ""}</div></div></td>
+    <td><div class="name-row"><input type="checkbox" class="cmp-box" data-g="${esc(r.group)}" aria-label="Compare ${esc(r.group)}"${picked.has(r.group) ? " checked" : ""}>${logo(r.group, 32)}<div><a href="index.html#buyer-${r.i}"><b>${esc(r.group)}</b></a>${r.names.length > 1 || r.names[0] !== r.group ? `<div class="muted small aliases" data-raw title="${esc(r.names.join(" · "))}">${esc(r.names.join(" · "))}</div>` : ""}</div></div></td>
     <td class="num" data-l="Retired">${mt(r.t)}</td>
     <td class="num" data-l="Researched">${pct(r.cover)}</td>
     <td data-l="Likely real">${r.k ? `<div class="mini">${claimBar(r.e, r.el, r.eh, r.k)}</div><span class="num">${pct(r.real)}</span> <span class="muted small">(${pct(r.el / r.k)}–${pct(r.eh / r.k)})</span>` : `<span class="muted">no estimate</span>`}</td>
@@ -62,6 +61,27 @@ function drawCompare() {
   $("#cmp").innerHTML = list.map(card).join("") || `<p class="muted">Nothing picked yet.</p>`;
   $("#cmpHint").textContent = picked.size >= 3 ? "Three picked. Press Comparing on one to swap it." : "Press Compare in the table above (up to three).";
 
+}
+
+function syncBoxes() {
+  document.querySelectorAll("#ctable input.cmp-box").forEach((b) => { b.checked = picked.has(b.dataset.g); });
+}
+
+function syncTray() {
+  $("#cmpTray").hidden = !picked.size || cmpOnScreen;
+}
+
+function drawTray() {
+  const list = [...picked].map((g) => ROWS.find((r) => r.group === g)).filter(Boolean);
+  $("#cmpTray").innerHTML = list.map((r) => `<span class="cmp-item">${logo(r.group, 24)}<span class="cmp-name">${esc(r.group)}</span><button type="button" class="cmp-x" data-g="${esc(r.group)}" aria-label="Remove ${esc(r.group)}">×</button></span>`).join("")
+    + `<button type="button" class="cmp-go">Compare →</button>`;
+  syncTray();
+}
+
+function refreshPicked() {
+  syncBoxes();
+  drawCompare();
+  drawTray();
 }
 
 function staticTables(index, factors) {
@@ -108,6 +128,11 @@ function staticTables(index, factors) {
   }).catch(() => {});
   drawTable();
   drawCompare();
+  drawTray();
+  new IntersectionObserver(([e]) => {
+    cmpOnScreen = e.isIntersecting;
+    syncTray();
+  }).observe($("#compare"));
   $("#cq").addEventListener("input", drawTable);
   $("#ctable thead").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-k]");
@@ -116,14 +141,23 @@ function staticTables(index, factors) {
     sortKey = b.dataset.k;
     drawTable();
   });
-  $("#ctable tbody").addEventListener("click", (e) => {
-    const b = e.target.closest("button.pick");
+  $("#ctable tbody").addEventListener("change", (e) => {
+    const b = e.target.closest("input.cmp-box");
     if (!b) return;
     const g = b.dataset.g;
-    if (picked.has(g)) picked.delete(g);
-    else if (picked.size < 3) picked.add(g);
-    else { $("#cmpHint").textContent = "Three picked. Remove one first."; return; }
-    drawTable();
-    drawCompare();
+    if (b.checked) {
+      if (picked.size >= 3) { b.checked = false; $("#cmpHint").textContent = "Three picked. Remove one first."; return; }
+      picked.add(g);
+    } else picked.delete(g);
+    refreshPicked();
+  });
+  $("#cmpTray").addEventListener("click", (e) => {
+    const x = e.target.closest("button.cmp-x");
+    if (x) {
+      picked.delete(x.dataset.g);
+      refreshPicked();
+      return;
+    }
+    if (e.target.closest("button.cmp-go")) $("#compare").scrollIntoView();
   });
 })();

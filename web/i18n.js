@@ -1189,6 +1189,10 @@ Object.assign(ID_EXACT, {
   "In the glossary →": "Di glosarium →",
 });
 
+// T9: compare tray
+Object.assign(ID_EXACT, { "Compare →": "Bandingkan →" });
+ID_RULES.push([/^Remove (.+)$/, "Hapus $1"]);
+
 function tr(s) {
   const key = s.replace(/\s+/g, " ").trim();
   if (!key) return s;
