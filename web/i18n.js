@@ -1152,6 +1152,43 @@ ID_RULES.unshift([/^(\d+(?:\.\d+)?%) likely real$/, (m, p) => `${p.replace(".", 
 // T7: glossary layout
 Object.assign(ID_EXACT, { "Start here": "Mulai dari sini", "Sections": "Bagian" });
 
+// T8: glossary tooltips
+Object.assign(ID_EXACT, {
+  "A carbon credit": "Satu kredit karbon",
+  "is supposed to be one tonne of CO₂ kept out of the air. When a company uses one for a climate claim, the credit is":
+    "seharusnya berarti satu ton CO₂ yang tidak sampai ke udara. Saat perusahaan memakainya untuk klaim iklim, kredit itu",
+  "tonnes, it names no one you could hold to the claim: it is blank, says \"":
+    "ton, kolom itu tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaimnya: kosong, berisi \"",
+  "Not Disclosed": "Not Disclosed",
+  "\", or points to a reseller, a crypto wallet or a code.": "\", atau menunjuk ke pengecer, dompet kripto, atau sebuah kode.",
+  "of them well enough for a": "di antaranya cukup baik untuk diberi",
+  "grade from A to E": "nilai A sampai E",
+  ".": ".",
+  "Netra reads each company's own": "Netra membaca angka",
+  "Scope 1": "Scope 1",
+  "figure from its report and puts it next to Climate TRACE's independent estimate.":
+    "milik tiap perusahaan dari laporannya dan menaruhnya di samping estimasi independen Climate TRACE.",
+  "Every published check is written to a": "Setiap pemeriksaan yang terbit ditulis ke",
+  "public blockchain": "blockchain publik",
+  ", with a fingerprint of the report and of the serial numbers behind it. No one, not even Netra, can change it.":
+    ", bersama sidik jari laporan dan nomor serial di baliknya. Tidak ada yang bisa mengubahnya, termasuk Netra.",
+  ",": ",",
+  "EU Directive 2024/825": "Directive (EU) 2024/825",
+  "bans calling a product, service or event sold in the EU climate neutral because of offsets, whatever the credit quality.":
+    "melarang menyebut produk, layanan atau acara yang dijual di EU netral iklim karena offset, apa pun kualitas kreditnya.",
+  "Netra reads the newest retirements from Verra's public registry every ten minutes and applies the same rules as everywhere else on this site: research share likely real for the project type,":
+    "Netra membaca retirement terbaru dari registry publik Verra setiap sepuluh menit dan menerapkan aturan yang sama dengan bagian lain situs ini: porsi kemungkinan nyata menurut riset untuk jenis proyeknya,",
+  "ICVCM label": "label ICVCM",
+  ", and who the benefit is claimed for.": ", dan untuk siapa manfaatnya diklaim.",
+  "Each published check is anchored in the": "Setiap pemeriksaan yang terbit dijangkarkan di",
+  "smart contract": "smart contract",
+  "on the": "di",
+  "Ethereum Sepolia test network": "jaringan uji Ethereum Sepolia",
+  ". Anyone can recompute the report from the open data and confirm it matches. Each claim commits to the registry serial ranges behind it; if one range shows up in two claims, anyone can prove it on-chain and the later claim is flagged for good.":
+    ". Siapa pun bisa menghitung ulang laporan dari data terbuka dan memastikan cocok. Setiap klaim terikat pada rentang serial registry di baliknya; jika satu rentang muncul di dua klaim, siapa pun bisa membuktikannya on-chain dan klaim yang belakangan ditandai selamanya.",
+  "In the glossary →": "Di glosarium →",
+});
+
 function tr(s) {
   const key = s.replace(/\s+/g, " ").trim();
   if (!key) return s;

@@ -269,7 +269,7 @@ async function render(i, scroll = true) {
       <li style="--i:0"><span>Retired for ${esc(short)}, ${span}</span><b class="num">${mt(o.t)}</b></li>
       <li style="--i:1" class="minus"><span>not covered by published research</span><b class="num">−${mt(o.t - o.k)}</b></li>
       ${o.k ? `<li style="--i:2" class="minus"><span>research says likely not real</span><b class="num">−${mt(o.k - o.e)}</b></li>` : ""}
-      <li style="--i:3" class="total"><span>Likely real, best estimate</span><b class="num">${o.k ? mt(o.e) : "no estimate"}</b></li>
+      <li style="--i:3" class="total"><span data-term="likely-real">Likely real, best estimate</span><b class="num">${o.k ? mt(o.e) : "no estimate"}</b></li>
     </ol>
     ${o.k ? `<div class="claim">
       ${claimBar(o.e, o.el, o.eh, o.k)}
@@ -295,7 +295,7 @@ async function render(i, scroll = true) {
     <div class="res-head">
       <div><p class="meta">Retired ${span} · ${fmt(o.r)} retirements</p><div class="res-id">${group ? logo(group, 56) : ""}<h2 class="${short !== o.n ? "addr" : ""}">${esc(o.n)}</h2></div>${buyerLine(o)}
         <p class="muted small">${mt(o.t)} retired${g ? ` · grade on the ${pct(cover)} covered by research` : " · not enough research coverage for a grade"}</p></div>
-      <div class="grade ${g ? "" : "na"}" data-g="${g ? g[1] : ""}" style="${g ? `background:var(${g[2]})` : ""}" role="img" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
+      <div class="grade no-line ${g ? "" : "na"}" data-term="grade" data-g="${g ? g[1] : ""}" style="${g ? `background:var(${g[2]})` : ""}" role="img" aria-label="Grade ${g ? g[1] : "not available"}">${g ? g[1] : "?"}</div>
     </div>
     <p class="plain">${sentence}</p>
     <div class="res-layout">
@@ -327,6 +327,7 @@ async function render(i, scroll = true) {
   });
   box.className = "result tinted";
   box.style.cssText = tint(group || o.n, g);
+  glossTips();
   if (!scroll) { chainStatus(o); return; }
   box.classList.remove("in-view");
   await document.fonts.ready; // a shared #buyer-N link renders before the web font: the hero shrinks after it loads

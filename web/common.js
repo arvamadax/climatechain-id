@@ -72,7 +72,57 @@ function openTarget() {
   const d = t && (t.closest("details") || t.querySelector(":scope > details"));
   if (d) { d.open = true; t.scrollIntoView(); }
 }
-function pageBoot() { setupTheme(); watchStories(); openTarget(); addEventListener("hashchange", openTarget); }
+// T8: dictionary card on [data-term] words. The glossary is parsed once; if it cannot load, the words stay plain.
+const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
+let glossDoc, gCard, gWord, gHover, gLeave, gShown;
+function gHide() {
+  clearTimeout(gHover); clearTimeout(gLeave);
+  if (!gCard || !gWord) return;
+  gCard.hidden = true; gCard.classList.remove("in");
+  gWord.removeAttribute("aria-describedby"); gWord = null;
+}
+function gPlace(el) {
+  const r = el.getBoundingClientRect(), w = gCard.offsetWidth, h = gCard.offsetHeight;
+  const x = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), innerWidth - w - 12);
+  const below = r.bottom + 6, y = below + h > innerHeight - 12 ? r.top - h - 6 : below;
+  gCard.style.left = `${x}px`; gCard.style.top = `${Math.max(12, y)}px`;
+}
+function gShow(el) {
+  gWord = el;
+  (glossDoc = glossDoc || fetch("glossary.html").then((r) => r.text()).then((t) => new DOMParser().parseFromString(t, "text/html")).catch(() => null)).then((doc) => {
+    const id = CSS.escape(el.dataset.term), term = doc && doc.querySelector(`#${id} > dt`);
+    if (!term || gWord !== el) return gHide();
+    gCard.querySelector("b").textContent = term.textContent.trim();
+    gCard.querySelector("p").textContent = (doc.querySelector(`#${id} dd > p`) || {}).textContent?.trim() || "";
+    gCard.querySelector("a").href = `glossary.html#${el.dataset.term}`;
+    gCard.hidden = false; el.setAttribute("aria-describedby", gCard.id);
+    gShown = performance.now(); gPlace(el); requestAnimationFrame(() => gCard.classList.add("in"));
+  });
+}
+function glossTips() {
+  document.querySelectorAll("[data-term]").forEach((el) => {
+    if (el.classList.contains("gl")) return;
+    el.classList.add("gl");
+    if (!el.matches("a[href], button, input, select, textarea, summary, [tabindex]")) el.tabIndex = 0;
+    el.addEventListener("pointerenter", () => { if (canHover) gHover = setTimeout(() => gShow(el), 450); });
+    el.addEventListener("pointerleave", () => { clearTimeout(gHover); if (canHover && gWord === el) gLeave = setTimeout(gHide, 150); });
+    el.addEventListener("focus", () => gShow(el));
+    el.addEventListener("blur", () => gHide());
+    el.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") gShow(el); });
+  });
+  if (gCard) return;
+  gCard = document.createElement("div");
+  gCard.id = "glossCard"; gCard.className = "gloss-card"; gCard.hidden = true;
+  gCard.setAttribute("role", "tooltip");
+  gCard.innerHTML = "<b></b><p></p><a>In the glossary →</a>";
+  document.body.append(gCard);
+  gCard.addEventListener("pointerenter", () => clearTimeout(gLeave));
+  gCard.addEventListener("pointerleave", () => { if (gWord) gLeave = setTimeout(gHide, 150); });
+  addEventListener("scroll", () => { if (performance.now() - gShown > 200) gHide(); }, { passive: true, capture: true });
+  addEventListener("keydown", (e) => { if (e.key === "Escape") gHide(); });
+  addEventListener("pointerdown", (e) => { if (gWord && !e.target.closest("[data-term]") && !gCard.contains(e.target)) gHide(); });
+}
+function pageBoot() { setupTheme(); watchStories(); openTarget(); glossTips(); addEventListener("hashchange", openTarget); }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", pageBoot); else pageBoot();
 
 // Claimed-vs-real bar: outline = claimed (k), hatched = research range, filled = best estimate.
