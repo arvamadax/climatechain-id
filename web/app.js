@@ -616,13 +616,12 @@ async function story(m) {
 
   // G = GSAP when it loaded and the device allows full motion; otherwise the CSS transitions alone
   const G = window.gsap && !reduced() ? gsap : null;
-  const fig = $(".figure"), chapters = [...document.querySelectorAll(".chapter")];
-  // progress rail: one tick per chapter, named by its heading; a tick jumps to its chapter
-  fig.insertAdjacentHTML("afterbegin", `<ol class="rail">${chapters.map((c) => `<li><button type="button" data-s="${c.dataset.s}" aria-label="${esc(c.querySelector("h2").textContent)}"></button></li>`).join("")}</ol>`);
-  fig.querySelector(".rail").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-s]");
-    if (b) document.querySelector(`.chapter[data-s="${b.dataset.s}"]`).scrollIntoView({ block: "center", behavior: reduced() ? "auto" : "smooth" });
-  });
+  const chapters = [...document.querySelectorAll(".chapter")];
+  // PROTOTYPE: two ways to tell the story, compared side by side. ?story=film pins the story like a film (captions change
+  // in place while the figure plays); anything else is "calm": the notes scroll by and the figure crossfades slowly.
+  // The one not chosen is deleted afterwards.
+  const film = !!G && !!window.ScrollTrigger && new URLSearchParams(location.search).get("story") === "film";
+  document.documentElement.dataset.story = film ? "film" : "calm";
 
   let current = -1;
   const show = (s) => {
@@ -636,32 +635,37 @@ async function story(m) {
       $("#figLegend").innerHTML = st.legend.map(([c, t]) => `<span class="${c}">${esc(t)}</span>`).join("");
       swaps.forEach((el) => el.classList.remove("out"));
       if (!G) return;
-      G.fromTo(["#figBig", "#figCap", "#figSrc"], { y: 18, opacity: 0, filter: "blur(6px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.6, stagger: 0.06, ease: "power3.out", overwrite: true });
-      if (!st.chain && st.viz() === "") G.fromTo("#figBig", { scale: 1.3, rotate: -5 }, { scale: 1, rotate: 0, duration: 0.55, ease: "back.out(2.4)" }); // a date lands like a stamp
+      if (film) G.fromTo(["#figBig", "#figCap", "#figSrc"], { y: 18, opacity: 0, filter: "blur(6px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, stagger: 0.07, ease: "power3.out", overwrite: true });
+      else G.fromTo(["#figBig", "#figCap", "#figSrc"], { opacity: 0 }, { opacity: 1, duration: 0.9, stagger: 0.08, ease: "power1.out", overwrite: true });
     };
     // dots recolour in place (a ripple from the centre); a different kind of figure is swapped and drawn in
     const html = st.viz(), next = new DOMParser().parseFromString(html, "text/html").querySelectorAll(".dots i"), now = viz.querySelectorAll(".dots i");
     if (next.length && next.length === now.length) now.forEach((el, i) => (el.className = next[i].className));
     else {
       viz.innerHTML = html;
-      if (G) {
+      if (G && film) {
         G.from(viz.querySelectorAll(".dots i"), { scale: 0, duration: 0.5, ease: "back.out(2)", stagger: { grid: "auto", from: "center", amount: 0.45 } });
         G.from(viz.querySelectorAll("rect"), { scaleX: 0, transformOrigin: "0% 50%", duration: 0.8, stagger: 0.07, ease: "power3.out" });
-        const p = viz.querySelector("path");
-        if (p) {
-          const L = p.getTotalLength();
-          G.fromTo(p, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" });
-          G.from(viz.querySelectorAll("circle"), { scale: 0, transformOrigin: "50% 50%", duration: 0.4, stagger: 0.08, delay: 0.35, ease: "back.out(3)" });
-        }
-      }
+      } else if (G) G.fromTo(viz, { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power1.out", overwrite: true }); // calm: the new figure simply fades in (fromTo: a quick second change must not freeze it half-faded)
     }
     reduced() ? draw() : setTimeout(draw, 160);
     chapters.forEach((el) => el.classList.toggle("on", +el.dataset.s === s));
-    fig.querySelectorAll(".rail button").forEach((b) => { b.classList.toggle("past", +b.dataset.s < s); b.toggleAttribute("aria-current", +b.dataset.s === s); });
   };
   show(0);
   const narrow = matchMedia("(max-width: 860px)").matches;
-  if (window.ScrollTrigger) {
+  if (film) {
+    // the story is pinned; each caption fades in where the last one was, and the figure follows the caption on screen
+    gsap.registerPlugin(ScrollTrigger);
+    const n = chapters.length;
+    G.set(chapters.slice(1), { autoAlpha: 0, y: 40 });
+    const tl = G.timeline({ defaults: { ease: "power2.inOut" }, scrollTrigger: { trigger: ".story-grid", pin: true, start: "top top", end: `+=${n * 85}%`, scrub: 0.6,
+      onUpdate: (t) => show(+chapters[Math.min(n - 1, Math.floor(t.progress * n))].dataset.s) } });
+    chapters.forEach((el, i) => {
+      if (i) tl.to(el, { autoAlpha: 1, y: 0, duration: 0.25 }, i);
+      if (i < n - 1) tl.to(el, { autoAlpha: 0, y: -40, duration: 0.25 }, i + 0.75);
+    });
+    tl.set({}, {}, n); // one unit of scroll per chapter
+  } else if (window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
     // the chapter nearest a reading line owns the figure (the middle of the screen; lower on phones, where the figure sits on top).
     // One rule for every scroll position, so there is never a gap or an overlap between chapters.
@@ -673,7 +677,8 @@ async function story(m) {
     };
     ScrollTrigger.create({ trigger: ".chapters-list", start: "top bottom", end: "bottom top", onUpdate: nearest, onRefresh: nearest });
     if (G) chapters.forEach((el) => {
-      G.from(el.children, { y: 22, opacity: 0, duration: 0.7, stagger: 0.09, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%", once: true } });
+      // calm: a note arrives paragraph by paragraph, slowly, as you reach it
+      G.from(el.children, { y: 10, opacity: 0, duration: 1, stagger: 0.22, ease: "power1.out", scrollTrigger: { trigger: el, start: "top 80%", once: true } });
       // phones: a note fades as it rises over the pinned figure, so it never hides the number it explains
       if (narrow) G.to(el, { opacity: 0, ease: "none", scrollTrigger: { trigger: el, start: "bottom 62%", end: "bottom 38%", scrub: true } });
     });
