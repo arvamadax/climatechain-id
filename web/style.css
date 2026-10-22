@@ -453,6 +453,20 @@ table.data td { vertical-align: middle; }
   .term dt::after { transition: none; }
 }
 
+/* T8: dictionary tooltips on glossary words */
+.gl { text-decoration: underline dotted var(--accent); text-underline-offset: 3px; cursor: help; }
+.gl.no-line { text-decoration: none; }
+.gl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.gloss-card { position: fixed; z-index: 30; width: max-content; max-width: min(320px, calc(100vw - 24px)); padding: .7rem .85rem;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: var(--r-card);
+  box-shadow: 0 12px 40px rgb(0 0 0 / .25); opacity: 0; transform: translateY(4px); pointer-events: none;
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out); }
+.gloss-card.in { opacity: 1; transform: none; pointer-events: auto; }
+.gloss-card b { display: block; font: 600 1rem var(--display); }
+.gloss-card p { margin: .25rem 0 .5rem; color: var(--muted); font-size: .9rem; }
+.gloss-card a { font-size: .88rem; }
+@media (prefers-reduced-motion: reduce) { .gloss-card { transform: none; transition: opacity 160ms var(--ease-out); } }
+
 /* footer */
 .foot { border-top: 1px solid var(--line); padding: 2rem max(16px, calc((100% - var(--wide)) / 2 + clamp(16px, 5vw, 64px))) 2.6rem; color: var(--muted);
   font-size: .9rem; display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; justify-content: space-between; }
