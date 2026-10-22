@@ -1140,6 +1140,9 @@ Object.assign(ID_EXACT, {
 });
 ID_RULES.push([/^(?:doi:)?10\.\d{4,9}\/\S+$/, "$&"]); // DOI strings are identifiers
 
+// T7: glossary layout
+Object.assign(ID_EXACT, { "Start here": "Mulai dari sini", "Sections": "Bagian" });
+
 function tr(s) {
   const key = s.replace(/\s+/g, " ").trim();
   if (!key) return s;
