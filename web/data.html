@@ -48,8 +48,7 @@
       <input id="cq" class="filter" type="search" placeholder="Filter by name" autocomplete="off">
       <span class="muted small" id="ccount"></span>
     </div>
-    <div class="tablewrap"><table class="data" id="ctable"><thead><tr>
-      <th scope="col"><span class="sr">Compare</span></th>
+    <div class="tablewrap wide"><table class="data" id="ctable"><thead><tr>
       <th scope="col"><button type="button" data-k="group">Company group</button></th>
       <th scope="col"><button type="button" data-k="t">Retired</button></th>
       <th scope="col"><button type="button" data-k="cover">Researched</button></th>
@@ -70,19 +69,19 @@
   <section class="block" id="unusual">
     <h2>Buyers whose pattern stands out</h2>
     <p class="muted">An Isolation Forest model (scikit-learn) looks at every buyer with at least 100,000 t retired and finds the few whose mix of old vintages, rejected methodologies, unresearched project types, one-year bursts, low likely-real share and batch size is far from the rest. Each flag lists the plain reasons behind it. Unusual is a reason to look closer, never proof of wrongdoing.</p>
-    <div class="tablewrap"><table class="data" id="atable"><thead><tr><th>Buyer</th><th>Why it stands out</th><th>Score</th></tr></thead><tbody></tbody></table></div>
+    <div class="tablewrap wide"><table class="data" id="atable"><thead><tr><th>Buyer</th><th>Why it stands out</th><th>Score</th></tr></thead><tbody></tbody></table></div>
     <p class="muted small" id="ameta"></p>
   </section>
 
   <section class="block" id="types">
     <h2>What kind of projects the credits come from</h2>
     <p class="muted">Research estimates exist for some project types only. Netra never fills in a number where none is published.</p>
-    <div class="tablewrap"><table class="data" id="ttable"><thead><tr><th>Project type</th><th>Tonnes retired</th><th>Share</th><th>Likely real (research)</th><th>Range</th><th>Source</th></tr></thead><tbody></tbody></table></div>
+    <div class="tablewrap wide"><table class="data" id="ttable"><thead><tr><th>Project type</th><th>Tonnes retired</th><th>Share</th><th>Likely real (research)</th><th>Range</th><th>Source</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <section class="block" id="years">
     <h2>Year by year</h2>
-    <div class="tablewrap"><table class="data" id="ytable"><thead><tr><th>Year</th><th>Tonnes retired</th><th>Researched</th><th>Likely real, of researched</th></tr></thead><tbody></tbody></table></div>
+    <div class="tablewrap wide"><table class="data" id="ytable"><thead><tr><th>Year</th><th>Tonnes retired</th><th>Researched</th><th>Likely real, of researched</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <section class="block" id="downloads">
@@ -104,6 +103,7 @@
   <span>netra · Estimates from published research (Probst et al. 2024) applied to registry data. Every number links to its source.</span>
   <span>IEEE ClimateChain Global Hackathon 2026 · Track 1</span>
 </footer>
+<div id="cmpTray" hidden></div>
 <script src="common.js?v=story3"></script>
 <script src="data.js?v=story3"></script>
 <script src="i18n.js?v=story3"></script>
