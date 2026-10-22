@@ -720,7 +720,8 @@ function motion() {
   const rise = gsap.utils.toArray(".check-head, .check-grid, .block > h2, .block > .lede, .block > .panel, .onward > h2, .onward li, .chapters > section > h2, .chapters > section > .lede")
     .filter((el) => el.getBoundingClientRect().top > innerHeight);
   gsap.set(rise, { opacity: 0, y: 26 });
-  ScrollTrigger.batch(rise, { start: "top 90%", once: true, onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power3.out" }) });
+  ScrollTrigger.batch(rise, { start: "top 90%", once: true, onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power3.out", clearProps: "transform,opacity" }) });
+  // clearProps: a leftover transform makes a stacking context, which trapped the search dropdown under the next section
 }
 
 (async function boot() {

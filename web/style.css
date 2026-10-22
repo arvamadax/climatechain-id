@@ -144,7 +144,7 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .onward li a span { color: var(--muted); }
 
 /* ---------- Check: search a company or paste a claim ---------- */
-.check { scroll-margin-top: 1rem; border-top: 1px solid var(--line); padding: 4.5rem 0 1rem; }
+.check { position: relative; z-index: 2; /* its search dropdown can reach into the next section; keep it on top even while that section animates */ scroll-margin-top: 1rem; border-top: 1px solid var(--line); padding: 4.5rem 0 1rem; }
 .check-head { max-width: 760px; }
 .modes { display: inline-flex; gap: .25rem; padding: .25rem; border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--card); margin: .6rem 0 1rem; }
 .modes button { border: 0; background: transparent; color: var(--muted); font: 500 .98rem var(--body); padding: .5rem 1.15rem; border-radius: var(--r-pill); cursor: pointer; }

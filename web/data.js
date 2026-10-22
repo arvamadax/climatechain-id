@@ -59,7 +59,7 @@ function card(r) {
 function drawCompare() {
   const list = [...picked].map((g) => ROWS.find((r) => r.group === g)).filter(Boolean);
   $("#cmp").innerHTML = list.map(card).join("") || `<p class="muted">Nothing picked yet.</p>`;
-  $("#cmpHint").textContent = picked.size >= 3 ? "Three picked. Press Comparing on one to swap it." : "Press Compare in the table above (up to three).";
+  $("#cmpHint").textContent = picked.size >= 3 ? "Three picked. Untick one to swap it." : "Tick a company in the table above (up to three).";
 
 }
 
