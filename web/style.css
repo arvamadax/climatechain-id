@@ -427,6 +427,14 @@ table.data td { vertical-align: middle; }
 .glostart .box { display: block; color: var(--ink); text-decoration: none; }
 .glostart .box b { display: block; font: 600 1.15rem var(--display); margin-bottom: .3rem; }
 .glostart .box span { color: var(--muted); font-size: .95rem; }
+.glostart[hidden] { display: none; }
+@media (max-width: 860px) {
+  /* phones: the index and the three cards are one row each that you swipe, so the terms start sooner */
+  .gloss .toc { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .gloss .toc a { white-space: nowrap; }
+  .glostart { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(80%, 280px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .glostart .box { scroll-snap-align: start; }
+}
 .gsec { font-size: 1.6rem; margin: 2.8rem 0 .8rem; padding-top: 1.2rem; border-top: 1px solid var(--line); scroll-margin-top: 80px; }
 .term { display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: 0 2rem; border-top: 1px solid var(--line); padding: 1rem 0; scroll-margin-top: 80px; }
 .term[hidden] { display: none; }

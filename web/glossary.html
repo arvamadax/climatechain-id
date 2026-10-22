@@ -224,6 +224,8 @@ if ("IntersectionObserver" in window) {
 
 gq.addEventListener("input", () => {
   const q = gq.value.trim().toLowerCase();
+  const start = document.querySelector(".glostart");
+  start.hidden = start.previousElementSibling.hidden = !!q; // the "Start here" cards make way while filtering
   let shown = 0;
   document.querySelectorAll("#gloss dl").forEach((dl) => {
     let n = 0;
