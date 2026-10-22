@@ -1055,7 +1055,7 @@ Object.assign(ID_EXACT, {
   "Every retirement has a field for who the climate benefit belongs to. For": "Setiap retirement punya kolom untuk siapa pemilik manfaat iklimnya. Untuk",
   "57 in 100": "57 dari 100",
   "tonnes, it names no one you could hold to the claim: it is blank, says \"Not Disclosed\", or points to a reseller, a crypto wallet or a code.":
-    "ton, kolom itu tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaimnya: kosong, berisi \"Not Disclosed\", atau menunjuk ke pengecer, dompet kripto, atau sebuah kode.",
+    "ton, kolom itu tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaimnya: kosong, berisi \"Not Disclosed\", atau menunjuk ke reseller, dompet kripto, atau sebuah kode.",
   "The biggest buyers": "Pembeli terbesar",
   "Netra reviewed the largest buyers by hand and grouped them by owner. Research covers": "Netra meninjau pembeli terbesar satu per satu dan mengelompokkannya per pemilik. Riset mencakup",
   "of them well enough for a grade from A to E.": "di antaranya cukup baik untuk diberi nilai A sampai E.",
@@ -1160,7 +1160,7 @@ Object.assign(ID_EXACT, {
   "tonnes, it names no one you could hold to the claim: it is blank, says \"":
     "ton, kolom itu tidak menyebut siapa pun yang bisa dimintai tanggung jawab atas klaimnya: kosong, berisi \"",
   "Not Disclosed": "Not Disclosed",
-  "\", or points to a reseller, a crypto wallet or a code.": "\", atau menunjuk ke pengecer, dompet kripto, atau sebuah kode.",
+  "\", or points to a reseller, a crypto wallet or a code.": "\", atau menunjuk ke reseller, dompet kripto, atau sebuah kode.",
   "of them well enough for a": "di antaranya cukup baik untuk diberi",
   "grade from A to E": "nilai A sampai E",
   ".": ".",
