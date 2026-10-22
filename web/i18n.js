@@ -1140,6 +1140,15 @@ Object.assign(ID_EXACT, {
 });
 ID_RULES.push([/^(?:doi:)?10\.\d{4,9}\/\S+$/, "$&"]); // DOI strings are identifiers
 
+// T6: shortcut cards beside the search
+Object.assign(ID_EXACT, {
+  "Start with one of these": "Mulai dari salah satu ini", "Or try an example claim": "Atau coba contoh klaim",
+  "The biggest named buyer": "Pembeli bernama terbesar", "An airline's offsets": "Offset sebuah maskapai",
+  "A streaming company": "Perusahaan streaming", "A car maker": "Produsen mobil",
+  "Own report vs independent estimate": "Laporan sendiri vs estimasi independen", "No one named as the claimant": "Tak ada nama pemegang klaim",
+});
+ID_RULES.unshift([/^(\d+(?:\.\d+)?%) likely real$/, (m, p) => `${p.replace(".", ",")} kemungkinan nyata`]); // "23% likely real" on a card
+
 // T7: glossary layout
 Object.assign(ID_EXACT, { "Start here": "Mulai dari sini", "Sections": "Bagian" });
 
@@ -1159,7 +1168,7 @@ function tr(s) {
 
   function textNode(n) {
     const p = n.parentElement;
-    if (!p || p.closest("script, style, code, .mono, [data-raw], #suggest, #examples, .res-id, td > a, #regList td:nth-child(3), .quote")) return;
+    if (!p || p.closest("script, style, code, .mono, [data-raw], #suggest, #examples .pc-name, .res-id, td > a, #regList td:nth-child(3), .quote")) return;
     if (!orig.has(n)) orig.set(n, n.nodeValue);
     const en = orig.get(n);
     if (lang === "en") { if (n.nodeValue !== en) n.nodeValue = en; return; }
