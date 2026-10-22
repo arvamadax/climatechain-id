@@ -128,6 +128,12 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .figure .legend span.ga::before { background: var(--a); } .figure .legend span.gc::before { background: var(--c); }
 .figure .legend span.gd::before { background: var(--d); } .figure .legend span.ge::before { background: var(--e); }
 .figure svg { display: block; width: 100%; height: auto; }
+/* "Has it improved?": one small grid of 100 per year */
+.years { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px 10px; }
+.yr { display: flex; flex-direction: column; align-items: center; gap: .15rem; font-size: .8rem; color: var(--muted); }
+.yr .dots.mini { width: 100%; grid-template-columns: repeat(10, 1fr); gap: 2px; margin-bottom: .35rem; }
+.yr .num { color: var(--ink); font-size: .95rem; }
+.yr.best .num { color: var(--accent-text); }
 .figure svg text { fill: var(--muted); font: 13px var(--body); }
 
 /* the end of the story: where to go next */
@@ -168,11 +174,14 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
 .chips button { font: .95rem var(--body); padding: .4rem .95rem; border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
 /* shortcut cards beside the search: company picks, or example claims in claim mode */
-.check-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 390px); gap: 1.2rem clamp(2rem, 5vw, 4.5rem); align-items: start; }
+.check-grid { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 780px; }
+.check-grid .search { max-width: none; }
 .check-main { min-width: 0; }
+.picks { max-height: 60rem; overflow-y: clip; transition: max-height .45s var(--ease-out), opacity .25s ease; }
+.picks.away { max-height: 0; opacity: 0; }
 .picks[hidden] { display: none; }
-.picks-label { margin: .7rem 0 .75rem; font: italic 1.05rem var(--body); color: var(--accent-text); }
-.pick-list { display: grid; gap: .55rem; }
+.picks-label { margin: 1.4rem 0 .75rem; font: italic 1.05rem var(--body); color: var(--accent-text); }
+.pick-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: .6rem; padding-bottom: .4rem; }
 .pickcard { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "logo body grade" "logo meta grade";
   align-items: center; gap: .15rem .85rem; width: 100%; padding: .7rem .9rem; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
   background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); overflow: hidden;
@@ -553,10 +562,9 @@ table.data td { vertical-align: middle; }
 /* ---------- narrow screens ---------- */
 @media (max-width: 860px) {
   .res-layout, .report-grid, .onward, .check-grid { grid-template-columns: minmax(0, 1fr); }
-  /* picks sit above the search as a row you swipe */
-  .picks { order: -1; }
-  .picks-label { margin-top: 0; }
-  .pick-list { grid-auto-flow: column; grid-auto-columns: min(80%, 300px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  /* picks under the search become a row you swipe */
+  .picks-label { margin-top: 1rem; }
+  .pick-list { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(80%, 300px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
     margin-inline: calc(-1 * clamp(16px, 5vw, 64px)); padding: .2rem clamp(16px, 5vw, 64px) .6rem; }
   .pick-list::-webkit-scrollbar { display: none; }
   .pickcard { scroll-snap-align: start; }
@@ -612,6 +620,7 @@ table.data td { vertical-align: middle; }
   .figure .src { font-size: .8rem; margin-bottom: .7rem; }
   .figure .legend { font-size: .82rem; margin-top: .7rem; }
   .figure svg text { font-size: 21px; }
+  .years { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .rail { margin-bottom: .7rem; }
   /* tables as cards */
   #regList .tablewrap, #hiddenBody .tablewrap, #checks .tablewrap { overflow: visible; }

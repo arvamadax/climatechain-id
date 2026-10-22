@@ -89,7 +89,11 @@ function setupSearch() {
       || `<li aria-disabled="true"><span class="muted">No buyer with that name. Try a shorter part of the name.</span></li>`;
     list.hidden = false; q.setAttribute("aria-expanded", "true");
   };
-  q.addEventListener("input", () => { hits = search(q.value); sel = -1; q.value.trim().length < 2 ? close() : draw(); });
+  q.addEventListener("input", () => {
+    hits = search(q.value); sel = -1; q.value.trim().length < 2 ? close() : draw();
+    const away = q.value.trim() !== ""; // the shortcut cards fold away while you type, and come back when the box is empty
+    $("#examples").classList.toggle("away", away); $("#examples").inert = away;
+  });
   q.addEventListener("keydown", (e) => {
     if (list.hidden) return;
     if (e.key === "ArrowDown") { sel = Math.min(sel + 1, hits.length - 1); draw(); e.preventDefault(); }
@@ -560,12 +564,14 @@ async function story(m) {
   const both = (COMPANIES || []).filter((c) => c.rep && c.rep.scope1 && c.ct);
   const gap = both.filter((c) => mid(c) / c.rep.scope1 >= 2);
 
-  const line = () => {
-    const W = 520, H = 200, L = 34, R = 26, T = 14, B = 26, X = (k) => L + k * ((W - L - R) / (shares.length - 1)), Y = (v) => T + (1 - v / 0.5) * (H - T - B);
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Likely-real share by year">
-      ${[0, 0.25, 0.5].map((v) => `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css("--line")}"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${v * 100}%</text>`).join("")}
-      <path d="${shares.map(([, v], k) => `${k ? "L" : "M"}${X(k)},${Y(v)}`).join("")}" fill="none" stroke="${css("--accent")}" stroke-width="2.5"/>
-      ${shares.map(([y, v], k) => `<circle cx="${X(k)}" cy="${Y(v)}" r="4" fill="${css("--accent")}"/><text x="${X(k)}" y="${H - 6}" text-anchor="middle">${y}</text>`).join("")}</svg>`;
+  // one 10×10 grid per year: filled dots = likely-real share of measured tonnes; the best year is marked
+  const years = () => {
+    const top = Math.max(...shares.map(([, v]) => v));
+    return `<div class="years" role="img" aria-label="Likely-real share by year">${shares.map(([y, v]) => {
+      const n = Math.round(v * 100);
+      return `<div class="yr${v === top ? " best" : ""}"><div class="dots mini">${Array.from({ length: 100 }, (_, i) => `<i style="--k:${i * 3}" class="${i < n ? "r" : ""}"></i>`).join("")}</div>
+        <span class="num">${pct(v)}</span><span>${y}</span></div>`;
+    }).join("")}</div>`;
   };
   // one row per group in the gap: own Scope 1 report next to the independent estimate, one shared scale
   const gapBars = () => {
@@ -589,7 +595,7 @@ async function story(m) {
     { big: `${real} of 100`, cap: `measured tonnes likely cut real emissions (range ${pct(m.eff_lo / m.known)} to ${pct(m.eff_hi / m.known)})`, src: "Probst et al. 2024, Nature Communications, applied per kind of project",
       viz: () => dots(Array.from({ length: 100 }, (_, i) => (realSet.has(i) ? "r" : ""))), legend: [["r", "likely a real cut"], ["", "counted, not real"]] },
     { big: `${pct(Math.min(...shares.map((s) => s[1])))} to ${pct(Math.max(...shares.map((s) => s[1])))}`, cap: "likely real, every year since 2020", src: "Measured tonnes by year of retirement; 2026 up to August",
-      viz: line, legend: [] },
+      viz: years, legend: [["r", "likely a real cut"], ["", "counted, not real"]] },
     hid === null ? null : { big: `${n100(hid)} of 100`, cap: "tonnes since 2020 name no one you could hold to the claim", src: "Beneficiary field of every retirement, reviewed by hand for the largest accounts",
       viz: () => { const s = spread(n100(hid)); return dots(Array.from({ length: 100 }, (_, i) => (s.has(i) ? "x" : "r"))); }, legend: [["r", "a named claimant"], ["x", "no one named"]] },
     { big: `${graded.filter((g) => g === "A" || g === "B").length} of ${graded.length}`, cap: "big buyers that research covers well enough to grade reach a B", src: "Netra grades: A at least 60% likely real, B 40 to 60%, C 20 to 40%, D 10 to 20%, E under 10%",
