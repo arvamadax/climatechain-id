@@ -32,7 +32,7 @@
     <p class="eyebrow">About</p>
     <h1>Companies say they offset. Netra checks what that is worth.</h1>
     <p class="lede">Netra is a free, open tool that takes a company's carbon credits, the research on those credits, the company's own emissions report and an independent estimate, and puts them on one page in plain words. Each published check is written to a public blockchain, where no one, not even Netra, can change it.</p>
-    <div class="jump"><a href="#problem">The problem</a><a href="#what">What Netra does</a><a href="#how">How it works</a><a href="#ai">AI</a><a href="#story">The story</a><a href="#name">Why "Netra"</a><a href="#research">Research</a><a href="#sources">Data sources</a><a href="#limits">Limits</a></div>
+    <div class="jump"><a href="#problem">The problem</a><a href="#what">What Netra does</a><a href="#how">How it works</a><a href="#ai">AI</a><a href="#story">The story</a><a href="#name">Why "Netra"</a><a href="#research">Research</a><a href="#sources">Data sources</a><a href="#team">Team</a><a href="#limits">Limits</a></div>
   </section>
 
   <section class="block" id="problem">
@@ -46,7 +46,7 @@
   </section>
 
   <section class="block" id="what">
-    <h2>One search box, four honest answers.</h2>
+    <h2>One search box, six honest answers.</h2>
     <div class="steps-grid">
       <div class="box"><span class="n">1</span><h3>What was retired</h3><p>Every Verra and Gold Standard retirement since 2020, grouped by the company it was retired for.</p></div>
       <div class="box"><span class="n">2</span><h3>How much is likely real</h3><p>Published research per project type, applied to those tonnes, with a range and a grade from A to E.</p></div>
@@ -88,7 +88,7 @@
       <li><span class="when">20 Oct, morning</span><div><b>First idea, dropped.</b> AI forecasting of forest and peat fires in Indonesia. Research showed strong existing systems (ProbFire, Copernicus fire danger). Competing on a forecast model was the wrong fight.</div></li>
       <li><span class="when">20 Oct</span><div><b>Second idea, parked.</b> Fire-risk "buffer pools" for forest carbon credits. A real problem (Nature, 2026: US forest buffer pools about 6× too small), but no open map of real projects to build on in five days.</div></li>
       <li><span class="when">20 Oct</span><div><b>The pivot to carbon credit retirement.</b> 20 searches in Scopus returned 704 papers; 50 were kept. The strongest finding: companies keep buying low-quality credits, and research can measure how low.</div></li>
-      <li><span class="when">20 Oct</span><div><b>What the data said.</b> In Verra's own data, no serial range was retired twice: double counting inside one registry is not the problem. The problem is what happens around it: 44.7% of retirement records name no beneficiary, and one credit can back several claims outside the registry.</div></li>
+      <li><span class="when">20 Oct</span><div><b>What the data said.</b> In Verra's own data, no serial range was retired twice: double counting inside one registry is not the problem. The problem is what happens around it: 44.7% of retirement records name no beneficiary (57% of tonnes once resellers, wallets and unmatched codes are counted), and one credit can back several claims outside the registry.</div></li>
       <li><span class="when">20 Oct</span><div><b>Red team.</b> 14 weaknesses written down and fixed. Three changed the design: build on open data instead of copying it; record claims on-chain instead of minting tokens (which can itself create double counting); and target double <i>claiming</i>, not double issuing.</div></li>
       <li><span class="when">20 Oct</span><div><b>The name.</b> Working names ClaimCheck and Proofset were descriptive but forgettable. Netra was chosen (see below).</div></li>
       <li><span class="when">20–21 Oct</span><div><b>Data and contract.</b> Three-signal classification, research ranges from the source data, Climate TRACE ownership attribution, emissions from 79 company groups, and ClaimRegistry v2 with Merkle-root claims and on-chain challenges (8 tests passing).</div></li>
@@ -114,7 +114,7 @@
   <section class="block fold" id="research">
     <details class="more"><summary><h2>The papers Netra stands on</h2></summary>
     <div class="papers">
-      <article class="box"><h3>Probst et al. 2024</h3><p class="muted small">Nature Communications · <a href="https://doi.org/10.1038/s41467-024-53645-z" target="_blank" rel="noopener">10.1038/s41467-024-53645-z</a></p><p>Pooled 2,346 projects (about 1 billion tonnes). Fewer than 16% of credits were real reductions. Gives the share per type that Netra uses: cookstoves 10.8%, REDD+ 24.7%, HFC-23 68.3%, SF6 16.4%, wind in China and US forest management 0%.</p></article>
+      <article class="box"><h3>Probst et al. 2024</h3><p class="muted small">Nature Communications · <a href="https://doi.org/10.1038/s41467-024-53645-z" target="_blank" rel="noopener">10.1038/s41467-024-53645-z</a></p><p>Pooled 2,346 projects (about 1 billion tonnes). Fewer than 16% of credits were real reductions. Gives the share per type that Netra uses: cookstoves 10.8%, REDD+ 24.7%, HFC-23 68.3%, SF6 16.4%, wind in China and US forest management 0%. Netra applies the share for each project type to the mix of credits actually retired since 2020, so its overall figure (about 19%) differs from the study's average.</p></article>
       <article class="box"><h3>Trencher et al. 2024</h3><p class="muted small">Nature Communications · <a href="https://doi.org/10.1038/s41467-024-51151-w" target="_blank" rel="noopener">10.1038/s41467-024-51151-w</a></p><p>The 20 companies that retired the most credits in 2020–2023: 87% of what they retired carried a high risk of not being real. Netra's vintage and project-type flags follow this work.</p></article>
       <article class="box"><h3>West et al. 2023</h3><p class="muted small">Science · <a href="https://doi.org/10.1126/science.ade3535" target="_blank" rel="noopener">10.1126/science.ade3535</a></p><p>27 forest-protection (REDD+) projects in 6 countries: 68% of potential credits came from projects that did not reduce deforestation significantly.</p></article>
       <article class="box"><h3>Gill-Wiehl et al. 2024</h3><p class="muted small">Nature Sustainability · <a href="https://doi.org/10.1038/s41893-023-01259-6" target="_blank" rel="noopener">10.1038/s41893-023-01259-6</a></p><p>Cookstove projects were over-credited about 9 times. Consistent with the 10.8% share Netra uses.</p></article>
@@ -192,6 +192,14 @@
     </details>
   </section>
 
+  <section class="block" id="team">
+    <h2>Who made Netra</h2>
+    <ul class="limits">
+      <li><b>Muhammad Rofi.</b> Developer: pipeline, contract, web app, deployment.</li>
+      <li><b>Arva Mada Jayastu.</b> QA: testing, edge cases, security review.</li>
+      <li><b>Zufar Maulana Firdaus.</b> Project Lead and Project Manager: scope, research direction, story.</li>
+    </ul>
+  </section>
   <section class="block" id="limits">
     <h2>What Netra does not claim</h2>
     <ul class="limits">
@@ -200,7 +208,7 @@
       <li><b>The registry name is not always the claimant.</b> A beneficiary can be a reseller, a brand or a subsidiary. Netra labels these and does not guess.</li>
       <li><b>Emissions use different boundaries.</b> Company reports and Climate TRACE count different assets. They are shown side by side and never merged into one ratio.</li>
       <li><b>Two registries.</b> Netra covers Verra and Gold Standard, the two largest. Other registries (ACR, CAR, ART, national registries) are not yet included.</li>
-      <li><b>Testnet records.</b> On-chain records live on a public test network, which works like the real one but costs nothing.</li>
+      <li><b>Testnet records.</b> On-chain records live on the Ethereum Sepolia test network, which works like the real one but costs nothing.</li>
     </ul>
     <p class="muted">Found a mistake? <a href="https://github.com/rofiperlungoding/climatechain-id/issues/new" target="_blank" rel="noopener">Open an issue</a>. Corrections are welcome and logged in public.</p>
   </section>
@@ -208,7 +216,7 @@
 
 <footer class="foot">
   <span><a href="glossary.html">Glossary</a> · <a href="https://github.com/rofiperlungoding/climatechain-id/blob/main/docs/METHODS.md" target="_blank" rel="noopener">Method</a> · <a href="https://github.com/rofiperlungoding/climatechain-id" target="_blank" rel="noopener">GitHub</a></span>
-  <span>netra · Built by Rofi for the IEEE ClimateChain Global Hackathon 2026. Code open on GitHub.</span>
+  <span>netra · Built by the Netra team for the IEEE ClimateChain Global Hackathon 2026. Code open on GitHub.</span>
   <span>Track 1 · Carbon Markets &amp; Emissions Transparency</span>
 </footer>
 <script src="common.js?v=story2"></script>

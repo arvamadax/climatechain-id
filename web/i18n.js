@@ -126,8 +126,8 @@ const ID_EXACT = {
   // on-chain proof
   "On-chain proof": "Bukti on-chain", "Every published check is on the record. No one, not even Netra, can edit it.": "Setiap pemeriksaan yang terbit tercatat. Tidak ada yang bisa mengubahnya, termasuk Netra.",
   "Each published check is anchored in the": "Setiap pemeriksaan yang terbit dijangkarkan di smart contract",
-  "smart contract on a public test network. Anyone can recompute the report from the open data and confirm it matches. Each claim commits to the registry serial ranges behind it; if one range shows up in two claims, anyone can prove it on-chain and the later claim is flagged for good.":
-    "di jaringan uji publik. Siapa pun bisa menghitung ulang laporan dari data terbuka dan memastikan cocok. Setiap klaim terikat pada rentang serial registry di baliknya; jika satu rentang muncul di dua klaim, siapa pun bisa membuktikannya on-chain dan klaim yang belakangan ditandai selamanya.",
+  "smart contract on the Ethereum Sepolia test network. Anyone can recompute the report from the open data and confirm it matches. Each claim commits to the registry serial ranges behind it; if one range shows up in two claims, anyone can prove it on-chain and the later claim is flagged for good.":
+    "di jaringan uji Ethereum Sepolia. Siapa pun bisa menghitung ulang laporan dari data terbuka dan memastikan cocok. Setiap klaim terikat pada rentang serial registry di baliknya; jika satu rentang muncul di dua klaim, siapa pun bisa membuktikannya on-chain dan klaim yang belakangan ditandai selamanya.",
   "Contract": "Kontrak", "Checks recorded": "Pemeriksaan tercatat", "Record": "Catatan", "Buyer": "Pembeli", "Report hash": "Hash laporan",
   "Date": "Tanggal", "Report": "Laporan", "Serial ranges": "Rentang serial", "✓ matches data": "✓ cocok dengan data",
   "differs from current data": "berbeda dari data terkini", "not in the dataset (demo claimant)": "tidak ada di dataset (pengklaim demo)",
@@ -343,8 +343,8 @@ Object.assign(ID_EXACT, {
   "The research range is wide, so every result on Netra shows the range next to the best estimate.":
     "Rentang risetnya lebar, jadi setiap hasil di Netra menampilkan rentang di samping estimasi terbaik.",
   "Has it improved?": "Apakah membaik?",
-  "No. Year after year since 2020, the share of measured tonnes that is likely real has stayed": "Tidak. Tahun demi tahun sejak 2020, porsi ton terukur yang kemungkinan nyata tetap",
-  "between 18% and 22%": "di antara 18% dan 22%",
+  "No. If anything it slipped: from": "Tidak. Malah sedikit merosot: dari",
+  "of measured tonnes in 2021 to": "ton terukur pada 2021 menjadi",
   "Who is counting": "Siapa yang mengklaim",
   "Every retirement has a field for who the climate benefit belongs to. For": "Setiap retirement punya kolom untuk siapa pemilik manfaat iklimnya. Untuk",
   "57 in 100": "57 dari 100",
@@ -372,7 +372,7 @@ Object.assign(ID_EXACT, {
   // the story figure
   "retired since 2020, each counted as a real tonne": "dipensiunkan sejak 2020, masing-masing dihitung sebagai satu ton nyata",
   "Verra and Gold Standard, Berkeley Voluntary Registry Offsets Database v2026-08": "Verra dan Gold Standard, Berkeley Voluntary Registry Offsets Database v2026-08",
-  "1 in 100 tonnes, counted as real": "1 dari 100 ton, dihitung nyata",
+  "each dot: 1 in 100 tonnes, all counted as real": "setiap titik: 1 dari 100 ton, semuanya dihitung nyata",
   "tonnes come from kinds of project that research has measured": "ton berasal dari jenis proyek yang sudah diukur riset",
   "A kind counts only when Berkeley, CarbonPlan and the methodology code agree": "Sebuah jenis dihitung hanya bila Berkeley, CarbonPlan, dan kode metodologi sepakat",
   "measured by research": "diukur riset", "no published estimate": "belum ada estimasi terbit",
@@ -399,6 +399,39 @@ ID_RULES.unshift(
   [/^measured tonnes likely cut real emissions \(range (\S+) to (\S+)\)$/, "ton terukur kemungkinan benar-benar mengurangi emisi (rentang $1 sampai $2)"],
   [/^on a public blockchain; (\d+) flagged as double claims$/, "di blockchain publik; $1 ditandai sebagai klaim ganda"],
 );
+
+// T4: content fixes and new chapters
+Object.assign(ID_EXACT, {
+  "every year since 2024.": "setiap tahun sejak 2024.",
+  "It works: in a test on Sepolia, a demo claim that reused five of Shell's serial ranges was flagged about ten seconds after Netra's watcher read it.":
+    "Ini berhasil: dalam uji di Sepolia, klaim demo yang memakai ulang lima rentang serial Shell ditandai sekitar sepuluh detik setelah watcher Netra membacanya.",
+  "What they report, what others see": "Apa yang mereka laporkan, apa yang pihak lain lihat",
+  "Netra reads each company's own Scope 1 figure from its report and puts it next to Climate TRACE's independent estimate.":
+    "Netra membaca angka Scope 1 milik tiap perusahaan dari laporannya dan menaruhnya di samping estimasi independen Climate TRACE.",
+  "reviewed groups have both.": "grup yang ditinjau punya keduanya.",
+  "For": "Untuk",
+  "of them, Shell, Chevron, E.ON and Eni, the independent estimate is": "di antaranya, Shell, Chevron, E.ON dan Eni, estimasi independennya",
+  "3 to 6 times": "3 sampai 6 kali",
+  "higher. The two count different assets, so this is a question to ask, not a verdict.":
+    "lebih tinggi. Keduanya menghitung aset yang berbeda, jadi ini pertanyaan yang perlu ditanyakan, bukan vonis.",
+  "reviewed groups whose independent estimate is at least twice their own Scope 1 report":
+    "grup yang ditinjau dengan estimasi independen setidaknya dua kali laporan Scope 1 mereka sendiri",
+  "Company reports, read by hand; Climate TRACE v5.7.0 ownership data. Different boundaries, never merged":
+    "Laporan perusahaan, dibaca manual; data kepemilikan Climate TRACE v5.7.0. Batasan berbeda; tidak pernah digabung",
+  "own report, Scope 1": "laporan sendiri, Scope 1",
+  "independent estimate (Climate TRACE)": "estimasi independen (Climate TRACE)",
+  "Reported Scope 1 next to the independent estimate": "Scope 1 yang dilaporkan di samping estimasi independen",
+  "Why it matters now": "Mengapa ini penting sekarang",
+  "Since": "Sejak",
+  "27 September 2026": "27 September 2026",
+  ", EU Directive 2024/825 bans calling a product, service or event sold in the EU climate neutral because of offsets, whatever the credit quality.":
+    ", Directive (EU) 2024/825 melarang menyebut produk, layanan atau acara yang dijual di EU netral iklim karena offset, apa pun kualitas kreditnya.",
+  "Claims like that can now be checked. Netra flags them in every result and in the live registry check.":
+    "Klaim seperti itu kini bisa diperiksa. Netra menandainya di setiap hasil dan di pemeriksaan registry langsung.",
+  "27 Sep 2026": "27 Sep 2026",
+  "EU ban on offset-based climate-neutral claims for products": "Larangan EU atas klaim netral iklim berbasis offset untuk produk",
+  "Directive (EU) 2024/825": "Directive (EU) 2024/825",
+});
 
 function tr(s) {
   const key = s.replace(/\s+/g, " ").trim();

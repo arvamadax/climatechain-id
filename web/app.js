@@ -518,6 +518,9 @@ async function story(m) {
   const hid = hidden ? ["intermediary", "wallet", "tokenization", "unidentified", "anonymous"].reduce((s, k) => s + (hidden.kinds[k]?.t || 0), 0) / hidden.total : null;
   const graded = (COMPANIES || []).map((c) => grade(c.e, c.k, c.t)).filter(Boolean).map((g) => g[1]).sort();
   const count = (l) => graded.filter((g) => g === l).length;
+  const mid = (c) => (c.ct.low + c.ct.high) / 2;
+  const both = (COMPANIES || []).filter((c) => c.rep && c.rep.scope1 && c.ct);
+  const gap = both.filter((c) => mid(c) / c.rep.scope1 >= 2);
 
   const line = () => {
     const W = 520, H = 200, L = 34, R = 26, T = 14, B = 26, X = (k) => L + k * ((W - L - R) / (shares.length - 1)), Y = (v) => T + (1 - v / 0.5) * (H - T - B);
@@ -526,9 +529,22 @@ async function story(m) {
       <path d="${shares.map(([, v], k) => `${k ? "L" : "M"}${X(k)},${Y(v)}`).join("")}" fill="none" stroke="${css("--accent")}" stroke-width="2.5"/>
       ${shares.map(([y, v], k) => `<circle cx="${X(k)}" cy="${Y(v)}" r="4" fill="${css("--accent")}"/><text x="${X(k)}" y="${H - 6}" text-anchor="middle">${y}</text>`).join("")}</svg>`;
   };
+  // one row per group in the gap: own Scope 1 report next to the independent estimate, one shared scale
+  const gapBars = () => {
+    const rows = gap.slice().sort((a, b) => mid(b) / b.rep.scope1 - mid(a) / a.rep.scope1);
+    const max = Math.max(...rows.flatMap((c) => [c.rep.scope1, mid(c)]));
+    const W = 520, RH = 70, barW = 340, H = rows.length * RH + 8;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Reported Scope 1 next to the independent estimate">
+      ${rows.map((c, i) => {
+        const y = i * RH + 16, rw = c.rep.scope1 / max * barW, iw = mid(c) / max * barW;
+        return `<text x="0" y="${y}" fill="${css("--ink")}">${esc(c.group)}</text>
+        <rect x="0" y="${y + 10}" height="14" width="${rw}" fill="${css("--accent")}"/><text x="${rw + 8}" y="${y + 21}">${mt(c.rep.scope1)}</text>
+        <rect x="0" y="${y + 30}" height="14" width="${iw}" fill="${css("--pale")}"/><text x="${iw + 8}" y="${y + 41}">${mt(mid(c))}</text>`;
+      }).join("")}</svg>`;
+  };
   const STATES = [
     { big: mt(m.tonnes), cap: "retired since 2020, each counted as a real tonne", src: "Verra and Gold Standard, Berkeley Voluntary Registry Offsets Database v2026-08",
-      viz: () => dots(Array(100).fill("r")), legend: [["r", "1 in 100 tonnes, counted as real"]] },
+      viz: () => dots(Array(100).fill("r")), legend: [["r", "each dot: 1 in 100 tonnes, all counted as real"]] },
     { big: `${known} of 100`, cap: "tonnes come from kinds of project that research has measured", src: "A kind counts only when Berkeley, CarbonPlan and the methodology code agree",
       viz: () => dots(Array.from({ length: 100 }, (_, i) => (i < known ? "r" : "x"))), legend: [["r", "measured by research"], ["x", "no published estimate"]] },
     { big: `${real} of 100`, cap: `measured tonnes likely cut real emissions (range ${pct(m.eff_lo / m.known)} to ${pct(m.eff_hi / m.known)})`, src: "Probst et al. 2024, Nature Communications, applied per kind of project",
@@ -539,15 +555,19 @@ async function story(m) {
       viz: () => { const s = spread(n100(hid)); return dots(Array.from({ length: 100 }, (_, i) => (s.has(i) ? "x" : "r"))); }, legend: [["r", "a named claimant"], ["x", "no one named"]] },
     { big: `${graded.filter((g) => g === "A" || g === "B").length} of ${graded.length}`, cap: "big buyers that research covers well enough to grade reach a B", src: "Netra grades: A at least 60% likely real, B 40 to 60%, C 20 to 40%, D 10 to 20%, E under 10%",
       viz: () => dots(graded.map((g) => `g${g.toLowerCase()}`)), legend: ["A", "B", "C", "D", "E"].filter(count).map((l) => [`g${l.toLowerCase()}`, `${l}: ${count(l)}`]) },
+    { big: `${gap.length} of ${both.length}`, cap: "reviewed groups whose independent estimate is at least twice their own Scope 1 report", src: "Company reports, read by hand; Climate TRACE v5.7.0 ownership data. Different boundaries, never merged",
+      viz: gapBars, legend: [["r", "own report, Scope 1"], ["", "independent estimate (Climate TRACE)"]] },
     { big: "…", cap: "checks on a public blockchain", src: "ClaimRegistry on the Ethereum Sepolia test network", viz: () => "", legend: [], chain: true },
+    { big: "27 Sep 2026", cap: "EU ban on offset-based climate-neutral claims for products", src: "Directive (EU) 2024/825", viz: () => "", legend: [] },
   ];
-  // The last chapter waits for the chain: one dot per published check, flagged double claims marked.
+  const CHAIN_AT = STATES.findIndex((s) => s && s.chain);
+  // The chain chapter waits for the chain: one dot per published check, flagged double claims marked.
   onchain.then((list) => {
     const flagged = list.filter((c) => c.doubleClaim).length;
-    Object.assign(STATES[6], { big: `${list.length} checks`, cap: `on a public blockchain; ${flagged} flagged as double claims`,
+    Object.assign(STATES[CHAIN_AT], { big: `${list.length} checks`, cap: `on a public blockchain; ${flagged} flagged as double claims`,
       viz: () => dots(list.map((c) => (c.doubleClaim ? "ge" : "r"))), legend: [["r", "a published check"], ["ge", "flagged: serials claimed twice"]] });
-    if (current === 6) { current = -1; show(6); }
-  }).catch(() => Object.assign(STATES[6], { big: "Offline", cap: "the test network did not answer; the records stay public on the block explorer" }));
+    if (current === CHAIN_AT) { current = -1; show(CHAIN_AT); }
+  }).catch(() => Object.assign(STATES[CHAIN_AT], { big: "Offline", cap: "the test network did not answer; the records stay public on the block explorer" }));
 
   let current = -1;
   const show = (s) => {
