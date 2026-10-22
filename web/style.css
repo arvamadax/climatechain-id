@@ -421,14 +421,29 @@ table.data td { vertical-align: middle; }
 .glossary-search { margin: 1.4rem 0 0; }
 .glossary-search form { padding: .4rem 1.1rem; }
 .gloss { padding-bottom: 2rem; }
-.gsec { font-size: 1.6rem; margin: 2.8rem 0 .8rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
-.gloss dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem 2.5rem; }
-.term { border-top: 1px solid var(--line); padding: 1rem 0 .4rem; scroll-margin-top: 80px; }
+.gloss .toc { padding-top: 0; }
+.gloss dl { margin: 0; }
+.glostart { margin-top: .4rem; }
+.glostart .box { display: block; color: var(--ink); text-decoration: none; }
+.glostart .box b { display: block; font: 600 1.15rem var(--display); margin-bottom: .3rem; }
+.glostart .box span { color: var(--muted); font-size: .95rem; }
+.gsec { font-size: 1.6rem; margin: 2.8rem 0 .8rem; padding-top: 1.2rem; border-top: 1px solid var(--line); scroll-margin-top: 80px; }
+.term { display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: 0 2rem; border-top: 1px solid var(--line); padding: 1rem 0; scroll-margin-top: 80px; }
+.term[hidden] { display: none; }
 .term:target { border-top: 2px solid var(--accent); }
-.term dt { font: 600 1.15rem var(--display); }
-.term dd { margin: .4rem 0 0; }
+.term dt { display: flex; align-items: center; justify-content: space-between; gap: .6rem; font: 600 1.15rem var(--display); cursor: pointer; }
+.term dt::after { content: ""; flex: none; width: .5rem; height: .5rem; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(45deg); transition: transform var(--t-ui) var(--ease-out); }
+.term.open dt::after { transform: rotate(225deg); }
+.term dd { margin: 0; }
 .term p { margin: 0 0 .5rem; }
-.term .ex { color: var(--muted); font-style: italic; font-size: .95rem; margin: 0; }
+.term .ex { display: none; color: var(--muted); font-style: italic; font-size: .95rem; margin: 0; }
+.term.open .ex { display: block; animation: fade var(--t-ui) var(--ease-out); }
+@media (max-width: 640px) {
+  .term { grid-template-columns: 1fr; gap: .3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .term dt::after { transition: none; }
+}
 
 /* footer */
 .foot { border-top: 1px solid var(--line); padding: 2rem max(16px, calc((100% - var(--wide)) / 2 + clamp(16px, 5vw, 64px))) 2.6rem; color: var(--muted);
