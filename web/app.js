@@ -606,8 +606,10 @@ async function story(m) {
     { big: "27 Sep 2026", cap: "EU ban on offset-based climate-neutral claims for products", src: "Directive (EU) 2024/825", viz: () => "", legend: [] },
   ];
   const CHAIN_AT = STATES.findIndex((s) => s && s.chain);
+  let chainFlags = []; // morph: one big dot per published check, true when flagged
   // The chain chapter waits for the chain: one dot per published check, flagged double claims marked.
   onchain.then((list) => {
+    chainFlags = list.map((c) => c.doubleClaim);
     const flagged = list.filter((c) => c.doubleClaim).length;
     Object.assign(STATES[CHAIN_AT], { big: `${list.length} checks`, cap: `on a public blockchain; ${flagged} flagged as double claims`,
       viz: () => dots(list.map((c) => (c.doubleClaim ? "ge" : "r"))), legend: [["r", "a published check"], ["ge", "flagged: serials claimed twice"]] });
@@ -620,8 +622,62 @@ async function story(m) {
   // PROTOTYPE: two ways to tell the story, compared side by side. ?story=film pins the story like a film (captions change
   // in place while the figure plays); anything else is "calm": the notes scroll by and the figure crossfades slowly.
   // The one not chosen is deleted afterwards.
-  const film = !!G && !!window.ScrollTrigger && new URLSearchParams(location.search).get("story") === "film";
-  document.documentElement.dataset.story = film ? "film" : "calm";
+  const mode = new URLSearchParams(location.search).get("story");
+  const morph = !!G && !!window.ScrollTrigger && mode === "morph";
+  const film = morph || (!!G && !!window.ScrollTrigger && mode === "film"); // morph plays on the film's pinned stage
+  document.documentElement.dataset.story = morph ? "morph" : film ? "film" : "calm";
+
+  // PROTOTYPE "morph": the same 100 dots stay on screen the whole story and move from one picture to the next as you scroll.
+  // layout(s) says where each dot sits in chapter s; paint(p) blends two chapters' layouts for a scroll position p.
+  let paint = null;
+  if (morph) {
+    viz.innerHTML = `<div class="m-dots">${"<i></i>".repeat(100)}</div><div class="m-labels">${shares.map(([y, v]) => `<span><b>${pct(v)}</b>${y}</span>`).join("")}</div><div class="m-svg"></div>`;
+    viz.classList.add("morph");
+    const dotsEl = [...viz.querySelectorAll(".m-dots i")], labels = [...viz.querySelectorAll(".m-labels span")], svg = viz.querySelector(".m-svg");
+    const hidSet = hid === null ? new Set() : spread(n100(hid));
+    // years: 100 dots shared out over the 7 columns in proportion to each year's likely-real share (2021 is the tallest)
+    const sum = shares.reduce((s, [, v]) => s + v, 0), heights = shares.map(([, v]) => Math.round(v / sum * 100));
+    heights[heights.length - 1] += 100 - heights.reduce((a, b) => a + b, 0);
+    const colOf = [], rowOf = [];
+    heights.forEach((h, c) => { for (let r = 0; r < h; r++) { colOf.push(c); rowOf.push(r); } });
+    const layout = (s) => {
+      const W = viz.clientWidth, H = viz.clientHeight, d = Math.min(W / 22, 17), out = [];
+      viz.style.setProperty("--md", `${(d * 0.78).toFixed(1)}px`); // dot size follows the spacing, so dots never touch on a phone
+      const at = (j, cols, cx, cy, rows, k = d) => ({ x: cx + (j % cols - (cols - 1) / 2) * k, y: cy + (Math.floor(j / cols) - (rows - 1) / 2) * k });
+      const colX = (c) => W * (0.08 + c * (0.84 / (shares.length - 1)));
+      for (let i = 0; i < 100; i++) {
+        let p = { ...at(i, 20, W / 2, H / 2, 5), c: "r", o: 1, s: 1 };
+        if (s === 1 || s === 2) {
+          p = i < known ? { ...at(i, 7, W * 0.27, H / 2, Math.ceil(known / 7)), c: s === 1 || i < real ? "r" : "", o: 1, s: 1 }
+            : { ...at(i - known, 9, W * 0.7, H / 2, Math.ceil((100 - known) / 9)), c: "x", o: s === 1 ? 1 : 0.22, s: 1 };
+        }
+        if (s === 3) p = { x: colX(colOf[i]) + (rowOf[i] % 2 - 0.5) * d, y: H * 0.74 - Math.floor(rowOf[i] / 2) * d, c: "r", o: 1, s: 1 };
+        if (s === 4) p.c = hidSet.has(i) ? "x" : "r";
+        if (s === 5) p = i < graded.length ? { ...at(i, 13, W / 2, H / 2, Math.ceil(graded.length / 13)), c: `g${graded[i].toLowerCase()}`, o: 1, s: 1 } : { ...p, c: "", o: 0, s: 0 };
+        if (s === 6 || s === 8) p = { ...p, o: 0, s: 0.3 };
+        if (s === 7) p = i < chainFlags.length ? { ...at(i, chainFlags.length, W / 2, H / 2, 1, d * 2.4), c: chainFlags[i] ? "ge" : "r", o: 1, s: 2 } : { ...p, o: 0, s: 0 };
+        out.push(p);
+      }
+      return { dots: out, colX };
+    };
+    const sm = (t) => t * t * (3 - 2 * t);
+    paint = (p) => {
+      const n = chapters.length, k = Math.max(0, Math.min(Math.floor(p), n - 1)), f = sm(Math.max(0, Math.min(1, (p - k - 0.55) / 0.45)));
+      const sa = +chapters[k].dataset.s, sb = +(chapters[k + 1] || chapters[k]).dataset.s, A = layout(sa), B = layout(sb);
+      dotsEl.forEach((el, i) => {
+        const a = A.dots[i], b = B.dots[i];
+        el.style.transform = `translate(${a.x + (b.x - a.x) * f}px, ${a.y + (b.y - a.y) * f}px) scale(${a.s + (b.s - a.s) * f})`;
+        el.style.opacity = a.o + (b.o - a.o) * f;
+        el.className = f < 0.5 ? a.c : b.c;
+      });
+      const w = (s) => (sa === s ? 1 - f : 0) + (sb === s ? f : 0); // how much of chapter s is on screen
+      labels.forEach((l, c) => { l.style.left = `${A.colX(c)}px`; });
+      viz.querySelector(".m-labels").style.opacity = w(3);
+      if (w(6) > 0 && !svg.innerHTML) svg.innerHTML = gapBars();
+      svg.style.opacity = w(6);
+    };
+    document.addEventListener("themechange", () => { svg.innerHTML = ""; });
+  }
 
   let current = -1;
   const show = (s) => {
@@ -639,6 +695,7 @@ async function story(m) {
       else G.fromTo(["#figBig", "#figCap", "#figSrc"], { opacity: 0 }, { opacity: 1, duration: 0.9, stagger: 0.08, ease: "power1.out", overwrite: true });
     };
     // dots recolour in place (a ripple from the centre); a different kind of figure is swapped and drawn in
+    if (morph) { reduced() ? draw() : setTimeout(draw, 160); chapters.forEach((el) => el.classList.toggle("on", +el.dataset.s === s)); return; } // morph: paint() moves the dots
     const html = st.viz(), next = new DOMParser().parseFromString(html, "text/html").querySelectorAll(".dots i"), now = viz.querySelectorAll(".dots i");
     if (next.length && next.length === now.length) now.forEach((el, i) => (el.className = next[i].className));
     else {
@@ -659,7 +716,9 @@ async function story(m) {
     const n = chapters.length;
     G.set(chapters.slice(1), { autoAlpha: 0, y: 40 });
     const tl = G.timeline({ defaults: { ease: "power2.inOut" }, scrollTrigger: { trigger: ".story-grid", pin: true, start: "top top", end: `+=${n * 85}%`, scrub: 0.6,
-      onUpdate: (t) => show(+chapters[Math.min(n - 1, Math.floor(t.progress * n))].dataset.s) } });
+      // morph: the number changes when the dots change colour (halfway through the move, 0.775 into a chapter), with the caption
+      onUpdate: (t) => { show(+chapters[Math.min(n - 1, Math.floor(t.progress * n + (paint ? 0.225 : 0)))].dataset.s); if (paint) paint(t.progress * n); },
+      onRefresh: (t) => paint && paint(t.progress * n) } });
     chapters.forEach((el, i) => {
       if (i) tl.to(el, { autoAlpha: 1, y: 0, duration: 0.25 }, i);
       if (i < n - 1) tl.to(el, { autoAlpha: 0, y: -40, duration: 0.25 }, i + 0.75);

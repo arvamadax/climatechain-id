@@ -103,12 +103,12 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .chapter p { margin: 0 0 .8rem; }
 .chapter b { color: var(--ink); }
 /* PROTOTYPE "film" (?story=film): the story is pinned as one stage; captions change in place beside the figure */
-[data-story="film"] .story-grid { height: 100vh; padding: 0; align-items: center; }
-[data-story="film"] .chapters-list { display: grid; padding: 0; }
-[data-story="film"] .chapter { grid-area: 1 / 1; margin: 0; color: var(--ink); align-self: center; }
-[data-story="film"] .chapter h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
-[data-story="film"] .chapter p { font-size: 1.1rem; }
-[data-story="film"] .figure { position: relative; top: auto; }
+:is([data-story="film"], [data-story="morph"]) .story-grid { height: 100vh; padding: 0; align-items: center; }
+:is([data-story="film"], [data-story="morph"]) .chapters-list { display: grid; padding: 0; }
+:is([data-story="film"], [data-story="morph"]) .chapter { grid-area: 1 / 1; margin: 0; color: var(--ink); align-self: center; }
+:is([data-story="film"], [data-story="morph"]) .chapter h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+:is([data-story="film"], [data-story="morph"]) .chapter p { font-size: 1.1rem; }
+:is([data-story="film"], [data-story="morph"]) .figure { position: relative; top: auto; }
 .figure { position: sticky; top: 14vh; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); padding: clamp(22px, 3vw, 36px); }
 .figure .big { font: 600 clamp(2.8rem, 5vw, 4.2rem)/1 var(--display); color: var(--accent); margin: 0 0 .4rem; letter-spacing: -.02em; }
 .figure h3 { font-size: clamp(1.15rem, 1.8vw, 1.5rem); font-weight: 500; margin: 0 0 .2rem; }
@@ -127,6 +127,18 @@ main { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(16px, 5vw, 64px)
 .figure .legend span.ga::before { background: var(--a); } .figure .legend span.gc::before { background: var(--c); }
 .figure .legend span.gd::before { background: var(--d); } .figure .legend span.ge::before { background: var(--e); }
 .figure svg { display: block; width: 100%; height: auto; }
+/* PROTOTYPE "morph": 100 dots that stay and move between chapters (positions set by app.js paint()) */
+#figViz.morph { position: relative; height: clamp(220px, 34vh, 300px); }
+.morph .m-dots i { position: absolute; left: 0; top: 0; width: var(--md, 13px); height: var(--md, 13px); margin: calc(var(--md, 13px) / -2) 0 0 calc(var(--md, 13px) / -2); border-radius: 50%; background: var(--pale);
+  transition: background-color .35s ease, box-shadow .35s ease; will-change: transform; }
+.morph .m-dots i.r { background: var(--accent); }
+.morph .m-dots i.x { background: transparent; box-shadow: inset 0 0 0 1.5px var(--pale); }
+.morph .m-dots i.ga { background: var(--a); } .morph .m-dots i.gb { background: var(--b); } .morph .m-dots i.gc { background: var(--c); }
+.morph .m-dots i.gd { background: var(--d); } .morph .m-dots i.ge { background: var(--e); }
+.morph .m-labels { position: absolute; left: 0; right: 0; bottom: 0; height: 2.6rem; opacity: 0; pointer-events: none; }
+.morph .m-labels span { position: absolute; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; font-size: .78rem; color: var(--muted); line-height: 1.3; }
+.morph .m-labels b { color: var(--ink); font-size: .9rem; }
+.morph .m-svg { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 /* "Has it improved?": one small grid of 100 per year */
 .years { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px 10px; }
 .yr { display: flex; flex-direction: column; align-items: center; gap: .15rem; font-size: .8rem; color: var(--muted); }
@@ -594,11 +606,11 @@ table.data td { vertical-align: middle; }
   .chapter { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card);
     padding: 1rem 1.1rem; margin-bottom: 75vh; box-shadow: 0 10px 30px rgb(0 0 0 / .08); }
   /* film on a phone: the figure on top, the caption under it, both on one pinned screen */
-  [data-story="film"] .story-grid { flex-direction: column; justify-content: center; gap: 14px; padding: 0; }
-  [data-story="film"] .chapters-list { padding: 0; }
-  [data-story="film"] .chapter { margin: 0; box-shadow: none; background: transparent; border: 0; padding: 0 .2rem; }
-  [data-story="film"] .chapter h2 { font-size: 1.35rem; }
-  [data-story="film"] .chapter p { font-size: .98rem; margin-bottom: .5rem; }
+  :is([data-story="film"], [data-story="morph"]) .story-grid { flex-direction: column; justify-content: center; gap: 14px; padding: 0; }
+  :is([data-story="film"], [data-story="morph"]) .chapters-list { padding: 0; }
+  :is([data-story="film"], [data-story="morph"]) .chapter { margin: 0; box-shadow: none; background: transparent; border: 0; padding: 0 .2rem; }
+  :is([data-story="film"], [data-story="morph"]) .chapter h2 { font-size: 1.35rem; }
+  :is([data-story="film"], [data-story="morph"]) .chapter p { font-size: .98rem; margin-bottom: .5rem; }
 }
 @media (max-width: 640px) {
   body { font-size: 17px; }
