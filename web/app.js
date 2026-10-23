@@ -462,7 +462,7 @@ async function hiddenSection() {
         <div><b>${KIND[k][0]}</b> <span class="num">${mt(v.t)} · ${pct(v.t / h.total)}</span>${HIDDEN_KINDS.includes(k) ? ` <span class="tag">hidden</span>` : ""}
         <p class="muted small">${KIND[k][2]} ${fmt(v.buyers)} account${v.buyers === 1 ? "" : "s"}.</p></div></div>`).join("")}</div>
     </div>
-    <div class="panel">
+    <div class="panel wide-right">
       <h3>The biggest accounts that hide who claims</h3>
       <div class="tablewrap"><table><thead><tr><th>#</th><th>Account as written in the registry</th><th>What it is</th><th>Tonnes</th><th>Likely real</th></tr></thead><tbody>
       ${h.top.map((x, r) => `<tr><td class="num">${r + 1}</td><td><a href="${buyerHref(x.i)}" class="${x.n.startsWith("0x") ? "mono" : ""}">${esc(x.n)}</a></td>
@@ -954,7 +954,7 @@ function registryFeed() {
       dot.className = "live on"; dot.textContent = "Live";
       $("#regWhen").textContent = `Checked ${ago(s.updated.replace("Z", "").slice(0, 19))} · ${w.n} newest retirements, ${ago(w.from)} to ${ago(w.to)}`;
       $("#regSum").innerHTML = `<b>${mt(w.t)}</b> retired in the ${w.n} newest retirements. Research covers <b>${mt(w.known)}</b> of it; about <b>${mt(w.eff)}</b> is likely real${w.known ? ` (${pct(w.eff / w.known)})` : ""}.${w.companies ? ` ${w.companies} name a company Netra has reviewed.` : ""}${w.eu ? ` <b>${w.eu}</b> of the newest notes call a product, service or event neutral because of offsets (not allowed for products sold in the EU since 27 Sep 2026).` : ""}${w.zombies ? ` <b>${w.zombies}</b> use credits 10 or more years old.` : ""}`;
-      $("#regList").innerHTML = `<div class="tablewrap wide"><table><thead><tr><th>When</th><th>Tonnes</th><th>Project</th><th>Claimed for</th><th>Likely real</th><th>ICVCM</th></tr></thead><tbody>${s.items.slice(0, 12).map((x) => `<tr class="${newest && x.d > newest ? "fresh" : ""}">
+      $("#regList").innerHTML = `<div class="tablewrap"><table><thead><tr><th>When</th><th>Tonnes</th><th>Project</th><th>Claimed for</th><th>Likely real</th><th>ICVCM</th></tr></thead><tbody>${s.items.slice(0, 12).map((x) => `<tr class="${newest && x.d > newest ? "fresh" : ""}">
         <td>${ago(x.d)}</td><td class="num" data-l="t">${fmt(x.q)}</td>
         <td>${esc(x.pn)}<br><span class="muted small">${esc(x.pid)} · ${esc(x.country || "")} · <a href="glossary.html#vintage" title="Vintage: the year the emission cut happened">vintage</a> ${esc(x.vintage || "?")}</span></td>
         <td>${x.co ? `<a href="${buyerHref(x.co.i)}">${esc(x.co.group)}</a>` : x.owner ? `<span data-raw>${esc(x.owner)}</span>` : `<span class="muted">Not named</span>`}${x.reason && x.reason.trim() !== (x.owner || "").trim() ? `<br><span class="muted small" data-raw>${esc(x.reason)}</span>` : ""}${x.radar?.eu ? `<br><span class="tag warn" title="Since 27 Sep 2026, a product, service or event sold in the EU may not be called neutral because of offsets (Directive 2024/825). Whether this one is sold in the EU is not checked.">Offset-based neutrality claim</span>` : ""}${x.zombie ? `<br><span class="tag" title="Vintage ${esc(x.vintage)}: the reduction happened 10 or more years before retirement">Zombie credit · ${esc(x.vintage)}</span>` : ""}</td>

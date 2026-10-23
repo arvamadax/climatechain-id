@@ -315,11 +315,12 @@ table { width: 100%; border-collapse: collapse; font-size: .93rem; }
 th, td { text-align: left; padding: .65rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { color: var(--muted); font: italic .9rem var(--body); }
 td.mono { overflow-wrap: anywhere; }
+.wide-right td .mono, .wide td .mono { overflow-wrap: normal; white-space: nowrap; } /* wide tables have room: a wallet address stays on one line */
 .tablewrap { overflow-x: auto; }
 /* T9: let a table grow past the text column, up to 1440px, centred on the page */
 .wide { width: min(1440px, 100vw - 2 * clamp(16px, 5vw, 64px)); margin-inline: calc(50% - min(720px, 50vw - clamp(16px, 5vw, 64px))); }
 /* T9: the report table sits beside the sticky index, so keep its left edge and grow right */
-.wide-right, #hiddenBody .tablewrap { margin-right: calc(50% + 7rem - min(720px, 50vw - clamp(16px, 5vw, 64px))); }
+.wide-right { margin-right: calc(50% + 7rem - min(720px, 50vw - clamp(16px, 5vw, 64px))); }
 table.data { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); border-collapse: separate; border-spacing: 0; overflow: hidden; }
 table.data th button { all: unset; cursor: pointer; font: inherit; color: inherit; } table.data th button:focus-visible { color: var(--ink); }
 table.data th[aria-sort="descending"] button::after { content: " ↓"; }
@@ -386,8 +387,10 @@ table.data td { vertical-align: middle; }
 .rules b { display: block; margin-bottom: .3rem; font: 600 1.1rem var(--display); }
 
 /* data */
-#ctable th:nth-child(1), #ctable td:nth-child(1) { min-width: 18rem; }
-@media (min-width: 861px) { #ctable th:nth-child(1), #ctable td:nth-child(1) { min-width: 20rem; } } /* the checkbox needs a little room */
+.cmp-th, .cmp-cell { width: 1%; text-align: center; white-space: nowrap; padding-inline: .35rem .1rem; }
+th.cmp-th { font-size: .78rem; }
+/* the company column gets room for its name, but not more: the aliases clamp, so the numbers keep their space */
+#ctable th:nth-child(2), #ctable td:nth-child(2) { min-width: 18rem; width: 24rem; }
 #ctable td.num { white-space: nowrap; }
 .aliases { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.35; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 1.2rem 0 .8rem; }
@@ -587,7 +590,7 @@ table.data td { vertical-align: middle; }
 
 /* ---------- narrow screens ---------- */
 @media (max-width: 860px) {
-  .wide, .wide-right, #hiddenBody .tablewrap { width: auto; margin-inline: 0; margin-right: 0; }
+  .wide, .wide-right { width: auto; margin-inline: 0; margin-right: 0; }
   .res-layout, .report-grid, .onward, .check-grid { grid-template-columns: minmax(0, 1fr); }
   /* picks under the search become a row you swipe */
   .picks-label { margin-top: 1rem; }
@@ -679,6 +682,7 @@ table.data td { vertical-align: middle; }
   #ctable tr { display: grid; grid-template-columns: 1fr auto; gap: .35rem 1rem; padding: 1rem; margin-bottom: .8rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); }
   #ctable td { display: flex; justify-content: space-between; gap: 1rem; border: 0; padding: 0; min-width: 0; grid-column: 1 / -1; font-size: .92rem; }
   #ctable td[data-l]::before { content: attr(data-l); color: var(--muted); }
-  #ctable td:nth-child(1) { grid-column: 1 / -1; grid-row: 1; }
-  #ctable td:nth-child(5) { grid-column: 2; grid-row: 2; }
+  #ctable td:nth-child(1) { grid-column: 2; grid-row: 1; justify-content: end; }
+  #ctable td:nth-child(2) { grid-column: 1; grid-row: 1; min-width: 0; }
+  #ctable td:nth-child(6) { grid-column: 2; grid-row: 2; }
 }

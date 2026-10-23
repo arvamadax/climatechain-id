@@ -1190,7 +1190,7 @@ Object.assign(ID_EXACT, {
 });
 
 // T9: compare tray
-Object.assign(ID_EXACT, { "Compare →": "Bandingkan →" });
+Object.assign(ID_EXACT, { "Compare →": "Bandingkan →", "Add to the comparison": "Tambahkan ke perbandingan" });
 ID_RULES.push([/^Remove (.+)$/, "Hapus $1"]);
 
 function tr(s) {
